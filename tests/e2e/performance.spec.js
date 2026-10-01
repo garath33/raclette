@@ -18,5 +18,5 @@ test("vlastní soubory stránky se vejdou do rozpočtu a konzole je čistá", as
   expect(heavy, JSON.stringify(heavy)).toEqual([]);
   expect(local.length).toBeGreaterThan(5);
   await expect(page.locator(".hero-photo")).toHaveAttribute("fetchpriority", "high");
-  expect(errors.filter((line) => !/favicon/i.test(line))).toEqual([]);
+  expect(errors.filter((line) => !/favicon|compute-pressure/i.test(line))).toEqual([]);
 });

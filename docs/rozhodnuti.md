@@ -32,6 +32,10 @@ Když se poloha spletla, stránka uměla ukázat špatný Point bez toho, aby si
 
 Veřejné podklady říkají, jak spolupráce začíná: ozvat se, domluvit schůzku a projít možnosti od částečné po kompletní spolupráci. Stránka Raklet Party zve k oficiálnímu Raclette Pointu větou „Nalákejte své zákazníky na pravý raclette“. Historie popisuje Point jako koncept spolupráce po ohlasech subdodávek a jmenuje partnera Raclette Republic. Poplatky, podíl ani délka smlouvy v podkladech nejsou, proto je stránka neuvádí. Regresní test hlídá schůzku, rozsah spolupráce a to, že se v textu neobjeví vymyšlený poplatek.
 
+## Hláška mapy není chyba stránky
+
+Výkonnostní test jednou spadl na větě `Permissions policy violation: compute-pressure`. Stránka ji nevypisuje, pochází z vloženého Google Maps. Test ji teď přeskakuje, stejně jako chybějící favicon. Ostatní chyby v konzoli pořád test shodí.
+
 ## Druhé klepnutí na polohu bere nový odečet
 
 První verze testu nechala mezi Kladnem a Jeseníkem starou polohu, protože prohlížeč směl minutu použít cache (`maximumAge`). Nové klepnutí na „Použít mou polohu“ proto vždy žádá čerstvý odečet.
