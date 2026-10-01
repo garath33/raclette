@@ -1,15 +1,15 @@
 # Raclette Point Original
 
-Prezentační web sítě Raclette Point. Bílé pozadí, barvy a stříbrná z charty La Laiterie d’Orsières, hlavní znak Raclette Point Original.
+Prezentační web sítě Raclette Point. Dokumentace je ve složce [docs](docs/README.md).
 
-Sekce: Pointy s GPS a Google Maps, reference, příběh českého krále, kde nakoupit, gastro eventy, kontakty.
+Testovací adresa, až pipeline doběhne: <https://garath33.github.io/raclette/>
 
-Jazyky: čeština, angličtina, francouzština, slovenština, italština, němčina, polština, španělština, ruština.
-
-Otevření:
+Ostrý web se z téhle větve nenasazuje. Postup je v [docs/pipeline.md](docs/pipeline.md).
 
 ```bash
-python3 -m http.server 4173
+npm ci
+npm test
+npm start
 ```
 
-Poloha v prohlížeči funguje na `http://localhost`, ne při otevření souboru přímo z disku.
+Lokální náhled je na `http://127.0.0.1:4173`.

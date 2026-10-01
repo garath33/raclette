@@ -1,0 +1,44 @@
+name: Deploy production
+
+# Ostré nasazení se nespouští samo. Až po schválení testovací verze
+# se na větvi main ručně spustí tento workflow a do pole se napíše NASADIT.
+on:
+  workflow_dispatch:
+    inputs:
+      confirm:
+        description: "Potvrzení nasazení. Napiš přesně NASADIT."
+        required: true
+        type: string
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  deploy:
+    if: github.ref == 'refs/heads/main' && github.event.inputs.confirm == 'NASADIT'
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npm test
+      - name: Sestavit ostrý web
+        run: |
+          mkdir -p _site
+          cp index.html robots.txt sitemap.xml _site/
+          cp -a css js assets _site/
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+      - id: deployment
+        uses: actions/deploy-pages@v4

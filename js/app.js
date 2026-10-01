@@ -1,25 +1,4 @@
-const POINTS = [
-  {
-    id: "krizovy",
-    lat: 50.2260421,
-    lng: 17.2250049,
-    web: "https://krizovyvrch.cz/cs",
-    phone: "+420 604 729 730",
-    phoneHref: "tel:+420604729730"
-  },
-  {
-    id: "spindl",
-    lat: 50.7256448,
-    lng: 15.6067567,
-    web: null
-  },
-  {
-    id: "kabrt",
-    lat: 50.1466053,
-    lng: 14.1026398,
-    web: null
-  }
-];
+const POINTS = RaclettePoints.POINTS;
 
 const MENU = ["menu.classic", "menu.fries", "menu.tenderloin", "menu.panini"];
 const MENU_COLORS = ["#fece52", "#f5811f", "#00a85c", "#007dc5"];
@@ -53,15 +32,7 @@ function formatKm(km) {
 }
 
 function haversine(aLat, aLng, bLat, bLng) {
-  const R = 6371;
-  const dLat = ((bLat - aLat) * Math.PI) / 180;
-  const dLng = ((bLng - aLng) * Math.PI) / 180;
-  const h =
-    Math.sin(dLat / 2) ** 2 +
-    Math.cos((aLat * Math.PI) / 180) *
-      Math.cos((bLat * Math.PI) / 180) *
-      Math.sin(dLng / 2) ** 2;
-  return R * 2 * Math.atan2(Math.sqrt(h), Math.sqrt(1 - h));
+  return RacletteGeo.haversine(aLat, aLng, bLat, bLng);
 }
 
 function mapSrc(point) {
@@ -154,9 +125,7 @@ function selectPoint(id) {
 
 function applyStatic() {
   document.documentElement.lang = lang === "cs" ? "cs" : lang;
-  document.title = t("meta.title");
-  const description = document.querySelector('meta[name="description"]');
-  if (description) description.setAttribute("content", t("meta.description"));
+  RacletteSite.apply(lang, t);
   document.querySelectorAll("[data-i18n]").forEach((el) => {
     el.textContent = t(el.dataset.i18n);
   });
@@ -206,7 +175,7 @@ function locate() {
       document.getElementById("point-cards").querySelector(".card")?.focus();
     },
     () => setStatus("points.denied"),
-    { enableHighAccuracy: true, timeout: 10000, maximumAge: 60000 }
+    { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
   );
 }
 
