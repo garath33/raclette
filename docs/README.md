@@ -11,4 +11,4 @@ Web Raclette Point Original. Tahle složka je mapa projektu, ne marketingová st
 | [Domény](domeny.md) | Budoucí adresy a přesměrování |
 | [Rozhodnutí](rozhodnuti.md) | Proč je něco udělané právě tak, včetně oprav chyb |
 
-Veřejný testovací web je na GitHub Pages. Ostrý web se z téhle větve nenasazuje.
+Veřejný testovací web je `https://garath33.github.io/raclette/`. Objeví se až po sloučení do `main`. Ostré domény se z repozitáře nezapínají.

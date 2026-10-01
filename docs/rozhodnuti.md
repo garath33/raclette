@@ -12,7 +12,9 @@ U Špindlerova Mlýna a food trucku nebyla ulice. Mapa ukazuje střed střediska
 
 ## Test není ostrý web
 
-První verze neměla prostředí, na kterém se dá verze nejdřív otevřít. Teď je testovací adresa oddělená od ručního nasazení. Test má `noindex` a viditelný pruh, aby se dočasná adresa nezačala tvářit jako finální doména.
+První verze neměla prostředí, na kterém se dá verze nejdřív otevřít. Testovací adresa je `https://garath33.github.io/raclette/`. Má `noindex` a viditelný pruh, aby se dočasná adresa nezačala tvářit jako finální doména.
+
+GitHub u tohoto repozitáře dovolí Pages jen z větve `main`. Nasazení z funkční větve skončilo chybou ochrany prostředí a tokenem to nejde změnit. Testovací odkaz proto vznikne sloučením do `main`, ne dřív. Samostatný workflow pro ostré domény Pages nepřepisuje: dokud není připojený hosting pro `raclettelovers.*`, skončí po testech a nic nepublikuje.
 
 ## hreflang jen na živé adresy
 

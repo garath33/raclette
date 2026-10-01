@@ -2,9 +2,9 @@
 
 Prezentační web sítě Raclette Point. Dokumentace je ve složce [docs](docs/README.md).
 
-Testovací adresa, až pipeline doběhne: <https://garath33.github.io/raclette/>
+Testovací adresa po sloučení do `main`: <https://garath33.github.io/raclette/>
 
-Ostrý web se z téhle větve nenasazuje. Postup je v [docs/pipeline.md](docs/pipeline.md).
+Na té adrese zůstává pruh „Testovací prostředí“ a `noindex`. Domény `raclettelovers.*` se tím nezapnou. Postup je v [docs/pipeline.md](docs/pipeline.md).
 
 ```bash
 npm ci

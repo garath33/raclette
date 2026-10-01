@@ -1,9 +1,13 @@
 name: Deploy test environment
 
+# GitHub Pages dovolí publikaci jen z větve main (ochrana prostředí github-pages).
+# Tahle větev proto web nevystavuje. Po schválení sloučení do main vznikne
+# testovací adresa https://garath33.github.io/raclette/ . Pořád s pruhem
+# „Testovací prostředí“ a s noindex. Ostré domény to nezapíná.
 on:
   push:
     branches:
-      - cursor/raclette-point-web-22c6
+      - main
   workflow_dispatch:
 
 permissions:
@@ -30,6 +34,7 @@ jobs:
 
   deploy:
     needs: test
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     environment:
       name: github-pages
