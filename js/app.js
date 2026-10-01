@@ -141,6 +141,10 @@ function applyStatic() {
   const frame = document.getElementById("map-frame");
   frame.title = t("points.mapTitle");
   document.getElementById("lang").value = lang;
+  const mail = document.getElementById("franchise-mail");
+  if (mail) {
+    mail.href = "mailto:info@rakletparty.cz?subject=" + encodeURIComponent(t("franchise.subject"));
+  }
 }
 
 function setLang(next) {

@@ -32,6 +32,10 @@ test("veřejný text nezmiňuje vyřazenou osobu a IT role existuje", () => {
     const blob = Object.values(TRANSLATIONS[lang]).join("\n");
     assert.equal(/veronika/i.test(blob), false, lang);
   }
+  assert.match(TRANSLATIONS.cs["franchise.s2d"], /schůzku/);
+  assert.match(TRANSLATIONS.cs["franchise.s3d"], /částečné po kompletní/);
+  assert.match(TRANSLATIONS.cs["franchise.title"], /oficiálním Raclette Pointem/);
+  assert.equal(/poplatek|royalt|vstupní částk/i.test(TRANSLATIONS.cs["franchise.proof"] + TRANSLATIONS.cs["franchise.s3d"]), false);
   assert.match(TRANSLATIONS.cs["person.martin.role"], /IT specialista/);
   assert.match(TRANSLATIONS.sk["person.martin.role"], /IT špecialista/);
   assert.match(TRANSLATIONS.en["person.martin.role"], /IT specialist/);

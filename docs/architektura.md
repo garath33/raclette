@@ -16,13 +16,14 @@ assets/          logo, fotky, favicon
 
 ## Sekce
 
-1. Úvod
+1. Úvod se dvěma cestami: nejbližší Point a franchise
 2. Naše Raclette Pointy, poloha a Google Maps
-3. Reference a média
-4. Příběh českého krále, včetně videa pasování
-5. Kde nakoupit
-6. Gastro eventy a festivaly
-7. Kontakty
+3. Spolupráce, jak se stát oficiálním Pointem
+4. Reference a média
+5. Příběh českého krále, včetně videa pasování
+6. Kde nakoupit
+7. Gastro eventy a festivaly
+8. Kontakty
 
 ## Jazyk
 

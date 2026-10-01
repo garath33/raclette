@@ -10,10 +10,14 @@ test("stránka se načte, má sekce a testovací pruh", async ({ page }) => {
   await page.goto("/?lang=cs");
   await expect(page.locator("h1")).toContainText("Švýcarská raclette");
   await expect(page.locator("#env-banner")).toBeVisible();
-  for (const id of ["pointy", "reference", "pribeh", "nakup", "eventy", "kontakty"]) {
+  for (const id of ["pointy", "franchise", "reference", "pribeh", "nakup", "eventy", "kontakty"]) {
     await expect(page.locator("#" + id)).toHaveCount(1);
   }
   await expect(page.locator("#point-cards .card")).toHaveCount(3);
+  await expect(page.locator("#hero-locate")).toHaveAttribute("href", "#pointy");
+  await expect(page.locator("a[href='#franchise']").first()).toBeVisible();
+  await expect(page.locator("#franchise h2")).toContainText("oficiálním Raclette Pointem");
+  await expect(page.locator("#franchise-mail")).toHaveAttribute("href", /mailto:info@rakletparty\.cz/);
   await expect(page.getByRole("heading", { name: "Martin Šimůnek" })).toBeVisible();
   await expect(page.locator("body")).not.toContainText(/veronika/i);
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute("href", /lang=cs/);

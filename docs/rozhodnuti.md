@@ -28,6 +28,10 @@ Charta předepisuje Luthier a Open Sans. Open Sans je na webu. Luthier v podklad
 
 Když se poloha spletla, stránka uměla ukázat špatný Point bez toho, aby si toho někdo všiml. Test „z Kladna je food truck, z Jeseníku je Křížový vrch“ to drží.
 
+## Franchise bez vymyšlených podmínek
+
+Veřejné podklady říkají, jak spolupráce začíná: ozvat se, domluvit schůzku a projít možnosti od částečné po kompletní spolupráci. Stránka Raklet Party zve k oficiálnímu Raclette Pointu větou „Nalákejte své zákazníky na pravý raclette“. Historie popisuje Point jako koncept spolupráce po ohlasech subdodávek a jmenuje partnera Raclette Republic. Poplatky, podíl ani délka smlouvy v podkladech nejsou, proto je stránka neuvádí. Regresní test hlídá schůzku, rozsah spolupráce a to, že se v textu neobjeví vymyšlený poplatek.
+
 ## Druhé klepnutí na polohu bere nový odečet
 
 První verze testu nechala mezi Kladnem a Jeseníkem starou polohu, protože prohlížeč směl minutu použít cache (`maximumAge`). Nové klepnutí na „Použít mou polohu“ proto vždy žádá čerstvý odečet.

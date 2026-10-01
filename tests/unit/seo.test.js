@@ -55,6 +55,7 @@ test("kontaktní stránka neuvádí Veroniku a uvádí Martina Šimůnka", () =>
   assert.equal(/veronika/i.test(html), false);
   assert.match(html, /Martin Šimůnek/);
   assert.match(html, /id="pointy"/);
+  assert.match(html, /id="franchise"/);
   assert.match(html, /id="kontakty"/);
   assert.match(html, /id="pribeh"/);
 });
