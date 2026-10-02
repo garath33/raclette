@@ -2,7 +2,7 @@ const LANGS = ["cs", "en", "fr", "sk", "it", "de", "pl", "es", "ru"];
 
 const TRANSLATIONS = {
   cs: {
-    "meta.title": "Raclette Point Original — švýcarská raclette v Česku a na Slovensku",
+    "meta.title": "Raclette Point Original — švýcarský raclette v Česku a na Slovensku",
     "meta.description": "Najděte nejbližší Raclette Point podle polohy, nebo se staňte oficiálním Pointem. Swiss AOP z Valais, bez statisícové licence a bez šéfkuchaře.",
     "skip": "Přeskočit na obsah",
     "env.banner": "Testovací prostředí. Na ostrý web se tato verze nasadí až po schválení.",
@@ -17,7 +17,7 @@ const TRANSLATIONS = {
     "nav.events": "Eventy",
     "nav.contact": "Kontakty",
     "hero.kicker": "Raclette Point Original",
-    "hero.title": "Švýcarská raclette",
+    "hero.title": "Švýcarský raclette",
     "hero.titleEm": "na dosah.",
     "hero.lead": "Síť míst, kde se škrábe Swiss AOP sýr z Laiterie d’Orsières v kantonu Valais. Podle vaší polohy vás navedeme k nejbližšímu Pointu v Google Maps. Svůj podnik můžete o stejný zážitek rozšířit.",
     "hero.primary": "Najít nejbližší Point",
