@@ -34,7 +34,9 @@ Veřejné podklady říkají, jak spolupráce začíná: ozvat se, domluvit sch�
 
 ## Hlava krávy se nesmí natáhnout do sloupu
 
-U obrázku bylo v HTML výška 875 px a v CSS jen šířka. Prohlížeč proto nechal výšku atributu a hlavu roztáhl do vysokého pruhu, který na stránce vypadal jako useknutá krabička. CSS teď nastavuje `height: auto` a poměr 723:875. Test hlídá, že vykreslená výška odpovídá šířce a že se hlava vejde do okna.
+U obrázku bylo v HTML výška 875 px a v CSS jen šířka. Prohlížeč proto nechal výšku atributu a hlavu roztáhl do vysokého pruhu, který na stránce vypadal jako useknutá krabička. CSS teď nastavuje `height: auto` a poměr 723:875.
+
+Samotný poměr nestačil. Hlava a kulaté logo byly přilepené k rámu sloupce, zatímco fotka uprostřed tabletu byla menší a vycentrovaná. Na šířce kolem 768 px proto hlava visela ve volném místě vedle kruhu a na úzkém mobilu se kruh zploštil, protože výška fotky byla natvrdo 300 px. Rám vizuálu je teď čtverec stejně velký jako fotka a obě značky se kotví k jeho rohům v procentech. Test hlídá poměr hlavy, kruhovou fotku a to, že se hlava s fotkou překrývá.
 
 ## Hláška mapy není chyba stránky
 
