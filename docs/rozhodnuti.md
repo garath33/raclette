@@ -30,7 +30,9 @@ Když se poloha spletla, stránka uměla ukázat špatný Point bez toho, aby si
 
 ## Franchise bez vymyšlených podmínek
 
-Veřejné podklady říkají, jak spolupráce začíná: ozvat se, domluvit schůzku a projít možnosti od částečné po kompletní spolupráci. Stránka Raklet Party zve k oficiálnímu Raclette Pointu větou „Nalákejte své zákazníky na pravý raclette“. Historie popisuje Point jako koncept spolupráce po ohlasech subdodávek a jmenuje partnera Raclette Republic. Poplatky, podíl ani délka smlouvy v podkladech nejsou, proto je stránka neuvádí. Regresní test hlídá schůzku, rozsah spolupráce a to, že se v textu neobjeví vymyšlený poplatek.
+Veřejné podklady říkají, jak spolupráce začíná: ozvat se, domluvit schůzku a projít možnosti od částečné po kompletní spolupráci. Stránka Raklet Party zve k oficiálnímu Raclette Pointu větou „Nalákejte své zákazníky na pravý raclette“. Historie popisuje Point jako koncept spolupráce po ohlasech subdodávek a jmenuje partnera Raclette Republic.
+
+B2B podklad k partnerství tyhle věty doplňuje, nenahrazuje je. Jsou v něm tři formáty (shop-in-shop, mobilní Point, kontejner nebo kiosek), čtyři kroky od kontaktu po slavnostní start a jméno Eddyho Baillifarda jako švýcarského krále, který může přijet podle domluvy. Podklad výslovně říká, že se neplatí statisícové ani milionové vstupní poplatky za licenci a že měsíční partnerský poplatek se domlouvá podle velikosti Pointu, typu provozovny a lokality. Konkrétní částka, procento ani délka smlouvy v podkladu nejsou, proto je stránka neuvádí. V podkladu je u mobilního formátu slovo Foodrack; na webu je food truck, protože tak se vozidlo jmenuje i u Pointu v Kladně. Regresní test hlídá schůzku, rozsah od částečné po kompletní, zákaz vymyšlené částky a zmínku Eddyho Baillifarda.
 
 ## Hlava krávy se nesmí natáhnout do sloupu
 

@@ -143,7 +143,7 @@ function applyStatic() {
   document.getElementById("lang").value = lang;
   const mail = document.getElementById("franchise-mail");
   if (mail) {
-    mail.href = "mailto:info@rakletparty.cz?subject=" + encodeURIComponent(t("franchise.subject"));
+    mail.href = "mailto:milan@raclette-original.com?subject=" + encodeURIComponent(t("franchise.subject"));
   }
 }
 

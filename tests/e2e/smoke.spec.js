@@ -17,7 +17,9 @@ test("stránka se načte, má sekce a testovací pruh", async ({ page }) => {
   await expect(page.locator("#hero-locate")).toHaveAttribute("href", "#pointy");
   await expect(page.locator("a[href='#franchise']").first()).toBeVisible();
   await expect(page.locator("#franchise h2")).toContainText("oficiálním Raclette Pointem");
-  await expect(page.locator("#franchise-mail")).toHaveAttribute("href", /mailto:info@rakletparty\.cz/);
+  await expect(page.locator("#franchise-mail")).toHaveAttribute("href", /mailto:milan@raclette-original\.com/);
+  await expect(page.locator("#franchise")).toContainText("Shop-in-shop");
+  await expect(page.locator("#franchise")).toContainText("Eddy Baillifard");
   await expect(page.getByRole("heading", { name: "Martin Šimůnek" })).toBeVisible();
   await expect(page.locator("body")).not.toContainText(/veronika/i);
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute("href", /lang=cs/);

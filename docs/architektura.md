@@ -18,7 +18,7 @@ assets/          logo, fotky, favicon
 
 1. Úvod se dvěma cestami: nejbližší Point a franchise
 2. Naše Raclette Pointy, poloha a Google Maps
-3. Spolupráce, jak se stát oficiálním Pointem
+3. Spolupráce: proč Point, tři formáty partnerství a čtyři kroky, jak ji navázat. Znění je z B2B podkladu a ze starších vět Raklet Party.
 4. Reference a média
 5. Příběh českého krále, včetně videa pasování
 6. Kde nakoupit
