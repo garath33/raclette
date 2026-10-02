@@ -36,7 +36,7 @@ B2B podklad k partnerství tyhle věty doplňuje, nenahrazuje je. Jsou v něm t�
 
 ## raclettelovers.com je první vlastní doména
 
-Čtyři záznamy A u WebHouse míří na GitHub Pages (`185.199.108.153` až `185.199.111.153`). Parkovací adresa `86.110.243.202` je pryč. Publikace obsahuje soubor `CNAME`, takže doména ukazuje tento web a `github.io` se na ni přesměruje. Než výslovně potvrdíte indexování, zůstane zkušební pruh a `noindex`. Bez uloženého jazyka se na `.com` otevře angličtina. Ostatní domény a přesměrování se zatím nezapínají.
+Čtyři záznamy A u WebHouse míří na GitHub Pages (`185.199.108.153` až `185.199.111.153`). Parkovací adresa `86.110.243.202` je pryč. Soubor `CNAME` doménu u nasazení z Actions nepřipojí, Pages ho ignoruje. V nastavení Pages je pole Custom domain pořád prázdné a dostupné tokeny ho umí jen číst, takže uložení `raclettelovers.com` musí udělat vlastník v Settings → Pages. Než výslovně potvrdíte indexování, zůstane zkušební pruh a `noindex`. Bez uloženého jazyka se na `.com` otevře angličtina. Ostatní domény a přesměrování se zatím nezapínají.
 
 ## Hlava krávy se nesmí natáhnout do sloupu
 

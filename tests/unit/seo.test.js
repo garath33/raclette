@@ -21,7 +21,7 @@ test("stránka má kanonickou adresu, hreflang, Open Graph a strukturovaná data
   assert.match(html, /hreflang="x-default"/);
 });
 
-test("publikace míří na raclettelovers.com a indexování zůstává vypnuté ve zdrojovém HTML", () => {
+test("soubor CNAME drží raclettelovers.com a zdrojové HTML zůstává noindex", () => {
   assert.equal(fs.readFileSync("CNAME", "utf8").trim(), "raclettelovers.com");
   assert.match(fs.readFileSync("index.html", "utf8"), /noindex, follow/);
 });

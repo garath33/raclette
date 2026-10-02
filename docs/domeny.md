@@ -1,14 +1,16 @@
 # Domény a přesměrování
 
-Zkušební web teď běží na `https://raclettelovers.com/`. Adresa `https://garath33.github.io/raclette/` se na ni přesměruje. Ostatní domény počkají, dokud bude hosting umět víc adres najednou. GitHub Pages umí jednu vlastní doménu, přesměrování mezi více doménami ne.
+Zkušební web teď běží na `https://garath33.github.io/raclette/`. DNS pro `raclettelovers.com` už míří na GitHub, ale Pages doménu přijme až po uložení v nastavení repozitáře. Ostatní domény počkají, dokud bude hosting umět víc adres najednou. GitHub Pages umí jednu vlastní doménu, přesměrování mezi více doménami ne.
 
 ## raclettelovers.com u WebHouse
 
 Doména má jmenné servery `ns1.webhouse.sk`, `ns2.webhouse.sk` a `ns3.webhouse.sk`. Ty neměňte. Hvězdička `*.raclettelovers.com` je CNAME na `raclettelovers.com` a tu taky nechte: díky ní jde `www` stejnou cestou jako adresa bez `www`.
 
-Čtyři záznamy A už míří na GitHub Pages. Veřejné překladače `1.1.1.1` a `8.8.8.8` je 2. října 2026 vracely pro apex i pro `www`. Parkovací adresa `86.110.243.202` je pryč. Publikace obsahuje soubor `CNAME` s jediným řádkem `raclettelovers.com`, takže GitHub Pages web servíruje na té doméně a adresu `github.io` na ni přesměruje.
+Čtyři záznamy A už míří na GitHub Pages. Veřejné překladače `1.1.1.1` a `8.8.8.8` je 2. října 2026 vracely pro apex i pro `www`. Parkovací adresa `86.110.243.202` je pryč.
 
-Stránka se otevírá anglicky, pokud návštěvník nemá uložený jazyk. Pořád má pruh „Testovací prostředí“ a `noindex, follow`. Indexování se zapne až po výslovném potvrzení. Do té doby se na to občas připomene.
+Soubor `CNAME` v repozitáři má řádek `raclettelovers.com`. U publikace z GitHub Actions ho Pages ignoruje. Doména se zapne ručně: v repozitáři Settings → Pages, pole Custom domain, hodnota `raclettelovers.com`, tlačítko Save. Než se to uloží, adresa vrací stránku GitHubu „There isn't a GitHub Pages site here“ a certifikát je pořád pro `*.github.io`. Po uložení může trvat až hodinu, než GitHub vydá certifikát a web na doméně otevře. Enforce HTTPS nechte zapnuté, až kontrola DNS zezelená.
+
+Až doména web ukáže, otevře se anglicky, pokud návštěvník nemá uložený jazyk. Pořád má pruh „Testovací prostředí“ a `noindex, follow`. Indexování se zapne až po výslovném potvrzení. Do té doby se na to občas připomene.
 
 V zóně mají být právě tyto čtyři řádky A. Třída zůstává IN, priorita se u A nevyplňuje.
 
