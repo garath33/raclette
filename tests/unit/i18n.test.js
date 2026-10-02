@@ -35,6 +35,8 @@ test("veřejný text nezmiňuje vyřazenou osobu a IT role existuje", () => {
   assert.match(TRANSLATIONS.cs["franchise.s2d"], /schůzku/);
   assert.match(TRANSLATIONS.cs["franchise.f1d"], /částečné po kompletní/);
   assert.match(TRANSLATIONS.cs["franchise.title"], /oficiálním Raclette Pointem/);
+  assert.match(TRANSLATIONS.cs["franchise.lead"], /Nabídněte svým zákazníkům ten nejlepší raclette/);
+  assert.equal(/nalák/i.test(TRANSLATIONS.cs["franchise.lead"]), false);
   assert.match(TRANSLATIONS.cs["franchise.approach"], /statisícové ani milionové vstupní poplatky/);
   assert.match(TRANSLATIONS.cs["franchise.approach"], /Měsíční partnerský poplatek/);
   assert.match(TRANSLATIONS.cs["franchise.s4d"], /Eddy Baillifard/);
