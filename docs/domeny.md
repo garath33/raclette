@@ -1,14 +1,16 @@
 # Domény a přesměrování
 
-Teď běží zkušební web na `https://garath33.github.io/raclette/`. První vlastní doména, kterou zapojujeme, je `raclettelovers.com`. Ostatní domény počkají, dokud bude hosting umět víc adres najednou. GitHub Pages umí jednu vlastní doménu, přesměrování mezi více doménami ne.
+Zkušební web teď běží na `https://raclettelovers.com/`. Adresa `https://garath33.github.io/raclette/` se na ni přesměruje. Ostatní domény počkají, dokud bude hosting umět víc adres najednou. GitHub Pages umí jednu vlastní doménu, přesměrování mezi více doménami ne.
 
 ## raclettelovers.com u WebHouse
 
-Doména má jmenné servery `ns1.webhouse.sk`, `ns2.webhouse.sk` a `ns3.webhouse.sk`. V DNS zóně je teď záznam A na `86.110.243.202`. To je parkovací stránka WebHouse, ne tento web. Hvězdička `*.raclettelovers.com` je CNAME na `raclettelovers.com` a tu neměňte: díky ní jde `www` stejnou cestou jako adresa bez `www`.
+Doména má jmenné servery `ns1.webhouse.sk`, `ns2.webhouse.sk` a `ns3.webhouse.sk`. Ty neměňte. Hvězdička `*.raclettelovers.com` je CNAME na `raclettelovers.com` a tu taky nechte: díky ní jde `www` stejnou cestou jako adresa bez `www`.
 
-Až se záznam A přepne na GitHub Pages, adresa otevře tento web anglicky. Pořád s pruhem „Testovací prostředí“ a s `noindex`, dokud neřeknete, že smí mezi ostrou návštěvu. Soubor `CNAME` se do publikace přidá až ve chvíli, kdy DNS opravdu míří na GitHub. Dřív by zkušební adresa `github.io` začala posílat lidi na doménu, která ještě web neukazuje.
+Čtyři záznamy A už míří na GitHub Pages. Veřejné překladače `1.1.1.1` a `8.8.8.8` je 2. října 2026 vracely pro apex i pro `www`. Parkovací adresa `86.110.243.202` je pryč. Publikace obsahuje soubor `CNAME` s jediným řádkem `raclettelovers.com`, takže GitHub Pages web servíruje na té doméně a adresu `github.io` na ni přesměruje.
 
-V zóně nahraďte jedinou hodnotu A čtyřmi řádky. Třída zůstává IN, priorita se u A nevyplňuje.
+Stránka se otevírá anglicky, pokud návštěvník nemá uložený jazyk. Pořád má pruh „Testovací prostředí“ a `noindex, follow`. Indexování se zapne až po výslovném potvrzení. Do té doby se na to občas připomene.
+
+V zóně mají být právě tyto čtyři řádky A. Třída zůstává IN, priorita se u A nevyplňuje.
 
 | Název | Typ | Hodnota |
 | --- | --- | --- |
@@ -17,7 +19,7 @@ V zóně nahraďte jedinou hodnotu A čtyřmi řádky. Třída zůstává IN, pr
 | raclettelovers.com | A | 185.199.110.153 |
 | raclettelovers.com | A | 185.199.111.153 |
 
-Starý řádek s `86.110.243.202` smažte. Hvězdičkový CNAME nechte. Jmenné servery nepřepisujte.
+Kdyby se starý řádek s `86.110.243.202` vrátil, smažte ho. Hvězdičkový CNAME nechte. Jmenné servery nepřepisujte.
 
 ## Kam se sbíhají cesty
 

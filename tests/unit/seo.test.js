@@ -21,6 +21,11 @@ test("stránka má kanonickou adresu, hreflang, Open Graph a strukturovaná data
   assert.match(html, /hreflang="x-default"/);
 });
 
+test("publikace míří na raclettelovers.com a indexování zůstává vypnuté ve zdrojovém HTML", () => {
+  assert.equal(fs.readFileSync("CNAME", "utf8").trim(), "raclettelovers.com");
+  assert.match(fs.readFileSync("index.html", "utf8"), /noindex, follow/);
+});
+
 test("robots a sitemap ukazují na testovací adresu a všechny jazyky", () => {
   const robots = fs.readFileSync("robots.txt", "utf8");
   const sitemap = fs.readFileSync("sitemap.xml", "utf8");
