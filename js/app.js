@@ -189,6 +189,7 @@ function boot() {
   if (!initial) {
     try { initial = localStorage.getItem("raclette-lang"); } catch (err) { initial = null; }
   }
+  if (!initial && window.RacletteSite) initial = RacletteSite.defaultLanguage(location.hostname);
   if (!initial) {
     const browser = (navigator.language || "cs").slice(0, 2).toLowerCase();
     initial = LANGS.includes(browser) ? browser : "cs";

@@ -34,6 +34,10 @@ Veřejné podklady říkají, jak spolupráce začíná: ozvat se, domluvit sch�
 
 B2B podklad k partnerství tyhle věty doplňuje, nenahrazuje je. Jsou v něm tři formáty (shop-in-shop, mobilní Point, kontejner nebo kiosek), čtyři kroky od kontaktu po slavnostní start a jméno Eddyho Baillifarda jako švýcarského krále, který může přijet podle domluvy. Podklad výslovně říká, že se neplatí statisícové ani milionové vstupní poplatky za licenci a že měsíční partnerský poplatek se domlouvá podle velikosti Pointu, typu provozovny a lokality. Konkrétní částka, procento ani délka smlouvy v podkladu nejsou, proto je stránka neuvádí. V podkladu je u mobilního formátu slovo Foodrack; na webu je food truck, protože tak se vozidlo jmenuje i u Pointu v Kladně. Regresní test hlídá schůzku, rozsah od částečné po kompletní, zákaz vymyšlené částky a zmínku Eddyho Baillifarda.
 
+## raclettelovers.com je první vlastní doména
+
+V DNS u WebHouse doména ukazuje na parkovací adresu `86.110.243.202`. Na GitHub Pages se přepne čtyřmi záznamy A z dokumentace domén. Než řeknete, že smí mezi ostrou návštěvu, zůstane na ní zkušební pruh a `noindex`. Bez uloženého jazyka se na `.com` otevře angličtina. Ostatní domény a přesměrování se zatím nezapínají.
+
 ## Hlava krávy se nesmí natáhnout do sloupu
 
 U obrázku bylo v HTML výška 875 px a v CSS jen šířka. Prohlížeč proto nechal výšku atributu a hlavu roztáhl do vysokého pruhu, který na stránce vypadal jako useknutá krabička. CSS teď nastavuje `height: auto` a poměr 723:875.

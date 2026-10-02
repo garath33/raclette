@@ -17,8 +17,22 @@
     ru: "ru_RU"
   };
 
+  function normalizedHost(hostname) {
+    return String(hostname || "").toLowerCase().replace(/\.$/, "");
+  }
+
+  function isComHost(hostname) {
+    const host = normalizedHost(hostname);
+    return host === "raclettelovers.com" || host === "www.raclettelovers.com";
+  }
+
   function isStagingHost(hostname) {
-    return hostname === "localhost" || hostname === "127.0.0.1" || hostname.endsWith("github.io");
+    const host = normalizedHost(hostname);
+    return host === "localhost" || host === "127.0.0.1" || host.endsWith("github.io") || isComHost(host);
+  }
+
+  function defaultLanguage(hostname) {
+    return isComHost(hostname) ? "en" : null;
   }
 
   function pageUrl(code) {
@@ -61,7 +75,7 @@
     if (canonical) canonical.href = pageUrl(lang);
     document.querySelectorAll('link[rel="alternate"][hreflang]').forEach((link) => {
       const code = link.getAttribute("hreflang");
-      if (code === "x-default") link.href = pageUrl("cs");
+      if (code === "x-default") link.href = pageUrl(defaultLanguage(location.hostname) || "cs");
       else if (LANGUAGES.indexOf(code) !== -1) link.href = pageUrl(code);
     });
     const staging = isStagingHost(location.hostname);
@@ -73,5 +87,5 @@
     }
   }
 
-  return { STAGING_BASE, LANGUAGES, OG_LOCALE, isStagingHost, apply };
+  return { STAGING_BASE, LANGUAGES, OG_LOCALE, isStagingHost, isComHost, defaultLanguage, apply };
 });
