@@ -32,6 +32,10 @@ Když se poloha spletla, stránka uměla ukázat špatný Point bez toho, aby si
 
 Veřejné podklady říkají, jak spolupráce začíná: ozvat se, domluvit schůzku a projít možnosti od částečné po kompletní spolupráci. Stránka Raklet Party zve k oficiálnímu Raclette Pointu větou „Nalákejte své zákazníky na pravý raclette“. Historie popisuje Point jako koncept spolupráce po ohlasech subdodávek a jmenuje partnera Raclette Republic. Poplatky, podíl ani délka smlouvy v podkladech nejsou, proto je stránka neuvádí. Regresní test hlídá schůzku, rozsah spolupráce a to, že se v textu neobjeví vymyšlený poplatek.
 
+## Hlava krávy se nesmí natáhnout do sloupu
+
+U obrázku bylo v HTML výška 875 px a v CSS jen šířka. Prohlížeč proto nechal výšku atributu a hlavu roztáhl do vysokého pruhu, který na stránce vypadal jako useknutá krabička. CSS teď nastavuje `height: auto` a poměr 723:875. Test hlídá, že vykreslená výška odpovídá šířce a že se hlava vejde do okna.
+
 ## Hláška mapy není chyba stránky
 
 Výkonnostní test jednou spadl na větě `Permissions policy violation: compute-pressure`. Stránka ji nevypisuje, pochází z vloženého Google Maps. Test ji teď přeskakuje, stejně jako chybějící favicon. Ostatní chyby v konzoli pořád test shodí.

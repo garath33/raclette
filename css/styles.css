@@ -226,9 +226,13 @@ p { margin: 0; }
 }
 .hero-cow {
   position: absolute;
-  right: -8px;
-  top: -28px;
-  width: 168px;
+  top: 0;
+  right: 0;
+  width: 188px;
+  height: auto;
+  aspect-ratio: 723 / 875;
+  object-fit: contain;
+  pointer-events: none;
   filter: drop-shadow(0 12px 24px rgba(26, 28, 29, 0.12));
 }
 
@@ -564,7 +568,7 @@ p { margin: 0; }
   .hero-visual { min-height: 0; margin-top: 0.5rem; }
   .hero-photo { width: min(100%, 380px); height: 380px; margin-inline: auto; }
   .hero-logo { left: 4%; width: 120px; height: 120px; }
-  .hero-cow { width: 120px; top: -12px; right: 2%; }
+  .hero-cow { width: 128px; top: 0; right: 0; }
   .timeline li { grid-template-columns: 5.5rem 1fr; }
 }
 
