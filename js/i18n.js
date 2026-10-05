@@ -123,7 +123,7 @@ const TRANSLATIONS = {
     "franchise.why1t": "Sýrová show, která přitahuje lidi",
     "franchise.why1d": "Vůně taveného AOP sýra, jiný styl grilování, přesné servírování a atmosféra Švýcarska. Zážitek, o kterém se mluví, který se sdílí s přáteli i na sítích a kvůli kterému se hosté vracejí. Stávají se z nich Raclette Lovers a pravidelní hosté.",
     "franchise.why2t": "Bez kvalifikovaného kuchaře",
-    "franchise.why2d": "Celý systém je na efektivitu. Díky nerezovým troubám a grilům TTM zvládne servis jakýkoliv zaškolený člen obsluhy nebo baru.",
+    "franchise.why2d": "Celý systém je navržený na maximální efektivitu. Díky nerezovým troubám a grilům TTM zvládne servis jakýkoliv zaškolený člen obsluhy nebo baru.",
     "franchise.why3t": "Marže, která dává smysl",
     "franchise.why3d": "Švýcarské sýrové speciality mají u hostů po celém světě vysokou vnímanou hodnotu. Po zaškolení servírujete Raclette Menu na míru typu provozovny, bez navýšení mzdových nákladů.",
     "franchise.why4t": "Rychlý start",
