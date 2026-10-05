@@ -11,7 +11,7 @@ Pokračuj v PR https://github.com/garath33/raclette/pull/7 (větev cursor/domain
 
 Hotovo: .com HTTPS na GitHub Pages (DNS u WebHouse NEMĚNIT). .cz zóna Active, NS teresa.ns + tim.ns. Všechny jazyky na každé doméně (?lang=), default ze země v locale. Indexace vypnutá.
 
-Teď: Workers Builds raclette musí být zelený. wrangler.jsonc má assets z public/ a previews {}. V package.json je wrangler 4.147 (preview potřebuje 4.135+). Pak v dashboardu Worker Settings → Domains & Routes přidat raclettelovers.cz a www.raclettelovers.cz. Token v Secrets umí DNS, custom domain Workeru ne.
+Teď: Workers Builds raclette na PR padá (production na main je zelená). Log je jen v Cloudflare dashboardu: Worker raclette → View build history. Settings → Builds: Enable Preview Builds, příkaz npx wrangler preview. Až zelený, Domains & Routes přidat raclettelovers.cz a www. Token umí DNS, custom domain Workeru ne.
 
 Další až po živém .cz: stejné NS u .sk a .ch (screenshot Cloudflare: přidat teresa/tim, smazat ns1–3.webhouse.sk). .com NIKDY.
 ```
@@ -32,6 +32,17 @@ A. Najděte sekci jmenných serverů (ne DNS záznamy).
 B. Přidejte `teresa.ns.cloudflare.com` a `tim.ns.cloudflare.com`.
 C. Smažte `ns1.webhouse.sk`, `ns2.webhouse.sk`, `ns3.webhouse.sk`.
 D. Uložte. Počkejte, až Cloudflare u zóny napíše Active (minuty až hodiny).
+
+## Cloudflare dashboard: proč preview na PR padá
+
+Production na `main` je zelená. Check **Workers Builds: raclette** na PR padá hned. Log je jen v Cloudflare, token v Secrets na něj nevidí.
+
+A. [Worker raclette](https://dash.cloudflare.com/b38b6a7c241110835172a51e1c65684f/workers/services/view/raclette/production) → **Deployments** → **View build history** → poslední Failed → zkopírujte červený error.
+B. **Settings** → **Builds** → **Branch control** → zaškrtněte **Enable Preview Builds**.
+C. Preview command musí být `npx wrangler preview` (ne `deploy`). Když svítí banner **Set up Worker Previews**, klikněte **Set up** → **Switch**.
+D. **Retry deployment**. Až bude zelený, **Settings** → **Domains & Routes** → **Add** → `raclettelovers.cz` a `www.raclettelovers.cz`.
+
+Jmenné servery u `.cz` už jsou hotové. `.com` neměňte.
 
 ## Stav 5. října 2026
 
