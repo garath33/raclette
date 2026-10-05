@@ -8,9 +8,9 @@ Zóna Cloudflare `raclettelovers.cz` je **Active** (od 5. října 2026, 11:18 UT
 
 DNS zóny `.cz` je prázdné. Přes API se smazaly zbytky parkování, které v zóně ještě byly: A `86.110.243.202`, CNAME `*` → `raclettelovers.cz` a CNAME `www` → `raclettelovers.cz`. Apex proto zatím neodpovídá — to je správně, dokud Worker nepřipojí custom domain a záznamy nevytvoří sám. WebHouse DNS u `.com` se neměnil.
 
-GitHub je propojený (účet `garath33`, od 5. října 2026, 11:40 UTC). Průvodce založil **Worker** `raclette`, ne klasický Pages projekt. Příkaz nasazení je `npx wrangler deploy`. První production build spadl: bez `wrangler.jsonc` si Wrangler vzal jako soubory celý repozitář a narazil na `node_modules/workerd/bin/workerd` (128 MiB, limit je 25 MiB). V repozitáři je teď `wrangler.jsonc` a `.assetsignore`, které `node_modules`, git, dokumentaci a testy vynechají. `_redirects` Wrangler dál bere jako pravidla přesměrování.
+GitHub je propojený (účet `garath33`, od 5. října 2026, 11:40 UTC). Průvodce založil **Worker** `raclette`, ne klasický Pages projekt. Příkaz nasazení je `npx wrangler deploy`. První build spadl na `node_modules/workerd` (128 MiB). Po doplnění `wrangler.jsonc` a `.assetsignore` do `main` Workers Build zezelenal (verze `dd72eb86-6c06-45d2-8400-774e615faa11`). `_redirects` Wrangler bere jako pravidla; na `main` ten soubor ještě není, je v tomto PR.
 
-Token v Cursor Secrets umí DNS. Workers Builds a nasazení Workeru s ním nejdou (`403` a „No access to the specified service“), takže nový build se spouští v dashboardu tlačítkem **Retry deployment**, až je tahle oprava ve větvi, kterou Worker staví (`main`).
+Token v Cursor Secrets umí DNS. Custom domain Workeru s ním přidat nejde (`Authentication error` na `/workers/domains`). Zbývá kliknout je v dashboardu, krok 4.
 
 Ostatní domény (`.sk`, `.ch`, aliasy) ještě čekají — u WebHouse zůstávají zaparkované na `86.110.243.202`. Placené Presmerovanie u WebHouse neplatit.
 
@@ -42,7 +42,7 @@ Smazáno přes API 5. října 2026 (v zóně ještě byly, i když dřívější
 - CNAME `*` → `raclettelovers.cz`
 - CNAME `www` → `raclettelovers.cz`
 
-Tabulka je prázdná, dokud Pages nepřipojí custom domain (Cloudflare záznamy vytvoří sám).
+Tabulka je prázdná, dokud Worker nepřipojí custom domain (Cloudflare záznamy vytvoří sám).
 
 ### 2. Aktivovat zónu (jmenné servery jen u .cz) — hotovo
 
@@ -62,15 +62,18 @@ Zóna `raclettelovers.com` ve WebHouse zůstává:
 
 Účet `garath33` je v Cloudflare Connections. Worker se jmenuje `raclette` a nasazuje se příkazem `npx wrangler deploy`. Build command nechte prázdný: web leží v kořeni (`index.html`, `css`, `js`, `assets`) a `wrangler.jsonc` to tak má.
 
-První build skončil chybou „Asset too large“ na `node_modules/workerd`. Ta binárka vznikla tím, že Wrangler při chybějící konfiguraci nainstaloval sám sebe do repozitáře a pak ho celý nahrál. `.assetsignore` ji vynechá. Po commitu téhle opravy do `main` otevřete Worker `raclette` → **Deployments** → **Retry deployment**.
+První build skončil chybou „Asset too large“ na `node_modules/workerd`. Ta binárka vznikla tím, že Wrangler při chybějící konfiguraci nainstaloval sám sebe do repozitáře a pak ho celý nahrál. `.assetsignore` ji vynechá. Nový build z `main` už prošel.
 
 `_redirects` se jako obyčejný soubor nenahrává. Wrangler ho pošle zvlášť jako pravidla. Na `main` ten soubor ještě není, je v tomto PR, takže `www` na apex začne skákat až po sloučení.
 
-### 4. Připojit raclettelovers.cz — až build zezelená
+### 4. Připojit raclettelovers.cz — právě teď
 
-Ve Workeru `raclette`: **Settings** → **Domains & Routes** → **Add** → **Custom domain** → `raclettelovers.cz`. Stejně `www.raclettelovers.cz`. Cloudflare záznam v zóně `.cz` vytvoří sám. Token v Secrets na Workers domains nesáhne, tenhle krok je v dashboardu.
+Build už je zelený. Otevřete [Worker raclette](https://dash.cloudflare.com/b38b6a7c241110835172a51e1c65684f/workers/services/view/raclette/production) → **Settings** → **Domains & Routes** → **Add** → **Custom domain**.
 
-Stejně přidejte `www.raclettelovers.cz`. Soubor `_redirects` po sloučení do `main` pošle `www` na adresu bez `www`.
+1. `raclettelovers.cz` → **Add domain**
+2. `www.raclettelovers.cz` → **Add domain**
+
+Cloudflare záznam v zóně `.cz` vytvoří sám. Token v Secrets na Workers domains nesáhne. `_redirects` po sloučení tohoto PR pošle `www` na adresu bez `www`. Do té doby obě adresy ukážou stejný web.
 
 Až u obou uvidíte **Active**, otevřete `https://raclettelovers.cz/`. Certifikát vystaví Cloudflare. Výchozí jazyk bude čeština, pokud prohlížeč hlásí Česko, jinak podle locale; přepínač nechá všech devět jazyků na `.cz`.
 
