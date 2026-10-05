@@ -11,7 +11,7 @@ Pokračuj v PR https://github.com/garath33/raclette/pull/7 (větev cursor/domain
 
 Hotovo: .com HTTPS na GitHub Pages (DNS u WebHouse NEMĚNIT). .cz zóna Active, NS teresa.ns + tim.ns. Všechny jazyky na každé doméně (?lang=), default ze země v locale. Indexace vypnutá.
 
-Teď: Workers Builds raclette musí být zelený (assety jen z public/, worker.js, limit 25 MiB, node_modules/workerd se nesmí nahrát). Pak v dashboardu Worker Settings → Domains & Routes přidat raclettelovers.cz a www.raclettelovers.cz. Token v Secrets umí DNS, custom domain Workeru ne.
+Teď: Workers Builds raclette musí být zelený (assety jen z public/, preview_urls true, bez worker.js — stejně jako zelený build na main). Pak v dashboardu Worker Settings → Domains & Routes přidat raclettelovers.cz a www.raclettelovers.cz. Token v Secrets umí DNS, custom domain Workeru ne.
 
 Další až po živém .cz: stejné NS u .sk a .ch (screenshot Cloudflare: přidat teresa/tim, smazat ns1–3.webhouse.sk). .com NIKDY.
 ```
@@ -41,7 +41,7 @@ Zóna Cloudflare `raclettelovers.cz` je **Active** (od 5. října 2026, 11:18 UT
 
 DNS zóny `.cz` je prázdné. Přes API se smazaly zbytky parkování, které v zóně ještě byly: A `86.110.243.202`, CNAME `*` → `raclettelovers.cz` a CNAME `www` → `raclettelovers.cz`. Apex proto zatím neodpovídá — to je správně, dokud Worker nepřipojí custom domain a záznamy nevytvoří sám. WebHouse DNS u `.com` se neměnil.
 
-GitHub je propojený (účet `garath33`, od 5. října 2026, 11:40 UTC). Průvodce založil **Worker** `raclette`, ne klasický Pages projekt. Příkaz nasazení je `npx wrangler deploy`. První build spadl na `node_modules/workerd` (128 MiB). `wrangler.jsonc` nahrává jen gitovanou složku `public/` (~1,1 MiB) přes `worker.js`. `_site` je v `.gitignore`, proto z něj Builds nahrát nešlo. `_redirects` je v `public/` v tomto PR; na `main` ten soubor ještě není.
+GitHub je propojený (účet `garath33`, od 5. října 2026, 11:40 UTC). Průvodce založil **Worker** `raclette`, ne klasický Pages projekt. Příkaz nasazení je `npx wrangler deploy`. Production na `main` je zelená (assets z kořene, bez `main` skriptu). Preview na PR padaly: `_site` je v `.gitignore` a `worker.js` měnil typ Workeru. `wrangler.jsonc` teď nahrává jen gitovanou složku `public/` (~1,1 MiB), `preview_urls` je zapnuté, žádný `main`. `_redirects` je v `public/` v tomto PR; na `main` ten soubor ještě není.
 
 Token v Cursor Secrets umí DNS. Custom domain Workeru s ním přidat nejde (`Authentication error` na `/workers/domains`). Zbývá kliknout je v dashboardu, krok 4. Nový build spouští push do větve, kterou Worker staví, nebo **Retry deployment**.
 
@@ -93,7 +93,7 @@ Zóna `raclettelovers.com` ve WebHouse zůstává:
 
 ### 3. Worker raclette — GitHub propojený, build nesmí nahrát node_modules
 
-Účet `garath33` je v Cloudflare Connections. Worker se jmenuje `raclette`. `wrangler.jsonc` nahrává jen složku `public/` (web v gitu, ~1,1 MiB) přes malý `worker.js`. Kořen s `node_modules` a binárkou `workerd` (128 MiB) se do assetů nesmí dostat — limit je 25 MiB. `_site` je v `.gitignore`, proto z něj Workers Builds nahrát nešlo.
+Účet `garath33` je v Cloudflare Connections. Worker se jmenuje `raclette`. `wrangler.jsonc` nahrává jen složku `public/` (web v gitu, ~1,1 MiB), stejně jako zelený production Worker — jen assets, bez `worker.js`. `preview_urls` musí být true, jinak PR preview skončí hned. Kořen s `node_modules` a binárkou `workerd` (128 MiB) se do assetů nesmí dostat — limit je 25 MiB.
 
 V dashboardu u Workeru nechte Deploy command `npx wrangler deploy`. Build command nechte prázdný. Nový push na tuhle větev spustí build znovu.
 
