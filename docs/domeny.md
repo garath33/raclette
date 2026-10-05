@@ -2,9 +2,15 @@
 
 ## Stav 5. října 2026
 
-HTTPS na `raclettelovers.com` už běží. Certifikát Let's Encrypt platí pro `raclettelovers.com` i `www.raclettelovers.com` do 3. ledna 2027. Enforce HTTPS je zapnuté. HTTP i apex skáčou na `https://www.raclettelovers.com/`. V Pages je kanonická adresa `www` — to GitHub zvolil podle CNAME. Pro návštěvníka je to v pořádku. WebHouse DNS u `.com` **nemente** (4× A `185.199…` a `www` CNAME na `garath33.github.io`).
+HTTPS na `raclettelovers.com` už běží. Certifikát Let's Encrypt platí pro `raclettelovers.com` i `www.raclettelovers.com` do 3. ledna 2027. Enforce HTTPS je zapnuté. HTTP i apex skáčou na `https://www.raclettelovers.com/`. Veřejně `https://www.raclettelovers.com/` vrací 200 a apex 301 na `www`. V Pages je kanonická adresa `www` — to GitHub zvolil podle CNAME. Pro návštěvníka je to v pořádku. WebHouse DNS u `.com` **nemente** (4× A `185.199…` a `www` CNAME na `garath33.github.io`). Překladač `1.1.1.1` to pořád tak vrací.
 
-Zóna Cloudflare pro `raclettelovers.cz` je založená: parkovací A a hvězdička smazané. Právě teď se u WebHouse jen u `.cz` přepisují jmenné servery na `teresa.ns.cloudflare.com` a `tim.ns.cloudflare.com`. Ostatní domény (`.sk`, `.ch`, aliasy) ještě čekají — u WebHouse zůstávají zaparkované na `86.110.243.202`. Placené Presmerovanie u WebHouse neplatit.
+Zóna Cloudflare `raclettelovers.cz` je **Active** (od 5. října 2026, 11:18 UTC). Jmenné servery `teresa.ns.cloudflare.com` a `tim.ns.cloudflare.com` už vidí i `1.1.1.1`. Account ID `b38b6a7c241110835172a51e1c65684f`, Zone ID `2a78787dacdba88894c9e17938f124cc`. API token v Cursor Secrets je platný (`GET /user/tokens/verify` → active).
+
+DNS zóny `.cz` je prázdné. Přes API se smazaly zbytky parkování, které v zóně ještě byly: A `86.110.243.202`, CNAME `*` → `raclettelovers.cz` a CNAME `www` → `raclettelovers.cz`. Apex proto zatím neodpovídá — to je správně, dokud Pages nepřipojí custom domain a záznamy nevytvoří sám. WebHouse DNS u `.com` se neměnil.
+
+Pages projekt ještě není. `GET /accounts/…/pages/connections` vrací prázdný seznam a založení projektu se `source.type=github` končí chybou `8000011` (Git instalace u tohoto Cloudflare účtu není). Propojení GitHub ↔ Cloudflare nejde dodělat přes API, chce prohlížeč a **Install & Authorize**. Přesný klikací postup je v kroku 3. Direct Upload nezakládat: takový projekt nejde později přepnout na Git a obsadil by jméno `raclette`.
+
+Ostatní domény (`.sk`, `.ch`, aliasy) ještě čekají — u WebHouse zůstávají zaparkované na `86.110.243.202`. Placené Presmerovanie u WebHouse neplatit.
 
 ## Jazyk na každé doméně
 
@@ -28,30 +34,17 @@ Zóna `raclettelovers.cz` je v Cloudflare založená. Parkovací A `86.110.243.2
 
 ### 1. Smazat parkování v Cloudflare — hotovo
 
-Smazáno:
+Smazáno přes API 5. října 2026 (v zóně ještě byly, i když dřívější poznámka je měla za pryč):
 
 - A `raclettelovers.cz` → `86.110.243.202`
 - CNAME `*` → `raclettelovers.cz`
+- CNAME `www` → `raclettelovers.cz`
 
-Kdyby v tabulce ještě zbýval CNAME `www` → `raclettelovers.cz`, smažte ho taky. Tabulka má být prázdná, dokud Pages nepřipojíte custom domain (Cloudflare záznamy vytvoří sám).
+Tabulka je prázdná, dokud Pages nepřipojí custom domain (Cloudflare záznamy vytvoří sám).
 
-### 2. Aktivovat zónu (jmenné servery jen u .cz) — právě teď
+### 2. Aktivovat zónu (jmenné servery jen u .cz) — hotovo
 
-Cloudflare ukázal:
-
-| Jmenný server |
-| --- |
-| `teresa.ns.cloudflare.com` |
-| `tim.ns.cloudflare.com` |
-
-U WebHouse otevřete **jen** `raclettelovers.cz` (ne `.com`):
-
-1. Domény → Detail `raclettelovers.cz` → **DNS servery** → Změnit
-2. Smažte `ns1.webhouse.sk`, `ns2.webhouse.sk`, `ns3.webhouse.sk`
-3. Vložte přesně `teresa.ns.cloudflare.com` a `tim.ns.cloudflare.com`
-4. Uložte
-
-Počkejte, až Cloudflare u zóny napíše **Active**. Může to trvat od minut po pár hodin. DNS zónu `.cz` od teď editujete v Cloudflare, ne ve WebHouse.
+U WebHouse jsou u `raclettelovers.cz` jmenné servery `teresa.ns.cloudflare.com` a `tim.ns.cloudflare.com`. Cloudflare u zóny píše **Active**. DNS zóny `.cz` se od teď edituje v Cloudflare, ne ve WebHouse. `.com` se neměnila.
 
 Zóna `raclettelovers.com` ve WebHouse zůstává:
 
@@ -63,25 +56,39 @@ Zóna `raclettelovers.com` ve WebHouse zůstává:
 | raclettelovers.com | A | 185.199.111.153 |
 | www.raclettelovers.com | CNAME | garath33.github.io |
 
-### 3. Vytvořit Cloudflare Pages (web) — až zóna Active
+### 3. Propojit GitHub — právě teď, jen kliknutí
 
-Až Cloudflare u `raclettelovers.cz` napíše **Active**: v levém menu **Workers & Pages** → **Create** → **Pages** → **Import an existing Git repository** → GitHub `garath33/raclette`.
+API účet GitHub nevidí, takže projekt `raclette` se založí až po tomhle. Otevřete [Workers & Pages](https://dash.cloudflare.com/b38b6a7c241110835172a51e1c65684f/workers-and-pages) v účtu, kde leží zóna `raclettelovers.cz`.
 
-Nastavení sestavení:
+1. **Create application** (případně **Create**).
+2. **Pages**.
+3. **Connect to Git**. Když je na obrazovce „Import an existing Git repository“, je to totéž.
+4. U GitHubu **+ Add account**. Když účet v seznamu ještě není, je to **Connect GitHub**.
+5. Na GitHubu vyberte účet **garath33** a **Install & Authorize**.
+6. Repository access: **Only select repositories** a zaškrtněte **raclette**. **Install**.
+7. Cloudflare vás vrátí do průvodce. V seznamu účtů musí být **garath33**.
+
+Tady průvodce zavřete a napište. Projekt, obě custom domain a kontrolu `https://raclettelovers.cz/` dodělá API. Direct Upload nevolte.
+
+Když vás průvodce nepustí ven bez uložení projektu, vyplňte ho takhle a uložte **Save and Deploy**:
 
 | Pole | Hodnota |
 | --- | --- |
+| Repository | `garath33/raclette` |
+| Project name | `raclette` |
 | Production branch | `main` |
 | Framework preset | None |
-| Build command | `mkdir -p _site && cp index.html robots.txt sitemap.xml _redirects _site/ && cp -a css js assets _site/` |
+| Build command | `mkdir -p _site && cp index.html robots.txt sitemap.xml _site/ && cp -a css js assets _site/ && if [ -f _redirects ]; then cp _redirects _site/; fi` |
 | Build output directory | `_site` |
 | Root directory | (prázdné) |
 
-Poprvé se objeví adresa `něco.pages.dev`. Otevřete ji: má to být stejný zkušební web jako na GitHubu, s pruhem Testovací prostředí.
+Příkaz `cp … _redirects _site/` bez podmínky na dnešním `main` spadne: soubor `_redirects` je v tomto PR, v `main` ještě ne. Varianta s `if` je totéž co `npm run build:pages` a po sloučení PR soubor zkopíruje. `www` pak pošle na adresu bez `www`.
 
-### 4. Připojit raclettelovers.cz
+Poprvé se objeví adresa `raclette.pages.dev`. Má to být stejný zkušební web jako na GitHubu, s pruhem Testovací prostředí.
 
-V projektu Pages: **Custom domains** → **Set up a domain** → `raclettelovers.cz` → Continue. Cloudflare záznam CNAME na apex vytvoří sám (flattening).
+### 4. Připojit raclettelovers.cz — až bude projekt
+
+Přes API, jakmile GitHub v Connections je: `POST /accounts/…/pages/projects/raclette/domains` s `raclettelovers.cz` a `www.raclettelovers.cz`. V dashboardu je to **Custom domains** → **Set up a domain**. Cloudflare záznam CNAME na apex vytvoří sám (flattening).
 
 Stejně přidejte `www.raclettelovers.cz`. Soubor `_redirects` po sloučení do `main` pošle `www` na adresu bez `www`.
 
