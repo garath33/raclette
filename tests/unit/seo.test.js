@@ -57,6 +57,22 @@ test("soubor _redirects posílá staré a spojovníkové domény 301 na raclette
   assert.equal(redirects.includes("https://www.raclettelovers.com/* https://raclettelovers.com/:splat 301"), false);
 });
 
+test("složka public je stejný web, který nahrává Cloudflare Worker", () => {
+  const files = [
+    "index.html",
+    "robots.txt",
+    "sitemap.xml",
+    "_redirects",
+    "css/styles.css",
+    "js/site.js",
+    "js/app.js"
+  ];
+  for (const file of files) {
+    assert.equal(fs.readFileSync("public/" + file, "utf8"), fs.readFileSync(file, "utf8"), file);
+  }
+  assert.equal(fs.existsSync("public/assets/photo-service.jpg"), true);
+});
+
 test("veřejné soubory drží výkonnostní rozpočet", () => {
   const limits = {
     "css/styles.css": 40 * 1024,

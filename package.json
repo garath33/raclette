@@ -4,7 +4,7 @@
   "description": "Raclette Point Original — prezentační web",
   "scripts": {
     "start": "python3 -m http.server 4173",
-    "build:pages": "mkdir -p _site && cp index.html robots.txt sitemap.xml _site/ && cp -a css js assets _site/ && if [ -f _redirects ]; then cp _redirects _site/; fi",
+    "build:pages": "rm -rf public && mkdir -p public && cp index.html robots.txt sitemap.xml _redirects public/ && cp -a css js assets public/",
     "test": "npm run test:unit && npm run test:e2e",
     "test:unit": "node --test tests/unit/*.test.js",
     "test:e2e": "playwright test",

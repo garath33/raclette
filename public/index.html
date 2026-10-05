@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Raclette Point Original — švýcarský raclette v Česku a na Slovensku</title>
+  <meta name="description" content="Najděte nejbližší Raclette Point podle polohy, nebo se staňte oficiálním Pointem. Swiss AOP z Valais, bez statisícové licence a bez šéfkuchaře.">
+  <meta name="robots" content="noindex, follow">
+  <meta name="theme-color" content="#ffffff">
+  <link rel="canonical" href="https://garath33.github.io/raclette/?lang=cs">
+  <link rel="alternate" hreflang="cs" href="https://garath33.github.io/raclette/?lang=cs">
+  <link rel="alternate" hreflang="en" href="https://garath33.github.io/raclette/?lang=en">
+  <link rel="alternate" hreflang="fr" href="https://garath33.github.io/raclette/?lang=fr">
+  <link rel="alternate" hreflang="sk" href="https://garath33.github.io/raclette/?lang=sk">
+  <link rel="alternate" hreflang="it" href="https://garath33.github.io/raclette/?lang=it">
+  <link rel="alternate" hreflang="de" href="https://garath33.github.io/raclette/?lang=de">
+  <link rel="alternate" hreflang="pl" href="https://garath33.github.io/raclette/?lang=pl">
+  <link rel="alternate" hreflang="es" href="https://garath33.github.io/raclette/?lang=es">
+  <link rel="alternate" hreflang="ru" href="https://garath33.github.io/raclette/?lang=ru">
+  <link rel="alternate" hreflang="x-default" href="https://garath33.github.io/raclette/?lang=cs">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Raclette Point Original">
+  <meta property="og:locale" content="cs_CZ">
+  <meta property="og:title" content="Raclette Point Original — švýcarský raclette v Česku a na Slovensku">
+  <meta property="og:description" content="Najděte nejbližší Raclette Point podle polohy, nebo se staňte oficiálním Pointem. Swiss AOP z Valais, bez statisícové licence a bez šéfkuchaře.">
+  <meta property="og:url" content="https://garath33.github.io/raclette/?lang=cs">
+  <meta property="og:image" content="https://garath33.github.io/raclette/assets/photo-service.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Raclette Point Original">
+  <meta name="twitter:description" content="Švýcarský raclette AOP z Laiterie d’Orsières. Najděte nejbližší Raclette Point, nebo se staňte Pointem.">
+  <meta name="twitter:image" content="https://garath33.github.io/raclette/assets/photo-service.jpg">
+  <link rel="icon" href="assets/favicon.png" type="image/png">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Raclette Point Original",
+    "legalName": "Raclette Point Original.cz s.r.o.",
+    "url": "https://garath33.github.io/raclette/",
+    "email": "info@rakletparty.cz",
+    "telephone": "+420777600223",
+    "logo": "https://garath33.github.io/raclette/assets/logo-point.png",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Pekařská 162/90a",
+      "postalCode": "747 05",
+      "addressLocality": "Opava",
+      "addressCountry": "CZ"
+    }
+  }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <p id="env-banner" class="env-banner" hidden data-i18n="env.banner">Testovací prostředí. Na ostrý web se tato verze nasadí až po schválení.</p>
+  <a class="skip" href="#obsah" data-i18n="skip">Přeskočit na obsah</a>
+  <header class="site-header">
+    <a class="brand" href="#uvod">
+      <img src="assets/logo-point.png" alt="Raclette Point Original" width="62" height="62">
+    </a>
+    <button class="nav-toggle" id="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+      <span></span>
+      <span class="sr" data-i18n="nav.open">Otevřít menu</span>
+    </button>
+    <nav class="site-nav" id="site-nav">
+      <a href="#pointy" data-i18n="nav.points">Pointy</a>
+      <a href="#franchise" data-i18n="nav.franchise">Spolupráce</a>
+      <a href="#reference" data-i18n="nav.media">Reference</a>
+      <a href="#pribeh" data-i18n="nav.story">O nás</a>
+      <a href="#nakup" data-i18n="nav.shop">Kde nakoupit</a>
+      <a href="#eventy" data-i18n="nav.events">Eventy</a>
+      <a href="#kontakty" data-i18n="nav.contact">Kontakty</a>
+    </nav>
+    <label class="lang">
+      <span class="sr" data-i18n="lang.label">Jazyk</span>
+      <select id="lang">
+        <option value="cs">Čeština</option>
+        <option value="en">English</option>
+        <option value="fr">Français</option>
+        <option value="sk">Slovenčina</option>
+        <option value="it">Italiano</option>
+        <option value="de">Deutsch</option>
+        <option value="pl">Polski</option>
+        <option value="es">Español</option>
+        <option value="ru">Русский</option>
+      </select>
+    </label>
+  </header>
+
+  <main id="obsah">
+    <section class="hero" id="uvod">
+      <div class="wrap hero-grid">
+        <div>
+          <p class="kicker" data-i18n="hero.kicker">Raclette Point Original</p>
+          <h1>
+            <span data-i18n="hero.title">Švýcarský raclette</span>
+            <em data-i18n="hero.titleEm">na dosah.</em>
+          </h1>
+          <p class="lead" data-i18n="hero.lead">Síť míst, kde se škrábe Swiss AOP sýr z Laiterie d’Orsières v kantonu Valais. Podle vaší polohy vás navedeme k nejbližšímu Pointu v Google Maps. Svůj podnik můžete o stejný zážitek rozšířit.</p>
+          <div class="hero-actions">
+            <a class="btn btn-solid" href="#pointy" id="hero-locate" data-i18n="hero.primary">Najít nejbližší Point</a>
+            <a class="btn btn-line" href="#franchise" data-i18n="hero.secondary">Staňte se Pointem</a>
+          </div>
+        </div>
+        <div class="hero-visual">
+          <img class="hero-photo" src="assets/photo-service.jpg" width="1600" height="1200" fetchpriority="high" alt="Půlka raclette sýra na grilu, vedle pečené brambory a okurky" data-i18n-alt="hero.photoAlt">
+          <img class="hero-logo" src="assets/logo-point.png" width="701" height="701" alt="Raclette Point Original" data-i18n-alt="hero.logoAlt">
+          <img class="hero-cow" src="assets/cow-head.png" width="723" height="875" alt="Barevná hlava krávy, znak Laiterie d’Orsières" data-i18n-alt="hero.cowAlt">
+        </div>
+      </div>
+      <div class="diamonds" aria-hidden="true">
+        <i style="--c:#fece52"></i><i style="--c:#f5811f"></i><i style="--c:#f38479"></i><i style="--c:#cd143e"></i>
+        <i style="--c:#f38193"></i><i style="--c:#c3346a"></i><i style="--c:#642a7d"></i><i style="--c:#bdd970"></i>
+        <i style="--c:#00a85c"></i><i style="--c:#027935"></i><i style="--c:#56b7e8"></i><i style="--c:#007dc5"></i>
+        <i style="--c:#00a5b9"></i><i style="--c:#00657d"></i>
+      </div>
+      <div class="wrap supplier">
+        <img src="assets/laiterie-logo.png" alt="La Laiterie d’Orsières, au cœur du pays des reines">
+        <p data-i18n="supplier">Swiss AOP sýr z Laiterie d’Orsières, v srdci Pays des Reines, kanton Valais.</p>
+      </div>
+    </section>
+
+    <section class="section points" id="pointy">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="kicker" data-i18n="points.kicker">Naše Raclette Pointy</p>
+          <h2 data-i18n="points.title">Nejbližší stůl podle vaší polohy</h2>
+          <p class="lead" data-i18n="points.lead">Vizitka každého Pointu ukazuje raclette menu a cestu do podniku. GPS vybere nejbližší místo a Google Maps vás dovede až ke dveřím.</p>
+        </div>
+        <div class="locator">
+          <button class="btn btn-solid" id="locate" type="button" data-i18n="points.locate">Použít mou polohu</button>
+          <p class="status" id="locator-status" aria-live="polite"></p>
+        </div>
+        <div class="points-layout">
+          <div class="map-frame">
+            <iframe id="map-frame" title="Mapa zvoleného Raclette Pointu" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="about:blank"></iframe>
+          </div>
+          <div class="cards" id="point-cards"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section franchise" id="franchise">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="kicker" data-i18n="franchise.kicker">Spolupráce</p>
+          <h2 data-i18n="franchise.title">Staňte se oficiálním Raclette Pointem</h2>
+          <p class="lead" data-i18n="franchise.lead">Obohaťte svůj podnik o legendární švýcarský zážitek. Nabídněte svým zákazníkům ten nejlepší raclette a přidejte se k nám.</p>
+          <ul class="franchise-points">
+            <li data-i18n="franchise.b1">Jeden zaškolený pracovník odbaví 8 až 16 porcí najednou.</li>
+            <li data-i18n="franchise.b2">Nulové stavební úpravy. Koncept patří do stávajícího podniku.</li>
+            <li data-i18n="franchise.b3">Swiss AOP ze srdce raclette, z kantonu Valais. Pochoutce je více než 700 let.</li>
+          </ul>
+          <div class="hero-actions">
+            <a class="btn btn-solid" id="franchise-mail" href="mailto:milan@raclette-original.com?subject=Raclette%20Point%20%E2%80%94%20spolupr%C3%A1ce" data-i18n="franchise.cta">Chci navázat spolupráci</a>
+            <a class="btn btn-line" href="tel:+41766083983">+41 76 608 39 83</a>
+            <a class="btn btn-line" href="tel:+420777600223">+420 777 600 223</a>
+          </div>
+        </div>
+        <div class="franchise-copy">
+          <h3 data-i18n="franchise.whyTitle">Proč Raclette Point Original</h3>
+          <p data-i18n="franchise.why">Gastronomie řeší, jak udržet hosty u kvalitního zážitku a jak sehnat spolehlivý personál. Vůně taveného AOP sýra, servis před hostem a atmosféra Švýcarska jsou show, o které lidé mluví a kvůli které se vracejí. Díky nerezovým troubám a grilům TTM ji zvládne zaškolená obsluha nebo bar, bez šéfkuchaře a bez vyšších mzdových nákladů. Kuchyň se nepřestavuje. Menu vznikne na míru typu provozovny.</p>
+          <h3 data-i18n="franchise.formatsTitle">Jak spolupráci navázat</h3>
+          <div class="format-grid">
+            <article>
+              <h3 data-i18n="franchise.f1t">Shop-in-shop</h3>
+              <p data-i18n="franchise.f1d">Nejoblíbenější forma pro restaurace, hotely, bistra, kavárny, vinárny, bary, kempy a horské chaty. Stačí 6 až 12 m²: mobilní stůl, bar, část terasy nebo větší stůl. Dodáme grily TTM, nerezovou troubu a podle místa gril na oheň, branding s vaším logem a pravidelné suroviny. Spolupráci děláme od částečné po kompletní.</p>
+            </article>
+            <article>
+              <h3 data-i18n="franchise.f2t">Mobilní Point</h3>
+              <p data-i18n="franchise.f2d">Pro eventové a cateringové agentury a festivaly. Asi 12 až 16 m², rozkládací stan nebo food truck. Svatby, firemní večírky, trhy a pop-up akce. Vybavení, branding i suroviny řešíme s každým klientem zvlášť.</p>
+            </article>
+            <article>
+              <h3 data-i18n="franchise.f3t">Kontejner nebo kiosek</h3>
+              <p data-i18n="franchise.f3d">Frekventovaná místa ve městech, náplavky, lyžařská střediska a resorty. 16 až 25 m². Exteriérový modul na celoroční i sezónní prodej, který lze přemístit. Nabídka vzniká podle lokality a dohody zakladatele projektu s objednatelem.</p>
+            </article>
+          </div>
+          <h3 data-i18n="franchise.approachTitle">Partnerství a srdce</h3>
+          <p data-i18n="franchise.approach">Nejsme klasická síťová franšíza. Neplatíte statisícové ani milionové vstupní poplatky za licenci a nesvazujeme vás korporátními pravidly. Hledáme partnery, kteří dělají práci s láskou a profesionálně. Platíte za skutečné vybavení na míru, zaškolení a startovací branding. Měsíční partnerský poplatek se domlouvá podle velikosti Pointu, typu provozovny a lokality, aby byl pro podnik ziskový a motivující.</p>
+          <h3 data-i18n="franchise.gainTitle">Co od nás získáte</h3>
+          <p data-i18n="franchise.gain">Certifikovanou nerezovou raclette troubu na 8 až 16 porcí, nebo švýcarský gril TTM, a k tomu špachtle, desky, stoly, zvon a branding. Pravidelné dodávky Swiss AOP sýrů a fondue směsí za velkoobchodní ceny, včetně Raclette du Valais AOP z Orsières. Personál zaškolíme za jeden den: teploty, skladování a show před hostem. Point zařadíme na mapu a dodáme podklady do lístku, grafiku a stojánky.</p>
+          <h3 data-i18n="franchise.startTitle">Čtyři kroky</h3>
+          <ol class="steps">
+            <li>
+              <h3 data-i18n="franchise.s1t">Ozvěte se</h3>
+              <p data-i18n="franchise.s1d">Napište na milan@raclette-original.com nebo na info@rakletparty.cz. Uveďte název podniku, typ provozovny, město, telefon, e-mail a základní představu. Komunikaci s klienty má Pavlína Otýpková.</p>
+            </li>
+            <li>
+              <h3 data-i18n="franchise.s2t">Schůzka</h3>
+              <p data-i18n="franchise.s2d">Osobně nebo online probereme prostory a představy. Dohodneme schůzku, řešení na míru a individuální podmínky.</p>
+            </li>
+            <li>
+              <h3 data-i18n="franchise.s3t">Příprava a zaškolení</h3>
+              <p data-i18n="franchise.s3d">Doručíme vybavení, za jeden den zaškolíme tým a nastavíme pravidelné dodávky AOP sýrů.</p>
+            </li>
+            <li>
+              <h3 data-i18n="franchise.s4t">Slavnostní start</h3>
+              <p data-i18n="franchise.s4d">Společně odstartujeme první AOP raclette show za přítomnosti Milana Koláře. Podle domluvy přijede i švýcarský král a ambasador Eddy Baillifard.</p>
+            </li>
+          </ol>
+        </div>
+        <p class="franchise-proof" data-i18n="franchise.proof">Referencí jsou spokojení klienti, fotogalerie a desetitisíce servírovaných porcí. První Point vznikl jako originální koncept spolupráce. Partner Raclette Republic s ním vyjel na Streetfood Senec.</p>
+        <p class="franchise-close" data-i18n="franchise.close">Těšíme se na spolupráci s vámi.</p>
+        <p class="franchise-sign" data-i18n="franchise.sign">Milan Kolář, československý král Raclette. Chemin des Grands Praz 81, 1965 Savièse, Švýcarsko.</p>
+      </div>
+    </section>
+
+    <section class="section" id="reference">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="kicker" data-i18n="media.kicker">Reference a média</p>
+          <h2 data-i18n="media.title">Z grilu, z akcí a z pasování</h2>
+          <p class="lead" data-i18n="media.lead">Sýr na grilu, bochníky z Orsières a věta, kterou o českém králi řekl švýcarský mistr raclette.</p>
+        </div>
+        <div class="media-grid">
+          <figure class="shot shot-main">
+            <img src="assets/photo-service.jpg" width="1600" height="1200" loading="lazy" alt="" data-i18n-alt="media.altService">
+            <figcaption data-i18n="media.capService">Servis na akci. Rozteklý sýr se škrábe přímo z bochníku.</figcaption>
+          </figure>
+          <div class="stack">
+            <figure class="shot">
+              <img src="assets/photo-wedge.jpg" width="2000" height="1490" loading="lazy" alt="" data-i18n-alt="media.altWedge">
+              <figcaption data-i18n="media.capWedge">Bochník se znakem mlékárny. Barevná hlava krávy je součástí identity Orsières.</figcaption>
+            </figure>
+            <figure class="shot">
+              <img src="assets/photo-barry.jpg" width="1668" height="1612" loading="lazy" alt="" data-i18n-alt="media.altBarry">
+              <figcaption data-i18n="media.capBarry">Barry aux herbes du Grand-St-Bernard, sýr z Laiterie d’Orsières.</figcaption>
+            </figure>
+          </div>
+        </div>
+        <blockquote class="quote">
+          <p data-i18n="media.quote">Milan rakluje s takovou elegancí, ladností a láskou, jako hrál Roger Federer tenis.</p>
+          <footer data-i18n="media.quoteBy">Hervé Fumeaux, bývalý předseda Švýcarské raclette federace</footer>
+        </blockquote>
+      </div>
+    </section>
+
+    <section class="section" id="pribeh">
+      <div class="wrap story-grid">
+        <div class="story-copy">
+          <p class="kicker" data-i18n="story.kicker">O nás</p>
+          <h2 data-i18n="story.title">Příběh českého krále</h2>
+          <p class="lead" data-i18n="story.lead">Milan Kolář byl pasován na českého krále Raclette a je ambasadorem pro Česko a Slovensko. Příběh se píše déle než dvacet dva let, od švýcarských Alp na český a slovenský stůl.</p>
+          <p data-i18n="story.p1"></p>
+          <p data-i18n="story.p2"></p>
+          <p data-i18n="story.p3"></p>
+          <div class="video">
+            <iframe src="https://www.youtube.com/embed/Xz0J3tT8yY8" title="Pasování Milana Koláře na českého krále Raclette" data-i18n-title="story.yt" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy"></iframe>
+          </div>
+          <div class="story-links">
+            <a class="btn btn-solid" href="https://www.youtube.com/watch?v=Xz0J3tT8yY8" target="_blank" rel="noopener noreferrer" data-i18n="story.watch">Pasování na YouTube</a>
+            <a class="btn btn-line" href="https://www.raclette-original.com/" target="_blank" rel="noopener noreferrer" data-i18n="story.more">Raclette Original</a>
+            <a class="btn btn-line" href="https://www.rakletparty.cz/cs/historie/a-7/" target="_blank" rel="noopener noreferrer" data-i18n="story.history">Historie projektu</a>
+          </div>
+        </div>
+        <ol class="timeline">
+          <li>
+            <time datetime="1291">1291</time>
+            <div>
+              <h3 data-i18n="tl1t">Údolí Valais</h3>
+              <p data-i18n="tl1d"></p>
+            </div>
+          </li>
+          <li>
+            <time datetime="2010">2010</time>
+            <div>
+              <h3 data-i18n="tl2t">Cesty do Švýcarska</h3>
+              <p data-i18n="tl2d"></p>
+            </div>
+          </li>
+          <li>
+            <time datetime="2013">2013</time>
+            <div>
+              <h3 data-i18n="tl3t">Open Raklet Festival</h3>
+              <p data-i18n="tl3d"></p>
+            </div>
+          </li>
+          <li>
+            <time datetime="2014">2014</time>
+            <div>
+              <h3 data-i18n="tl4t">Czech hand made</h3>
+              <p data-i18n="tl4d"></p>
+            </div>
+          </li>
+          <li>
+            <time datetime="2015">2014–2015</time>
+            <div>
+              <h3 data-i18n="tl5t">Festivaly</h3>
+              <p data-i18n="tl5d"></p>
+            </div>
+          </li>
+          <li>
+            <time>YouTube</time>
+            <div>
+              <h3 data-i18n="tl6t">Pasování</h3>
+              <p data-i18n="tl6d"></p>
+            </div>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="section" id="nakup">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="kicker" data-i18n="shop.kicker">Kde nakoupit</p>
+          <h2 data-i18n="shop.title">E-shop a spřátelené weby</h2>
+          <p class="lead" data-i18n="shop.lead">Sýr, gril i příběh krále. Nakupujte u nás, nebo jeďte až ke zdroji do Orsières.</p>
+        </div>
+        <div class="shop-grid">
+          <article class="partner">
+            <div class="mark" aria-hidden="true"><i style="--c:#cd143e"></i></div>
+            <h3 data-i18n="shop.party.t">E-shop Raklet Party</h3>
+            <p data-i18n="shop.party.d"></p>
+            <a class="btn btn-solid" href="https://www.rakletparty.cz/" target="_blank" rel="noopener noreferrer" data-i18n="shop.cta">Otevřít web</a>
+          </article>
+          <article class="partner">
+            <div class="mark" aria-hidden="true"><i style="--c:#d8a848"></i></div>
+            <h3 data-i18n="shop.original.t">Raclette Original</h3>
+            <p data-i18n="shop.original.d"></p>
+            <a class="btn btn-solid" href="https://www.raclette-original.com/" target="_blank" rel="noopener noreferrer" data-i18n="shop.cta">Otevřít web</a>
+          </article>
+          <article class="partner">
+            <div class="mark" aria-hidden="true"><i style="--c:#00657d"></i></div>
+            <h3 data-i18n="shop.dairy.t">Laiterie d’Orsières</h3>
+            <p data-i18n="shop.dairy.d"></p>
+            <a class="btn btn-solid" href="https://laiterie-orsieres.ch/" target="_blank" rel="noopener noreferrer" data-i18n="shop.cta">Otevřít web</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="eventy">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="kicker" data-i18n="events.kicker">Gastro eventy a festivaly</p>
+          <h2 data-i18n="events.title">Kde už raclette stála ve frontě</h2>
+          <p class="lead" data-i18n="events.lead">Od hotelového dvora po letní festivaly. Tady se originál učil mluvit česky.</p>
+        </div>
+        <div class="event-grid">
+          <article class="event">
+            <time>2013</time>
+            <h3>Open Raklet Festival</h3>
+            <p data-i18n="ev1d"></p>
+          </article>
+          <article class="event">
+            <time>2014–2015</time>
+            <h3>Colours of Ostrava</h3>
+            <p data-i18n="ev2d"></p>
+          </article>
+          <article class="event">
+            <time>2014–2015</time>
+            <h3>Beats for Love</h3>
+            <p data-i18n="ev3d"></p>
+          </article>
+          <article class="event">
+            <time>2014–2015</time>
+            <h3>Apetit festival</h3>
+            <p data-i18n="ev4d"></p>
+          </article>
+          <article class="event">
+            <time>2014–2015</time>
+            <h3>Foodparade Praha</h3>
+            <p data-i18n="ev5d"></p>
+          </article>
+          <article class="event">
+            <time>2019</time>
+            <h3>Streetfood Senec</h3>
+            <p data-i18n="ev6d"></p>
+          </article>
+        </div>
+        <p class="events-note" data-i18n="events.note"></p>
+      </div>
+    </section>
+
+    <section class="section contact" id="kontakty">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="kicker" data-i18n="contact.kicker">Kontakty</p>
+          <h2 data-i18n="contact.title">Lidé, kteří raclette drží v chodu</h2>
+          <p class="lead" data-i18n="contact.lead">Tým společnosti Raclette Point Original.cz s.r.o. Sýr, grily i Pointy vedeme z Opavy.</p>
+        </div>
+        <ul class="people">
+          <li class="person">
+            <h3>Milan Kolář</h3>
+            <p data-i18n="person.milan.role">Československý král a ambasador Raclette, zakladatel</p>
+            <a href="tel:+41766083983">+41 76 608 39 83</a>
+            <a href="mailto:milan@raclette-original.com">milan@raclette-original.com</a>
+            <p data-i18n="person.milan.place">Chemin des Grands Praz 81, 1965 Savièse, Švýcarsko</p>
+          </li>
+          <li class="person">
+            <h3>Pavlína Otýpková</h3>
+            <p data-i18n="person.pavlina.role">Manažerka projektů, komunikace s klienty</p>
+            <a href="tel:+420777600223">+420 777 600 223</a>
+            <a href="mailto:info@rakletparty.cz">info@rakletparty.cz</a>
+          </li>
+          <li class="person">
+            <h3>Václav Valenta</h3>
+            <p data-i18n="person.vaclav.role">Technický specialista FAMILY WOOD</p>
+          </li>
+          <li class="person">
+            <h3>Lukáš Martiník</h3>
+            <p data-i18n="person.lukas.role">Technický asistent FAMILY WOOD</p>
+          </li>
+          <li class="person">
+            <h3>Karolína Chovancová</h3>
+            <p data-i18n="person.karolina.role">Správa sociálních sítí</p>
+          </li>
+          <li class="person">
+            <h3>Martin Šimůnek</h3>
+            <p data-i18n="person.martin.role">IT specialista</p>
+          </li>
+        </ul>
+        <div class="facts">
+          <article class="fact">
+            <h3 data-i18n="contact.billingLabel">Fakturační adresa</h3>
+            <p>Raclette Point Original.cz s.r.o.<br>Pekařská 162/90a<br>747 05 Opava<br>Česká republika</p>
+            <p>IČ 05340993<br>DIČ CZ05340993</p>
+          </article>
+          <article class="fact">
+            <h3 data-i18n="contact.deliveryLabel">Dodací adresa</h3>
+            <p>Raclette Point Original.cz s.r.o.<br>Pavlína Otýpková<br>Ratibořská 42<br>747 05 Opava</p>
+          </article>
+          <article class="fact">
+            <h3 data-i18n="contact.bankLabel">Banka</h3>
+            <p>Fio banka, a.s.<br>2801055860/2010<br>IBAN CZ29 2010 0000 0028 0105 5860</p>
+            <h3 data-i18n="contact.quickLabel">Rychlý kontakt</h3>
+            <p><a href="tel:+420777600223">+420 777 600 223</a><br><a href="mailto:info@rakletparty.cz">info@rakletparty.cz</a></p>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap footer-grid">
+      <div class="footer-brand">
+        <img class="point" src="assets/logo-point.png" alt="Raclette Point Original">
+        <p data-i18n="footer.blurb">Originální Swiss AOP raclette z údolí Entremontu. Pro stůl doma, pro Point i pro festival.</p>
+        <img class="dairy" src="assets/laiterie-logo.png" alt="La Laiterie d’Orsières">
+        <p data-i18n="footer.dairy">Au cœur du pays des reines</p>
+      </div>
+      <div>
+        <h2>Raclette Point Original.cz s.r.o.</h2>
+        <p>Pekařská 162/90a<br>747 05 Opava</p>
+        <p>IČ 05340993 · DIČ CZ05340993</p>
+        <p><a href="tel:+420777600223">+420 777 600 223</a><br><a href="mailto:info@rakletparty.cz">info@rakletparty.cz</a></p>
+      </div>
+      <nav class="foot-links" aria-label="Footer">
+        <a href="#pointy" data-i18n="nav.points">Pointy</a>
+        <a href="#franchise" data-i18n="nav.franchise">Spolupráce</a>
+        <a href="#reference" data-i18n="nav.media">Reference</a>
+        <a href="#pribeh" data-i18n="nav.story">O nás</a>
+        <a href="#nakup" data-i18n="nav.shop">Kde nakoupit</a>
+        <a href="#eventy" data-i18n="nav.events">Eventy</a>
+        <a href="#kontakty" data-i18n="nav.contact">Kontakty</a>
+      </nav>
+    </div>
+    <div class="wrap">
+      <p class="legal" data-i18n="footer.rights">© 2026 Raclette Point Original.cz s.r.o.</p>
+    </div>
+  </footer>
+
+  <script src="js/geo.js"></script>
+  <script src="js/points.js"></script>
+  <script src="js/site.js"></script>
+  <script src="js/i18n.js"></script>
+  <script src="js/i18n-extra.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

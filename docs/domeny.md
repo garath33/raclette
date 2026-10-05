@@ -1,5 +1,38 @@
 # Domény a přesměrování
 
+## Nové okno Cursor (když je kontext plný)
+
+1. Otevřete **nový Cloud Agent** na repo `garath33/raclette`, větev `cursor/domain-locales-32be`, PR [#7](https://github.com/garath33/raclette/pull/7).
+2. Do prvního vzkazu vložte blok níže. Historii starého chatu kopírovat nemusíte — stav je v gitu a v tomto souboru.
+
+```text
+Pokračuj v PR https://github.com/garath33/raclette/pull/7 (větev cursor/domain-locales-32be).
+Čti docs/domeny.md. Cíl: HTTPS na raclettelovers.cz přes Cloudflare Worker raclette, zdarma, bez WebHouse Presmerovanie.
+
+Hotovo: .com HTTPS na GitHub Pages (DNS u WebHouse NEMĚNIT). .cz zóna Active, NS teresa.ns + tim.ns. Všechny jazyky na každé doméně (?lang=), default ze země v locale. Indexace vypnutá.
+
+Teď: Workers Builds raclette musí být zelený (assety jen z public/, worker.js, limit 25 MiB, node_modules/workerd se nesmí nahrát). Pak v dashboardu Worker Settings → Domains & Routes přidat raclettelovers.cz a www.raclettelovers.cz. Token v Secrets umí DNS, custom domain Workeru ne.
+
+Další až po živém .cz: stejné NS u .sk a .ch (screenshot Cloudflare: přidat teresa/tim, smazat ns1–3.webhouse.sk). .com NIKDY.
+```
+
+3. Starý chat nechte otevřený jen jako archiv. Pracujte výhradně v novém.
+
+## Screenshot Cloudflare: jmenné servery teresa / tim
+
+Tohle **není** tabulka DNS záznamů (A/CNAME). Je to výměna **jmenných serverů u WebHouse**. Cloudflare tím přebírá DNS zónu.
+
+**raclettelovers.cz — už hotovo**, zóna je Active. Znovu to neměňte.
+
+**raclettelovers.com — nedělejte.** Tam běží GitHub Pages s HTTPS.
+
+Až budete převádět `.sk` / `.ch` / aliasy, u WebHouse u **té** domény:
+
+A. Najděte sekci jmenných serverů (ne DNS záznamy).
+B. Přidejte `teresa.ns.cloudflare.com` a `tim.ns.cloudflare.com`.
+C. Smažte `ns1.webhouse.sk`, `ns2.webhouse.sk`, `ns3.webhouse.sk`.
+D. Uložte. Počkejte, až Cloudflare u zóny napíše Active (minuty až hodiny).
+
 ## Stav 5. října 2026
 
 HTTPS na `raclettelovers.com` už běží. Certifikát Let's Encrypt platí pro `raclettelovers.com` i `www.raclettelovers.com` do 3. ledna 2027. Enforce HTTPS je zapnuté. HTTP i apex skáčou na `https://www.raclettelovers.com/`. Veřejně `https://www.raclettelovers.com/` vrací 200 a apex 301 na `www`. V Pages je kanonická adresa `www` — to GitHub zvolil podle CNAME. Pro návštěvníka je to v pořádku. WebHouse DNS u `.com` **nemente** (4× A `185.199…` a `www` CNAME na `garath33.github.io`). Překladač `1.1.1.1` to pořád tak vrací.
@@ -8,7 +41,7 @@ Zóna Cloudflare `raclettelovers.cz` je **Active** (od 5. října 2026, 11:18 UT
 
 DNS zóny `.cz` je prázdné. Přes API se smazaly zbytky parkování, které v zóně ještě byly: A `86.110.243.202`, CNAME `*` → `raclettelovers.cz` a CNAME `www` → `raclettelovers.cz`. Apex proto zatím neodpovídá — to je správně, dokud Worker nepřipojí custom domain a záznamy nevytvoří sám. WebHouse DNS u `.com` se neměnil.
 
-GitHub je propojený (účet `garath33`, od 5. října 2026, 11:40 UTC). Průvodce založil **Worker** `raclette`, ne klasický Pages projekt. Příkaz nasazení je `npx wrangler deploy`. První build spadl na `node_modules/workerd` (128 MiB). `wrangler.jsonc` teď nejdřív sestaví `_site` (jen web) a nahraje jen tu složku, aby se `workerd` do assetů nedostal. `_redirects` je v `_site` v tomto PR; na `main` ten soubor ještě není.
+GitHub je propojený (účet `garath33`, od 5. října 2026, 11:40 UTC). Průvodce založil **Worker** `raclette`, ne klasický Pages projekt. Příkaz nasazení je `npx wrangler deploy`. První build spadl na `node_modules/workerd` (128 MiB). `wrangler.jsonc` nahrává jen gitovanou složku `public/` (~1,1 MiB) přes `worker.js`. `_site` je v `.gitignore`, proto z něj Builds nahrát nešlo. `_redirects` je v `public/` v tomto PR; na `main` ten soubor ještě není.
 
 Token v Cursor Secrets umí DNS. Custom domain Workeru s ním přidat nejde (`Authentication error` na `/workers/domains`). Zbývá kliknout je v dashboardu, krok 4. Nový build spouští push do větve, kterou Worker staví, nebo **Retry deployment**.
 
@@ -60,15 +93,15 @@ Zóna `raclettelovers.com` ve WebHouse zůstává:
 
 ### 3. Worker raclette — GitHub propojený, build nesmí nahrát node_modules
 
-Účet `garath33` je v Cloudflare Connections. Worker se jmenuje `raclette`. `wrangler.jsonc` nejdřív sestaví složku `_site` (jen HTML, CSS, JS, obrázky a `_redirects`) a nahraje jen tu. Kořen s `node_modules` a binárkou `workerd` (128 MiB) se nesmí dostat do assetů — limit je 25 MiB.
+Účet `garath33` je v Cloudflare Connections. Worker se jmenuje `raclette`. `wrangler.jsonc` nahrává jen složku `public/` (web v gitu, ~1,1 MiB) přes malý `worker.js`. Kořen s `node_modules` a binárkou `workerd` (128 MiB) se do assetů nesmí dostat — limit je 25 MiB. `_site` je v `.gitignore`, proto z něj Workers Builds nahrát nešlo.
 
-V dashboardu u Workeru nechte Deploy command `npx wrangler deploy`. Build command může zůstat prázdný, příkaz je v `wrangler.jsonc`. Nový push na tuhle větev spustí build znovu; kdyby ne, **Retry deployment**.
+V dashboardu u Workeru nechte Deploy command `npx wrangler deploy`. Build command nechte prázdný. Nový push na tuhle větev spustí build znovu.
 
-`_redirects` je v `_site`, až bude v brané větvi. Na `main` ten soubor ještě není, takže `www` na apex začne skákat až po sloučení.
+`_redirects` je v `public/`, až bude v brané větvi. Na `main` ten soubor ještě není, takže `www` na apex začne skákat až po sloučení.
 
-### 4. Připojit raclettelovers.cz — právě teď
+### 4. Připojit raclettelovers.cz — až bude Workers Builds zelený
 
-Build už je zelený. Otevřete [Worker raclette](https://dash.cloudflare.com/b38b6a7c241110835172a51e1c65684f/workers/services/view/raclette/production) → **Settings** → **Domains & Routes** → **Add** → **Custom domain**.
+Až check **Workers Builds: raclette** na PR #7 zezelená, otevřete [Worker raclette](https://dash.cloudflare.com/b38b6a7c241110835172a51e1c65684f/workers/services/view/raclette/production) → **Settings** → **Domains & Routes** → **Add** → **Custom domain**.
 
 1. `raclettelovers.cz` → **Add domain**
 2. `www.raclettelovers.cz` → **Add domain**
