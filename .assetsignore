@@ -13,3 +13,5 @@ CNAME
 wrangler.jsonc
 .gitignore
 .assetsignore
+worker.js
+_redirects
