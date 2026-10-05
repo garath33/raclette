@@ -28,7 +28,7 @@
 
   function isStagingHost(hostname) {
     const host = normalizedHost(hostname);
-    return host === "localhost" || host === "127.0.0.1" || host.endsWith("github.io") || isComHost(host);
+    return host === "localhost" || host === "127.0.0.1" || host.endsWith("github.io");
   }
 
   function defaultLanguage(hostname) {
