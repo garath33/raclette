@@ -1,0 +1,15 @@
+# Workers jinak nahraje celý kořen. node_modules/workerd má 128 MiB, limit je 25 MiB.
+node_modules
+.git
+.wrangler
+.github
+docs
+tests
+**/*.md
+package.json
+package-lock.json
+playwright.config.js
+CNAME
+wrangler.jsonc
+.gitignore
+.assetsignore
