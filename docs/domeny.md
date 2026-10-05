@@ -20,11 +20,36 @@ DNS umí říct „tato adresa je na téhle IP“. Neumí říct prohlížeči �
 
 Kdybyste u `.cz` jen zkopírovali čtyři GitHub A záznamy, GitHub odpoví „There isn't a GitHub Pages site here“. Pages umí **jednu** vlastní doménu a ta už je `www.raclettelovers.com`.
 
-Bezplatné a jednodušší než platit Presmerovanie u každé aliasové domény: **Cloudflare Pages**, účet zdarma. WebHouse zůstane registrátorem a v Setupu se jen přepíšou DNS záznamy, které Cloudflare ukáže. SSL a 301 z `_redirects` vzniknou samy. Jmenné servery WebHouse se měnit nemusí.
+Bezplatné a jednodušší než platit Presmerovanie u každé aliasové domény: **Cloudflare Pages**. Apex (adresa bez `www`) u Cloudflare Pages jde jen když je doména zóna na Cloudflare a jmenné servery míří na Cloudflare. WebHouse zůstane registrátorem. DNS zónu `.com` u WebHouse **nemente** — tam už GitHub Pages s HTTPS běží.
 
-Dokud Cloudflare (nebo jiný hosting s víc doménami) není, `.cz` / `.sk` / `.ch` a aliasy nechte zaparkované. Parkovací A `86.110.243.202` nemazejte „do GitHubu“, web by zmizel a nahradila by ho chybová stránka GitHubu.
+## Krok za krokem: raclettelovers.cz (právě teď)
 
-## raclettelovers.com — hotovo, už sahat nemusíte
+Jste v Cloudflare u **DNS management for raclettelovers.cz**. Tam jsou tři přenesené parkovací záznamy (A `86.110.243.202`, hvězdička, `www`). Oranžový obláček u nich nic užitečného nedělá. GitHub adresy `185.199…` z WebHouse zóny `.com` sem **nepřepisujte**.
+
+### 1. Smazat parkování v Cloudflare
+
+U všech tří řádků klikněte **Delete**:
+
+- A `raclettelovers.cz` → `86.110.243.202`
+- CNAME `*` → `raclettelovers.cz`
+- CNAME `www` → `raclettelovers.cz`
+
+Tabulka má zůstat prázdná. To je v pořádku: `.cz` zatím nikoho neservíruje.
+
+### 2. Aktivovat zónu (jmenné servery jen u .cz)
+
+Klikněte **Continue to activation**. Cloudflare ukáže dvě jména, typicky `*.ns.cloudflare.com`.
+
+U WebHouse otevřete **jen** `raclettelovers.cz` (ne `.com`):
+
+1. Domény → Detail `raclettelovers.cz` → **DNS servery** → Změnit
+2. Smažte `ns1.webhouse.sk`, `ns2.webhouse.sk`, `ns3.webhouse.sk`
+3. Vložte přesně ty dvě Cloudflare hodnoty
+4. Uložte
+
+Počkejte, až Cloudflare u zóny napíše **Active**. Může to trvat od minut po pár hodin. DNS zónu `.cz` od teď editujete v Cloudflare, ne ve WebHouse.
+
+Zóna `raclettelovers.com` ve WebHouse zůstává:
 
 | Název | Typ | Hodnota |
 | --- | --- | --- |
@@ -34,21 +59,43 @@ Dokud Cloudflare (nebo jiný hosting s víc doménami) není, `.cz` / `.sk` / `.
 | raclettelovers.com | A | 185.199.111.153 |
 | www.raclettelovers.com | CNAME | garath33.github.io |
 
-Hvězdička `*.raclettelovers.com` je pryč. Jmenné servery `ns1.webhouse.sk`, `ns2.webhouse.sk`, `ns3.webhouse.sk` nechte.
+### 3. Vytvořit Cloudflare Pages (web)
 
-## Co v Setupu u ostatních devíti (až bude Cloudflare)
+V levém menu Cloudflare: **Workers & Pages** → **Create** → **Pages** → **Import an existing Git repository** → GitHub `garath33/raclette`.
 
-V Setupu: Domény → DNS zóna → vyberte doménu. Třída IN, prioritu u A a CNAME nevyplňujte. Hvězdičkový CNAME nikde nedávejte.
+Nastavení sestavení:
 
-Cloudflare Pages po přidání custom domain vypíše přesné hodnoty. Typicky:
+| Pole | Hodnota |
+| --- | --- |
+| Production branch | `main` |
+| Framework preset | None |
+| Build command | `mkdir -p _site && cp index.html robots.txt sitemap.xml _site/ && cp -a css js assets _site/` |
+| Build output directory | `_site` |
+| Root directory | (prázdné) |
 
-**Apex** (např. `raclettelovers.cz`): smažte parkovací A `86.110.243.202`. Přidejte A / AAAA, které Cloudflare ukáže (ne GitHub `185.199…`).
+Poprvé se objeví adresa `něco.pages.dev`. Otevřete ji: má to být stejný zkušební web jako na GitHubu, s pruhem Testovací prostředí.
 
-**www**: smažte CNAME na apex. Přidejte CNAME na hostname projektu `*.pages.dev`, který Cloudflare ukáže.
+### 4. Připojit raclettelovers.cz
 
-Stejný postup u `raclettelovers.sk`, `raclettelovers.ch` a u šesti aliasů. Aliasy po připojení k témuž projektu Cloudflare přesměruje podle `_redirects` (301, cesta se zachová).
+V projektu Pages: **Custom domains** → **Set up a domain** → `raclettelovers.cz` → Continue. Cloudflare záznam CNAME na apex vytvoří sám (flattening).
 
-Cílové 301:
+Stejně přidejte `www.raclettelovers.cz`. Soubor `_redirects` po sloučení do `main` pošle `www` na adresu bez `www`.
+
+Až u obou uvidíte **Active**, otevřete `https://raclettelovers.cz/`. Certifikát vystaví Cloudflare. Výchozí jazyk bude čeština, pokud prohlížeč hlásí Česko, jinak podle locale; přepínač nechá všech devět jazyků na `.cz`.
+
+### 5. Další domény, až .cz poběží
+
+Stejný postup zóna + jmenné servery + Custom domain:
+
+1. `raclettelovers.sk`
+2. `raclettelovers.ch`
+3. šest aliasů (`raclettepointoriginal.*`, `raclette-lovers.com`, `raclette-point-original.com`) — ty jen proto, aby Cloudflare mohl poslat 301 z `_redirects`
+
+`.com` na GitHub Pages nechte. Až budou `.cz` / `.sk` / `.ch` v pořádku, můžeme ho taky převést, není to nutný další krok.
+
+Kdyby u `.cz` po aktivaci jmenných serverů stále svítila stará parkovací stránka, v Cloudflare DNS ještě zbyl A `86.110.243.202`. Smažte ho a v Pages znovu potvrďte custom domain.
+
+Cílové 301 aliasů (až budou ty domény taky zónami na Cloudflare a custom domain stejného Pages projektu):
 
 ```text
 https://raclettepointoriginal.com/*       https://www.raclettelovers.com/:splat
