@@ -4,7 +4,7 @@ Prezentační web sítě Raclette Point. Dokumentace je ve složce [docs](docs/R
 
 Testovací adresa po sloučení do `main`: <https://garath33.github.io/raclette/>
 
-Na té adrese zůstává pruh „Testovací prostředí“ a `noindex`. Domény `raclettelovers.*` se tím nezapnou. Postup je v [docs/pipeline.md](docs/pipeline.md).
+Na té adrese zůstává pruh „Testovací prostředí“ a `noindex`. Po připojení `raclettelovers.com` GitHub tuhle adresu přesměruje. HTTPS na vlastní doméně čeká na opravu DNS, postup je v [docs/domeny.md](docs/domeny.md).
 
 ```bash
 npm ci
