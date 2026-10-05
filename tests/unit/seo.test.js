@@ -57,12 +57,38 @@ test("soubor _redirects posílá staré a spojovníkové domény 301 na raclette
   assert.equal(redirects.includes("https://www.raclettelovers.com/* https://raclettelovers.com/:splat 301"), false);
 });
 
+test("worker.js má stejné cíle 301 a kanonické hosty nechává na webu", () => {
+  const worker = fs.readFileSync("worker.js", "utf8");
+  const rules = [
+    ["www.raclettelovers.cz", "https://raclettelovers.cz"],
+    ["www.raclettelovers.sk", "https://raclettelovers.sk"],
+    ["www.raclettelovers.ch", "https://raclettelovers.ch"],
+    ["raclettepointoriginal.com", "https://www.raclettelovers.com"],
+    ["www.raclettepointoriginal.com", "https://www.raclettelovers.com"],
+    ["raclettepointoriginal.cz", "https://raclettelovers.cz"],
+    ["www.raclettepointoriginal.cz", "https://raclettelovers.cz"],
+    ["raclettepointoriginal.sk", "https://raclettelovers.sk"],
+    ["www.raclettepointoriginal.sk", "https://raclettelovers.sk"],
+    ["raclettepointoriginal.ch", "https://raclettelovers.ch"],
+    ["www.raclettepointoriginal.ch", "https://raclettelovers.ch"],
+    ["raclette-point-original.com", "https://www.raclettelovers.com"],
+    ["www.raclette-point-original.com", "https://www.raclettelovers.com"],
+    ["raclette-lovers.com", "https://www.raclettelovers.com"],
+    ["www.raclette-lovers.com", "https://www.raclettelovers.com"]
+  ];
+  for (const [from, to] of rules) {
+    assert.match(worker, new RegExp('"' + from.replace(/\./g, "\\.") + '": "' + to.replace(/[.]/g, "\\.") + '"'));
+  }
+  assert.equal(worker.includes('"raclettelovers.cz"'), false);
+  assert.equal(worker.includes('"www.raclettelovers.com"'), false);
+  assert.equal(fs.existsSync("public/_redirects"), false);
+});
+
 test("složka public je stejný web, který nahrává Cloudflare Worker", () => {
   const files = [
     "index.html",
     "robots.txt",
     "sitemap.xml",
-    "_redirects",
     "css/styles.css",
     "js/site.js",
     "js/app.js"

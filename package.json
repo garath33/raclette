@@ -5,7 +5,7 @@
   "scripts": {
     "start": "python3 -m http.server 4173",
     "build": "npm run build:pages",
-    "build:pages": "rm -rf public && mkdir -p public && cp index.html robots.txt sitemap.xml _redirects public/ && cp -a css js assets public/",
+    "build:pages": "rm -rf public && mkdir -p public && cp index.html robots.txt sitemap.xml public/ && cp -a css js assets public/",
     "test": "npm run test:unit && npm run test:e2e",
     "test:unit": "node --test tests/unit/*.test.js",
     "test:e2e": "playwright test",

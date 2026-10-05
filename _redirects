@@ -1,4 +1,5 @@
-# Alias hosts 301 here. GitHub Pages ignores this file. Cloudflare Pages uses it.
+# GitHub Pages ignores this file. Workers reject absolute URLs in _redirects
+# (error 100324), so the live 301 map is worker.js. Do not copy this file into public/.
 # www.raclettelovers.com is the live GitHub Pages canonical; do not send www back to apex.
 
 https://www.raclettelovers.cz/* https://raclettelovers.cz/:splat 301
