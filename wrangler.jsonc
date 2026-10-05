@@ -1,0 +1,8 @@
+{
+  "name": "raclette",
+  "compatibility_date": "2026-10-05",
+  "workers_dev": false,
+  "assets": {
+    "directory": "."
+  }
+}

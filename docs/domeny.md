@@ -6,9 +6,11 @@ HTTPS na `raclettelovers.com` už běží. Certifikát Let's Encrypt platí pro 
 
 Zóna Cloudflare `raclettelovers.cz` je **Active** (od 5. října 2026, 11:18 UTC). Jmenné servery `teresa.ns.cloudflare.com` a `tim.ns.cloudflare.com` už vidí i `1.1.1.1`. Account ID `b38b6a7c241110835172a51e1c65684f`, Zone ID `2a78787dacdba88894c9e17938f124cc`. API token v Cursor Secrets je platný (`GET /user/tokens/verify` → active).
 
-DNS zóny `.cz` je prázdné. Přes API se smazaly zbytky parkování, které v zóně ještě byly: A `86.110.243.202`, CNAME `*` → `raclettelovers.cz` a CNAME `www` → `raclettelovers.cz`. Apex proto zatím neodpovídá — to je správně, dokud Pages nepřipojí custom domain a záznamy nevytvoří sám. WebHouse DNS u `.com` se neměnil.
+DNS zóny `.cz` je prázdné. Přes API se smazaly zbytky parkování, které v zóně ještě byly: A `86.110.243.202`, CNAME `*` → `raclettelovers.cz` a CNAME `www` → `raclettelovers.cz`. Apex proto zatím neodpovídá — to je správně, dokud Worker nepřipojí custom domain a záznamy nevytvoří sám. WebHouse DNS u `.com` se neměnil.
 
-Pages projekt ještě není. `GET /accounts/…/pages/connections` vrací prázdný seznam a založení projektu se `source.type=github` končí chybou `8000011` (Git instalace u tohoto Cloudflare účtu není). Propojení GitHub ↔ Cloudflare nejde dodělat přes API, chce prohlížeč a **Install & Authorize**. Přesný klikací postup je v kroku 3. Direct Upload nezakládat: takový projekt nejde později přepnout na Git a obsadil by jméno `raclette`.
+GitHub je propojený (účet `garath33`, od 5. října 2026, 11:40 UTC). Průvodce založil **Worker** `raclette`, ne klasický Pages projekt. Příkaz nasazení je `npx wrangler deploy`. První production build spadl: bez `wrangler.jsonc` si Wrangler vzal jako soubory celý repozitář a narazil na `node_modules/workerd/bin/workerd` (128 MiB, limit je 25 MiB). V repozitáři je teď `wrangler.jsonc` a `.assetsignore`, které `node_modules`, git, dokumentaci a testy vynechají. `_redirects` Wrangler dál bere jako pravidla přesměrování.
+
+Token v Cursor Secrets umí DNS. Workers Builds a nasazení Workeru s ním nejdou (`403` a „No access to the specified service“), takže nový build se spouští v dashboardu tlačítkem **Retry deployment**, až je tahle oprava ve větvi, kterou Worker staví (`main`).
 
 Ostatní domény (`.sk`, `.ch`, aliasy) ještě čekají — u WebHouse zůstávají zaparkované na `86.110.243.202`. Placené Presmerovanie u WebHouse neplatit.
 
@@ -56,39 +58,17 @@ Zóna `raclettelovers.com` ve WebHouse zůstává:
 | raclettelovers.com | A | 185.199.111.153 |
 | www.raclettelovers.com | CNAME | garath33.github.io |
 
-### 3. Propojit GitHub — právě teď, jen kliknutí
+### 3. Worker raclette — GitHub propojený, první build spadl
 
-API účet GitHub nevidí, takže projekt `raclette` se založí až po tomhle. Otevřete [Workers & Pages](https://dash.cloudflare.com/b38b6a7c241110835172a51e1c65684f/workers-and-pages) v účtu, kde leží zóna `raclettelovers.cz`.
+Účet `garath33` je v Cloudflare Connections. Worker se jmenuje `raclette` a nasazuje se příkazem `npx wrangler deploy`. Build command nechte prázdný: web leží v kořeni (`index.html`, `css`, `js`, `assets`) a `wrangler.jsonc` to tak má.
 
-1. **Create application** (případně **Create**).
-2. **Pages**.
-3. **Connect to Git**. Když je na obrazovce „Import an existing Git repository“, je to totéž.
-4. U GitHubu **+ Add account**. Když účet v seznamu ještě není, je to **Connect GitHub**.
-5. Na GitHubu vyberte účet **garath33** a **Install & Authorize**.
-6. Repository access: **Only select repositories** a zaškrtněte **raclette**. **Install**.
-7. Cloudflare vás vrátí do průvodce. V seznamu účtů musí být **garath33**.
+První build skončil chybou „Asset too large“ na `node_modules/workerd`. Ta binárka vznikla tím, že Wrangler při chybějící konfiguraci nainstaloval sám sebe do repozitáře a pak ho celý nahrál. `.assetsignore` ji vynechá. Po commitu téhle opravy do `main` otevřete Worker `raclette` → **Deployments** → **Retry deployment**.
 
-Tady průvodce zavřete a napište. Projekt, obě custom domain a kontrolu `https://raclettelovers.cz/` dodělá API. Direct Upload nevolte.
+`_redirects` se jako obyčejný soubor nenahrává. Wrangler ho pošle zvlášť jako pravidla. Na `main` ten soubor ještě není, je v tomto PR, takže `www` na apex začne skákat až po sloučení.
 
-Když vás průvodce nepustí ven bez uložení projektu, vyplňte ho takhle a uložte **Save and Deploy**:
+### 4. Připojit raclettelovers.cz — až build zezelená
 
-| Pole | Hodnota |
-| --- | --- |
-| Repository | `garath33/raclette` |
-| Project name | `raclette` |
-| Production branch | `main` |
-| Framework preset | None |
-| Build command | `mkdir -p _site && cp index.html robots.txt sitemap.xml _site/ && cp -a css js assets _site/ && if [ -f _redirects ]; then cp _redirects _site/; fi` |
-| Build output directory | `_site` |
-| Root directory | (prázdné) |
-
-Příkaz `cp … _redirects _site/` bez podmínky na dnešním `main` spadne: soubor `_redirects` je v tomto PR, v `main` ještě ne. Varianta s `if` je totéž co `npm run build:pages` a po sloučení PR soubor zkopíruje. `www` pak pošle na adresu bez `www`.
-
-Poprvé se objeví adresa `raclette.pages.dev`. Má to být stejný zkušební web jako na GitHubu, s pruhem Testovací prostředí.
-
-### 4. Připojit raclettelovers.cz — až bude projekt
-
-Přes API, jakmile GitHub v Connections je: `POST /accounts/…/pages/projects/raclette/domains` s `raclettelovers.cz` a `www.raclettelovers.cz`. V dashboardu je to **Custom domains** → **Set up a domain**. Cloudflare záznam CNAME na apex vytvoří sám (flattening).
+Ve Workeru `raclette`: **Settings** → **Domains & Routes** → **Add** → **Custom domain** → `raclettelovers.cz`. Stejně `www.raclettelovers.cz`. Cloudflare záznam v zóně `.cz` vytvoří sám. Token v Secrets na Workers domains nesáhne, tenhle krok je v dashboardu.
 
 Stejně přidejte `www.raclettelovers.cz`. Soubor `_redirects` po sloučení do `main` pošle `www` na adresu bez `www`.
 
