@@ -2,9 +2,9 @@
 
 ## Stav 5. října 2026
 
-HTTPS na `raclettelovers.com` už běží. Certifikát Let's Encrypt platí pro `raclettelovers.com` i `www.raclettelovers.com` do 3. ledna 2027. Enforce HTTPS je zapnuté. HTTP i apex skáčou na `https://www.raclettelovers.com/`. V Pages je kanonická adresa `www` — to GitHub zvolil podle CNAME. Pro návštěvníka je to v pořádku.
+HTTPS na `raclettelovers.com` už běží. Certifikát Let's Encrypt platí pro `raclettelovers.com` i `www.raclettelovers.com` do 3. ledna 2027. Enforce HTTPS je zapnuté. HTTP i apex skáčou na `https://www.raclettelovers.com/`. V Pages je kanonická adresa `www` — to GitHub zvolil podle CNAME. Pro návštěvníka je to v pořádku. WebHouse DNS u `.com` **nemente** (4× A `185.199…` a `www` CNAME na `garath33.github.io`).
 
-Ostatních devět domén je u WebHouse **zaparkovaných** na `86.110.243.202`. HTTP vrací stránku „Zaparkovaná doména | WebHouse“, HTTPS na nich není. Hvězdička `*.…` u nich CNAME míří na apex.
+Zóna Cloudflare pro `raclettelovers.cz` je založená: parkovací A a hvězdička smazané. Právě teď se u WebHouse jen u `.cz` přepisují jmenné servery na `teresa.ns.cloudflare.com` a `tim.ns.cloudflare.com`. Ostatní domény (`.sk`, `.ch`, aliasy) ještě čekají — u WebHouse zůstávají zaparkované na `86.110.243.202`. Placené Presmerovanie u WebHouse neplatit.
 
 ## Jazyk na každé doméně
 
@@ -24,27 +24,31 @@ Bezplatné a jednodušší než platit Presmerovanie u každé aliasové domény
 
 ## Krok za krokem: raclettelovers.cz (právě teď)
 
-Jste v Cloudflare u **DNS management for raclettelovers.cz**. Tam jsou tři přenesené parkovací záznamy (A `86.110.243.202`, hvězdička, `www`). Oranžový obláček u nich nic užitečného nedělá. GitHub adresy `185.199…` z WebHouse zóny `.com` sem **nepřepisujte**.
+Zóna `raclettelovers.cz` je v Cloudflare založená. Parkovací A `86.110.243.202` a hvězdičkový CNAME `*` už jsou smazané. GitHub adresy `185.199…` z WebHouse zóny `.com` sem **nepřepisujte**. DNS zónu `.com` u WebHouse **nemente**.
 
-### 1. Smazat parkování v Cloudflare
+### 1. Smazat parkování v Cloudflare — hotovo
 
-U všech tří řádků klikněte **Delete**:
+Smazáno:
 
 - A `raclettelovers.cz` → `86.110.243.202`
 - CNAME `*` → `raclettelovers.cz`
-- CNAME `www` → `raclettelovers.cz`
 
-Tabulka má zůstat prázdná. To je v pořádku: `.cz` zatím nikoho neservíruje.
+Kdyby v tabulce ještě zbýval CNAME `www` → `raclettelovers.cz`, smažte ho taky. Tabulka má být prázdná, dokud Pages nepřipojíte custom domain (Cloudflare záznamy vytvoří sám).
 
-### 2. Aktivovat zónu (jmenné servery jen u .cz)
+### 2. Aktivovat zónu (jmenné servery jen u .cz) — právě teď
 
-Klikněte **Continue to activation**. Cloudflare ukáže dvě jména, typicky `*.ns.cloudflare.com`.
+Cloudflare ukázal:
+
+| Jmenný server |
+| --- |
+| `teresa.ns.cloudflare.com` |
+| `tim.ns.cloudflare.com` |
 
 U WebHouse otevřete **jen** `raclettelovers.cz` (ne `.com`):
 
 1. Domény → Detail `raclettelovers.cz` → **DNS servery** → Změnit
 2. Smažte `ns1.webhouse.sk`, `ns2.webhouse.sk`, `ns3.webhouse.sk`
-3. Vložte přesně ty dvě Cloudflare hodnoty
+3. Vložte přesně `teresa.ns.cloudflare.com` a `tim.ns.cloudflare.com`
 4. Uložte
 
 Počkejte, až Cloudflare u zóny napíše **Active**. Může to trvat od minut po pár hodin. DNS zónu `.cz` od teď editujete v Cloudflare, ne ve WebHouse.
@@ -59,9 +63,9 @@ Zóna `raclettelovers.com` ve WebHouse zůstává:
 | raclettelovers.com | A | 185.199.111.153 |
 | www.raclettelovers.com | CNAME | garath33.github.io |
 
-### 3. Vytvořit Cloudflare Pages (web)
+### 3. Vytvořit Cloudflare Pages (web) — až zóna Active
 
-V levém menu Cloudflare: **Workers & Pages** → **Create** → **Pages** → **Import an existing Git repository** → GitHub `garath33/raclette`.
+Až Cloudflare u `raclettelovers.cz` napíše **Active**: v levém menu **Workers & Pages** → **Create** → **Pages** → **Import an existing Git repository** → GitHub `garath33/raclette`.
 
 Nastavení sestavení:
 
@@ -69,7 +73,7 @@ Nastavení sestavení:
 | --- | --- |
 | Production branch | `main` |
 | Framework preset | None |
-| Build command | `mkdir -p _site && cp index.html robots.txt sitemap.xml _site/ && cp -a css js assets _site/` |
+| Build command | `mkdir -p _site && cp index.html robots.txt sitemap.xml _redirects _site/ && cp -a css js assets _site/` |
 | Build output directory | `_site` |
 | Root directory | (prázdné) |
 

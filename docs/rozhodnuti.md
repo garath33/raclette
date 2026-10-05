@@ -36,7 +36,7 @@ B2B podklad k partnerství tyhle věty doplňuje, nenahrazuje je. Jsou v něm t�
 
 ## raclettelovers.com je první vlastní doména
 
-Čtyři záznamy A u WebHouse míří na GitHub Pages a `www` je CNAME na `garath33.github.io`. HTTPS na `www.raclettelovers.com` běží, certifikát kryje i apex, Enforce HTTPS je zapnuté. Apex skáče na `www`. Ostatních devět domén je zaparkovaných na `86.110.243.202`. DNS samo 301 neudělá a GitHub Pages umí jednu vlastní adresu, proto placené Presmerovanie u WebHouse k aliasům nepotřebujeme, pokud půjde provoz přes Cloudflare Pages. Přepínač nabízí všechny jazyky na každé doméně. Výchozí jazyk se bere ze státu v locale prohlížeče. Než výslovně potvrdíte indexování, zůstane zkušební pruh a `noindex`.
+Čtyři záznamy A u WebHouse míří na GitHub Pages a `www` je CNAME na `garath33.github.io`. HTTPS na `www.raclettelovers.com` běží, certifikát kryje i apex, Enforce HTTPS je zapnuté. Apex skáče na `www`. DNS zónu `.com` u WebHouse nemente. Pro `.cz` (a později `.sk` / `.ch` / aliasy) jde provoz přes Cloudflare Pages: jmenné servery jen u té domény přepíšete na Cloudflare (`teresa.ns.cloudflare.com`, `tim.ns.cloudflare.com` u `raclettelovers.cz`). Placené Presmerovanie u WebHouse neplatit. Přepínač nabízí všechny jazyky na každé doméně. Výchozí jazyk se bere ze státu v locale prohlížeče. Než výslovně potvrdíte indexování, zůstane zkušební pruh a `noindex`.
 
 ## Hlava krávy se nesmí natáhnout do sloupu
 
