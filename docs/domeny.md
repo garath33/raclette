@@ -8,9 +8,9 @@ Zóna Cloudflare `raclettelovers.cz` je **Active** (od 5. října 2026, 11:18 UT
 
 DNS zóny `.cz` je prázdné. Přes API se smazaly zbytky parkování, které v zóně ještě byly: A `86.110.243.202`, CNAME `*` → `raclettelovers.cz` a CNAME `www` → `raclettelovers.cz`. Apex proto zatím neodpovídá — to je správně, dokud Worker nepřipojí custom domain a záznamy nevytvoří sám. WebHouse DNS u `.com` se neměnil.
 
-GitHub je propojený (účet `garath33`, od 5. října 2026, 11:40 UTC). Průvodce založil **Worker** `raclette`, ne klasický Pages projekt. Příkaz nasazení je `npx wrangler deploy`. První build spadl na `node_modules/workerd` (128 MiB). Po doplnění `wrangler.jsonc` a `.assetsignore` do `main` Workers Build zezelenal (verze `dd72eb86-6c06-45d2-8400-774e615faa11`). `_redirects` Wrangler bere jako pravidla; na `main` ten soubor ještě není, je v tomto PR.
+GitHub je propojený (účet `garath33`, od 5. října 2026, 11:40 UTC). Průvodce založil **Worker** `raclette`, ne klasický Pages projekt. Příkaz nasazení je `npx wrangler deploy`. První build spadl na `node_modules/workerd` (128 MiB). `wrangler.jsonc` teď nejdřív sestaví `_site` (jen web) a nahraje jen tu složku, aby se `workerd` do assetů nedostal. `_redirects` je v `_site` v tomto PR; na `main` ten soubor ještě není.
 
-Token v Cursor Secrets umí DNS. Custom domain Workeru s ním přidat nejde (`Authentication error` na `/workers/domains`). Zbývá kliknout je v dashboardu, krok 4.
+Token v Cursor Secrets umí DNS. Custom domain Workeru s ním přidat nejde (`Authentication error` na `/workers/domains`). Zbývá kliknout je v dashboardu, krok 4. Nový build spouští push do větve, kterou Worker staví, nebo **Retry deployment**.
 
 Ostatní domény (`.sk`, `.ch`, aliasy) ještě čekají — u WebHouse zůstávají zaparkované na `86.110.243.202`. Placené Presmerovanie u WebHouse neplatit.
 
@@ -58,13 +58,13 @@ Zóna `raclettelovers.com` ve WebHouse zůstává:
 | raclettelovers.com | A | 185.199.111.153 |
 | www.raclettelovers.com | CNAME | garath33.github.io |
 
-### 3. Worker raclette — GitHub propojený, první build spadl
+### 3. Worker raclette — GitHub propojený, build nesmí nahrát node_modules
 
-Účet `garath33` je v Cloudflare Connections. Worker se jmenuje `raclette` a nasazuje se příkazem `npx wrangler deploy`. Build command nechte prázdný: web leží v kořeni (`index.html`, `css`, `js`, `assets`) a `wrangler.jsonc` to tak má.
+Účet `garath33` je v Cloudflare Connections. Worker se jmenuje `raclette`. `wrangler.jsonc` nejdřív sestaví složku `_site` (jen HTML, CSS, JS, obrázky a `_redirects`) a nahraje jen tu. Kořen s `node_modules` a binárkou `workerd` (128 MiB) se nesmí dostat do assetů — limit je 25 MiB.
 
-První build skončil chybou „Asset too large“ na `node_modules/workerd`. Ta binárka vznikla tím, že Wrangler při chybějící konfiguraci nainstaloval sám sebe do repozitáře a pak ho celý nahrál. `.assetsignore` ji vynechá. Nový build z `main` už prošel.
+V dashboardu u Workeru nechte Deploy command `npx wrangler deploy`. Build command může zůstat prázdný, příkaz je v `wrangler.jsonc`. Nový push na tuhle větev spustí build znovu; kdyby ne, **Retry deployment**.
 
-`_redirects` se jako obyčejný soubor nenahrává. Wrangler ho pošle zvlášť jako pravidla. Na `main` ten soubor ještě není, je v tomto PR, takže `www` na apex začne skákat až po sloučení.
+`_redirects` je v `_site`, až bude v brané větvi. Na `main` ten soubor ještě není, takže `www` na apex začne skákat až po sloučení.
 
 ### 4. Připojit raclettelovers.cz — právě teď
 

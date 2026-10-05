@@ -1,8 +1,11 @@
 {
   "name": "raclette",
   "compatibility_date": "2026-10-05",
-  "workers_dev": false,
+  "workers_dev": true,
+  "build": {
+    "command": "mkdir -p _site && cp index.html robots.txt sitemap.xml _site/ && cp -a css js assets _site/ && if [ -f _redirects ]; then cp _redirects _site/; fi"
+  },
   "assets": {
-    "directory": "."
+    "directory": "./_site"
   }
 }
