@@ -11,4 +11,4 @@ Web Raclette Point Original. Tahle složka je mapa projektu, ne marketingová st
 | [Domény](domeny.md) | Kanonické adresy, jazyky a přesměrování |
 | [Rozhodnutí](rozhodnuti.md) | Proč je něco udělané právě tak, včetně oprav chyb |
 
-Veřejný testovací web je `https://garath33.github.io/raclette/`. Objeví se až po sloučení do `main`. HTTPS na `raclettelovers.com` se z repozitáře nezapne; DNS a pole Custom domain musí upravit vlastník, viz [Domény](domeny.md).
+Veřejný testovací web je `https://www.raclettelovers.com/` a `https://garath33.github.io/raclette/`. Ostatní koncovky a 301 se z repozitáře nezapnou; DNS v Setupu musí upravit vlastník, viz [Domény](domeny.md).

@@ -36,9 +36,7 @@ B2B podklad k partnerství tyhle věty doplňuje, nenahrazuje je. Jsou v něm t�
 
 ## raclettelovers.com je první vlastní doména
 
-Čtyři záznamy A u WebHouse míří na GitHub Pages (`185.199.108.153` až `185.199.111.153`). Parkovací adresa `86.110.243.202` je pryč. Vlastní doména v Pages už je vyplněná, ale jako `www.raclettelovers.com`, a Enforce HTTPS je vypnuté. Certifikát je pořád `*.github.io`, protože hvězdičkový CNAME `*.raclettelovers.com` → `raclettelovers.com` posílá `www` na apex místo na `garath33.github.io`. GitHub kvůli tomu certifikát nevydá. Hvězdičku smažte, přidejte `www.raclettelovers.com` CNAME na `garath33.github.io`, počkejte na TTL a v Settings → Pages doménu odeberte a znovu uložte jako `raclettelovers.com`. Tokeny z tohohle prostředí pole umí jen číst.
-
-Deset koupených domén se nedrží na GitHub Pages: umí jednu vlastní adresu. Kanonické jsou `raclettelovers.cz` (cs), `.sk` (sk), `.com` (en) a `.ch` (de, s fr a it). Stará značka `raclettepointoriginal.*` a spojovníkové názvy jsou 301. Dokud není hosting s víc doménami, aliasy jdou přes WebHouse Presmerovanie bez maskování a `.cz`/`.sk`/`.ch` můžou dočasně skákat na `.com` s `?lang=`. Přepínač jazyka na ostrou koncovku skočí, `localStorage` cizího jazyka se na `.cz` nebere. Než výslovně potvrdíte indexování, zůstane zkušební pruh a `noindex`.
+Čtyři záznamy A u WebHouse míří na GitHub Pages a `www` je CNAME na `garath33.github.io`. HTTPS na `www.raclettelovers.com` běží, certifikát kryje i apex, Enforce HTTPS je zapnuté. Apex skáče na `www`. Ostatních devět domén je zaparkovaných na `86.110.243.202`. DNS samo 301 neudělá a GitHub Pages umí jednu vlastní adresu, proto placené Presmerovanie u WebHouse k aliasům nepotřebujeme, pokud půjde provoz přes Cloudflare Pages. Přepínač nabízí všechny jazyky na každé doméně. Výchozí jazyk se bere ze státu v locale prohlížeče. Než výslovně potvrdíte indexování, zůstane zkušební pruh a `noindex`.
 
 ## Hlava krávy se nesmí natáhnout do sloupu
 

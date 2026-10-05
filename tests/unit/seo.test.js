@@ -40,20 +40,21 @@ test("robots a sitemap ukazují na testovací adresu a všechny jazyky", () => {
 test("soubor _redirects posílá staré a spojovníkové domény 301 na raclettelovers.*", () => {
   const redirects = fs.readFileSync("_redirects", "utf8");
   const rules = [
-    ["raclettepointoriginal.com", "raclettelovers.com"],
+    ["raclettepointoriginal.com", "www.raclettelovers.com"],
     ["raclettepointoriginal.cz", "raclettelovers.cz"],
     ["raclettepointoriginal.sk", "raclettelovers.sk"],
     ["raclettepointoriginal.ch", "raclettelovers.ch"],
-    ["raclette-point-original.com", "raclettelovers.com"],
-    ["raclette-lovers.com", "raclettelovers.com"]
+    ["raclette-point-original.com", "www.raclettelovers.com"],
+    ["raclette-lovers.com", "www.raclettelovers.com"]
   ];
   for (const [from, to] of rules) {
     assert.match(redirects, new RegExp("https://" + from.replace(/\./g, "\\.") + "/\\* https://" + to.replace(/\./g, "\\.") + "/:splat 301"));
     assert.match(redirects, new RegExp("https://www\\." + from.replace(/\./g, "\\.") + "/\\* https://" + to.replace(/\./g, "\\.") + "/:splat 301"));
   }
-  for (const host of ["raclettelovers.com", "raclettelovers.cz", "raclettelovers.sk", "raclettelovers.ch"]) {
+  for (const host of ["raclettelovers.cz", "raclettelovers.sk", "raclettelovers.ch"]) {
     assert.match(redirects, new RegExp("https://www\\." + host.replace(/\./g, "\\.") + "/\\* https://" + host.replace(/\./g, "\\.") + "/:splat 301"));
   }
+  assert.equal(redirects.includes("https://www.raclettelovers.com/* https://raclettelovers.com/:splat 301"), false);
 });
 
 test("veřejné soubory drží výkonnostní rozpočet", () => {

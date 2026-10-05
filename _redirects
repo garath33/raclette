@@ -1,13 +1,12 @@
-# Canonical hosts serve the site. Alias hosts 301 here.
-# GitHub Pages ignores this file. Cloudflare Pages uses it.
+# Alias hosts 301 here. GitHub Pages ignores this file. Cloudflare Pages uses it.
+# www.raclettelovers.com is the live GitHub Pages canonical; do not send www back to apex.
 
-https://www.raclettelovers.com/* https://raclettelovers.com/:splat 301
 https://www.raclettelovers.cz/* https://raclettelovers.cz/:splat 301
 https://www.raclettelovers.sk/* https://raclettelovers.sk/:splat 301
 https://www.raclettelovers.ch/* https://raclettelovers.ch/:splat 301
 
-https://raclettepointoriginal.com/* https://raclettelovers.com/:splat 301
-https://www.raclettepointoriginal.com/* https://raclettelovers.com/:splat 301
+https://raclettepointoriginal.com/* https://www.raclettelovers.com/:splat 301
+https://www.raclettepointoriginal.com/* https://www.raclettelovers.com/:splat 301
 https://raclettepointoriginal.cz/* https://raclettelovers.cz/:splat 301
 https://www.raclettepointoriginal.cz/* https://raclettelovers.cz/:splat 301
 https://raclettepointoriginal.sk/* https://raclettelovers.sk/:splat 301
@@ -15,7 +14,7 @@ https://www.raclettepointoriginal.sk/* https://raclettelovers.sk/:splat 301
 https://raclettepointoriginal.ch/* https://raclettelovers.ch/:splat 301
 https://www.raclettepointoriginal.ch/* https://raclettelovers.ch/:splat 301
 
-https://raclette-point-original.com/* https://raclettelovers.com/:splat 301
-https://www.raclette-point-original.com/* https://raclettelovers.com/:splat 301
-https://raclette-lovers.com/* https://raclettelovers.com/:splat 301
-https://www.raclette-lovers.com/* https://raclettelovers.com/:splat 301
+https://raclette-point-original.com/* https://www.raclettelovers.com/:splat 301
+https://www.raclette-point-original.com/* https://www.raclettelovers.com/:splat 301
+https://raclette-lovers.com/* https://www.raclettelovers.com/:splat 301
+https://www.raclette-lovers.com/* https://www.raclettelovers.com/:splat 301

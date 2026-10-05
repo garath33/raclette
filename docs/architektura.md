@@ -27,7 +27,7 @@ assets/          logo, fotky, favicon
 
 ## Jazyk
 
-Na `localhost` a `github.io` je výchozí čeština, volba jde do `localStorage` a do `?lang=`. Na kanonických doménách se výchozí jazyk bere z hostitele: `.cz` čeština, `.sk` slovenština, `.com` angličtina, `.ch` němčina. Přepínač na ostrou jinou koncovku skočí, viz [Domény](domeny.md).
+Na `localhost`, `github.io` i na `raclettelovers.*` přepínač nabízí všech devět jazyků a zůstane na stejné adrese s `?lang=`. Výchozí jazyk se bere ze státu v locale prohlížeče, jinak z koncovky domény, viz [Domény](domeny.md).
 
 ## Mapa
 

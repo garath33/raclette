@@ -148,13 +148,9 @@ function applyStatic() {
 }
 
 function setLang(next) {
-  if (!LANGS.includes(next)) next = RacletteSite.defaultLanguage(location.hostname) || "cs";
+  if (!LANGS.includes(next)) next = RacletteSite.preferredLanguage(location.hostname, navigator.languages || [navigator.language]) || "cs";
   try { localStorage.setItem("raclette-lang", next); } catch (err) { /* ignore */ }
   const target = new URL(RacletteSite.languageUrl(next, location));
-  if (target.host !== location.host) {
-    window.location.assign(target.href);
-    return;
-  }
   lang = next;
   history.replaceState(null, "", target.pathname + target.search + target.hash);
   applyStatic();
@@ -191,19 +187,10 @@ function boot() {
   let initial = params.get("lang");
   if (initial && !LANGS.includes(initial)) initial = null;
   if (!initial) {
-    const hostDefault = RacletteSite.defaultLanguage(location.hostname);
-    if (hostDefault) {
-      let stored = null;
-      try { stored = localStorage.getItem("raclette-lang"); } catch (err) { stored = null; }
-      if (stored && RacletteSite.isNativeLanguage(location.hostname, stored)) initial = stored;
-      else initial = RacletteSite.preferredLanguage(location.hostname, navigator.language);
-    } else {
-      try { initial = localStorage.getItem("raclette-lang"); } catch (err) { initial = null; }
-      if (!initial) {
-        const browser = (navigator.language || "cs").slice(0, 2).toLowerCase();
-        initial = LANGS.includes(browser) ? browser : "cs";
-      }
-    }
+    try { initial = localStorage.getItem("raclette-lang"); } catch (err) { initial = null; }
+  }
+  if (!initial) {
+    initial = RacletteSite.preferredLanguage(location.hostname, navigator.languages || [navigator.language]);
   }
   lang = LANGS.includes(initial) ? initial : "cs";
   applyStatic();

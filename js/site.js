@@ -17,21 +17,42 @@
     ru: "ru_RU"
   };
   const SITES = {
-    "raclettelovers.com": { lang: "en", native: ["en", "pl", "es", "ru"] },
-    "raclettelovers.cz": { lang: "cs", native: ["cs"] },
-    "raclettelovers.sk": { lang: "sk", native: ["sk"] },
-    "raclettelovers.ch": { lang: "de", native: ["de", "fr", "it"] }
+    "raclettelovers.com": { lang: "en" },
+    "raclettelovers.cz": { lang: "cs" },
+    "raclettelovers.sk": { lang: "sk" },
+    "raclettelovers.ch": { lang: "de" }
   };
-  const LANGUAGE_HOME = {
-    cs: "raclettelovers.cz",
-    sk: "raclettelovers.sk",
-    en: "raclettelovers.com",
-    de: "raclettelovers.ch",
-    fr: "raclettelovers.ch",
-    it: "raclettelovers.ch",
-    pl: "raclettelovers.com",
-    es: "raclettelovers.com",
-    ru: "raclettelovers.com"
+  const COUNTRY_LANG = {
+    CZ: "cs",
+    SK: "sk",
+    CH: "de",
+    DE: "de",
+    AT: "de",
+    LI: "de",
+    FR: "fr",
+    LU: "fr",
+    MC: "fr",
+    IT: "it",
+    SM: "it",
+    PL: "pl",
+    ES: "es",
+    MX: "es",
+    AR: "es",
+    CO: "es",
+    CL: "es",
+    PE: "es",
+    UY: "es",
+    EC: "es",
+    VE: "es",
+    RU: "ru",
+    BY: "ru",
+    KZ: "ru",
+    GB: "en",
+    US: "en",
+    AU: "en",
+    CA: "en",
+    NZ: "en",
+    IE: "en"
   };
 
   function normalizedHost(hostname) {
@@ -68,43 +89,40 @@
     return site ? site.lang : null;
   }
 
-  function isNativeLanguage(hostname, code) {
-    const site = siteFor(hostname);
-    return Boolean(site && site.native.indexOf(code) !== -1);
+  function isNativeLanguage(_hostname, code) {
+    return LANGUAGES.indexOf(code) !== -1;
   }
 
-  function preferredLanguage(hostname, browserLanguage) {
-    const site = siteFor(hostname);
-    if (!site) return null;
-    const code = String(browserLanguage || "").slice(0, 2).toLowerCase();
-    if (site.native.indexOf(code) !== -1) return code;
-    return site.lang;
+  function languageFromLocales(locales) {
+    const list = Array.isArray(locales) ? locales : [locales];
+    for (let i = 0; i < list.length; i++) {
+      const parts = String(list[i] || "").replace(/_/g, "-").split("-");
+      const lang = parts[0].toLowerCase();
+      const region = (parts[1] || "").toUpperCase();
+      if (region === "CH" && (lang === "de" || lang === "fr" || lang === "it")) return lang;
+      if (COUNTRY_LANG[region] && LANGUAGES.indexOf(COUNTRY_LANG[region]) !== -1) return COUNTRY_LANG[region];
+    }
+    for (let j = 0; j < list.length; j++) {
+      const lang = String(list[j] || "").slice(0, 2).toLowerCase();
+      if (LANGUAGES.indexOf(lang) !== -1) return lang;
+    }
+    return null;
   }
 
-  function languageHome(code) {
-    return LANGUAGE_HOME[code] || "raclettelovers.com";
+  function preferredLanguage(hostname, locales) {
+    return languageFromLocales(locales) || defaultLanguage(hostname) || "cs";
   }
 
   function languageUrl(code, loc) {
     loc = loc || {};
     const hostname = loc.hostname || "";
-    if (LANGUAGES.indexOf(code) === -1) code = defaultLanguage(hostname) || "cs";
-    const hash = loc.hash || "";
-
-    if (isPreviewHost(hostname)) {
-      const origin = loc.origin || "http://" + hostname;
-      const url = new URL(origin);
-      url.pathname = loc.pathname || "/";
-      url.search = "";
-      url.searchParams.set("lang", code);
-      url.hash = hash;
-      return url.toString();
-    }
-
-    const host = languageHome(code);
-    const url = new URL("https://" + host + "/");
-    if (SITES[host].lang !== code) url.searchParams.set("lang", code);
-    url.hash = hash;
+    if (LANGUAGES.indexOf(code) === -1) code = preferredLanguage(hostname) || "cs";
+    const origin = loc.origin || (hostname ? "https://" + hostname : "https://raclettelovers.com");
+    const url = new URL(origin);
+    url.pathname = loc.pathname || "/";
+    url.search = "";
+    url.searchParams.set("lang", code);
+    url.hash = loc.hash || "";
     return url.toString();
   }
 
@@ -159,12 +177,8 @@
     if (canonical) canonical.href = href;
     document.querySelectorAll('link[rel="alternate"][hreflang]').forEach((link) => {
       const code = link.getAttribute("hreflang");
-      if (code === "x-default") {
-        const fallback = isPreviewHost(loc.hostname) ? (defaultLanguage(loc.hostname) || "cs") : "en";
-        link.href = languageUrl(fallback, loc);
-      } else if (LANGUAGES.indexOf(code) !== -1) {
-        link.href = languageUrl(code, loc);
-      }
+      if (code === "x-default") link.href = languageUrl("en", loc);
+      else if (LANGUAGES.indexOf(code) !== -1) link.href = languageUrl(code, loc);
     });
     const staging = isStagingHost(loc.hostname);
     setMeta("robots", staging ? "noindex, follow" : "index, follow");
@@ -180,15 +194,15 @@
     LANGUAGES,
     OG_LOCALE,
     SITES,
-    LANGUAGE_HOME,
+    COUNTRY_LANG,
     isPreviewHost,
     isLoversHost,
     isStagingHost,
     isComHost,
     isNativeLanguage,
     defaultLanguage,
+    languageFromLocales,
     preferredLanguage,
-    languageHome,
     languageUrl,
     htmlLang,
     ogLocale,
