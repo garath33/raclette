@@ -27,7 +27,7 @@ assets/          logo, fotky, favicon
 
 ## Jazyk
 
-Výchozí jazyk testovacího webu je čeština. Volba se ukládá do `localStorage` a do adresy jako `?lang=cs`. Na budoucích doménách se výchozí jazyk bude řídit doménou, viz [Domény](domeny.md).
+Na `localhost` a `github.io` je výchozí čeština, volba jde do `localStorage` a do `?lang=`. Na kanonických doménách se výchozí jazyk bere z hostitele: `.cz` čeština, `.sk` slovenština, `.com` angličtina, `.ch` němčina. Přepínač na ostrou jinou koncovku skočí, viz [Domény](domeny.md).
 
 ## Mapa
 

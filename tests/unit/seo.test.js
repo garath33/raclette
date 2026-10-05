@@ -37,6 +37,25 @@ test("robots a sitemap ukazují na testovací adresu a všechny jazyky", () => {
   assert.equal(sitemap.includes(HOST), true);
 });
 
+test("soubor _redirects posílá staré a spojovníkové domény 301 na raclettelovers.*", () => {
+  const redirects = fs.readFileSync("_redirects", "utf8");
+  const rules = [
+    ["raclettepointoriginal.com", "raclettelovers.com"],
+    ["raclettepointoriginal.cz", "raclettelovers.cz"],
+    ["raclettepointoriginal.sk", "raclettelovers.sk"],
+    ["raclettepointoriginal.ch", "raclettelovers.ch"],
+    ["raclette-point-original.com", "raclettelovers.com"],
+    ["raclette-lovers.com", "raclettelovers.com"]
+  ];
+  for (const [from, to] of rules) {
+    assert.match(redirects, new RegExp("https://" + from.replace(/\./g, "\\.") + "/\\* https://" + to.replace(/\./g, "\\.") + "/:splat 301"));
+    assert.match(redirects, new RegExp("https://www\\." + from.replace(/\./g, "\\.") + "/\\* https://" + to.replace(/\./g, "\\.") + "/:splat 301"));
+  }
+  for (const host of ["raclettelovers.com", "raclettelovers.cz", "raclettelovers.sk", "raclettelovers.ch"]) {
+    assert.match(redirects, new RegExp("https://www\\." + host.replace(/\./g, "\\.") + "/\\* https://" + host.replace(/\./g, "\\.") + "/:splat 301"));
+  }
+});
+
 test("veřejné soubory drží výkonnostní rozpočet", () => {
   const limits = {
     "css/styles.css": 40 * 1024,

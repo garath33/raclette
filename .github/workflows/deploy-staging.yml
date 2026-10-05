@@ -46,7 +46,7 @@ jobs:
       - name: Sestavit testovací web
         run: |
           mkdir -p _site
-          cp index.html robots.txt sitemap.xml CNAME _site/
+          cp index.html robots.txt sitemap.xml CNAME _redirects _site/
           cp -a css js assets _site/
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
