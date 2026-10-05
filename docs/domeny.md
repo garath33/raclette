@@ -1,27 +1,31 @@
 # Domény a přesměrování
 
-Zkušební web teď běží na `https://garath33.github.io/raclette/`. DNS pro `raclettelovers.com` už míří na GitHub, ale Pages doménu přijme až po uložení v nastavení repozitáře. Ostatní domény počkají, dokud bude hosting umět víc adres najednou. GitHub Pages umí jednu vlastní doménu, přesměrování mezi více doménami ne.
+Zkušební web je připojený na `http://www.raclettelovers.com/`. Adresa `https://garath33.github.io/raclette/` na ni přesměrovává. HTTPS na vlastní doméně zatím nejde: GitHub pořád servíruje certifikát pro `*.github.io`, proto prohlížeč spojení odmítne a Enforce HTTPS nejde zapnout. Ostatní domény počkají, dokud bude hosting umět víc adres najednou. GitHub Pages umí jednu vlastní doménu, přesměrování mezi více doménami ne.
 
-## raclettelovers.com u WebHouse
+## Proč HTTPS nejde
 
-Doména má jmenné servery `ns1.webhouse.sk`, `ns2.webhouse.sk` a `ns3.webhouse.sk`. Ty neměňte. Hvězdička `*.raclettelovers.com` je CNAME na `raclettelovers.com` a tu taky nechte: díky ní jde `www` stejnou cestou jako adresa bez `www`.
+Čtyři záznamy A na GitHub jsou v pořádku. Problém je hvězdička `*.raclettelovers.com` CNAME na `raclettelovers.com`.
 
-Čtyři záznamy A už míří na GitHub Pages. Veřejné překladače `1.1.1.1` a `8.8.8.8` je 2. října 2026 vracely pro apex i pro `www`. Parkovací adresa `86.110.243.202` je pryč.
+GitHub kvůli ní vidí `www.raclettelovers.com` jako CNAME na apex, ne na `garath33.github.io`. Certifikát Let's Encrypt proto nevydá. Stejná hvězdička navíc přepíše i ověřovací jméno `_github-pages-challenge-garath33.raclettelovers.com`, takže GitHub nedokončí kontrolu DNS. Dokumentace GitHubu hvězdičkové záznamy výslovně nedoporučuje: blokují certifikát a otevírají převzetí cizích subdomén.
 
-Soubor `CNAME` v repozitáři má řádek `raclettelovers.com`. U publikace z GitHub Actions ho Pages ignoruje. Doména se zapne ručně: v repozitáři Settings → Pages, pole Custom domain, hodnota `raclettelovers.com`, tlačítko Save. Než se to uloží, adresa vrací stránku GitHubu „There isn't a GitHub Pages site here“ a certifikát je pořád pro `*.github.io`. Po uložení může trvat až hodinu, než GitHub vydá certifikát a web na doméně otevře. Enforce HTTPS nechte zapnuté, až kontrola DNS zezelená.
+Řádek `*.raclettelovers.com` smažte. Místo něj přidejte jen `www` jako CNAME přímo na `garath33.github.io` (bez `/raclette`). Třída zůstává IN, priorita se u A ani CNAME nevyplňuje.
 
-Až doména web ukáže, otevře se anglicky, pokud návštěvník nemá uložený jazyk. Pořád má pruh „Testovací prostředí“ a `noindex, follow`. Indexování se zapne až po výslovném potvrzení. Do té doby se na to občas připomene.
+| Název | Typ | Hodnota | Co s ním |
+| --- | --- | --- | --- |
+| raclettelovers.com | A | 185.199.108.153 | nechte |
+| raclettelovers.com | A | 185.199.109.153 | nechte |
+| raclettelovers.com | A | 185.199.110.153 | nechte |
+| raclettelovers.com | A | 185.199.111.153 | nechte |
+| www.raclettelovers.com | CNAME | garath33.github.io | přidejte |
+| `*.raclettelovers.com` | CNAME | raclettelovers.com | smažte |
 
-V zóně mají být právě tyto čtyři řádky A. Třída zůstává IN, priorita se u A nevyplňuje.
+Kdyby se starý řádek s `86.110.243.202` vrátil, smažte ho. Jmenné servery `ns1.webhouse.sk`, `ns2.webhouse.sk` a `ns3.webhouse.sk` nepřepisujte. Záznamy AAAA GitHub doporučuje, ale k vydání certifikátu nutné nejsou.
 
-| Název | Typ | Hodnota |
-| --- | --- | --- |
-| raclettelovers.com | A | 185.199.108.153 |
-| raclettelovers.com | A | 185.199.109.153 |
-| raclettelovers.com | A | 185.199.110.153 |
-| raclettelovers.com | A | 185.199.111.153 |
+TTL u WebHouse je 600 sekund. Po uložení DNS počkejte aspoň deset minut. Pak v repozitáři Settings → Pages u Custom domain klikněte Remove, znovu napište `raclettelovers.com` a Save. Tím se znovu spustí žádost o certifikát. Může trvat až hodinu. Až vedle domény zezelená kontrola DNS, zapněte Enforce HTTPS. Tokeny z tohohle prostředí pole umí jen číst, uložení musí udělat vlastník.
 
-Kdyby se starý řádek s `86.110.243.202` vrátil, smažte ho. Hvězdičkový CNAME nechte. Jmenné servery nepřepisujte.
+Soubor `CNAME` v repozitáři má řádek `raclettelovers.com`. U publikace z GitHub Actions ho Pages ignoruje; kanonická adresa se bere z pole Custom domain. Teď tam je `www.raclettelovers.com`, proto apex přes HTTP skáče na `www`. Po uložení `raclettelovers.com` GitHub otočí přesměrování: `www` půjde na adresu bez `www`.
+
+Až HTTPS naskočí, stránka se otevře anglicky, pokud návštěvník nemá uložený jazyk. Pořád má pruh „Testovací prostředí“ a `noindex, follow`. Indexování se zapne až po výslovném potvrzení.
 
 ## Kam se sbíhají cesty
 
