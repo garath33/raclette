@@ -11,7 +11,7 @@ Pokračuj v PR https://github.com/garath33/raclette/pull/7 (větev cursor/domain
 
 Hotovo: .com zůstává na GitHub Pages, DNS u WebHouse NEMĚNIT. .cz .sk .ch jsou Active a https:// vrací 200. www na těchto třech vrací 301 na apex. Aliasy bez cz/ch pointoriginal jsou Active a 301 jde na správný cíl. Worker raclette má custom domain apex+www. 301 dělá worker.js (Workers _redirects absolutní URL neumí). DNSSEC u WebHouse nezapínat. Prázdná tabulka DNS v průvodci je správně.
 
-Zbývá: raclettepointoriginal.cz a raclettepointoriginal.ch jsou v Cloudflare pending, veřejné DNS pořád vrací ns1–3.webhouse.sk a parkovací 86.110.243.202. Když na detailu u WebHouse už jsou teresa/tim, nic neklikat a počkat. Když tam jsou pořád webhouse servery, vyměnit jen jmenné servery. .com NIKDY.
+Hotovo i aliasy: 6. října 2026 ráno jsou všechny zóny Active, 1.1.1.1 i 8.8.8.8 vrací Cloudflare a HTTPS 301 sedí. .com NIKDY. DNSSEC nezapínat, do DNS tabulky nic nepřidávat.
 ```
 
 3. Starý chat nechte otevřený jen jako archiv. Pracujte výhradně v novém.
@@ -26,7 +26,7 @@ Tohle **není** tabulka DNS záznamů (A/CNAME). Je to výměna **jmenných serv
 
 Smazání všech řádků A/AAAA/CNAME na druhé stránce průvodce Cloudflare bylo správně. Ty řádky byly staré parkování (`86.110.243.202`). Worker po připojení domény doplní vlastní záznam sám (v tabulce je pak jen `AAAA` `100::`, proxied). Nic dalšího do DNS tabulky nepište a GitHub adresy `185.199…` tam nekopírujte.
 
-Veřejné DNS 5. října 2026 odpoledne pořád drží WebHouse u dvou domén: `raclettepointoriginal.cz` a `raclettepointoriginal.ch` (`ns1`–`ns3.webhouse.sk`, adresa `86.110.243.202`). Cloudflare u nich píše Pending. Když na detailu ve WebHouse už jsou teresa a tim, uložení se teprve propisuje — nic dalšího neklikejte. Když tam pořád jsou webhouse servery, vyměňte jen jmenné servery a uložte. Věta „Doména není zajištěna pomocí DNSSEC“ znamená, že DNSSEC je vypnuté. Tlačítko **Přidat** nemačkejte. Červená věta „Editace DNS zóny je zakázaná“ po přepnutí jmenných serverů je v pořádku: zónu od té chvíle drží Cloudflare.
+6. října 2026 ráno už jsou Active i `raclettepointoriginal.cz` (od 5. října 13:18 UTC) a `raclettepointoriginal.ch` (od 5. října 13:42 UTC). Veřejné DNS u obou vrací teresa/tim a adresy Cloudflare. Věta „Doména není zajištěna pomocí DNSSEC“ znamená, že DNSSEC je vypnuté. Tlačítko **Přidat** nemačkejte. Červená věta „Editace DNS zóny je zakázaná“ po přepnutí jmenných serverů je v pořádku: zónu od té chvíle drží Cloudflare.
 
 Až budete převádět další doménu, u WebHouse u **té** domény:
 
@@ -51,7 +51,7 @@ Token umí DNS, Workers Scripts a připojení custom domain. Zónu založit neum
 
 Na Workeru `raclette` jsou apex i `www` pro `.cz`, `.sk`, `.ch`, `raclette-lovers.com`, `raclette-point-original.com`, `raclettepointoriginal.com`, `.sk`, `.cz` a `.ch`. V DNS každé zóny jsou jen proxied `AAAA` `100::`. Veřejný překladač z toho udělá adresy Cloudflare (`104.21…` / `172.67…`).
 
-Aktivní a 301 ověřené na hraně Cloudflare: `raclette-lovers.com`, `raclette-point-original.com`, `raclettepointoriginal.com`, `raclettepointoriginal.sk` (včetně `www`). `raclettepointoriginal.cz` a `raclettepointoriginal.ch` jsou v účtu Pending, protože registr pořád publikuje jmenné servery WebHouse. Dokud se to nepropíše, prohlížeč uvidí starou parkovací stránku, nebo `NXDOMAIN`, když se zeptá serveru, který zónu už neservíruje. V prohlížeči pak pomůže `ipconfig /flushdns`. Do DNS tabulky nic nedoplňujte.
+6. října 2026 ráno jsou Active všechny aliasy včetně `raclettepointoriginal.cz` a `raclettepointoriginal.ch`. HTTPS 301 je ověřené na veřejném DNS u `1.1.1.1` i `8.8.8.8`, cesta v adrese se zachová a certifikát projde. Do DNS tabulky nic nedoplňujte.
 
 ## Jazyk na každé doméně
 
@@ -114,9 +114,9 @@ Na Workeru `raclette` jsou `raclettelovers.cz` i `www.raclettelovers.cz`. Apex v
 Stejný postup (zóna ve Free plánu, jmenné servery teresa/tim, prázdná DNS tabulka, custom domain apex + www) je hotový pro:
 
 1. `raclettelovers.sk` a `raclettelovers.ch` — Active, HTTPS 200, `www` 301 na apex
-2. `raclette-lovers.com`, `raclette-point-original.com`, `raclettepointoriginal.com`, `raclettepointoriginal.sk` — Active, 301 na cíl níže
+2. `raclette-lovers.com`, `raclette-point-original.com`, `raclettepointoriginal.com` a `raclettepointoriginal.cz` / `.sk` / `.ch` — Active, 301 na cíl níže
 
-Pending, čeká se jen na jmenné servery u registru: `raclettepointoriginal.cz`, `raclettepointoriginal.ch`. Custom domain už na Workeru jsou. Až zóna přejde na Active, 301 začne fungovat samo. Žádný A/CNAME řádek nedoplňujte.
+Žádný A/CNAME řádek nedoplňujte.
 
 `.com` na GitHub Pages nechte.
 
