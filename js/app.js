@@ -124,8 +124,8 @@ function selectPoint(id) {
 }
 
 function applyStatic() {
-  document.documentElement.lang = lang === "cs" ? "cs" : lang;
-  RacletteSite.apply(lang, t);
+  document.documentElement.lang = RacletteSite.htmlLang(lang, location.hostname);
+  RacletteSite.apply(lang, t, location);
   document.querySelectorAll("[data-i18n]").forEach((el) => {
     el.textContent = t(el.dataset.i18n);
   });
@@ -148,12 +148,11 @@ function applyStatic() {
 }
 
 function setLang(next) {
-  if (!LANGS.includes(next)) next = "cs";
+  if (!LANGS.includes(next)) next = RacletteSite.preferredLanguage(location.hostname, navigator.languages || [navigator.language]) || "cs";
+  try { localStorage.setItem("raclette-lang", next); } catch (err) { /* ignore */ }
+  const target = new URL(RacletteSite.languageUrl(next, location));
   lang = next;
-  try { localStorage.setItem("raclette-lang", lang); } catch (err) { /* ignore */ }
-  const url = new URL(window.location.href);
-  url.searchParams.set("lang", lang);
-  history.replaceState(null, "", url);
+  history.replaceState(null, "", target.pathname + target.search + target.hash);
   applyStatic();
   const point = POINTS.find((item) => item.id === activeId);
   document.getElementById("map-frame").src = mapSrc(point);
@@ -186,13 +185,12 @@ function locate() {
 function boot() {
   const params = new URLSearchParams(window.location.search);
   let initial = params.get("lang");
+  if (initial && !LANGS.includes(initial)) initial = null;
   if (!initial) {
     try { initial = localStorage.getItem("raclette-lang"); } catch (err) { initial = null; }
   }
-  if (!initial && window.RacletteSite) initial = RacletteSite.defaultLanguage(location.hostname);
   if (!initial) {
-    const browser = (navigator.language || "cs").slice(0, 2).toLowerCase();
-    initial = LANGS.includes(browser) ? browser : "cs";
+    initial = RacletteSite.preferredLanguage(location.hostname, navigator.languages || [navigator.language]);
   }
   lang = LANGS.includes(initial) ? initial : "cs";
   applyStatic();
