@@ -18,7 +18,8 @@ test("stránka se načte, má sekce a testovací pruh", async ({ page }) => {
   await expect(page.locator("#site-nav a[href='#pointy']")).toHaveText("Naše raclette pointy");
   await expect(page.locator("a[href='#franchise']").first()).toBeVisible();
   await expect(page.locator("#franchise h2")).toContainText("Raclette Point Original");
-  await expect(page.locator(".hero-actions a[href='#franchise']")).toContainText("Chci se stát raclette pointem");
+  await expect(page.locator('#uvod a[data-i18n="hero.secondary"]')).toHaveText("Chci se stát raclette pointem");
+  await expect(page.locator('#uvod a[data-i18n="hero.secondary"]')).toHaveAttribute("href", "#franchise");
   await expect(page.locator(".hero-cow")).toHaveCount(0);
   await expect(page.locator(".supplier-cow")).toBeVisible();
   await expect(page.locator(".supplier-crest")).toBeVisible();
@@ -39,24 +40,8 @@ test("stránka se načte, má sekce a testovací pruh", async ({ page }) => {
 });
 
 test("formulář spolupráce vyžaduje všechna pole a míří na Milana", async ({ page }) => {
-  await page.addInitScript(() => {
-    window.__mailto = null;
-    const assign = Object.getOwnPropertyDescriptor(Location.prototype, "href").set;
-    Object.defineProperty(Location.prototype, "href", {
-      configurable: true,
-      set(value) {
-        if (String(value).startsWith("mailto:")) {
-          window.__mailto = String(value);
-          return;
-        }
-        assign.call(this, value);
-      },
-      get() {
-        return window.location.toString();
-      }
-    });
-  });
   await page.goto("/?lang=cs");
+  await page.evaluate(() => { window.__skipPartnerMailto = true; });
   await page.locator("#franchise-form").scrollIntoViewIfNeeded();
   await page.locator("#partner-form button[type='submit']").click();
   await expect(page.locator("#form-status")).toContainText("Vyplňte");
@@ -67,8 +52,9 @@ test("formulář spolupráce vyžaduje všechna pole a míří na Milana", async
   await page.fill("#form-email", "partner@example.com");
   await page.fill("#form-idea", "Chci shop-in-shop na terasu.");
   await page.locator("#partner-form button[type='submit']").click();
-  await expect.poll(async () => page.evaluate(() => window.__mailto)).toMatch(/^mailto:milan@raclette-original\.com\?/);
-  const mailto = decodeURIComponent(await page.evaluate(() => window.__mailto));
+  await expect(page.locator("#form-status")).toContainText("milan@raclette-original.com");
+  const mailto = decodeURIComponent(await page.evaluate(() => window.__lastPartnerMailto));
+  expect(mailto).toMatch(/^mailto:milan@raclette-original\.com\?/);
   expect(mailto).toContain("Hotel Test");
   expect(mailto).toContain("Opava");
   expect(mailto).toContain("partner@example.com");

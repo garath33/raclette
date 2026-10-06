@@ -191,7 +191,9 @@ function bindPartnerForm() {
     status.hidden = false;
     status.classList.remove("is-error");
     status.textContent = t("form.ready");
-    window.location.href = partnerMailto(fields);
+    const href = partnerMailto(fields);
+    window.__lastPartnerMailto = href;
+    if (!window.__skipPartnerMailto) window.location.href = href;
   });
 }
 

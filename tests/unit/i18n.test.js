@@ -34,7 +34,9 @@ test("veřejný text nezmiňuje vyřazenou osobu a IT role existuje", () => {
   }
   assert.match(TRANSLATIONS.cs["franchise.s2d"], /schůzku/);
   assert.match(TRANSLATIONS.cs["franchise.f1d"], /částečné po kompletní/);
-  assert.match(TRANSLATIONS.cs["franchise.title"], /oficiálním Raclette Pointem/);
+  assert.match(TRANSLATIONS.cs["franchise.title"], /Raclette Point Original/);
+  assert.match(TRANSLATIONS.cs["nav.points"], /Naše raclette pointy/);
+  assert.match(TRANSLATIONS.cs["hero.secondary"], /Chci se stát raclette pointem/);
   assert.match(TRANSLATIONS.cs["franchise.lead"], /Bez statisícových investic a bez šéfkuchaře/);
   assert.match(TRANSLATIONS.cs["franchise.concept"], /průměrnou útratu/);
   assert.match(TRANSLATIONS.cs["franchise.why1d"], /Raclette Lovers/);
@@ -43,6 +45,8 @@ test("veřejný text nezmiňuje vyřazenou osobu a IT role existuje", () => {
   assert.match(TRANSLATIONS.cs["franchise.approach"], /statisícové ani milionové vstupní poplatky/);
   assert.match(TRANSLATIONS.cs["franchise.a3d"], /Měsíční partnerský poplatek/);
   assert.match(TRANSLATIONS.cs["franchise.s4d"], /Eddy Baillifard/);
+  assert.match(TRANSLATIONS.cs["form.lead"], /milan@raclette-original\.com/);
+  assert.match(TRANSLATIONS.cs["supplier.brand"], /designová značka mlékárny z Valais/);
   const franchiseBlob = Object.entries(TRANSLATIONS.cs).filter(([key]) => key.startsWith("franchise.")).map(([, value]) => value).join("\n");
   assert.equal(/nalák/i.test(franchiseBlob), false);
   assert.equal(/\d+\s*(Kč|EUR|CHF|€|%)/.test(franchiseBlob), false);
