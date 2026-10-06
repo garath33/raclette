@@ -2,10 +2,9 @@ name: Deploy test environment
 
 # GitHub Pages dovolí publikaci jen z větve main (ochrana prostředí github-pages).
 # Tahle větev proto web nevystavuje. Po schválení sloučení do main vznikne
-# zkušební web na https://garath33.github.io/raclette/ . Vlastní doména
-# raclettelovers.com se připojí až uložením v Settings → Pages. Soubor CNAME
-# nasazení z Actions ignoruje. Pořád s pruhem „Testovací prostředí“ a s noindex,
-# dokud indexování někdo výslovně neschválí. Ostatní domény to nezapíná.
+# zkušební web. Vlastní doména je www.raclettelovers.com s HTTPS.
+# Ostatní koncovky Pages nezapne, viz docs/domeny.md. Pořád s pruhem
+# „Testovací prostředí“ a s noindex, dokud indexování někdo výslovně neschválí.
 on:
   push:
     branches:
@@ -46,7 +45,7 @@ jobs:
       - name: Sestavit testovací web
         run: |
           mkdir -p _site
-          cp index.html robots.txt sitemap.xml CNAME _site/
+          cp index.html robots.txt sitemap.xml CNAME _redirects _site/
           cp -a css js assets _site/
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3

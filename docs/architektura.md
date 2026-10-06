@@ -27,7 +27,7 @@ assets/          logo, fotky, favicon
 
 ## Jazyk
 
-Výchozí jazyk testovacího webu je čeština. Volba se ukládá do `localStorage` a do adresy jako `?lang=cs`. Na budoucích doménách se výchozí jazyk bude řídit doménou, viz [Domény](domeny.md).
+Na `localhost`, `github.io` i na `raclettelovers.*` přepínač nabízí všech devět jazyků a zůstane na stejné adrese s `?lang=`. Nejdřív se bere jazyk z nastavení telefonu nebo počítače. Když ho zařízení neřekne, platí koncovka: `.cz` čeština, `.sk` slovenština, `.ch` francouzština, `.com` angličtina. Viz [Domény](domeny.md).
 
 ## Mapa
 

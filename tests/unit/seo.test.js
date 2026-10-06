@@ -37,6 +37,68 @@ test("robots a sitemap ukazují na testovací adresu a všechny jazyky", () => {
   assert.equal(sitemap.includes(HOST), true);
 });
 
+test("soubor _redirects posílá staré a spojovníkové domény 301 na raclettelovers.*", () => {
+  const redirects = fs.readFileSync("_redirects", "utf8");
+  const rules = [
+    ["raclettepointoriginal.com", "www.raclettelovers.com"],
+    ["raclettepointoriginal.cz", "raclettelovers.cz"],
+    ["raclettepointoriginal.sk", "raclettelovers.sk"],
+    ["raclettepointoriginal.ch", "raclettelovers.ch"],
+    ["raclette-point-original.com", "www.raclettelovers.com"],
+    ["raclette-lovers.com", "www.raclettelovers.com"]
+  ];
+  for (const [from, to] of rules) {
+    assert.match(redirects, new RegExp("https://" + from.replace(/\./g, "\\.") + "/\\* https://" + to.replace(/\./g, "\\.") + "/:splat 301"));
+    assert.match(redirects, new RegExp("https://www\\." + from.replace(/\./g, "\\.") + "/\\* https://" + to.replace(/\./g, "\\.") + "/:splat 301"));
+  }
+  for (const host of ["raclettelovers.cz", "raclettelovers.sk", "raclettelovers.ch"]) {
+    assert.match(redirects, new RegExp("https://www\\." + host.replace(/\./g, "\\.") + "/\\* https://" + host.replace(/\./g, "\\.") + "/:splat 301"));
+  }
+  assert.equal(redirects.includes("https://www.raclettelovers.com/* https://raclettelovers.com/:splat 301"), false);
+});
+
+test("worker.js má stejné cíle 301 a kanonické hosty nechává na webu", () => {
+  const worker = fs.readFileSync("worker.js", "utf8");
+  const rules = [
+    ["www.raclettelovers.cz", "https://raclettelovers.cz"],
+    ["www.raclettelovers.sk", "https://raclettelovers.sk"],
+    ["www.raclettelovers.ch", "https://raclettelovers.ch"],
+    ["raclettepointoriginal.com", "https://www.raclettelovers.com"],
+    ["www.raclettepointoriginal.com", "https://www.raclettelovers.com"],
+    ["raclettepointoriginal.cz", "https://raclettelovers.cz"],
+    ["www.raclettepointoriginal.cz", "https://raclettelovers.cz"],
+    ["raclettepointoriginal.sk", "https://raclettelovers.sk"],
+    ["www.raclettepointoriginal.sk", "https://raclettelovers.sk"],
+    ["raclettepointoriginal.ch", "https://raclettelovers.ch"],
+    ["www.raclettepointoriginal.ch", "https://raclettelovers.ch"],
+    ["raclette-point-original.com", "https://www.raclettelovers.com"],
+    ["www.raclette-point-original.com", "https://www.raclettelovers.com"],
+    ["raclette-lovers.com", "https://www.raclettelovers.com"],
+    ["www.raclette-lovers.com", "https://www.raclettelovers.com"]
+  ];
+  for (const [from, to] of rules) {
+    assert.match(worker, new RegExp('"' + from.replace(/\./g, "\\.") + '": "' + to.replace(/[.]/g, "\\.") + '"'));
+  }
+  assert.equal(worker.includes('"raclettelovers.cz"'), false);
+  assert.equal(worker.includes('"www.raclettelovers.com"'), false);
+  assert.equal(fs.existsSync("public/_redirects"), false);
+});
+
+test("složka public je stejný web, který nahrává Cloudflare Worker", () => {
+  const files = [
+    "index.html",
+    "robots.txt",
+    "sitemap.xml",
+    "css/styles.css",
+    "js/site.js",
+    "js/app.js"
+  ];
+  for (const file of files) {
+    assert.equal(fs.readFileSync("public/" + file, "utf8"), fs.readFileSync(file, "utf8"), file);
+  }
+  assert.equal(fs.existsSync("public/assets/photo-service.jpg"), true);
+});
+
 test("veřejné soubory drží výkonnostní rozpočet", () => {
   const limits = {
     "css/styles.css": 40 * 1024,

@@ -3,9 +3,11 @@
   "main": "worker.js",
   "compatibility_date": "2026-10-05",
   "workers_dev": false,
+  "preview_urls": true,
   "assets": {
-    "directory": ".",
+    "directory": "./public",
     "binding": "ASSETS",
     "run_worker_first": true
-  }
+  },
+  "previews": {}
 }

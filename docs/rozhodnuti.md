@@ -36,7 +36,13 @@ Sekce Spolupráce teď sleduje strukturu B2B letáku, ne jeden zhuštěný odsta
 
 ## raclettelovers.com je první vlastní doména
 
-Čtyři záznamy A u WebHouse míří na GitHub Pages (`185.199.108.153` až `185.199.111.153`). Parkovací adresa `86.110.243.202` je pryč. Pages už servíruje `www.raclettelovers.com`, certifikát platí i pro apex a apex se přesměrovává na `www`. Schválení „publikuj na ostrý web“ sundalo z `raclettelovers.com` a `www` zkušební pruh i `noindex`. `github.io` a localhost pruh mají dál. Bez uloženého jazyka se na `.com` otevře angličtina. Ostatní domény a přesměrování se zatím nezapínají.
+Čtyři záznamy A u WebHouse míří na GitHub Pages (`185.199.108.153` až `185.199.111.153`) a `www` je CNAME na `garath33.github.io`. Parkovací adresa `86.110.243.202` je pryč. HTTPS na `www.raclettelovers.com` běží, certifikát kryje i apex, Enforce HTTPS je zapnuté. Apex skáče na `www`. DNS zónu `.com` u WebHouse nemente.
+
+Schválení „publikuj na ostrý web“ sundalo z `raclettelovers.com` a `www` zkušební pruh i `noindex`. `github.io` a localhost pruh mají dál. Kód v téhle větvi to zatím nedrží: `isStagingHost` pořád značí i `raclettelovers.*` jako zkušební, takže sloučení by pruh a `noindex` na `.com` vrátilo.
+
+`.cz`, `.sk`, `.ch` a aliasy běží na Cloudflare Workeru `raclette`. Jmenné servery jsou `teresa.ns.cloudflare.com` a `tim.ns.cloudflare.com`. Placené Presmerovanie u WebHouse neplatit.
+
+Přepínač nabízí všechny jazyky na každé doméně. Nejdřív se bere jazyk z nastavení telefonu nebo počítače, jinak koncovka: `.cz` čeština, `.sk` slovenština, `.ch` francouzština, `.com` angličtina.
 
 ## Hlava krávy se nesmí natáhnout do sloupu
 

@@ -22,9 +22,9 @@ GitHub u tohoto repozitáře pustí Pages jen z větve `main`. Z funkční větv
 2. Když testy projdou, sestaví se složka `_site` jen z veřejných souborů.
 3. GitHub Pages ji vystaví na `https://garath33.github.io/raclette/`.
 
-Na té adrese je černý pruh „Testovací prostředí“ a stránka má `noindex`, aby ji vyhledávače nebraly jako ostrý web.
+Na té adrese je černý pruh „Testovací prostředí“ a stránka má `noindex`, aby ji vyhledávače nebraly jako ostrý web. Vlastní doména `https://www.raclettelovers.com/` na ni taky míří, s HTTPS. Ostatní koncovky GitHub Pages nezapne, postup je v [domeny.md](domeny.md).
 
-Sloučení do `main` zapne jen tuhle testovací adresu. Nezapne `raclettelovers.*` ani `raclettepointoriginal.*`.
+Sloučení do `main` aktualizuje jen GitHub Pages. Nezapne `raclettelovers.cz`, `raclettelovers.sk`, `raclettelovers.ch` ani přesměrování ze staré značky. GitHub Pages umí jednu vlastní adresu.
 
 ## Ostré nasazení
 
@@ -43,4 +43,4 @@ Stránka je na `http://127.0.0.1:4173`. Poloha v prohlížeči funguje na localh
 
 ## Co se do testovacího webu nekopíruje
 
-Testy, `node_modules` a tahle dokumentace zůstávají v repozitáři. Na Pages jdou jen `index.html`, `css`, `js`, `assets`, `robots.txt` a `sitemap.xml`.
+Testy, `node_modules` a tahle dokumentace zůstávají v repozitáři. Na Pages jdou jen `index.html`, `css`, `js`, `assets`, `robots.txt`, `sitemap.xml`, `CNAME` a `_redirects`.

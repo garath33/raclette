@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://garath33.github.io/raclette/sitemap.xml
