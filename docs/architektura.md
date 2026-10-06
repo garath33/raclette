@@ -18,7 +18,7 @@ assets/          logo, fotky, favicon
 
 1. Úvod se dvěma cestami: nejbližší Point a franchise
 2. Naše Raclette Pointy, poloha a Google Maps
-3. Spolupráce: proč Point, tři formáty partnerství a čtyři kroky, jak ji navázat. Znění je z B2B podkladu a ze starších vět Raklet Party.
+3. Spolupráce: úvod z B2B letáku, čtyři přínosy, tři formáty s plochou a „pro koho“, principy partnerství, podpora a čtyři kroky. Znění je z letáku, doplněné o větu od částečné po kompletní spolupráci.
 4. Reference a média
 5. Příběh českého krále, včetně videa pasování
 6. Kde nakoupit

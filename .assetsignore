@@ -11,7 +11,7 @@ package-lock.json
 playwright.config.js
 CNAME
 wrangler.jsonc
-worker.js
-_redirects
 .gitignore
 .assetsignore
+worker.js
+_redirects
