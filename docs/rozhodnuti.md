@@ -36,13 +36,11 @@ Sekce Spolupráce teď sleduje strukturu B2B letáku, ne jeden zhuštěný odsta
 
 ## raclettelovers.com je první vlastní doména
 
-Čtyři záznamy A u WebHouse míří na GitHub Pages (`185.199.108.153` až `185.199.111.153`). Parkovací adresa `86.110.243.202` je pryč. Pages už servíruje `www.raclettelovers.com`, certifikát platí i pro apex a apex se přesměrovává na `www`. Schválení „publikuj na ostrý web“ sundalo z `raclettelovers.com` a `www` zkušební pruh i `noindex`. `github.io` a localhost pruh mají dál. Bez uloženého jazyka se na `.com` otevře angličtina. Ostatní domény a přesměrování se zatím nezapínají.
+Čtyři záznamy A u WebHouse míří na GitHub Pages (`185.199.108.153` až `185.199.111.153`). Parkovací adresa `86.110.243.202` je pryč. Ostrý web běží na Cloudflare Workeru a na `raclettelovers.*`. Schválení „commitni na ostrý web“ sundává z těchto domén zkušební pruh i `noindex`. `github.io` a localhost pruh mají dál. Bez uloženého jazyka se na `.com` otevře angličtina, jinak vyhrává jazyk zařízení a potom koncovka domény.
 
-## Hlava krávy se nesmí natáhnout do sloupu
+## Hlava krávy patří k mlékárně, ne na fotku sýra
 
-U obrázku bylo v HTML výška 875 px a v CSS jen šířka. Prohlížeč proto nechal výšku atributu a hlavu roztáhl do vysokého pruhu, který na stránce vypadal jako useknutá krabička. CSS teď nastavuje `height: auto` a poměr 723:875.
-
-Samotný poměr nestačil. Hlava a kulaté logo byly přilepené k rámu sloupce, zatímco fotka uprostřed tabletu byla menší a vycentrovaná. Na šířce kolem 768 px proto hlava visela ve volném místě vedle kruhu a na úzkém mobilu se kruh zploštil, protože výška fotky byla natvrdo 300 px. Rám vizuálu je teď čtverec stejně velký jako fotka a obě značky se kotví k jeho rohům v procentech. Test hlídá poměr hlavy, kruhovou fotku a to, že se hlava s fotkou překrývá.
+Barevná hlava krávy je designová značka mlékárny z Valais. Na hero fotce sýra už není překrytá jako nálepka. Spolu se znakem La Laiterie d’Orsières je v pruhu dodavatele a ve footeru. Test hlídá poměr hlavy a to, že layout na mobilu, tabletu i desktopu nepřetéká.
 
 ## Hláška mapy není chyba stránky
 

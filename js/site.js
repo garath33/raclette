@@ -81,7 +81,7 @@
   }
 
   function isStagingHost(hostname) {
-    return isPreviewHost(hostname) || isLoversHost(hostname);
+    return isPreviewHost(hostname);
   }
 
   function defaultLanguage(hostname) {

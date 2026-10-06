@@ -9,13 +9,13 @@ const loc = (hostname, extra) => Object.assign({
   hash: ""
 }, extra);
 
-test("github.io i raclettelovers.* zůstávají zkušební, dokud není ostrý souhlas", () => {
+test("github.io zůstává zkušební a raclettelovers.* je ostrý web", () => {
   assert.equal(site.isStagingHost("garath33.github.io"), true);
-  assert.equal(site.isStagingHost("raclettelovers.com"), true);
-  assert.equal(site.isStagingHost("www.raclettelovers.com"), true);
-  assert.equal(site.isStagingHost("raclettelovers.cz"), true);
-  assert.equal(site.isStagingHost("www.raclettelovers.sk"), true);
-  assert.equal(site.isStagingHost("raclettelovers.ch"), true);
+  assert.equal(site.isStagingHost("raclettelovers.com"), false);
+  assert.equal(site.isStagingHost("www.raclettelovers.com"), false);
+  assert.equal(site.isStagingHost("raclettelovers.cz"), false);
+  assert.equal(site.isStagingHost("www.raclettelovers.sk"), false);
+  assert.equal(site.isStagingHost("raclettelovers.ch"), false);
   assert.equal(site.isStagingHost("localhost"), true);
   assert.equal(site.isPreviewHost("127.0.0.1"), true);
   assert.equal(site.isPreviewHost("raclettelovers.com"), false);
