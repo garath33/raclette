@@ -141,10 +141,58 @@ function applyStatic() {
   const frame = document.getElementById("map-frame");
   frame.title = t("points.mapTitle");
   document.getElementById("lang").value = lang;
-  const mail = document.getElementById("franchise-mail");
-  if (mail) {
-    mail.href = "mailto:milan@raclette-original.com?subject=" + encodeURIComponent(t("franchise.subject"));
-  }
+}
+
+function typeLabel(value) {
+  const key = "form.type." + value;
+  const label = t(key);
+  return label === key ? value : label;
+}
+
+function partnerMailto(data) {
+  const lines = [
+    t("form.mail.name") + ": " + data.name,
+    t("form.mail.type") + ": " + typeLabel(data.type),
+    t("form.mail.city") + ": " + data.city,
+    t("form.mail.phone") + ": " + data.phone,
+    t("form.mail.email") + ": " + data.email,
+    "",
+    t("form.mail.idea") + ":",
+    data.idea
+  ];
+  return "mailto:milan@raclette-original.com?subject=" +
+    encodeURIComponent(t("franchise.subject")) +
+    "&body=" + encodeURIComponent(lines.join("\n"));
+}
+
+function bindPartnerForm() {
+  const form = document.getElementById("partner-form");
+  if (!form || form.dataset.bound === "1") return;
+  form.dataset.bound = "1";
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const status = document.getElementById("form-status");
+    const fields = {
+      name: form.elements.namedItem("name").value.trim(),
+      type: form.elements.namedItem("type").value,
+      city: form.elements.namedItem("city").value.trim(),
+      phone: form.elements.namedItem("phone").value.trim(),
+      email: form.elements.namedItem("email").value.trim(),
+      idea: form.elements.namedItem("idea").value.trim()
+    };
+    const missing = Object.values(fields).some((value) => !value);
+    if (missing || !form.checkValidity()) {
+      form.reportValidity();
+      status.hidden = false;
+      status.classList.add("is-error");
+      status.textContent = t("form.error");
+      return;
+    }
+    status.hidden = false;
+    status.classList.remove("is-error");
+    status.textContent = t("form.ready");
+    window.location.href = partnerMailto(fields);
+  });
 }
 
 function setLang(next) {
@@ -194,6 +242,7 @@ function boot() {
   }
   lang = LANGS.includes(initial) ? initial : "cs";
   applyStatic();
+  bindPartnerForm();
   document.getElementById("map-frame").src = mapSrc(POINTS[0]);
   renderPoints();
   setStatus("points.idle");
