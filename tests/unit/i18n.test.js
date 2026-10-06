@@ -46,7 +46,13 @@ test("veřejný text nezmiňuje vyřazenou osobu a IT role existuje", () => {
   assert.match(TRANSLATIONS.cs["franchise.a3d"], /Měsíční partnerský poplatek/);
   assert.match(TRANSLATIONS.cs["franchise.s4d"], /Eddy Baillifard/);
   assert.match(TRANSLATIONS.cs["form.lead"], /milan@raclette-original\.com/);
+  assert.match(TRANSLATIONS.cs["form.invite"], /formulář|zavolejte/);
+  assert.match(TRANSLATIONS.cs["nav.franchise"], /Pro partnery/);
+  assert.match(TRANSLATIONS.cs["aop.title"], /AOP/);
+  assert.match(TRANSLATIONS.cs["aop.body"], /Appellation d’Origine Protégée/);
+  assert.match(TRANSLATIONS.cs["supplier"], /mlékárny Laiterie d’Orsières/);
   assert.match(TRANSLATIONS.cs["supplier.brand"], /designová značka mlékárny z Valais/);
+  assert.equal(/Laterie/i.test(Object.values(TRANSLATIONS.cs).join("\n")), false);
   const franchiseBlob = Object.entries(TRANSLATIONS.cs).filter(([key]) => key.startsWith("franchise.")).map(([, value]) => value).join("\n");
   assert.equal(/nalák/i.test(franchiseBlob), false);
   assert.equal(/\d+\s*(Kč|EUR|CHF|€|%)/.test(franchiseBlob), false);

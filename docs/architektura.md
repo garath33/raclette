@@ -18,7 +18,7 @@ assets/          logo, fotky, favicon
 
 1. Úvod se dvěma cestami: nejbližší Point a franchise
 2. Naše Raclette Pointy, poloha a Google Maps
-3. Spolupráce: úvod z B2B letáku, čtyři přínosy, tři formáty s plochou a „pro koho“, principy partnerství, podpora a čtyři kroky. Znění je z letáku, doplněné o větu od částečné po kompletní spolupráci.
+3. Pro partnery: úvod z B2B letáku, krátké vysvětlení AOP, čtyři přínosy, tři formáty s plochou a „pro koho“, principy partnerství, podpora, čtyři kroky a kontaktní formulář s telefonem +420 777 600 223.
 4. Reference a média
 5. Příběh českého krále, včetně videa pasování
 6. Kde nakoupit

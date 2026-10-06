@@ -17,7 +17,11 @@ test("stránka se načte, má sekce a testovací pruh", async ({ page }) => {
   await expect(page.locator("#hero-locate")).toHaveAttribute("href", "#pointy");
   await expect(page.locator("#site-nav a[href='#pointy']")).toHaveText("Naše raclette pointy");
   await expect(page.locator("a[href='#franchise']").first()).toBeVisible();
+  await expect(page.locator("#site-nav a[href='#franchise']")).toHaveText("Pro partnery");
   await expect(page.locator("#franchise h2")).toContainText("Raclette Point Original");
+  await expect(page.locator("#franchise .aop-note")).toContainText("Appellation d’Origine Protégée");
+  await expect(page.locator("#franchise-form .form-invite")).toContainText("+420 777 600 223");
+  await expect(page.locator('#franchise-form a[href="tel:+420777600223"]')).toBeVisible();
   await expect(page.locator('#uvod a[data-i18n="hero.secondary"]')).toHaveText("Chci se stát raclette pointem");
   await expect(page.locator('#uvod a[data-i18n="hero.secondary"]')).toHaveAttribute("href", "#franchise");
   await expect(page.locator(".hero-cow")).toHaveCount(0);
