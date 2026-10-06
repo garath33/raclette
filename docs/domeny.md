@@ -55,7 +55,7 @@ Na Workeru `raclette` jsou apex i `www` pro `.cz`, `.sk`, `.ch`, `raclette-lover
 
 ## Jazyk na každé doméně
 
-Přepínač nabízí všech devět jazyků a zůstane na stejné adrese (`?lang=`). Výchozí jazyk se bere ze státu v locale prohlížeče (`cs-CZ` → čeština, `de-DE` → němčina, `fr-CH` → francouzština). Když locale zemi neprozradí, padá to na koncovku: `.cz` čeština, `.sk` slovenština, `.ch` němčina, `.com` angličtina.
+Přepínač nabízí všech devět jazyků a zůstane na stejné adrese (`?lang=`). Nejdřív se bere jazyk nastavený v telefonu nebo v počítači (`cs-CZ` → čeština, `fr-CH` → francouzština, `de-CH` → němčina, `it-CH` → italština, `en-CH` → angličtina). Švýcarská němčina (`gsw`) se počítá jako němčina. Když zařízení jazyk neřekne, nebo ho web nemá, platí koncovka: `.cz` čeština, `.sk` slovenština, `.ch` francouzština, `.com` angličtina. Jazyk, který si návštěvník přepne, zůstane uložený v prohlížeči.
 
 Skutečnou zemi podle IP DNS nepozná. Bezplatně to umí Cloudflare hlavičkou `CF-IPCountry`, až bude provoz přes něj. Do té doby je locale prohlížeče nejbližší signál bez placené služby a bez cizího geo API.
 

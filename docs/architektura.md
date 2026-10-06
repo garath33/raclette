@@ -27,7 +27,7 @@ assets/          logo, fotky, favicon
 
 ## Jazyk
 
-Na `localhost`, `github.io` i na `raclettelovers.*` přepínač nabízí všech devět jazyků a zůstane na stejné adrese s `?lang=`. Výchozí jazyk se bere ze státu v locale prohlížeče, jinak z koncovky domény, viz [Domény](domeny.md).
+Na `localhost`, `github.io` i na `raclettelovers.*` přepínač nabízí všech devět jazyků a zůstane na stejné adrese s `?lang=`. Nejdřív se bere jazyk z nastavení telefonu nebo počítače. Když ho zařízení neřekne, platí koncovka: `.cz` čeština, `.sk` slovenština, `.ch` francouzština, `.com` angličtina. Viz [Domény](domeny.md).
 
 ## Mapa
 

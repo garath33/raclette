@@ -20,12 +20,12 @@
     "raclettelovers.com": { lang: "en" },
     "raclettelovers.cz": { lang: "cs" },
     "raclettelovers.sk": { lang: "sk" },
-    "raclettelovers.ch": { lang: "de" }
+    "raclettelovers.ch": { lang: "fr" }
   };
   const COUNTRY_LANG = {
     CZ: "cs",
     SK: "sk",
-    CH: "de",
+    CH: "fr",
     DE: "de",
     AT: "de",
     LI: "de",
@@ -99,12 +99,9 @@
       const parts = String(list[i] || "").replace(/_/g, "-").split("-");
       const lang = parts[0].toLowerCase();
       const region = (parts[1] || "").toUpperCase();
-      if (region === "CH" && (lang === "de" || lang === "fr" || lang === "it")) return lang;
-      if (COUNTRY_LANG[region] && LANGUAGES.indexOf(COUNTRY_LANG[region]) !== -1) return COUNTRY_LANG[region];
-    }
-    for (let j = 0; j < list.length; j++) {
-      const lang = String(list[j] || "").slice(0, 2).toLowerCase();
+      if (lang === "gsw") return "de";
       if (LANGUAGES.indexOf(lang) !== -1) return lang;
+      if (COUNTRY_LANG[region] && LANGUAGES.indexOf(COUNTRY_LANG[region]) !== -1) return COUNTRY_LANG[region];
     }
     return null;
   }

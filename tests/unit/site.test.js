@@ -26,7 +26,7 @@ test("koncovka drží tržní jazyk, když návštěvník zemi neprozradí", () 
   assert.equal(site.defaultLanguage("www.raclettelovers.com"), "en");
   assert.equal(site.defaultLanguage("raclettelovers.cz"), "cs");
   assert.equal(site.defaultLanguage("raclettelovers.sk"), "sk");
-  assert.equal(site.defaultLanguage("raclettelovers.ch"), "de");
+  assert.equal(site.defaultLanguage("raclettelovers.ch"), "fr");
   assert.equal(site.defaultLanguage("garath33.github.io"), null);
 });
 
@@ -40,11 +40,19 @@ test("výchozí jazyk se bere ze státu v locale prohlížeče, na každé domé
   assert.equal(site.languageFromLocales("pl-PL"), "pl");
   assert.equal(site.languageFromLocales("en-US"), "en");
   assert.equal(site.languageFromLocales(["sk-SK", "cs"]), "sk");
+  assert.equal(site.languageFromLocales("en-CH"), "en");
+  assert.equal(site.languageFromLocales("gsw-CH"), "de");
+  assert.equal(site.languageFromLocales("rm-CH"), "fr");
   assert.equal(site.languageFromLocales("ja-JP"), null);
   assert.equal(site.preferredLanguage("raclettelovers.com", "cs-CZ"), "cs");
   assert.equal(site.preferredLanguage("raclettelovers.cz", "de-DE"), "de");
+  assert.equal(site.preferredLanguage("raclettelovers.sk", "fr-CH"), "fr");
   assert.equal(site.preferredLanguage("raclettelovers.ch", "pl-PL"), "pl");
   assert.equal(site.preferredLanguage("raclettelovers.com", "ja-JP"), "en");
+  assert.equal(site.preferredLanguage("raclettelovers.cz", ""), "cs");
+  assert.equal(site.preferredLanguage("raclettelovers.sk", "ja-JP"), "sk");
+  assert.equal(site.preferredLanguage("raclettelovers.ch", ""), "fr");
+  assert.equal(site.preferredLanguage("www.raclettelovers.ch", "ja-JP"), "fr");
   assert.equal(site.preferredLanguage("garath33.github.io", ""), "cs");
 });
 
