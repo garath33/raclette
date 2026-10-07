@@ -201,6 +201,8 @@ p { margin: 0; }
 }
 .btn-solid { background: var(--ink); color: white; }
 .btn-solid:hover { background: var(--gold-deep); }
+.btn-diamond { background: var(--red); color: white; }
+.btn-diamond:hover { background: var(--magenta); }
 .btn-line { border-color: var(--ink); }
 .btn-line:hover { background: var(--ink); color: white; }
 .btn[aria-disabled="true"] { pointer-events: none; opacity: 0.45; }
