@@ -92,9 +92,52 @@ test("poloha u Kladna vybere food truck a u Jeseníku Křížový vrch", async (
   await expect(page.locator("#locator-status")).toContainText("Martin Kábrt");
   await expect(page.locator("#map-frame")).toHaveAttribute("src", /50\.1466053,14\.1026398/);
   await expect(page.locator("#point-cards .badge")).toHaveText("Nejbližší");
+  await expect(page.locator("#navigate-nearest")).toBeVisible();
+  await expect(page.locator("#navigate-nearest")).toContainText("Martin Kábrt");
+  const navHref = await page.locator("#navigate-nearest").getAttribute("href");
+  expect(navHref).toMatch(/destination=50\.1466053%2C14\.1026398/);
+  expect(navHref).toMatch(/dir_action=navigate/);
+  expect(navHref).not.toMatch(/[?&]origin=/);
+  const cardRoute = await page.locator("#point-cards .is-nearest a.btn-solid").getAttribute("href");
+  expect(cardRoute).toMatch(/destination=50\.1466053%2C14\.1026398/);
+  expect(cardRoute).not.toMatch(/[?&]origin=/);
 
   await context.setGeolocation({ latitude: 50.23, longitude: 17.22 });
   await page.locator("#locate").click();
   await expect(page.locator("#locator-status")).toContainText("Křížový vrch");
+  await expect(page.locator("#navigate-nearest")).toContainText("Křížový vrch");
   await expect(page.locator("#point-cards a[href='https://krizovyvrch.cz/cs']")).toBeVisible();
+});
+
+test("hero Najít nejbližší Point spustí polohu a nabídne navigaci", async ({ page, context }) => {
+  await context.setGeolocation({ latitude: 50.7256, longitude: 15.6068 });
+  await page.goto("/?lang=cs");
+  await page.locator("#hero-locate").click();
+  await expect(page.locator("#locator-status")).toContainText("Špindlerův Mlýn");
+  await expect(page.locator("#navigate-nearest")).toBeVisible();
+  await expect(page.locator("#point-cards .is-nearest h3")).toContainText("Špindlerův Mlýn");
+  await expect(page).toHaveURL(/#pointy/);
+});
+
+test("bez polohy zůstává trasa jen s cílem a navigace je skrytá", async ({ page, context }) => {
+  await context.clearPermissions();
+  await page.goto("/?lang=cs");
+  await expect(page.locator("#navigate-nearest")).toBeHidden();
+  const href = await page.locator("#point-cards .card").first().locator("a.btn-solid").getAttribute("href");
+  expect(href).toMatch(/destination=/);
+  expect(href).not.toMatch(/[?&]origin=/);
+  expect(href).toMatch(/dir_action=navigate/);
+});
+
+test("odmítnutá poloha ukáže hlášku a navigaci neschová jako dostupnou", async ({ page, context }) => {
+  await context.grantPermissions([]);
+  await page.addInitScript(() => {
+    navigator.geolocation.getCurrentPosition = (_ok, err) => {
+      err({ code: 1, message: "denied" });
+    };
+  });
+  await page.goto("/?lang=cs");
+  await page.locator("#locate").click();
+  await expect(page.locator("#locator-status")).toContainText("Polohu se nepodařilo načíst");
+  await expect(page.locator("#navigate-nearest")).toBeHidden();
 });

@@ -11,7 +11,7 @@ Příkaz `npm test` spustí všechno. Jednotlivé vrstvy jdou pustit zvlášť.
 
 ## Smoke
 
-Smoke ověří, že se stránka vůbec rozběhne: nadpis, tři vizitky, Martin Šimůnek, žádná zmínka o Veronice, testovací pruh a přepnutí do němčiny. Druhý smoke nastaví polohu u Kladna a u Jeseníku a kontroluje, že se vybere správný Point a mapa.
+Smoke ověří, že se stránka vůbec rozběhne: nadpis, tři vizitky, Martin Šimůnek, žádná zmínka o Veronice, testovací pruh a přepnutí do němčiny. Další smoke nastaví polohu u Kladna, Jeseníku a Špindlu, kontroluje výběr Pointu, tlačítko „Navigovat k …“ a že odkaz do Maps nemá zmražený `origin`. Samostatně běží odmítnutá poloha a trasa bez GPS.
 
 ## Regrese
 
