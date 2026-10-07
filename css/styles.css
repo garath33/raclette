@@ -222,17 +222,6 @@ p { margin: 0; }
   object-fit: cover;
   object-position: 50% 50%;
 }
-.hero-logo {
-  position: absolute;
-  left: 0;
-  bottom: 3%;
-  width: 34%;
-  height: auto;
-  aspect-ratio: 1;
-  border-radius: 50%;
-  box-shadow: var(--shadow);
-  background: white;
-}
 
 .diamonds {
   display: flex;
