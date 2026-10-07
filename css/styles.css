@@ -581,7 +581,15 @@ p { margin: 0; }
 }
 .form-invite .btn { flex: 0 0 auto; }
 
+.partner-form .form-honey {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
 .partner-form {
+  position: relative;
   margin-top: 1.4rem;
   max-width: 46rem;
   padding: 1.4rem 1.5rem 1.6rem;

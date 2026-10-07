@@ -159,6 +159,10 @@
     el.setAttribute("content", content);
   }
 
+  function partnerInquiryUrl() {
+    return "https://formsubmit.co/ajax/milan@raclette-original.com";
+  }
+
   function apply(lang, translate, loc) {
     loc = loc || (typeof location !== "undefined" ? location : { hostname: "", origin: "", pathname: "/", hash: "" });
     const title = translate("meta.title");
@@ -203,6 +207,7 @@
     languageUrl,
     htmlLang,
     ogLocale,
+    partnerInquiryUrl,
     apply
   };
 });
