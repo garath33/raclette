@@ -5,6 +5,9 @@ node_modules
 .github
 docs
 tests
+test-results
+playwright-report
+blob-report
 lib
 **/*.md
 package.json
