@@ -10,9 +10,13 @@ js/points.js     souřadnice a odkazy Pointů
 js/site.js       SEO, kanonické adresy a rozpoznání testovacího prostředí
 js/i18n.js       čeština, angličtina, francouzština
 js/i18n-extra.js slovenština, italština, němčina, polština, španělština, ruština
-js/app.js        vykreslení vizitek, mapa, přepínač jazyka
+js/app.js        vykreslení vizitek, mapa, přepínač jazyka, odeslání partnerského formuláře
+lib/partner-inquiry.mjs  sestavení a validace poptávky (FormSubmit → milan@raclette-original.com)
+worker.js        přesměrování aliasů domén
 assets/          logo, fotky, favicon
 ```
+
+Partnerský formulář odešle data přes FormSubmit na `milan@raclette-original.com`. Při prvním odeslání FormSubmit pošle na tuto adresu potvrzovací e-mail — odkaz v něm je potřeba jednou potvrdit, teprve potom začnou poptávky chodit.
 
 ## Sekce
 

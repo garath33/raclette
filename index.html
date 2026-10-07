@@ -310,7 +310,7 @@
           <ol class="steps">
             <li>
               <h3 data-i18n="franchise.s1t">Vyplňte formulář</h3>
-              <p data-i18n="franchise.s1d">Zanechte kontakt a základní informace o podniku nebo o záměru. Název, typ provozovny, město, telefon, e-mail a vaši představu. Po odeslání se zpráva otevře pro milan@raclette-original.com a my se vám ozveme.</p>
+              <p data-i18n="franchise.s1d">Zanechte kontakt a základní informace o podniku nebo o záměru. Název, typ provozovny, město, telefon, e-mail a vaši představu. Zpráva odejde na milan@raclette-original.com a my se vám ozveme.</p>
             </li>
             <li>
               <h3 data-i18n="franchise.s2t">Konzultace</h3>
@@ -336,6 +336,10 @@
             <a class="btn btn-line" href="tel:+420777600223">+420 777 600 223</a>
           </div>
           <form class="partner-form" id="partner-form" novalidate>
+            <label class="form-honey" aria-hidden="true" hidden>
+              <span>Web</span>
+              <input type="text" name="website" tabindex="-1" autocomplete="off">
+            </label>
             <div class="form-grid">
               <label>
                 <span data-i18n="form.name">Název</span>
@@ -370,9 +374,9 @@
                 <textarea name="idea" id="form-idea" required rows="5" maxlength="2000"></textarea>
               </label>
             </div>
-            <p class="form-note" data-i18n="form.note">Po odeslání se otevře váš e-mailový program se zprávou pro milan@raclette-original.com.</p>
+            <p class="form-note" data-i18n="form.note">Zprávu odešleme přímo na milan@raclette-original.com a brzy se vám ozveme.</p>
             <p class="form-status" id="form-status" role="status" aria-live="polite" hidden></p>
-            <button class="btn btn-solid" type="submit" data-i18n="form.submit">Odeslat na milan@raclette-original.com</button>
+            <button class="btn btn-solid" type="submit" data-i18n="form.submit">Odeslat poptávku</button>
           </form>
         </div>
 
