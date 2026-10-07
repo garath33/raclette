@@ -413,7 +413,6 @@ p { margin: 0; }
   align-items: start;
 }
 .story-copy p + p { margin-top: 1rem; }
-.story-links { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 1.4rem; }
 .video {
   margin-top: 1.3rem;
   border-radius: 20px;
