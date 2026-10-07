@@ -195,6 +195,71 @@ function partnerPayload(fields) {
   };
 }
 
+function isFranchiseOfferOpen() {
+  const section = document.getElementById("franchise");
+  return section && section.getAttribute("data-offer") === "open";
+}
+
+function setFranchiseOffer(open, opts) {
+  const section = document.getElementById("franchise");
+  const panel = document.getElementById("franchise-offer");
+  const openBtn = document.getElementById("franchise-open");
+  if (!section || !panel || !openBtn) return;
+  const next = Boolean(open);
+  section.setAttribute("data-offer", next ? "open" : "closed");
+  panel.hidden = !next;
+  openBtn.setAttribute("aria-expanded", String(next));
+  if (next && opts && opts.focusForm) {
+    const form = document.getElementById("franchise-form");
+    if (form) {
+      requestAnimationFrame(() => form.scrollIntoView({ behavior: "smooth", block: "start" }));
+    }
+  }
+}
+
+function openFranchiseOfferFromHash() {
+  const hash = (location.hash || "").replace(/^#/, "");
+  if (hash === "franchise" || hash === "franchise-form" || hash === "franchise-offer") {
+    setFranchiseOffer(true, { focusForm: hash === "franchise-form" });
+  }
+}
+
+function bindFranchiseOffer() {
+  const openBtn = document.getElementById("franchise-open");
+  const hideBtn = document.getElementById("franchise-hide");
+  const jumpForm = document.getElementById("franchise-jump-form");
+  if (!openBtn || openBtn.dataset.bound === "1") return;
+  openBtn.dataset.bound = "1";
+  openBtn.addEventListener("click", () => {
+    setFranchiseOffer(true);
+    const panel = document.getElementById("franchise-offer");
+    if (panel) panel.scrollIntoView({ behavior: "smooth", block: "start" });
+  });
+  if (hideBtn) {
+    hideBtn.addEventListener("click", () => {
+      setFranchiseOffer(false);
+      document.getElementById("franchise")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  }
+  if (jumpForm) {
+    jumpForm.addEventListener("click", (event) => {
+      event.preventDefault();
+      setFranchiseOffer(true, { focusForm: true });
+      history.replaceState(null, "", "#franchise-form");
+    });
+  }
+  document.addEventListener("click", (event) => {
+    const link = event.target.closest('a[href="#franchise"], a[href="#franchise-form"]');
+    if (!link) return;
+    const wantsForm = link.getAttribute("href") === "#franchise-form";
+    if (!isFranchiseOfferOpen() || wantsForm) {
+      setFranchiseOffer(true, { focusForm: wantsForm });
+    }
+  });
+  window.addEventListener("hashchange", openFranchiseOfferFromHash);
+  openFranchiseOfferFromHash();
+}
+
 function bindPartnerForm() {
   const form = document.getElementById("partner-form");
   if (!form || form.dataset.bound === "1") return;
@@ -341,6 +406,7 @@ function boot() {
   }
   lang = LANGS.includes(initial) ? initial : "cs";
   applyStatic();
+  bindFranchiseOffer();
   bindPartnerForm();
   document.getElementById("map-frame").src = mapSrc(POINTS[0]);
   renderPoints();

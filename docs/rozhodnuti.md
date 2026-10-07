@@ -38,6 +38,10 @@ Sekce Pro partnery (dřív Spolupráce) teď sleduje strukturu B2B letáku, ne j
 
 „Spolupráce“ v menu bylo moc obecné. Pro budoucí provozovatele Pointu je jasnější „Pro partnery“ (a stejný smysl v ostatních jazycích). Sekční kicker a odkazy z výhod to kopírují.
 
+## Nabídka Pro partnery je sbalená
+
+Detail formátů, partnerství, podpory, kroků a formulář je pod `#franchise-offer` a na hlavní stránce je zavřený. Otevře ho tlačítko, odkaz Pro partnery, hash `#franchise` / `#franchise-form`. Sekce Partnerství a srdce, Co od nás získáte a Jak začít mají odlišný layout s barvami z charty mlékárny, ne stejné bílé bubliny.
+
 ## Laiterie zůstává vlastní jméno, mlékárna je překlad
 
 Oficiální značka je Laiterie d’Orsières. V češtině a slovenštině u prvního zmínění dává smysl doplnit obecné slovo „mlékárna / mliekareň“, aby bylo jasné, o jaký podnik jde. Samotné „Laiterie“ se nepřekládá pryč (stejně jako se nepřekládá název sýra). V popisných větách („značka mlékárny“, „vztahy s mlékárnou“) už obecné slovo bylo a zůstává.
