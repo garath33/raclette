@@ -212,8 +212,9 @@ p { margin: 0; }
   margin-left: auto;
   border-radius: 50%;
   overflow: hidden;
-  border: 1.5px solid rgba(0, 0, 0, 0.28);
-  box-shadow: var(--shadow);
+  box-shadow:
+    0 0 0 1.5px rgba(0, 0, 0, 0.4),
+    var(--shadow);
   background: #f5f5f5;
 }
 .hero-photo {
