@@ -19,6 +19,10 @@ test("stránka se načte, má sekce a testovací pruh", async ({ page }) => {
   await expect(page.locator("a[href='#franchise']").first()).toBeVisible();
   await expect(page.locator("#site-nav a[href='#franchise']")).toHaveText("Pro partnery");
   await expect(page.locator("#franchise h2")).toContainText("Raclette Point Original");
+  await expect(page.locator("#franchise-offer")).toBeHidden();
+  await expect(page.locator("#franchise-open")).toBeVisible();
+  await page.locator("#franchise-open").click();
+  await expect(page.locator("#franchise-offer")).toBeVisible();
   await expect(page.locator("#franchise .aop-note")).toContainText("Appellation d’Origine Protégée");
   await expect(page.locator("#franchise-form .form-invite")).toContainText("+420 777 600 223");
   await expect(page.locator('#franchise-form a[href="tel:+420777600223"]')).toBeVisible();
@@ -37,6 +41,9 @@ test("stránka se načte, má sekce a testovací pruh", async ({ page }) => {
   await expect(page.locator("#franchise")).toContainText("Shop-in-shop");
   await expect(page.locator("#franchise")).toContainText("Eddy Baillifard");
   await expect(page.locator("#franchise")).toContainText("milan@raclette-original.com");
+  await expect(page.locator(".approach-rail")).toBeVisible();
+  await expect(page.locator(".gain-bands")).toBeVisible();
+  await expect(page.locator(".steps-path")).toBeVisible();
   await expect(page.getByRole("heading", { name: "Martin Šimůnek" })).toBeVisible();
   await expect(page.locator("body")).not.toContainText(/veronika/i);
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute("href", /lang=cs/);
@@ -53,7 +60,8 @@ test("formulář spolupráce vyžaduje všechna pole a odešle poptávku", async
       body: JSON.stringify({ success: "true" })
     });
   });
-  await page.goto("/?lang=cs");
+  await page.goto("/?lang=cs#franchise-form");
+  await expect(page.locator("#franchise-offer")).toBeVisible();
   await page.locator("#franchise-form").scrollIntoViewIfNeeded();
   await page.locator("#partner-form button[type='submit']").click();
   await expect(page.locator("#form-status")).toContainText("Vyplňte");
