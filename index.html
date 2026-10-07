@@ -185,199 +185,218 @@
       </div>
     </section>
 
-    <section class="section franchise" id="franchise">
+    <section class="section franchise" id="franchise" data-offer="closed">
       <div class="wrap">
         <div class="section-head">
-          <p class="kicker" data-i18n="franchise.kicker">Pro partnery</p>
+          <p class="kicker franchise-kicker" data-i18n="franchise.kicker">Pro partnery</p>
           <h2 data-i18n="franchise.title">Staňte se oficiálním Raclette Point Original</h2>
           <p class="lead" data-i18n="franchise.lead">Obohaťte svůj podnik o legendární švýcarský zážitek. Bez statisícových investic a bez šéfkuchaře. Ke každému podniku a každé provozovně přistupujeme individuálně.</p>
           <p class="franchise-concept" data-i18n="franchise.concept">Je to prémiový sýrový koncept. Přivede nové hosty, zvedne průměrnou útratu a pomůže tam, kde chybí kvalitní personál. S tím se gastronomie potýká čím dál častěji.</p>
+          <div class="hero-actions franchise-gate">
+            <button class="btn btn-solid" type="button" id="franchise-open" aria-expanded="false" aria-controls="franchise-offer" data-i18n="franchise.openOffer">Zobrazit nabídku pro partnery</button>
+            <a class="btn btn-line" href="#franchise-form" id="franchise-jump-form" data-i18n="franchise.cta">Chci se stát raclette pointem</a>
+          </div>
+        </div>
+
+        <div class="franchise-offer" id="franchise-offer" hidden>
+          <div class="franchise-offer-bar">
+            <div class="diamonds franchise-diamonds" aria-hidden="true">
+              <i style="--c:#fece52"></i><i style="--c:#f5811f"></i><i style="--c:#cd143e"></i><i style="--c:#642a7d"></i>
+              <i style="--c:#00a85c"></i><i style="--c:#007dc5"></i><i style="--c:#00a5b9"></i>
+            </div>
+            <button class="btn btn-line" type="button" id="franchise-hide" data-i18n="franchise.hideOffer">Skrýt nabídku</button>
+          </div>
+
           <aside class="aop-note" aria-labelledby="aop-note-title">
             <h3 id="aop-note-title" data-i18n="aop.title">Co je AOP u sýra</h3>
             <p data-i18n="aop.body">AOP (Appellation d’Origine Protégée) je chráněné označení původu. U sýra zaručuje místo mléka, výroby i zrání a tradiční postup. Raclette du Valais AOP není jen nálepka chuti — je to záruka původu z Valais a z ověřené mlékárny.</p>
           </aside>
-        </div>
 
-        <div class="franchise-block">
-          <h3 data-i18n="franchise.formatsTitle">Tři formáty partnerství</h3>
-          <p class="franchise-sub" data-i18n="franchise.formatsSub">Vyberte si svůj Raclette Point Original</p>
-          <p data-i18n="franchise.formatsLead">Zatím tři flexibilní moduly. Sednou na váš prostor i na to, co s ním chcete dělat.</p>
-          <div class="format-grid">
-            <article>
-              <p class="format-badge" data-i18n="franchise.f1badge">Nejoblíbenější</p>
-              <h3 data-i18n="franchise.f1t">Shop-in-shop</h3>
-              <p class="format-kind" data-i18n="franchise.f1kind">Gastro modul</p>
-              <dl class="format-meta">
-                <div>
-                  <dt data-i18n="franchise.forLabel">Pro koho</dt>
-                  <dd data-i18n="franchise.f1who">Restaurace, hotely, bistra, kavárny, vinárny, bary, kempy a horské chaty.</dd>
-                </div>
-                <div>
-                  <dt data-i18n="franchise.areaLabel">Plocha</dt>
-                  <dd data-i18n="franchise.f1area">6 až 12 m²</dd>
-                </div>
-              </dl>
-              <p data-i18n="franchise.f1d">Jde to do stávajícího interiéru nebo na terasu. Mobilní nerezový raclette stůl na kolečkách, se světlem, zvonem a zázemím. Nebo váš bar, část terasy či větší stůl. Dodáme grily TTM, nerezovou raclette troubu a podle místa i nerezový gril na oheň. K tomu marketing, branding výrobků s vaším logem a pravidelné suroviny. Žádné stavební zásahy. Spolupráci děláme od částečné po kompletní.</p>
-            </article>
-            <article>
-              <h3 data-i18n="franchise.f2t">Pohyblivý Point</h3>
-              <p class="format-kind" data-i18n="franchise.f2kind">Stan nebo food truck</p>
-              <dl class="format-meta">
-                <div>
-                  <dt data-i18n="franchise.forLabel">Pro koho</dt>
-                  <dd data-i18n="franchise.f2who">Eventové a cateringové agentury, gastro provozovatelé a lidé od festivalů.</dd>
-                </div>
-                <div>
-                  <dt data-i18n="franchise.areaLabel">Plocha</dt>
-                  <dd data-i18n="franchise.f2area">asi 12 až 16 m²</dd>
-                </div>
-              </dl>
-              <p data-i18n="franchise.f2d">Svatby, firemní večírky, městské trhy a pop-up akce. Dostanete speciální vybavení, branding a pravidelné dodávky surovin. Všechno řešíme na míru a s každým klientem zvlášť.</p>
-            </article>
-            <article>
-              <h3 data-i18n="franchise.f3t">Venkovní modul</h3>
-              <p class="format-kind" data-i18n="franchise.f3kind">Kontejner nebo kiosek</p>
-              <dl class="format-meta">
-                <div>
-                  <dt data-i18n="franchise.forLabel">Pro koho</dt>
-                  <dd data-i18n="franchise.f3who">Frekventovaná místa ve větších městech, náplavky, lyžařská střediska a turistické resorty.</dd>
-                </div>
-                <div>
-                  <dt data-i18n="franchise.areaLabel">Plocha</dt>
-                  <dd data-i18n="franchise.f3area">16 až 25 m²</dd>
-                </div>
-              </dl>
-              <p data-i18n="franchise.f3d">Designový venkovní modul na celoroční i sezónní prodej. Snadno se přemístí na novou lokaci. Cenová nabídka vzniká na míru, podle lokality a dohody zakladatele projektu s objednatelem.</p>
-            </article>
-          </div>
-        </div>
-
-        <div class="franchise-block">
-          <h3 data-i18n="franchise.approachTitle">Partnerství a srdce</h3>
-          <p data-i18n="franchise.approach">Nejsme klasická síťová franšíza. Neplatíte žádné statisícové ani milionové vstupní poplatky za licenci a nesvazujeme vás neflexibilními korporátními pravidly.</p>
-          <div class="approach-grid">
-            <article>
-              <h3 data-i18n="franchise.a1t">Důvěra na dlouho</h3>
-              <p data-i18n="franchise.a1d">Hledáme partnery, kteří dělají svou práci s láskou, srdcem a profesionálně.</p>
-            </article>
-            <article>
-              <h3 data-i18n="franchise.a2t">Dostupný vstup</h3>
-              <p data-i18n="franchise.a2d">Platíte za skutečné vybavení a příslušenství na míru, za zaškolení a za startovací branding.</p>
-            </article>
-            <article>
-              <h3 data-i18n="franchise.a3t">Fér měsíční poplatek</h3>
-              <p data-i18n="franchise.a3d">Měsíční partnerský poplatek se domlouvá individuálně. Odvíjí se od velikosti Pointu, typu provozovny a lokality, aby byl pro podnik ziskový a motivující.</p>
-            </article>
-            <article>
-              <h3 data-i18n="franchise.a4t">Osobní přístup</h3>
-              <p data-i18n="franchise.a4d">Jste partner, se kterým rozvíjíme švýcarskou gastro kulturu. Ne číslo v tabulce.</p>
-            </article>
-          </div>
-        </div>
-
-        <div class="franchise-block">
-          <h3 data-i18n="franchise.gainTitle">Co od nás získáte</h3>
-          <p class="franchise-sub" data-i18n="franchise.gainSub">Podpora ze všech stran</p>
-          <p data-i18n="franchise.gain">Když se stanete součástí rodiny Raclette Point Original, máte kompletní zázemí a know-how.</p>
-          <div class="gain-grid">
-            <article>
-              <h3 data-i18n="franchise.g1t">Technologie a vybavení</h3>
-              <p data-i18n="franchise.g1d">Speciálně navržená a certifikovaná celonerezová raclette trouba na 8 až 16 porcí najednou, nebo originální švýcarský gril TTM. K tomu servírovací náčiní, nerezové špachtle, dřevěné desky, stoly, zvon a branding.</p>
-            </article>
-            <article>
-              <h3 data-i18n="franchise.g2t">Sýry přímo od zdroje</h3>
-              <p data-i18n="franchise.g2d">Pravidelné dodávky originálních Swiss AOP sýrů a certifikovaných fondue směsí za velkoobchodní ceny, a k tomu profesionální příslušenství. Podle sezóny třeba Raclette du Valais AOP z Orsières, bylinkový Barry, sýr s osmi druhy divokého pepře z Madagaskaru nebo Vacherin Fribourgeois.</p>
-            </article>
-            <article>
-              <h3 data-i18n="franchise.g3t">Akademie za jeden den</h3>
-              <p data-i18n="franchise.g3d">Personál zaškolíme během jediného dne a předáme certifikaci Raclette Master. V manuálu je servírování, správné teploty, skladování sýrů a vedení show před hostem.</p>
-            </article>
-            <article>
-              <h3 data-i18n="franchise.g4t">Marketing a mapa</h3>
-              <p data-i18n="franchise.g4d">Point zařadíme na oficiální mapu Raclette Point Original. Web a aplikace ukážou lokalitu, raclette menu a informace o místě. Dodáme podklady do nápojového a jídelního lístku, tiskoviny, grafiku na sítě, promo videa a stojánky na stoly.</p>
-            </article>
-          </div>
-        </div>
-
-        <div class="franchise-block">
-          <h3 data-i18n="franchise.startTitle">Jak začít</h3>
-          <p class="franchise-sub" data-i18n="franchise.startSub">Čtyři jednoduché kroky</p>
-          <ol class="steps">
-            <li>
-              <h3 data-i18n="franchise.s1t">Vyplňte formulář</h3>
-              <p data-i18n="franchise.s1d">Zanechte kontakt a základní informace o podniku nebo o záměru. Název, typ provozovny, město, telefon, e-mail a vaši představu. Zpráva odejde na milan@raclette-original.com a my se vám ozveme.</p>
-            </li>
-            <li>
-              <h3 data-i18n="franchise.s2t">Konzultace</h3>
-              <p data-i18n="franchise.s2d">Osobně nebo online probereme prostory a představy. Domluvíme schůzku, navrhneme řešení a individuální podmínky.</p>
-            </li>
-            <li>
-              <h3 data-i18n="franchise.s3t">Příprava a zaškolení</h3>
-              <p data-i18n="franchise.s3d">Doručíme vybavení, zaškolíme váš tým a nastavíme pravidelné dodávky AOP sýrů.</p>
-            </li>
-            <li>
-              <h3 data-i18n="franchise.s4t">Slavnostní start</h3>
-              <p data-i18n="franchise.s4d">Společně odstartujeme první AOP raclette show a přivítáme nové hosty. U toho bude český a slovenský král a ambasador raclette Milan Kolář. Podle domluvy přijede i švýcarský král a ambasador Eddy Baillifard, případně další česká nebo slovenská osobnost.</p>
-            </li>
-          </ol>
-        </div>
-
-        <div class="franchise-block" id="franchise-form">
-          <h3 data-i18n="form.title">Chci se stát raclette pointem</h3>
-          <p class="franchise-sub" data-i18n="form.sub">Vyplňte všechna pole. Nic nevynechte, ať víme, jak vám připravit nabídku vám na míru.</p>
-          <p data-i18n="form.lead">Zanechte kontakt a základní informace o podniku nebo o záměru. Zpráva odejde na milan@raclette-original.com a my se vám ozveme.</p>
-          <div class="form-invite">
-            <p data-i18n="form.invite">Vyplňte formulář níže, nebo zavolejte pro bližší informace.</p>
-            <a class="btn btn-line" href="tel:+420777600223">+420 777 600 223</a>
-          </div>
-          <form class="partner-form" id="partner-form" novalidate>
-            <label class="form-honey" aria-hidden="true" hidden>
-              <span>Web</span>
-              <input type="text" name="website" tabindex="-1" autocomplete="off">
-            </label>
-            <div class="form-grid">
-              <label>
-                <span data-i18n="form.name">Název</span>
-                <input type="text" name="name" id="form-name" required autocomplete="organization" maxlength="120">
-              </label>
-              <label>
-                <span data-i18n="form.type">Typ provozovny</span>
-                <select name="type" id="form-type" required>
-                  <option value="" data-i18n="form.typePlaceholder">Vyberte typ</option>
-                  <option value="restaurant" data-i18n="form.type.restaurant">Restaurace</option>
-                  <option value="hotel" data-i18n="form.type.hotel">Hotel</option>
-                  <option value="bar" data-i18n="form.type.bar">Bar</option>
-                  <option value="winebar" data-i18n="form.type.winebar">Vinárna</option>
-                  <option value="catering" data-i18n="form.type.catering">Mobilní catering</option>
-                  <option value="other" data-i18n="form.type.other">Jiné</option>
-                </select>
-              </label>
-              <label>
-                <span data-i18n="form.city">Město</span>
-                <input type="text" name="city" id="form-city" required autocomplete="address-level2" maxlength="80">
-              </label>
-              <label>
-                <span data-i18n="form.phone">Telefon</span>
-                <input type="tel" name="phone" id="form-phone" required autocomplete="tel" maxlength="40">
-              </label>
-              <label class="form-wide">
-                <span data-i18n="form.email">E-mail</span>
-                <input type="email" name="email" id="form-email" required autocomplete="email" maxlength="120">
-              </label>
-              <label class="form-wide">
-                <span data-i18n="form.idea">Vaše představa</span>
-                <textarea name="idea" id="form-idea" required rows="5" maxlength="2000"></textarea>
-              </label>
+          <div class="franchise-block">
+            <h3 data-i18n="franchise.formatsTitle">Tři formáty partnerství</h3>
+            <p class="franchise-sub" data-i18n="franchise.formatsSub">Vyberte si svůj Raclette Point Original</p>
+            <p data-i18n="franchise.formatsLead">Zatím tři flexibilní moduly. Sednou na váš prostor i na to, co s ním chcete dělat.</p>
+            <div class="format-grid">
+              <article>
+                <p class="format-badge" data-i18n="franchise.f1badge">Nejoblíbenější</p>
+                <h3 data-i18n="franchise.f1t">Shop-in-shop</h3>
+                <p class="format-kind" data-i18n="franchise.f1kind">Gastro modul</p>
+                <dl class="format-meta">
+                  <div>
+                    <dt data-i18n="franchise.forLabel">Pro koho</dt>
+                    <dd data-i18n="franchise.f1who">Restaurace, hotely, bistra, kavárny, vinárny, bary, kempy a horské chaty.</dd>
+                  </div>
+                  <div>
+                    <dt data-i18n="franchise.areaLabel">Plocha</dt>
+                    <dd data-i18n="franchise.f1area">6 až 12 m²</dd>
+                  </div>
+                </dl>
+                <p data-i18n="franchise.f1d">Jde to do stávajícího interiéru nebo na terasu. Mobilní nerezový raclette stůl na kolečkách, se světlem, zvonem a zázemím. Nebo váš bar, část terasy či větší stůl. Dodáme grily TTM, nerezovou raclette troubu a podle místa i nerezový gril na oheň. K tomu marketing, branding výrobků s vaším logem a pravidelné suroviny. Žádné stavební zásahy. Spolupráci děláme od částečné po kompletní.</p>
+              </article>
+              <article>
+                <h3 data-i18n="franchise.f2t">Pohyblivý Point</h3>
+                <p class="format-kind" data-i18n="franchise.f2kind">Stan nebo food truck</p>
+                <dl class="format-meta">
+                  <div>
+                    <dt data-i18n="franchise.forLabel">Pro koho</dt>
+                    <dd data-i18n="franchise.f2who">Eventové a cateringové agentury, gastro provozovatelé a lidé od festivalů.</dd>
+                  </div>
+                  <div>
+                    <dt data-i18n="franchise.areaLabel">Plocha</dt>
+                    <dd data-i18n="franchise.f2area">asi 12 až 16 m²</dd>
+                  </div>
+                </dl>
+                <p data-i18n="franchise.f2d">Svatby, firemní večírky, městské trhy a pop-up akce. Dostanete speciální vybavení, branding a pravidelné dodávky surovin. Všechno řešíme na míru a s každým klientem zvlášť.</p>
+              </article>
+              <article>
+                <h3 data-i18n="franchise.f3t">Venkovní modul</h3>
+                <p class="format-kind" data-i18n="franchise.f3kind">Kontejner nebo kiosek</p>
+                <dl class="format-meta">
+                  <div>
+                    <dt data-i18n="franchise.forLabel">Pro koho</dt>
+                    <dd data-i18n="franchise.f3who">Frekventovaná místa ve větších městech, náplavky, lyžařská střediska a turistické resorty.</dd>
+                  </div>
+                  <div>
+                    <dt data-i18n="franchise.areaLabel">Plocha</dt>
+                    <dd data-i18n="franchise.f3area">16 až 25 m²</dd>
+                  </div>
+                </dl>
+                <p data-i18n="franchise.f3d">Designový venkovní modul na celoroční i sezónní prodej. Snadno se přemístí na novou lokaci. Cenová nabídka vzniká na míru, podle lokality a dohody zakladatele projektu s objednatelem.</p>
+              </article>
             </div>
-            <p class="form-note" data-i18n="form.note">Zprávu odešleme přímo na milan@raclette-original.com a brzy se vám ozveme.</p>
-            <p class="form-status" id="form-status" role="status" aria-live="polite" hidden></p>
-            <button class="btn btn-solid" type="submit" data-i18n="form.submit">Odeslat poptávku</button>
-          </form>
-        </div>
+          </div>
 
-        <p class="franchise-proof" data-i18n="franchise.proof">Referencí jsou spokojení klienti, fotogalerie a desetitisíce servírovaných porcí. První Point vznikl jako originální koncept spolupráce. Partner Raclette Republic s ním vyjel na Streetfood Senec.</p>
-        <p class="franchise-close" data-i18n="franchise.close">Těšíme se na spolupráci s vámi. Za pracovní tým Raclette Point Original.</p>
-        <p class="franchise-sign" data-i18n="franchise.sign">Milan Kolář, československý král Raclette. +41 76 608 39 83, milan@raclette-original.com. Chemin des Grands Praz 81, 1965 Savièse, Švýcarsko.</p>
+          <div class="franchise-block approach-block">
+            <h3 data-i18n="franchise.approachTitle">Partnerství a srdce</h3>
+            <p data-i18n="franchise.approach">Nejsme klasická síťová franšíza. Neplatíte žádné statisícové ani milionové vstupní poplatky za licenci a nesvazujeme vás neflexibilními korporátními pravidly.</p>
+            <div class="approach-rail">
+              <article style="--tone:#c3346a">
+                <span class="facet" aria-hidden="true"></span>
+                <h3 data-i18n="franchise.a1t">Důvěra na dlouho</h3>
+                <p data-i18n="franchise.a1d">Hledáme partnery, kteří dělají svou práci s láskou, srdcem a profesionálně.</p>
+              </article>
+              <article style="--tone:#f5811f">
+                <span class="facet" aria-hidden="true"></span>
+                <h3 data-i18n="franchise.a2t">Dostupný vstup</h3>
+                <p data-i18n="franchise.a2d">Platíte za skutečné vybavení a příslušenství na míru, za zaškolení a za startovací branding.</p>
+              </article>
+              <article style="--tone:#8a6420">
+                <span class="facet" aria-hidden="true"></span>
+                <h3 data-i18n="franchise.a3t">Fér měsíční poplatek</h3>
+                <p data-i18n="franchise.a3d">Měsíční partnerský poplatek se domlouvá individuálně. Odvíjí se od velikosti Pointu, typu provozovny a lokality, aby byl pro podnik ziskový a motivující.</p>
+              </article>
+              <article style="--tone:#642a7d">
+                <span class="facet" aria-hidden="true"></span>
+                <h3 data-i18n="franchise.a4t">Osobní přístup</h3>
+                <p data-i18n="franchise.a4d">Jste partner, se kterým rozvíjíme švýcarskou gastro kulturu. Ne číslo v tabulce.</p>
+              </article>
+            </div>
+          </div>
+
+          <div class="franchise-block gain-block">
+            <h3 data-i18n="franchise.gainTitle">Co od nás získáte</h3>
+            <p class="franchise-sub" data-i18n="franchise.gainSub">Podpora ze všech stran</p>
+            <p data-i18n="franchise.gain">Když se stanete součástí rodiny Raclette Point Original, máte kompletní zázemí a know-how.</p>
+            <div class="gain-bands">
+              <article style="--tone:#007dc5">
+                <h3 data-i18n="franchise.g1t">Technologie a vybavení</h3>
+                <p data-i18n="franchise.g1d">Speciálně navržená a certifikovaná celonerezová raclette trouba na 8 až 16 porcí najednou, nebo originální švýcarský gril TTM. K tomu servírovací náčiní, nerezové špachtle, dřevěné desky, stoly, zvon a branding.</p>
+              </article>
+              <article style="--tone:#00a5b9">
+                <h3 data-i18n="franchise.g2t">Sýry přímo od zdroje</h3>
+                <p data-i18n="franchise.g2d">Pravidelné dodávky originálních Swiss AOP sýrů a certifikovaných fondue směsí za velkoobchodní ceny, a k tomu profesionální příslušenství. Podle sezóny třeba Raclette du Valais AOP z Orsières, bylinkový Barry, sýr s osmi druhy divokého pepře z Madagaskaru nebo Vacherin Fribourgeois.</p>
+              </article>
+              <article style="--tone:#00a85c">
+                <h3 data-i18n="franchise.g3t">Akademie za jeden den</h3>
+                <p data-i18n="franchise.g3d">Personál zaškolíme během jediného dne a předáme certifikaci Raclette Master. V manuálu je servírování, správné teploty, skladování sýrů a vedení show před hostem.</p>
+              </article>
+              <article style="--tone:#00657d">
+                <h3 data-i18n="franchise.g4t">Marketing a mapa</h3>
+                <p data-i18n="franchise.g4d">Point zařadíme na oficiální mapu Raclette Point Original. Web a aplikace ukážou lokalitu, raclette menu a informace o místě. Dodáme podklady do nápojového a jídelního lístku, tiskoviny, grafiku na sítě, promo videa a stojánky na stoly.</p>
+              </article>
+            </div>
+          </div>
+
+          <div class="franchise-block start-block">
+            <h3 data-i18n="franchise.startTitle">Jak začít</h3>
+            <p class="franchise-sub" data-i18n="franchise.startSub">Čtyři jednoduché kroky</p>
+            <ol class="steps steps-path">
+              <li style="--tone:#fece52">
+                <h3 data-i18n="franchise.s1t">Vyplňte formulář</h3>
+                <p data-i18n="franchise.s1d">Zanechte kontakt a základní informace o podniku nebo o záměru. Název, typ provozovny, město, telefon, e-mail a vaši představu. Zpráva odejde na milan@raclette-original.com a my se vám ozveme.</p>
+              </li>
+              <li style="--tone:#f5811f">
+                <h3 data-i18n="franchise.s2t">Konzultace</h3>
+                <p data-i18n="franchise.s2d">Osobně nebo online probereme prostory a představy. Domluvíme schůzku, navrhneme řešení a individuální podmínky.</p>
+              </li>
+              <li style="--tone:#f38479">
+                <h3 data-i18n="franchise.s3t">Příprava a zaškolení</h3>
+                <p data-i18n="franchise.s3d">Doručíme vybavení, zaškolíme váš tým a nastavíme pravidelné dodávky AOP sýrů.</p>
+              </li>
+              <li style="--tone:#cd143e">
+                <h3 data-i18n="franchise.s4t">Slavnostní start</h3>
+                <p data-i18n="franchise.s4d">Společně odstartujeme první AOP raclette show a přivítáme nové hosty. U toho bude český a slovenský král a ambasador raclette Milan Kolář. Podle domluvy přijede i švýcarský král a ambasador Eddy Baillifard, případně další česká nebo slovenská osobnost.</p>
+              </li>
+            </ol>
+          </div>
+
+          <div class="franchise-block" id="franchise-form">
+            <h3 data-i18n="form.title">Chci se stát raclette pointem</h3>
+            <p class="franchise-sub" data-i18n="form.sub">Vyplňte všechna pole. Nic nevynechte, ať víme, jak vám připravit nabídku vám na míru.</p>
+            <p data-i18n="form.lead">Zanechte kontakt a základní informace o podniku nebo o záměru. Zpráva odejde na milan@raclette-original.com a my se vám ozveme.</p>
+            <div class="form-invite">
+              <p data-i18n="form.invite">Vyplňte formulář níže, nebo zavolejte pro bližší informace.</p>
+              <a class="btn btn-line" href="tel:+420777600223">+420 777 600 223</a>
+            </div>
+            <form class="partner-form" id="partner-form" novalidate>
+              <label class="form-honey" aria-hidden="true" hidden>
+                <span>Web</span>
+                <input type="text" name="website" tabindex="-1" autocomplete="off">
+              </label>
+              <div class="form-grid">
+                <label>
+                  <span data-i18n="form.name">Název</span>
+                  <input type="text" name="name" id="form-name" required autocomplete="organization" maxlength="120">
+                </label>
+                <label>
+                  <span data-i18n="form.type">Typ provozovny</span>
+                  <select name="type" id="form-type" required>
+                    <option value="" data-i18n="form.typePlaceholder">Vyberte typ</option>
+                    <option value="restaurant" data-i18n="form.type.restaurant">Restaurace</option>
+                    <option value="hotel" data-i18n="form.type.hotel">Hotel</option>
+                    <option value="bar" data-i18n="form.type.bar">Bar</option>
+                    <option value="winebar" data-i18n="form.type.winebar">Vinárna</option>
+                    <option value="catering" data-i18n="form.type.catering">Mobilní catering</option>
+                    <option value="other" data-i18n="form.type.other">Jiné</option>
+                  </select>
+                </label>
+                <label>
+                  <span data-i18n="form.city">Město</span>
+                  <input type="text" name="city" id="form-city" required autocomplete="address-level2" maxlength="80">
+                </label>
+                <label>
+                  <span data-i18n="form.phone">Telefon</span>
+                  <input type="tel" name="phone" id="form-phone" required autocomplete="tel" maxlength="40">
+                </label>
+                <label class="form-wide">
+                  <span data-i18n="form.email">E-mail</span>
+                  <input type="email" name="email" id="form-email" required autocomplete="email" maxlength="120">
+                </label>
+                <label class="form-wide">
+                  <span data-i18n="form.idea">Vaše představa</span>
+                  <textarea name="idea" id="form-idea" required rows="5" maxlength="2000"></textarea>
+                </label>
+              </div>
+              <p class="form-note" data-i18n="form.note">Zprávu odešleme přímo na milan@raclette-original.com a brzy se vám ozveme.</p>
+              <p class="form-status" id="form-status" role="status" aria-live="polite" hidden></p>
+              <button class="btn btn-solid" type="submit" data-i18n="form.submit">Odeslat poptávku</button>
+            </form>
+          </div>
+
+          <p class="franchise-proof" data-i18n="franchise.proof">Referencí jsou spokojení klienti, fotogalerie a desetitisíce servírovaných porcí. První Point vznikl jako originální koncept spolupráce. Partner Raclette Republic s ním vyjel na Streetfood Senec.</p>
+          <p class="franchise-close" data-i18n="franchise.close">Těšíme se na spolupráci s vámi. Za pracovní tým Raclette Point Original.</p>
+          <p class="franchise-sign" data-i18n="franchise.sign">Milan Kolář, československý král Raclette. +41 76 608 39 83, milan@raclette-original.com. Chemin des Grands Praz 81, 1965 Savièse, Švýcarsko.</p>
+        </div>
       </div>
     </section>
 
