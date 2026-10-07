@@ -292,8 +292,11 @@ p { margin: 0; }
   margin-bottom: 1.4rem;
 }
 .locator #navigate-nearest {
-  background: var(--ink);
+  background: var(--red);
   color: #fff;
+}
+.locator #navigate-nearest:hover {
+  background: var(--magenta);
 }
 .locator #navigate-nearest[hidden] {
   display: none !important;
