@@ -34,7 +34,7 @@ V GitHubu: **Settings → Secrets and variables → Actions → New repository s
 | --- | --- |
 | `CLOUDFLARE_API_TOKEN` | API token s právem upravit Workers (stejný typ jako v Cursor Secrets) |
 
-Bez secretu workflow Deploy production po testech spadne s jasnou chybou. Token už může být v Cursor Secrets — do Actions ho je potřeba zkopírovat zvlášť.
+Bez secretu workflow Deploy production **přeskočí** `wrangler deploy` (varování v logu) a jen ověří, že ostré domény odpovídají. Token už může být v Cursor Secrets — do Actions ho zkopíruj zvlášť, ať Actions nasazuje samo a nespoléhá jen na Workers Builds.
 
 ## Ruční znovunasazení
 
