@@ -12,9 +12,9 @@ U Špindlerova Mlýna a food trucku nebyla ulice. Mapa ukazuje střed střediska
 
 ## Test není ostrý web
 
-První verze neměla prostředí, na kterém se dá verze nejdřív otevřít. Testovací adresa je `https://garath33.github.io/raclette/`. Má `noindex` a viditelný pruh, aby se dočasná adresa nezačala tvářit jako finální doména.
+Testovací adresa je `https://garath33.github.io/raclette/`. Má `noindex` a viditelný pruh. GitHub Pages jde jen z `main`.
 
-GitHub u tohoto repozitáře dovolí Pages jen z větve `main`. Nasazení z funkční větve skončilo chybou ochrany prostředí a tokenem to nejde změnit. Testovací odkaz proto vznikne sloučením do `main`, ne dřív. Samostatný workflow pro ostré domény Pages nepřepisuje: dokud není připojený hosting pro `raclettelovers.*`, skončí po testech a nic nepublikuje.
+Ostrý web je Cloudflare Worker `raclette` na `raclettelovers.cz` / `.sk` / `.ch`. Dřívější workflow Deploy production po testech dělal `exit 1` s textem, že hosting není připojený — to už neplatí a mástilo to při merge. Po sloučení do `main` teď běží Pages (test) i `wrangler deploy` (ostrý Worker), pokud je v Actions secret `CLOUDFLARE_API_TOKEN`.
 
 ## hreflang jen na živé adresy
 

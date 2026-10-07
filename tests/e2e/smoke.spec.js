@@ -43,9 +43,17 @@ test("stránka se načte, má sekce a testovací pruh", async ({ page }) => {
   expect(errors).toEqual([]);
 });
 
-test("formulář spolupráce vyžaduje všechna pole a míří na Milana", async ({ page }) => {
+test("formulář spolupráce vyžaduje všechna pole a odešle poptávku", async ({ page }) => {
+  let posted = null;
+  await page.route("https://formsubmit.co/ajax/**", async (route) => {
+    posted = JSON.parse(route.request().postData() || "{}");
+    await route.fulfill({
+      status: 200,
+      contentType: "application/json",
+      body: JSON.stringify({ success: "true" })
+    });
+  });
   await page.goto("/?lang=cs");
-  await page.evaluate(() => { window.__skipPartnerMailto = true; });
   await page.locator("#franchise-form").scrollIntoViewIfNeeded();
   await page.locator("#partner-form button[type='submit']").click();
   await expect(page.locator("#form-status")).toContainText("Vyplňte");
@@ -56,13 +64,16 @@ test("formulář spolupráce vyžaduje všechna pole a míří na Milana", async
   await page.fill("#form-email", "partner@example.com");
   await page.fill("#form-idea", "Chci shop-in-shop na terasu.");
   await page.locator("#partner-form button[type='submit']").click();
-  await expect(page.locator("#form-status")).toContainText("milan@raclette-original.com");
-  const mailto = decodeURIComponent(await page.evaluate(() => window.__lastPartnerMailto));
-  expect(mailto).toMatch(/^mailto:milan@raclette-original\.com\?/);
-  expect(mailto).toContain("Hotel Test");
-  expect(mailto).toContain("Opava");
-  expect(mailto).toContain("partner@example.com");
-  expect(mailto).toContain("Raclette Point Original");
+  await expect(page.locator("#form-status")).toContainText("Děkujeme");
+  expect(posted).toMatchObject({
+    name: "Hotel Test",
+    email: "partner@example.com",
+    mesto: "Opava",
+    telefon: "+420777600223",
+    predstava: "Chci shop-in-shop na terasu."
+  });
+  expect(posted._subject).toMatch(/Raclette Point Original/);
+  expect(posted.message).toContain("Hotel Test");
 });
 
 test("přepnutí jazyka změní titulek a kanonickou adresu", async ({ page }) => {

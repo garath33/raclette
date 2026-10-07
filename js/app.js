@@ -149,38 +149,62 @@ function typeLabel(value) {
   return label === key ? value : label;
 }
 
-function partnerMailto(data) {
-  const lines = [
-    t("form.mail.name") + ": " + data.name,
-    t("form.mail.type") + ": " + typeLabel(data.type),
-    t("form.mail.city") + ": " + data.city,
-    t("form.mail.phone") + ": " + data.phone,
-    t("form.mail.email") + ": " + data.email,
-    "",
-    t("form.mail.idea") + ":",
-    data.idea
-  ];
-  return "mailto:milan@raclette-original.com?subject=" +
-    encodeURIComponent(t("franchise.subject")) +
-    "&body=" + encodeURIComponent(lines.join("\n"));
+function partnerPayload(fields) {
+  return {
+    name: fields.name,
+    email: fields.email,
+    _replyto: fields.email,
+    _subject: "Raclette Point Original — spolupráce",
+    _template: "table",
+    _captcha: "false",
+    typ: fields.typeLabel || fields.type,
+    mesto: fields.city,
+    telefon: fields.phone,
+    jazyk: fields.lang || "",
+    predstava: fields.idea,
+    message: [
+      "Nová poptávka z webu Raclette Point Original",
+      "",
+      "Název: " + fields.name,
+      "Typ provozovny: " + (fields.typeLabel || fields.type),
+      "Město: " + fields.city,
+      "Telefon: " + fields.phone,
+      "E-mail: " + fields.email,
+      fields.lang ? "Jazyk formuláře: " + fields.lang : "",
+      "",
+      "Představa:",
+      fields.idea
+    ].filter(Boolean).join("\n")
+  };
 }
 
 function bindPartnerForm() {
   const form = document.getElementById("partner-form");
   if (!form || form.dataset.bound === "1") return;
   form.dataset.bound = "1";
-  form.addEventListener("submit", (event) => {
+  form.addEventListener("submit", async (event) => {
     event.preventDefault();
     const status = document.getElementById("form-status");
+    const submit = form.querySelector("button[type='submit']");
     const fields = {
       name: form.elements.namedItem("name").value.trim(),
       type: form.elements.namedItem("type").value,
+      typeLabel: typeLabel(form.elements.namedItem("type").value),
       city: form.elements.namedItem("city").value.trim(),
       phone: form.elements.namedItem("phone").value.trim(),
       email: form.elements.namedItem("email").value.trim(),
-      idea: form.elements.namedItem("idea").value.trim()
+      idea: form.elements.namedItem("idea").value.trim(),
+      website: form.elements.namedItem("website") ? form.elements.namedItem("website").value.trim() : "",
+      lang
     };
-    const missing = Object.values(fields).some((value) => !value);
+    if (fields.website) {
+      status.hidden = false;
+      status.classList.remove("is-error");
+      status.textContent = t("form.success");
+      form.reset();
+      return;
+    }
+    const missing = ["name", "type", "city", "phone", "email", "idea"].some((key) => !fields[key]);
     if (missing || !form.checkValidity()) {
       form.reportValidity();
       status.hidden = false;
@@ -190,10 +214,35 @@ function bindPartnerForm() {
     }
     status.hidden = false;
     status.classList.remove("is-error");
-    status.textContent = t("form.ready");
-    const href = partnerMailto(fields);
-    window.__lastPartnerMailto = href;
-    if (!window.__skipPartnerMailto) window.location.href = href;
+    status.textContent = t("form.sending");
+    if (submit) submit.disabled = true;
+    const endpoint = RacletteSite.partnerInquiryUrl();
+    const body = partnerPayload(fields);
+    let ok = false;
+    try {
+      const response = await fetch(endpoint, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json"
+        },
+        body: JSON.stringify(body)
+      });
+      const payload = await response.json().catch(() => ({}));
+      ok = response.ok && (payload.success === true || payload.success === "true" || payload.ok === true);
+      window.__lastPartnerInquiry = { endpoint, ok, fields };
+    } catch (err) {
+      window.__lastPartnerInquiry = { endpoint, ok: false, error: String(err) };
+    }
+    if (submit) submit.disabled = false;
+    if (ok) {
+      status.classList.remove("is-error");
+      status.textContent = t("form.success");
+      form.reset();
+      return;
+    }
+    status.classList.add("is-error");
+    status.textContent = t("form.sendError");
   });
 }
 

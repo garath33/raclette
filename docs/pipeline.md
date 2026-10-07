@@ -1,46 +1,61 @@
 # Pipeline
 
-Změna nejdřív projde testy, potom se objeví na testovací adrese. Na ostrý web se nedostane, dokud to někdo výslovně neschválí.
-
 ```text
-větev cursor/…  →  CI a testy na pull requestu
+větev cursor/…  →  CI + Cloudflare Workers preview na pull requestu
                          ↓
-                  sloučení do main
+                  sloučení / push do main
                          ↓
-                  testy znovu + GitHub Pages (test, noindex)
-                         ↓
-                  schválení člověkem po otevření odkazu
-                         ↓
-                  ruční workflow NASADIT, až bude ostrý hosting
+        ┌────────────────┴────────────────┐
+        ↓                                 ↓
+  GitHub Pages (test)              Cloudflare Worker (ostrý)
+  garath33.github.io/raclette/     raclettelovers.cz / .sk / .ch
+  pruh + noindex                   bez pruhu, indexovatelný
 ```
 
-## Testovací prostředí
+## Proč dřív „commit and merge“ nevypadalo jako publikace
 
-GitHub u tohoto repozitáře pustí Pages jen z větve `main`. Z funkční větve proto odkaz nevznikne, i když testy projdou. Až se změna sloučí do `main`, workflow `Deploy test environment` udělá tohle:
+1. Workflow **Deploy production** po testech **záměrně končil chybou** (`exit 1`) s textem, že ostrý hosting není připojený — i když Worker `raclette` už běžel.
+2. Dokumentace tvrdila totéž, takže merge vypadal jako „jen test“.
+3. Ostrý provoz je na **Cloudflare Workeru**, ne na GitHub Pages. Pages aktualizuje zkušební `github.io` (a zatím i `www.raclettelovers.com`, které na Pages ještě míří).
 
-1. Jednotkové testy, smoke, responsivita a výkon.
-2. Když testy projdou, sestaví se složka `_site` jen z veřejných souborů.
-3. GitHub Pages ji vystaví na `https://garath33.github.io/raclette/`.
+## Co se stane po sloučení do `main`
 
-Na té adrese je černý pruh „Testovací prostředí“ a stránka má `noindex`, aby ji vyhledávače nebraly jako ostrý web.
+1. **CI** — unit + e2e testy.
+2. **Deploy test environment** — GitHub Pages na `https://garath33.github.io/raclette/` (pruh „Testovací prostředí“, `noindex`).
+3. **Deploy production** — `npx wrangler deploy` Workeru `raclette` na ostré domény Cloudflare (`.cz`, `.sk`, `.ch` a aliasy). Vyžaduje secret `CLOUDFLARE_API_TOKEN`.
 
-Sloučení do `main` zapne jen tuhle testovací adresu. Nezapne `raclettelovers.*` ani `raclettepointoriginal.*`.
+Cloudflare **Workers Builds** (napojený na GitHub) může nasadit paralelní build z `main` nebo z PR jako preview. Spolehlivá cesta z repozitáře je workflow výše.
 
-## Ostré nasazení
+## Secret pro ostré nasazení
 
-Workflow `Deploy production` se nespouští při pushi. Jde ho spustit jen ručně, jen z větve `main`, a do pole potvrzení se musí napsat `NASADIT`.
+V GitHubu: **Settings → Secrets and variables → Actions → New repository secret**
 
-I potom se nic nepublikuje. Workflow znovu pustí testy a skončí chybou s vysvětlením, že ostrý hosting ještě není připojený. GitHub Pages se tím nemění. Až budou domény `raclettelovers.*`, tenhle krok se napojí na hosting, který umí víc domén najednou. GitHub Pages umí jednu veřejnou adresu, proto teď slouží jako provizorní test.
+| Name | Value |
+| --- | --- |
+| `CLOUDFLARE_API_TOKEN` | API token s právem upravit Workers (stejný typ jako v Cursor Secrets) |
 
-## Lokální běh
+Bez secretu workflow Deploy production po testech spadne s jasnou chybou. Token už může být v Cursor Secrets — do Actions ho je potřeba zkopírovat zvlášť.
+
+## Ruční znovunasazení
+
+Actions → **Deploy production** → Run workflow (větev `main`).
+
+Lokálně (s tokenem v prostředí):
+
+```bash
+npm ci
+npx wrangler deploy
+```
+
+## Lokální náhled
 
 ```bash
 npm ci
 npm start
 ```
 
-Stránka je na `http://127.0.0.1:4173`. Poloha v prohlížeči funguje na localhostu, ne při otevření souboru z disku.
+Stránka je na `http://127.0.0.1:4173`.
 
-## Co se do testovacího webu nekopíruje
+## Co se na hosting nekopíruje
 
-Testy, `node_modules` a tahle dokumentace zůstávají v repozitáři. Na Pages jdou jen `index.html`, `css`, `js`, `assets`, `robots.txt` a `sitemap.xml`.
+Testy, `node_modules`, dokumentace a konfigurace zůstávají v gitu. Worker bere veřejné soubory podle `wrangler.jsonc` a `.assetsignore`.

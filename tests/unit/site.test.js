@@ -9,6 +9,13 @@ const loc = (hostname, extra) => Object.assign({
   hash: ""
 }, extra);
 
+test("partnerInquiryUrl míří na FormSubmit pro Milana", () => {
+  assert.equal(
+    site.partnerInquiryUrl(),
+    "https://formsubmit.co/ajax/milan@raclette-original.com"
+  );
+});
+
 test("github.io zůstává zkušební a raclettelovers.* je ostrý web", () => {
   assert.equal(site.isStagingHost("garath33.github.io"), true);
   assert.equal(site.isStagingHost("raclettelovers.com"), false);
