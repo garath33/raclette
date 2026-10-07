@@ -1,6 +1,10 @@
 # Domény a přesměrování
 
-Zkušební web teď běží na `https://garath33.github.io/raclette/`. DNS pro `raclettelovers.com` už míří na GitHub, ale Pages doménu přijme až po uložení v nastavení repozitáře. Ostatní domény počkají, dokud bude hosting umět víc adres najednou. GitHub Pages umí jednu vlastní doménu, přesměrování mezi více doménami ne.
+Zkušební web: `https://garath33.github.io/raclette/` (GitHub Pages, pruh + noindex).
+
+Ostrý web: Cloudflare Worker `raclette` na `raclettelovers.cz`, `raclettelovers.sk`, `raclettelovers.ch` (a aliasy v zónách Cloudflare). Nasazení: merge do `main` → workflow **Deploy production** (`npx wrangler deploy`), viz [pipeline.md](pipeline.md).
+
+`raclettelovers.com` zatím ještě míří na GitHub Pages (WebHouse DNS). Není to totéž co Worker; po merge se aktualizuje spolu s Pages, ale bez přesměrovacích pravidel Workeru.
 
 ## raclettelovers.com u WebHouse
 

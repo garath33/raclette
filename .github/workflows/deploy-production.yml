@@ -1,21 +1,23 @@
 name: Deploy production
 
-# Ostré nasazení se nespouští samo. Až po schválení testovací verze
-# se na větvi main ručně spustí tento workflow a do pole se napíše NASADIT.
+# Ostrý web běží na Cloudflare Workeru `raclette` (raclettelovers.cz/.sk/.ch a aliasy).
+# Po sloučení do main (a ručně přes workflow_dispatch) se po testech nasadí Worker.
+# Potřebuje repository secret CLOUDFLARE_API_TOKEN (Workers Scripts Edit).
 on:
+  push:
+    branches:
+      - main
   workflow_dispatch:
-    inputs:
-      confirm:
-        description: "Potvrzení nasazení. Napiš přesně NASADIT."
-        required: true
-        type: string
 
 permissions:
   contents: read
 
+concurrency:
+  group: production-worker
+  cancel-in-progress: false
+
 jobs:
-  deploy:
-    if: github.ref == 'refs/heads/main' && github.event.inputs.confirm == 'NASADIT'
+  test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -26,8 +28,43 @@ jobs:
       - run: npm ci
       - run: npx playwright install --with-deps chromium
       - run: npm test
-      - name: Ostrý hosting ještě není připojený
+
+  deploy:
+    needs: test
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: https://raclettelovers.cz/
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Zkontrolovat Cloudflare token
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
         run: |
-          echo "Testy prošly. Domény raclettelovers.* ani raclettepointoriginal.* ale nejsou připojené."
-          echo "Tohle workflow GitHub Pages nemění. Testovací adresa zůstává https://garath33.github.io/raclette/"
-          exit 1
+          if [ -z "$CLOUDFLARE_API_TOKEN" ]; then
+            echo "::error::Chybí repository secret CLOUDFLARE_API_TOKEN."
+            echo "Settings → Secrets and variables → Actions → New repository secret"
+            echo "Name: CLOUDFLARE_API_TOKEN"
+            echo "Bez něj se Worker z Actions nenasadí. Cloudflare Workers Builds může nasadit sám, ale tenhle workflow je spolehlivá cesta po merge."
+            exit 1
+          fi
+      - name: Nasadit Cloudflare Worker
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: npx wrangler deploy
+      - name: Ověřit ostrý web
+        run: |
+          set -e
+          for url in https://raclettelovers.cz/js/app.js https://raclettelovers.sk/js/app.js https://raclettelovers.ch/js/app.js; do
+            echo "Kontrola $url"
+            code=$(curl -sS -o /tmp/app.js -w "%{http_code}" "$url")
+            test "$code" = "200"
+            grep -q "formsubmit.co" /tmp/app.js || grep -q "partnerInquiry\|bindPartnerForm" /tmp/app.js
+          done
+          echo "Ostrý Worker odpovídá."

@@ -5,6 +5,7 @@ node_modules
 .github
 docs
 tests
+lib
 **/*.md
 package.json
 package-lock.json
@@ -15,3 +16,4 @@ wrangler.jsonc
 .assetsignore
 worker.js
 _redirects
+

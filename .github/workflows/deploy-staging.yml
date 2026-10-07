@@ -1,11 +1,10 @@
 name: Deploy test environment
 
-# GitHub Pages dovolí publikaci jen z větve main (ochrana prostředí github-pages).
-# Tahle větev proto web nevystavuje. Po schválení sloučení do main vznikne
-# zkušební web na https://garath33.github.io/raclette/ . Vlastní doména
-# raclettelovers.com se připojí až uložením v Settings → Pages. Soubor CNAME
-# nasazení z Actions ignoruje. Pořád s pruhem „Testovací prostředí“ a s noindex,
-# dokud indexování někdo výslovně neschválí. Ostatní domény to nezapíná.
+# Po sloučení do main vznikne zkušební web na https://garath33.github.io/raclette/
+# (pruh Testovací prostředí, noindex). Ostré domény raclettelovers.cz/.sk/.ch
+# nasazuje workflow Deploy production (Cloudflare Worker), ne tenhle job.
+# www.raclettelovers.com zatím sdílí GitHub Pages — po merge se aktualizuje spolu
+# s github.io, ale bez zkušebního pruhu (hostname není github.io).
 on:
   push:
     branches:
