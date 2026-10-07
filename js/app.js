@@ -41,16 +41,33 @@ function mapSrc(point) {
 }
 
 function routeUrl(point) {
-  const dest = point.lat + "," + point.lng;
-  if (origin) {
-    return "https://www.google.com/maps/dir/?api=1&origin=" + origin.lat + "," + origin.lng + "&destination=" + dest + "&travelmode=driving";
-  }
-  return "https://www.google.com/maps/dir/?api=1&destination=" + dest + "&travelmode=driving";
+  return RacletteGeo.mapsDirUrl(point);
 }
 
 function setStatus(key, vars) {
   const el = document.getElementById("locator-status");
   el.textContent = t(key, vars);
+}
+
+function hideNavigateNearest() {
+  const link = document.getElementById("navigate-nearest");
+  if (!link) return;
+  link.hidden = true;
+  link.removeAttribute("href");
+}
+
+function showNavigateNearest(point) {
+  const link = document.getElementById("navigate-nearest");
+  if (!link) return;
+  link.hidden = false;
+  link.href = routeUrl(point);
+  link.textContent = t("points.navigate", { name: t("point." + point.id + ".name") });
+}
+
+function readPosition(options) {
+  return new Promise((resolve, reject) => {
+    navigator.geolocation.getCurrentPosition(resolve, reject, options);
+  });
 }
 
 function renderPoints() {
@@ -256,29 +273,60 @@ function setLang(next) {
   const point = POINTS.find((item) => item.id === activeId);
   document.getElementById("map-frame").src = mapSrc(point);
   renderPoints();
-  if (!origin) setStatus("points.idle");
+  if (!origin) {
+    hideNavigateNearest();
+    setStatus("points.idle");
+  } else {
+    const nearest = RacletteGeo.nearest(POINTS, origin.lat, origin.lng);
+    showNavigateNearest(nearest);
+    setStatus("points.found", {
+      name: t("point." + nearest.id + ".name"),
+      km: formatKm(haversine(origin.lat, origin.lng, nearest.lat, nearest.lng))
+    });
+  }
 }
 
-function locate() {
+function applyLocatedOrigin(lat, lng) {
+  origin = { lat, lng };
+  const nearest = RacletteGeo.nearest(POINTS, lat, lng);
+  activeId = nearest.id;
+  const km = formatKm(haversine(lat, lng, nearest.lat, nearest.lng));
+  document.getElementById("map-frame").src = mapSrc(nearest);
+  renderPoints();
+  showNavigateNearest(nearest);
+  setStatus("points.found", { name: t("point." + nearest.id + ".name"), km: km });
+  document.getElementById("navigate-nearest")?.focus();
+}
+
+async function locate() {
   if (!navigator.geolocation) {
+    hideNavigateNearest();
     setStatus("points.unsupported");
     return;
   }
   setStatus("points.locating");
-  navigator.geolocation.getCurrentPosition(
-    (pos) => {
-      origin = { lat: pos.coords.latitude, lng: pos.coords.longitude };
-      const nearest = POINTS.slice().sort((a, b) => haversine(origin.lat, origin.lng, a.lat, a.lng) - haversine(origin.lat, origin.lng, b.lat, b.lng))[0];
-      activeId = nearest.id;
-      const km = formatKm(haversine(origin.lat, origin.lng, nearest.lat, nearest.lng));
-      document.getElementById("map-frame").src = mapSrc(nearest);
-      renderPoints();
-      setStatus("points.found", { name: t("point." + nearest.id + ".name"), km: km });
-      document.getElementById("point-cards").querySelector(".card")?.focus();
-    },
-    () => setStatus("points.denied"),
-    { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
-  );
+  hideNavigateNearest();
+  const locateBtn = document.getElementById("locate");
+  if (locateBtn) locateBtn.disabled = true;
+  try {
+    let pos;
+    try {
+      pos = await readPosition({ enableHighAccuracy: true, timeout: 8000, maximumAge: 0 });
+    } catch (first) {
+      // GPS timeout / unavailable → one softer network-based reading for ranking only
+      if (first && (first.code === 2 || first.code === 3)) {
+        pos = await readPosition({ enableHighAccuracy: false, timeout: 10000, maximumAge: 0 });
+      } else {
+        throw first;
+      }
+    }
+    applyLocatedOrigin(pos.coords.latitude, pos.coords.longitude);
+  } catch (err) {
+    hideNavigateNearest();
+    setStatus("points.denied");
+  } finally {
+    if (locateBtn) locateBtn.disabled = false;
+  }
 }
 
 function boot() {
@@ -296,11 +344,15 @@ function boot() {
   bindPartnerForm();
   document.getElementById("map-frame").src = mapSrc(POINTS[0]);
   renderPoints();
+  hideNavigateNearest();
   setStatus("points.idle");
 
   document.getElementById("lang").addEventListener("change", (event) => setLang(event.target.value));
   document.getElementById("locate").addEventListener("click", locate);
-  document.getElementById("hero-locate").addEventListener("click", locate);
+  document.getElementById("hero-locate").addEventListener("click", () => {
+    // Keep #pointy scroll from the href; still run locate from the same gesture.
+    locate();
+  });
   document.getElementById("nav-toggle").addEventListener("click", () => {
     const nav = document.getElementById("site-nav");
     const open = nav.classList.toggle("is-open");

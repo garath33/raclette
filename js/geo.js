@@ -19,5 +19,20 @@
     return points.slice().sort((a, b) => haversine(lat, lng, a.lat, a.lng) - haversine(lat, lng, b.lat, b.lng))[0];
   }
 
-  return { haversine, nearest };
+  /**
+   * Directions URL for Google Maps. Destination only — no frozen browser GPS as origin.
+   * Maps then starts from the device's live "Your location", which is more accurate indoors
+   * than a one-shot navigator.geolocation reading pinned into the URL.
+   */
+  function mapsDirUrl(point) {
+    const dest = point.lat + "," + point.lng;
+    return (
+      "https://www.google.com/maps/dir/?api=1" +
+      "&destination=" + encodeURIComponent(dest) +
+      "&travelmode=driving" +
+      "&dir_action=navigate"
+    );
+  }
+
+  return { haversine, nearest, mapsDirUrl };
 });

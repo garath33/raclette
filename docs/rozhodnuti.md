@@ -64,7 +64,11 @@ Výkonnostní test jednou spadl na větě `Permissions policy violation: compute
 
 ## Druhé klepnutí na polohu bere nový odečet
 
-První verze testu nechala mezi Kladnem a Jeseníkem starou polohu, protože prohlížeč směl minutu použít cache (`maximumAge`). Nové klepnutí na „Použít mou polohu“ proto vždy žádá čerstvý odečet.
+První verze testu nechala mezi Kladnem a Jeseníkem starou polohu, protože prohlížeč směl minutu použít cache (`maximumAge`). Nové klepnutí na „Použít mou polohu" proto vždy žádá čerstvý odečet.
+
+## Navigace nebere zmraženou GPS z prohlížeče
+
+Prohlížečová poloha slouží jen k výběru nejbližšího Pointu a k výpočtu vzdálenosti. Odkaz do Google Maps má jen cíl (`destination`), bez `origin` s jednorázovým odečtem. Jinak Maps startoval z nepřesného pinu (Wi-Fi / timeout) místo z místa, kde člověk sedí. Živý start necháme na Google Maps (`dir_action=navigate`). Po úspěšném odečtu je tlačítko „Navigovat k …“. Když GPS selže timeoutem, zkusí se ještě jeden odečet bez vysoké přesnosti.
 
 ## Pro partnery na ostrém webu
 

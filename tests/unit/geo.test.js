@@ -25,3 +25,20 @@ test("body Pointů mají souřadnice a Křížový vrch má web", () => {
   assert.equal(POINTS.find((point) => point.id === "krizovy").web, "https://krizovyvrch.cz/cs");
   assert.equal(POINTS.find((point) => point.id === "spindl").web, null);
 });
+
+test("mapsDirUrl má jen destination, žádný zmražený origin", () => {
+  const point = POINTS.find((item) => item.id === "kabrt");
+  const url = geo.mapsDirUrl(point);
+  assert.match(url, /^https:\/\/www\.google\.com\/maps\/dir\/\?api=1/);
+  assert.match(url, /destination=50\.1466053%2C14\.1026398/);
+  assert.match(url, /travelmode=driving/);
+  assert.match(url, /dir_action=navigate/);
+  assert.equal(/[?&]origin=/.test(url), false);
+});
+
+test("z Prahy je food truck, ze Špindlu Špindlerův Mlýn", () => {
+  const praha = geo.nearest(POINTS, 50.0875, 14.4213);
+  const spindl = geo.nearest(POINTS, 50.7256, 15.6068);
+  assert.equal(praha.id, "kabrt");
+  assert.equal(spindl.id, "spindl");
+});

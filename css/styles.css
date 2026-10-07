@@ -300,8 +300,16 @@ p { margin: 0; }
   gap: 0.9rem 1.2rem;
   margin-bottom: 1.4rem;
 }
+.locator #navigate-nearest {
+  background: var(--ink);
+  color: #fff;
+}
+.locator #navigate-nearest[hidden] {
+  display: none !important;
+}
 .status {
   margin: 0;
+  flex: 1 1 12rem;
   color: var(--muted);
   font-size: 0.95rem;
   min-height: 1.4em;
