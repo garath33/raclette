@@ -191,7 +191,7 @@ const TRANSLATIONS = {
     "franchise.close": "Těšíme se na spolupráci s vámi. Za pracovní tým Raclette Point Original.",
     "franchise.sign": "Milan Kolář, československý král Raclette. +41 76 608 39 83, milan@raclette-original.com. Chemin des Grands Praz 81, 1965 Savièse, Švýcarsko.",
     "form.title": "Chci se stát raclette pointem",
-    "form.sub": "Vyplňte všechna pole. Nic nevynechte, ať víme, jak vám připravit nabídku.",
+    "form.sub": "Vyplňte všechna pole. Nic nevynechte, ať víme, jak vám připravit nabídku vám na míru.",
     "form.lead": "Zanechte kontakt a základní informace o podniku nebo o záměru. Zpráva odejde na milan@raclette-original.com a my se vám ozveme.",
     "form.invite": "Vyplňte formulář níže, nebo zavolejte pro bližší informace.",
     "form.name": "Název",
