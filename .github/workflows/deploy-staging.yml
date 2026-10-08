@@ -1,10 +1,9 @@
 name: Deploy test environment
 
-# Po sloučení do main vznikne zkušební web na https://garath33.github.io/raclette/
-# (pruh Testovací prostředí, noindex). Ostré domény raclettelovers.cz/.sk/.ch
-# nasazuje workflow Deploy production (Cloudflare Worker), ne tenhle job.
-# www.raclettelovers.com zatím sdílí GitHub Pages — po merge se aktualizuje spolu
-# s github.io, ale bez zkušebního pruhu (hostname není github.io).
+# Po sloučení do main GitHub Pages aktualizuje www.raclettelovers.com.
+# github.io se na www přesměruje. Obsah na www se indexuje.
+# Pruh a noindex zůstávají jen pro github.io, localhost a 127.0.0.1.
+# raclettelovers.cz/.sk/.ch nasazuje workflow Deploy production.
 on:
   push:
     branches:

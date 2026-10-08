@@ -4,8 +4,8 @@ Prezentační web sítě Raclette Point. Dokumentace je ve složce [docs](docs/R
 
 Po sloučení do `main`:
 
-- test: <https://garath33.github.io/raclette/> (pruh + noindex)
-- ostrý Worker: <https://raclettelovers.cz/>, `.sk`, `.ch` (Cloudflare)
+- anglický web: <https://www.raclettelovers.com/> (GitHub Pages, indexuje se)
+- český, slovenský a švýcarský web: <https://raclettelovers.cz/>, `.sk`, `.ch` (Cloudflare Worker, indexují se)
 
 Pipeline a secret `CLOUDFLARE_API_TOKEN` jsou v [docs/pipeline.md](docs/pipeline.md).
 

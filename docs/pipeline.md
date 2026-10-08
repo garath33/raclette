@@ -7,9 +7,10 @@ větev cursor/…  →  CI + Cloudflare Workers preview na pull requestu
                          ↓
         ┌────────────────┴────────────────┐
         ↓                                 ↓
-  GitHub Pages (test)              Cloudflare Worker (ostrý)
-  garath33.github.io/raclette/     raclettelovers.cz / .sk / .ch
-  pruh + noindex                   bez pruhu, indexovatelný
+  GitHub Pages                         Cloudflare Worker
+  www.raclettelovers.com           raclettelovers.cz / .sk / .ch
+  github.io → přesměrování na www  aliasy → 301 na cílovou doménu
+  obsah se indexuje                obsah se indexuje
 ```
 
 ## Proč dřív „commit and merge“ nevypadalo jako publikace
@@ -21,7 +22,7 @@ větev cursor/…  →  CI + Cloudflare Workers preview na pull requestu
 ## Co se stane po sloučení do `main`
 
 1. **CI** — unit + e2e testy.
-2. **Deploy test environment** — GitHub Pages na `https://garath33.github.io/raclette/` (pruh „Testovací prostředí“, `noindex`).
+2. **Deploy test environment** — GitHub Pages. `github.io` se přesměruje na `https://www.raclettelovers.com/`. Obsah na `www` se indexuje. Pruh a `noindex` zůstávají jen když se HTML otevře přímo na `github.io` nebo na localhostu.
 3. **Deploy production** — `npx wrangler deploy` Workeru `raclette` na ostré domény Cloudflare (`.cz`, `.sk`, `.ch` a aliasy). Vyžaduje secret `CLOUDFLARE_API_TOKEN`.
 
 Cloudflare **Workers Builds** (napojený na GitHub) může nasadit paralelní build z `main` nebo z PR jako preview. Spolehlivá cesta z repozitáře je workflow výše.

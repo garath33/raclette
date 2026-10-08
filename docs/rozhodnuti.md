@@ -56,7 +56,7 @@ Nad kontaktním formulářem je výzva vyplnit formulář nebo zavolat na +420 7
 
 ## raclettelovers.com je první vlastní doména
 
-Čtyři záznamy A u WebHouse míří na GitHub Pages (`185.199.108.153` až `185.199.111.153`). Parkovací adresa `86.110.243.202` je pryč. Ostrý web běží na Cloudflare Workeru a na `raclettelovers.*`. Schválení „commitni na ostrý web“ sundává z těchto domén zkušební pruh i `noindex`. `github.io` a localhost pruh mají dál. Bez uloženého jazyka se na `.com` otevře angličtina, jinak vyhrává jazyk zařízení a potom koncovka domény.
+Čtyři záznamy A u WebHouse míří na GitHub Pages (`185.199.108.153` až `185.199.111.153`). Parkovací adresa `86.110.243.202` je pryč. `www` je CNAME na `garath33.github.io`, apex se na `www` přesměrovává. `.cz`, `.sk` a `.ch` běží na Cloudflare Workeru. 8. října 2026 se na těchto čtyřech obsahových adresách zapnulo indexování: zdrojové HTML má `index, follow` a kanonické adresy vedou na doménu jazyka. Aliasové domény zůstávají 301 a samostatně se neindexují. `github.io` a localhost mají pruh a `noindex` dál. Bez uloženého jazyka se na `.com` otevře angličtina, jinak vyhrává jazyk zařízení a potom koncovka domény.
 
 ## Hlava krávy patří k mlékárně, ne na fotku sýra
 
