@@ -62,11 +62,17 @@ jobs:
         run: |
           set -e
           sleep 8
-          for url in https://raclettelovers.cz/ https://raclettelovers.sk/ https://raclettelovers.ch/; do
-            echo "Kontrola $url"
-            code=$(curl -sS -o /tmp/home.html -w "%{http_code}" "$url")
+          for base in https://raclettelovers.cz https://raclettelovers.sk https://raclettelovers.ch; do
+            echo "Kontrola $base/"
+            code=$(curl -sS -o /tmp/home.html -w "%{http_code}" "$base/")
             test "$code" = "200"
-            grep -q "partner-form" /tmp/home.html
+            grep -q "pro-partnery" /tmp/home.html
+            test "$(grep -c 'partner-form' /tmp/home.html || true)" = "0"
+            echo "Kontrola $base/pro-partnery"
+            code=$(curl -sSL -o /tmp/partners.html -w "%{http_code}" "$base/pro-partnery")
+            test "$code" = "200"
+            grep -q "partner-form" /tmp/partners.html
+            grep -q "franchise-page" /tmp/partners.html
           done
           if curl -sS https://raclettelovers.cz/js/site.js | grep -q 'formsubmit.co/ajax/milan@raclette-original.com'; then
             echo "Formulář míří na FormSubmit / Milan — OK."
