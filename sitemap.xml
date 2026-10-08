@@ -1,16 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://garath33.github.io/raclette/?lang=cs</loc>
-    <xhtml:link rel="alternate" hreflang="cs" href="https://garath33.github.io/raclette/?lang=cs"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://garath33.github.io/raclette/?lang=en"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://garath33.github.io/raclette/?lang=fr"/>
-    <xhtml:link rel="alternate" hreflang="sk" href="https://garath33.github.io/raclette/?lang=sk"/>
-    <xhtml:link rel="alternate" hreflang="it" href="https://garath33.github.io/raclette/?lang=it"/>
-    <xhtml:link rel="alternate" hreflang="de" href="https://garath33.github.io/raclette/?lang=de"/>
-    <xhtml:link rel="alternate" hreflang="pl" href="https://garath33.github.io/raclette/?lang=pl"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://garath33.github.io/raclette/?lang=es"/>
-    <xhtml:link rel="alternate" hreflang="ru" href="https://garath33.github.io/raclette/?lang=ru"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://garath33.github.io/raclette/?lang=cs"/>
+    <loc>https://www.raclettelovers.com/?lang=en</loc>
+    <xhtml:link rel="alternate" hreflang="cs" href="https://raclettelovers.cz/?lang=cs"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.raclettelovers.com/?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://raclettelovers.ch/?lang=fr"/>
+    <xhtml:link rel="alternate" hreflang="sk" href="https://raclettelovers.sk/?lang=sk"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.raclettelovers.com/?lang=it"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.raclettelovers.com/?lang=de"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://www.raclettelovers.com/?lang=pl"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.raclettelovers.com/?lang=es"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://www.raclettelovers.com/?lang=ru"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.raclettelovers.com/?lang=en"/>
+  </url>
+  <url>
+    <loc>https://raclettelovers.cz/?lang=cs</loc>
+    <xhtml:link rel="alternate" hreflang="cs" href="https://raclettelovers.cz/?lang=cs"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.raclettelovers.com/?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://raclettelovers.ch/?lang=fr"/>
+    <xhtml:link rel="alternate" hreflang="sk" href="https://raclettelovers.sk/?lang=sk"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.raclettelovers.com/?lang=it"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.raclettelovers.com/?lang=de"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://www.raclettelovers.com/?lang=pl"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.raclettelovers.com/?lang=es"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://www.raclettelovers.com/?lang=ru"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.raclettelovers.com/?lang=en"/>
+  </url>
+  <url>
+    <loc>https://raclettelovers.sk/?lang=sk</loc>
+    <xhtml:link rel="alternate" hreflang="cs" href="https://raclettelovers.cz/?lang=cs"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.raclettelovers.com/?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://raclettelovers.ch/?lang=fr"/>
+    <xhtml:link rel="alternate" hreflang="sk" href="https://raclettelovers.sk/?lang=sk"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.raclettelovers.com/?lang=it"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.raclettelovers.com/?lang=de"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://www.raclettelovers.com/?lang=pl"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.raclettelovers.com/?lang=es"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://www.raclettelovers.com/?lang=ru"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.raclettelovers.com/?lang=en"/>
+  </url>
+  <url>
+    <loc>https://raclettelovers.ch/?lang=fr</loc>
+    <xhtml:link rel="alternate" hreflang="cs" href="https://raclettelovers.cz/?lang=cs"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.raclettelovers.com/?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://raclettelovers.ch/?lang=fr"/>
+    <xhtml:link rel="alternate" hreflang="sk" href="https://raclettelovers.sk/?lang=sk"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.raclettelovers.com/?lang=it"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.raclettelovers.com/?lang=de"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://www.raclettelovers.com/?lang=pl"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.raclettelovers.com/?lang=es"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://www.raclettelovers.com/?lang=ru"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.raclettelovers.com/?lang=en"/>
   </url>
 </urlset>

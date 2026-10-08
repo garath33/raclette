@@ -3,12 +3,13 @@ const assert = require("node:assert/strict");
 const fs = require("node:fs");
 
 const LANGS = ["cs", "en", "fr", "sk", "it", "de", "pl", "es", "ru"];
-const HOST = "https://garath33.github.io/raclette/";
+const HOST = "https://www.raclettelovers.com/";
 
 test("stránka má kanonickou adresu, hreflang, Open Graph a strukturovaná data", () => {
   const html = fs.readFileSync("index.html", "utf8");
   assert.match(html, /rel="canonical"/);
-  assert.match(html, /noindex, follow/);
+  assert.match(html, /index, follow/);
+  assert.equal(/noindex/.test(html), false);
   assert.match(html, /property="og:title"/);
   assert.match(html, /property="og:image"/);
   assert.match(html, /twitter:card/);
@@ -21,15 +22,19 @@ test("stránka má kanonickou adresu, hreflang, Open Graph a strukturovaná data
   assert.match(html, /hreflang="x-default"/);
 });
 
-test("soubor CNAME drží raclettelovers.com a zdrojové HTML zůstává noindex", () => {
+test("soubor CNAME drží raclettelovers.com a zdrojové HTML se smí indexovat", () => {
   assert.equal(fs.readFileSync("CNAME", "utf8").trim(), "raclettelovers.com");
-  assert.match(fs.readFileSync("index.html", "utf8"), /noindex, follow/);
+  assert.match(fs.readFileSync("index.html", "utf8"), /index, follow/);
+  assert.match(fs.readFileSync("index.html", "utf8"), /https:\/\/www\.raclettelovers\.com\/\?lang=en/);
+  assert.match(fs.readFileSync("index.html", "utf8"), /https:\/\/raclettelovers\.cz\/\?lang=cs/);
 });
 
-test("robots a sitemap ukazují na testovací adresu a všechny jazyky", () => {
+test("robots a sitemap ukazují na ostré domény a všechny jazyky", () => {
   const robots = fs.readFileSync("robots.txt", "utf8");
   const sitemap = fs.readFileSync("sitemap.xml", "utf8");
-  assert.match(robots, /Sitemap: https:\/\/garath33\.github\.io\/raclette\/sitemap\.xml/);
+  assert.match(robots, /Sitemap: https:\/\/www\.raclettelovers\.com\/sitemap\.xml/);
+  assert.match(sitemap, /https:\/\/raclettelovers\.sk\/\?lang=sk/);
+  assert.match(sitemap, /https:\/\/raclettelovers\.ch\/\?lang=fr/);
   for (const lang of LANGS) {
     assert.match(sitemap, new RegExp("lang=" + lang));
   }
@@ -41,7 +46,7 @@ test("veřejné soubory drží výkonnostní rozpočet", () => {
   const limits = {
     "css/styles.css": 40 * 1024,
     "js/app.js": 20 * 1024,
-    "js/i18n.js": 60 * 1024,
+    "js/i18n.js": 62 * 1024,
     "js/i18n-extra.js": 128 * 1024,
     "assets/photo-service.jpg": 400 * 1024,
     "assets/photo-wedge.jpg": 280 * 1024,

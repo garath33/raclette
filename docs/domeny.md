@@ -1,20 +1,24 @@
 # Domény a přesměrování
 
-Zkušební web: `https://garath33.github.io/raclette/` (GitHub Pages, pruh + noindex).
+Zkušební adresa `https://garath33.github.io/raclette/` se přesměrovává na `https://www.raclettelovers.com/`. Kdyby se HTML na `github.io` přece jen vrátilo, JavaScript na něm nechá `noindex` a zkušební pruh.
 
-Ostrý web: Cloudflare Worker `raclette` na `raclettelovers.cz`, `raclettelovers.sk`, `raclettelovers.ch` (a aliasy v zónách Cloudflare). Nasazení: merge do `main` → workflow **Deploy production** (`npx wrangler deploy`), viz [pipeline.md](pipeline.md).
+Ostrý web je indexovatelný. `www.raclettelovers.com` servíruje GitHub Pages. `raclettelovers.cz`, `.sk` a `.ch` servíruje Cloudflare Worker `raclette`. Nasazení: merge do `main` aktualizuje obě cesty, viz [pipeline.md](pipeline.md).
 
-`raclettelovers.com` zatím ještě míří na GitHub Pages (WebHouse DNS). Není to totéž co Worker; po merge se aktualizuje spolu s Pages, ale bez přesměrovacích pravidel Workeru.
+## Proč .com zůstává na GitHubu a zbytek na Cloudflare
+
+Obsah je jeden. Liší se jen to, kdo ho po DNS dotazu pošle prohlížeči.
+
+`raclettelovers.com` má jmenné servery WebHouse. Apex má čtyři záznamy A na adresy GitHub Pages. `www` je CNAME na `garath33.github.io`. GitHub proto web rovnou servíruje a apex přesměruje na `www`. Před tyhle záznamy nepatří oranžový Cloudflare proxy: GitHub Pages za cizí proxy neumí vydat svůj certifikát.
+
+`.cz`, `.sk`, `.ch` a starší domény (`raclettepointoriginal.*`, `raclette-lovers.com`, `raclette-point-original.com`) mají jmenné servery Cloudflare. Worker na nich buď web rovnou vrátí, nebo pošle 301 na cílovou doménu. Přesměrované adresy se neindexují, hodnocení přebírá cíl. Indexují se jen čtyři obsahové adresy: `www.raclettelovers.com` (angličtina a jazyky bez vlastní domény), `raclettelovers.cz` (čeština), `raclettelovers.sk` (slovenština) a `raclettelovers.ch` (francouzština).
+
+Nechat `.com` na GitHubu dává smysl, dokud stačí jedna adresa a DNS už tam míří. Nevýhoda je dvojí nasazení: Pages a Worker se aktualizují odděleně. Až bude potřeba mít i `.com` ve stejném Workeru, přepne se DNS z WebHouse na Cloudflare a apex i `www` se přidají k Workeru. Do té doby se záznamy u WebHouse nemění.
 
 ## raclettelovers.com u WebHouse
 
-Doména má jmenné servery `ns1.webhouse.sk`, `ns2.webhouse.sk` a `ns3.webhouse.sk`. Ty neměňte. Hvězdička `*.raclettelovers.com` je CNAME na `raclettelovers.com` a tu taky nechte: díky ní jde `www` stejnou cestou jako adresa bez `www`.
+Doména má jmenné servery `ns1.webhouse.sk`, `ns2.webhouse.sk` a `ns3.webhouse.sk`. Ty neměňte. Apex má čtyři záznamy A na GitHub Pages. `www` je CNAME na `garath33.github.io`, proto Pages umí `www` i přesměrování apexu na `www`.
 
-Čtyři záznamy A už míří na GitHub Pages. Veřejné překladače `1.1.1.1` a `8.8.8.8` je 2. října 2026 vracely pro apex i pro `www`. Parkovací adresa `86.110.243.202` je pryč.
-
-Soubor `CNAME` v repozitáři má řádek `raclettelovers.com`. U publikace z GitHub Actions ho Pages ignoruje. Doména se zapne ručně: v repozitáři Settings → Pages, pole Custom domain, hodnota `raclettelovers.com`, tlačítko Save. Než se to uloží, adresa vrací stránku GitHubu „There isn't a GitHub Pages site here“ a certifikát je pořád pro `*.github.io`. Po uložení může trvat až hodinu, než GitHub vydá certifikát a web na doméně otevře. Enforce HTTPS nechte zapnuté, až kontrola DNS zezelená.
-
-Až doména web ukáže, otevře se anglicky, pokud návštěvník nemá uložený jazyk. Pořád má pruh „Testovací prostředí“ a `noindex, follow`. Indexování se zapne až po výslovném potvrzení. Do té doby se na to občas připomene.
+Stránka se na `.com` otevírá anglicky, pokud návštěvník nemá uložený jazyk. Od 8. října 2026 je `index, follow`. Zkušební pruh se na téhle doméně nezobrazuje. `github.io` a localhost pruh a `noindex` mají dál.
 
 V zóně mají být právě tyto čtyři řádky A. Třída zůstává IN, priorita se u A nevyplňuje.
 

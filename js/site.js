@@ -159,6 +159,18 @@
     el.setAttribute("content", content);
   }
 
+  const INDEX_ORIGIN = {
+    cs: "https://raclettelovers.cz",
+    sk: "https://raclettelovers.sk",
+    fr: "https://raclettelovers.ch"
+  };
+  const COM_ORIGIN = "https://www.raclettelovers.com";
+
+  function indexedUrl(code) {
+    if (LANGUAGES.indexOf(code) === -1) code = "en";
+    return (INDEX_ORIGIN[code] || COM_ORIGIN) + "/?lang=" + code;
+  }
+
   function partnerInquiryUrl() {
     return "https://formsubmit.co/ajax/milan@raclette-original.com";
   }
@@ -167,7 +179,8 @@
     loc = loc || (typeof location !== "undefined" ? location : { hostname: "", origin: "", pathname: "/", hash: "" });
     const title = translate("meta.title");
     const description = translate("meta.description");
-    const href = languageUrl(lang, loc);
+    const preview = isStagingHost(loc.hostname);
+    const href = preview ? languageUrl(lang, loc) : indexedUrl(lang);
     document.title = title;
     setMeta("description", description);
     setProperty("og:title", title);
@@ -178,8 +191,8 @@
     if (canonical) canonical.href = href;
     document.querySelectorAll('link[rel="alternate"][hreflang]').forEach((link) => {
       const code = link.getAttribute("hreflang");
-      if (code === "x-default") link.href = languageUrl("en", loc);
-      else if (LANGUAGES.indexOf(code) !== -1) link.href = languageUrl(code, loc);
+      if (code === "x-default") link.href = preview ? languageUrl("en", loc) : indexedUrl("en");
+      else if (LANGUAGES.indexOf(code) !== -1) link.href = preview ? languageUrl(code, loc) : indexedUrl(code);
     });
     const staging = isStagingHost(loc.hostname);
     setMeta("robots", staging ? "noindex, follow" : "index, follow");
@@ -205,6 +218,7 @@
     languageFromLocales,
     preferredLanguage,
     languageUrl,
+    indexedUrl,
     htmlLang,
     ogLocale,
     partnerInquiryUrl,

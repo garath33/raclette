@@ -74,6 +74,15 @@ test("přepínač jazyka zůstane na stejné doméně a nabídne všechny jazyky
   assert.equal(site.isNativeLanguage("raclettelovers.ch", "pl"), true);
 });
 
+test("ostrá kanonická adresa sedí na doménu jazyka, zkušební web zůstává na místě", () => {
+  assert.equal(site.indexedUrl("en"), "https://www.raclettelovers.com/?lang=en");
+  assert.equal(site.indexedUrl("cs"), "https://raclettelovers.cz/?lang=cs");
+  assert.equal(site.indexedUrl("sk"), "https://raclettelovers.sk/?lang=sk");
+  assert.equal(site.indexedUrl("fr"), "https://raclettelovers.ch/?lang=fr");
+  assert.equal(site.indexedUrl("de"), "https://www.raclettelovers.com/?lang=de");
+  assert.equal(site.indexedUrl("pl"), "https://www.raclettelovers.com/?lang=pl");
+});
+
 test("švýcarský hostitel značí de/fr/it jako CH variantu", () => {
   assert.equal(site.htmlLang("de", "raclettelovers.ch"), "de-CH");
   assert.equal(site.htmlLang("fr", "www.raclettelovers.ch"), "fr-CH");
