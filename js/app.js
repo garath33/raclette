@@ -142,7 +142,13 @@ function selectPoint(id) {
 
 function applyStatic() {
   document.documentElement.lang = RacletteSite.htmlLang(lang, location.hostname);
-  RacletteSite.apply(lang, t, location);
+  const partnersPage = Boolean(document.querySelector(".franchise-page"));
+  const translate = (key) => {
+    if (partnersPage && key === "meta.title") return t("franchise.title");
+    if (partnersPage && key === "meta.description") return t("franchise.lead");
+    return t(key);
+  };
+  RacletteSite.apply(lang, translate, location);
   document.querySelectorAll("[data-i18n]").forEach((el) => {
     el.textContent = t(el.dataset.i18n);
   });
@@ -156,7 +162,7 @@ function applyStatic() {
   const open = document.getElementById("site-nav").classList.contains("is-open");
   toggle.setAttribute("aria-label", t(open ? "nav.close" : "nav.open"));
   const frame = document.getElementById("map-frame");
-  frame.title = t("points.mapTitle");
+  if (frame) frame.title = t("points.mapTitle");
   document.getElementById("lang").value = lang;
 }
 
@@ -195,69 +201,8 @@ function partnerPayload(fields) {
   };
 }
 
-function isFranchiseOfferOpen() {
-  const section = document.getElementById("franchise");
-  return section && section.getAttribute("data-offer") === "open";
-}
-
-function setFranchiseOffer(open, opts) {
-  const section = document.getElementById("franchise");
-  const panel = document.getElementById("franchise-offer");
-  const openBtn = document.getElementById("franchise-open");
-  if (!section || !panel || !openBtn) return;
-  const next = Boolean(open);
-  section.setAttribute("data-offer", next ? "open" : "closed");
-  panel.hidden = !next;
-  openBtn.setAttribute("aria-expanded", String(next));
-  if (next && opts && opts.focusForm) {
-    const form = document.getElementById("franchise-form");
-    if (form) {
-      requestAnimationFrame(() => form.scrollIntoView({ behavior: "smooth", block: "start" }));
-    }
-  }
-}
-
-function openFranchiseOfferFromHash() {
-  const hash = (location.hash || "").replace(/^#/, "");
-  if (hash === "franchise" || hash === "franchise-form" || hash === "franchise-offer") {
-    setFranchiseOffer(true, { focusForm: hash === "franchise-form" });
-  }
-}
-
-function bindFranchiseOffer() {
-  const openBtn = document.getElementById("franchise-open");
-  const hideBtn = document.getElementById("franchise-hide");
-  const jumpForm = document.getElementById("franchise-jump-form");
-  if (!openBtn || openBtn.dataset.bound === "1") return;
-  openBtn.dataset.bound = "1";
-  openBtn.addEventListener("click", () => {
-    setFranchiseOffer(true);
-    const panel = document.getElementById("franchise-offer");
-    if (panel) panel.scrollIntoView({ behavior: "smooth", block: "start" });
-  });
-  if (hideBtn) {
-    hideBtn.addEventListener("click", () => {
-      setFranchiseOffer(false);
-      document.getElementById("franchise")?.scrollIntoView({ behavior: "smooth", block: "start" });
-    });
-  }
-  if (jumpForm) {
-    jumpForm.addEventListener("click", (event) => {
-      event.preventDefault();
-      setFranchiseOffer(true, { focusForm: true });
-      history.replaceState(null, "", "#franchise-form");
-    });
-  }
-  document.addEventListener("click", (event) => {
-    const link = event.target.closest('a[href="#franchise"], a[href="#franchise-form"]');
-    if (!link) return;
-    const wantsForm = link.getAttribute("href") === "#franchise-form";
-    if (!isFranchiseOfferOpen() || wantsForm) {
-      setFranchiseOffer(true, { focusForm: wantsForm });
-    }
-  });
-  window.addEventListener("hashchange", openFranchiseOfferFromHash);
-  openFranchiseOfferFromHash();
+function isHomePage() {
+  return Boolean(document.getElementById("pointy"));
 }
 
 function bindPartnerForm() {
@@ -335,8 +280,10 @@ function setLang(next) {
   lang = next;
   history.replaceState(null, "", target.pathname + target.search + target.hash);
   applyStatic();
+  if (!isHomePage()) return;
   const point = POINTS.find((item) => item.id === activeId);
-  document.getElementById("map-frame").src = mapSrc(point);
+  const map = document.getElementById("map-frame");
+  if (map) map.src = mapSrc(point);
   renderPoints();
   if (!origin) {
     hideNavigateNearest();
@@ -406,19 +353,9 @@ function boot() {
   }
   lang = LANGS.includes(initial) ? initial : "cs";
   applyStatic();
-  bindFranchiseOffer();
   bindPartnerForm();
-  document.getElementById("map-frame").src = mapSrc(POINTS[0]);
-  renderPoints();
-  hideNavigateNearest();
-  setStatus("points.idle");
 
   document.getElementById("lang").addEventListener("change", (event) => setLang(event.target.value));
-  document.getElementById("locate").addEventListener("click", locate);
-  document.getElementById("hero-locate").addEventListener("click", () => {
-    // Keep #pointy scroll from the href; still run locate from the same gesture.
-    locate();
-  });
   document.getElementById("nav-toggle").addEventListener("click", () => {
     const nav = document.getElementById("site-nav");
     const open = nav.classList.toggle("is-open");
@@ -432,16 +369,39 @@ function boot() {
     }
   });
 
-  const links = [...document.querySelectorAll(".site-nav a")];
-  const sections = links.map((link) => document.querySelector(link.getAttribute("href"))).filter(Boolean);
-  if ("IntersectionObserver" in window) {
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (!entry.isIntersecting) return;
-        links.forEach((link) => link.classList.toggle("is-active", link.getAttribute("href") === "#" + entry.target.id));
-      });
-    }, { rootMargin: "-40% 0px -50% 0px", threshold: 0.01 });
-    sections.forEach((section) => observer.observe(section));
+  if (isHomePage()) {
+    document.getElementById("map-frame").src = mapSrc(POINTS[0]);
+    renderPoints();
+    hideNavigateNearest();
+    setStatus("points.idle");
+    document.getElementById("locate").addEventListener("click", locate);
+    document.getElementById("hero-locate").addEventListener("click", () => {
+      // Keep #pointy scroll from the href; still run locate from the same gesture.
+      locate();
+    });
+    const links = [...document.querySelectorAll(".site-nav a")];
+    const sections = links
+      .map((link) => {
+        const href = link.getAttribute("href") || "";
+        if (href.startsWith("#")) return document.querySelector(href);
+        return null;
+      })
+      .filter(Boolean);
+    if ("IntersectionObserver" in window) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          links.forEach((link) => link.classList.toggle("is-active", link.getAttribute("href") === "#" + entry.target.id));
+        });
+      }, { rootMargin: "-40% 0px -50% 0px", threshold: 0.01 });
+      sections.forEach((section) => observer.observe(section));
+    }
+  }
+
+  if (location.hash === "#franchise-form") {
+    requestAnimationFrame(() => {
+      document.getElementById("franchise-form")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
   }
 }
 

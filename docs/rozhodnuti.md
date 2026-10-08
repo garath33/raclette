@@ -38,9 +38,9 @@ Sekce Pro partnery (dřív Spolupráce) teď sleduje strukturu B2B letáku, ne j
 
 „Spolupráce“ v menu bylo moc obecné. Pro budoucí provozovatele Pointu je jasnější „Pro partnery“ (a stejný smysl v ostatních jazycích). Sekční kicker a odkazy z výhod to kopírují.
 
-## Nabídka Pro partnery je sbalená
+## Pro partnery je vlastní stránka
 
-Detail formátů, partnerství, podpory, kroků a formulář je pod `#franchise-offer` a na hlavní stránce je zavřený. Otevře ho tlačítko, odkaz Pro partnery, hash `#franchise` / `#franchise-form`. Sekce Partnerství a srdce, Co od nás získáte a Jak začít mají odlišný layout s barvami z charty mlékárny, ne stejné bílé bubliny.
+Na hlavní stránce zůstává jen teaser „Proč s námi spolupracovat“ až po CTA. Celá nabídka (formáty, Partnerství a srdce, Co od nás získáte, Jak začít, formulář) je na `pro-partnery.html`. Horní lišta Pro partnery i CTA z hero/výhod tam míří. Partnerství a srdce, Co od nás získáte a Jak začít mají odlišný layout s barvami z charty mlékárny.
 
 ## Laiterie zůstává vlastní jméno, mlékárna je překlad
 

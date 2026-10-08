@@ -10,27 +10,35 @@ test("stránka se načte, má sekce a testovací pruh", async ({ page }) => {
   await page.goto("/?lang=cs");
   await expect(page.locator("h1")).toContainText("Švýcarský raclette");
   await expect(page.locator("#env-banner")).toBeVisible();
-  for (const id of ["vyhody", "pointy", "franchise", "reference", "pribeh", "nakup", "eventy", "kontakty"]) {
+  for (const id of ["vyhody", "pointy", "reference", "pribeh", "nakup", "eventy", "kontakty"]) {
     await expect(page.locator("#" + id)).toHaveCount(1);
   }
+  await expect(page.locator("#franchise")).toHaveCount(0);
   await expect(page.locator("#point-cards .card")).toHaveCount(3);
   await expect(page.locator("#hero-locate")).toHaveAttribute("href", "#pointy");
   await expect(page.locator("#site-nav a[href='#pointy']")).toHaveText("Naše raclette pointy");
-  await expect(page.locator("a[href='#franchise']").first()).toBeVisible();
-  await expect(page.locator("#site-nav a[href='#franchise']")).toHaveText("Pro partnery");
+  await expect(page.locator("#site-nav a[href='pro-partnery.html']")).toHaveText("Pro partnery");
+  await expect(page.locator('#uvod a[data-i18n="hero.secondary"]')).toHaveText("Chci se stát raclette pointem");
+  await expect(page.locator('#uvod a[data-i18n="hero.secondary"]')).toHaveAttribute("href", "pro-partnery.html");
+  await expect(page.locator('#vyhody a[data-i18n="hero.secondary"]')).toHaveAttribute("href", "pro-partnery.html#franchise-form");
+  await expect(page.locator(".hero-cow")).toHaveCount(0);
+  await expect(page.locator(".supplier-cow")).toBeVisible();
+  await expect(page.locator(".supplier-crest")).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Martin Šimůnek" })).toBeVisible();
+  await expect(page.locator("body")).not.toContainText(/veronika/i);
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute("href", /lang=cs/);
+  expect(errors).toEqual([]);
+});
+
+test("Pro partnery je samostatná stránka s nabídkou a formulářem", async ({ page }) => {
+  const errors = [];
+  page.on("pageerror", (error) => errors.push(String(error)));
+  await page.goto("/pro-partnery.html?lang=cs");
   await expect(page.locator("#franchise h2")).toContainText("Raclette Point Original");
-  await expect(page.locator("#franchise-offer")).toBeHidden();
-  await expect(page.locator("#franchise-open")).toBeVisible();
-  await page.locator("#franchise-open").click();
   await expect(page.locator("#franchise-offer")).toBeVisible();
   await expect(page.locator("#franchise .aop-note")).toContainText("Appellation d’Origine Protégée");
   await expect(page.locator("#franchise-form .form-invite")).toContainText("+420 777 600 223");
   await expect(page.locator('#franchise-form a[href="tel:+420777600223"]')).toBeVisible();
-  await expect(page.locator('#uvod a[data-i18n="hero.secondary"]')).toHaveText("Chci se stát raclette pointem");
-  await expect(page.locator('#uvod a[data-i18n="hero.secondary"]')).toHaveAttribute("href", "#franchise");
-  await expect(page.locator(".hero-cow")).toHaveCount(0);
-  await expect(page.locator(".supplier-cow")).toBeVisible();
-  await expect(page.locator(".supplier-crest")).toBeVisible();
   await expect(page.locator("#partner-form")).toBeVisible();
   await expect(page.locator("#form-name")).toHaveAttribute("required", "");
   await expect(page.locator("#form-type")).toHaveAttribute("required", "");
@@ -44,9 +52,7 @@ test("stránka se načte, má sekce a testovací pruh", async ({ page }) => {
   await expect(page.locator(".approach-rail")).toBeVisible();
   await expect(page.locator(".gain-bands")).toBeVisible();
   await expect(page.locator(".steps-path")).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Martin Šimůnek" })).toBeVisible();
-  await expect(page.locator("body")).not.toContainText(/veronika/i);
-  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute("href", /lang=cs/);
+  await expect(page.locator("#site-nav a[href='pro-partnery.html']")).toHaveClass(/is-active/);
   expect(errors).toEqual([]);
 });
 
@@ -60,7 +66,7 @@ test("formulář spolupráce vyžaduje všechna pole a odešle poptávku", async
       body: JSON.stringify({ success: "true" })
     });
   });
-  await page.goto("/?lang=cs#franchise-form");
+  await page.goto("/pro-partnery.html?lang=cs#franchise-form");
   await expect(page.locator("#franchise-offer")).toBeVisible();
   await page.locator("#franchise-form").scrollIntoViewIfNeeded();
   await page.locator("#partner-form button[type='submit']").click();

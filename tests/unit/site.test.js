@@ -81,6 +81,14 @@ test("ostrá kanonická adresa sedí na doménu jazyka, zkušební web zůstáv�
   assert.equal(site.indexedUrl("fr"), "https://raclettelovers.ch/?lang=fr");
   assert.equal(site.indexedUrl("de"), "https://www.raclettelovers.com/?lang=de");
   assert.equal(site.indexedUrl("pl"), "https://www.raclettelovers.com/?lang=pl");
+  assert.equal(
+    site.indexedUrl("cs", { pathname: "/pro-partnery.html" }),
+    "https://raclettelovers.cz/pro-partnery.html?lang=cs"
+  );
+  assert.equal(
+    site.indexedUrl("en", { pathname: "/raclette/pro-partnery.html" }),
+    "https://www.raclettelovers.com/pro-partnery.html?lang=en"
+  );
 });
 
 test("švýcarský hostitel značí de/fr/it jako CH variantu", () => {

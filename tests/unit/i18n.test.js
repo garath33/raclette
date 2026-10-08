@@ -63,7 +63,7 @@ test("veřejný text nezmiňuje vyřazenou osobu a IT role existuje", () => {
 
 test("každý data-i18n klíč ze stránky je přeložený", () => {
   const { TRANSLATIONS } = loadTranslations();
-  const html = fs.readFileSync("index.html", "utf8");
+  const html = fs.readFileSync("index.html", "utf8") + fs.readFileSync("pro-partnery.html", "utf8");
   const used = [...html.matchAll(/data-i18n(?:-alt|-title)?="([^"]+)"/g)].map((match) => match[1]);
   const missing = [...new Set(used)].filter((key) => !TRANSLATIONS.cs[key]);
   assert.deepEqual(missing, []);

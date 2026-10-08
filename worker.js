@@ -29,18 +29,27 @@ const TARGETS = {
   "www.raclettepointoriginal.ch": "https://raclettelovers.ch",
 };
 
-export function canonicalFor(hostname, search) {
+export function pagePath(pathname) {
+  const leaf = String(pathname || "").split("/").filter(Boolean).pop() || "";
+  if (leaf === "pro-partnery.html") return "/pro-partnery.html";
+  return "/";
+}
+
+export function canonicalFor(hostname, search, pathname) {
   const host = String(hostname || "").toLowerCase().replace(/\.$/, "").replace(/^www\./, "");
   const params = new URLSearchParams(search || "");
   let lang = params.get("lang");
   if (LANGS.indexOf(lang) === -1) lang = HOST_LANG[host] || "en";
-  return (HOME[lang] || "https://www.raclettelovers.com") + "/?lang=" + lang;
+  const origin = HOME[lang] || "https://www.raclettelovers.com";
+  const path = pagePath(pathname);
+  if (path === "/") return origin + "/?lang=" + lang;
+  return origin + path + "?lang=" + lang;
 }
 
-export function prepareHtml(html, hostname, search) {
+export function prepareHtml(html, hostname, search, pathname) {
   const host = String(hostname || "").toLowerCase().replace(/\.$/, "").replace(/^www\./, "");
   if (!HOST_LANG[host]) return html;
-  const canonical = canonicalFor(hostname, search);
+  const canonical = canonicalFor(hostname, search, pathname);
   return html
     .replace(/<meta name="robots" content="[^"]*">/, '<meta name="robots" content="index, follow">')
     .replace(/<link rel="canonical" href="[^"]*">/, '<link rel="canonical" href="' + canonical + '">')
@@ -57,7 +66,7 @@ export default {
     const response = await env.ASSETS.fetch(request);
     const type = response.headers.get("content-type") || "";
     if (!type.includes("text/html")) return response;
-    const html = prepareHtml(await response.text(), url.hostname, url.search);
+    const html = prepareHtml(await response.text(), url.hostname, url.search, url.pathname);
     const headers = new Headers(response.headers);
     headers.delete("content-length");
     return new Response(html, { status: response.status, statusText: response.statusText, headers });
