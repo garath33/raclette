@@ -13,10 +13,16 @@ test("česká doména dostane index a vlastní kanonickou adresu", async () => {
   const { prepareHtml, canonicalFor } = await workerPromise;
   assert.equal(canonicalFor("raclettelovers.cz", ""), "https://raclettelovers.cz/?lang=cs");
   assert.equal(canonicalFor("www.raclettelovers.cz", "?lang=en"), "https://www.raclettelovers.com/?lang=en");
+  assert.equal(
+    canonicalFor("raclettelovers.cz", "?lang=cs", "/pro-partnery.html"),
+    "https://raclettelovers.cz/pro-partnery.html?lang=cs"
+  );
   const out = prepareHtml(html, "raclettelovers.cz", "");
   assert.match(out, /content="index, follow"/);
   assert.match(out, /href="https:\/\/raclettelovers\.cz\/\?lang=cs"/);
   assert.equal(out.includes("github.io"), false);
+  const partners = prepareHtml(html, "raclettelovers.sk", "?lang=sk", "/pro-partnery.html");
+  assert.match(partners, /href="https:\/\/raclettelovers\.sk\/pro-partnery\.html\?lang=sk"/);
 });
 
 test("alias se přesměruje a obsahová doména se přepíše", async () => {

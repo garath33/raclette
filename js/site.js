@@ -166,9 +166,18 @@
   };
   const COM_ORIGIN = "https://www.raclettelovers.com";
 
-  function indexedUrl(code) {
+  function pagePath(pathname) {
+    const leaf = String(pathname || "").split("/").filter(Boolean).pop() || "";
+    if (leaf === "pro-partnery.html") return "/pro-partnery.html";
+    return "/";
+  }
+
+  function indexedUrl(code, loc) {
     if (LANGUAGES.indexOf(code) === -1) code = "en";
-    return (INDEX_ORIGIN[code] || COM_ORIGIN) + "/?lang=" + code;
+    const origin = INDEX_ORIGIN[code] || COM_ORIGIN;
+    const path = pagePath(loc && loc.pathname);
+    if (path === "/") return origin + "/?lang=" + code;
+    return origin + path + "?lang=" + code;
   }
 
   function partnerInquiryUrl() {
@@ -180,7 +189,7 @@
     const title = translate("meta.title");
     const description = translate("meta.description");
     const preview = isStagingHost(loc.hostname);
-    const href = preview ? languageUrl(lang, loc) : indexedUrl(lang);
+    const href = preview ? languageUrl(lang, loc) : indexedUrl(lang, loc);
     document.title = title;
     setMeta("description", description);
     setProperty("og:title", title);
@@ -191,8 +200,8 @@
     if (canonical) canonical.href = href;
     document.querySelectorAll('link[rel="alternate"][hreflang]').forEach((link) => {
       const code = link.getAttribute("hreflang");
-      if (code === "x-default") link.href = preview ? languageUrl("en", loc) : indexedUrl("en");
-      else if (LANGUAGES.indexOf(code) !== -1) link.href = preview ? languageUrl(code, loc) : indexedUrl(code);
+      if (code === "x-default") link.href = preview ? languageUrl("en", loc) : indexedUrl("en", loc);
+      else if (LANGUAGES.indexOf(code) !== -1) link.href = preview ? languageUrl(code, loc) : indexedUrl(code, loc);
     });
     const staging = isStagingHost(loc.hostname);
     setMeta("robots", staging ? "noindex, follow" : "index, follow");

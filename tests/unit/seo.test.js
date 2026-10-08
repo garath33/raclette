@@ -35,6 +35,8 @@ test("robots a sitemap ukazují na ostré domény a všechny jazyky", () => {
   assert.match(robots, /Sitemap: https:\/\/www\.raclettelovers\.com\/sitemap\.xml/);
   assert.match(sitemap, /https:\/\/raclettelovers\.sk\/\?lang=sk/);
   assert.match(sitemap, /https:\/\/raclettelovers\.ch\/\?lang=fr/);
+  assert.match(sitemap, /pro-partnery\.html\?lang=cs/);
+  assert.match(sitemap, /pro-partnery\.html\?lang=sk/);
   for (const lang of LANGS) {
     assert.match(sitemap, new RegExp("lang=" + lang));
   }
@@ -66,12 +68,17 @@ test("kontaktní stránka neuvádí Veroniku a uvádí Martina Šimůnka", () =>
   assert.match(html, /Martin Šimůnek/);
   assert.match(html, /id="vyhody"/);
   assert.match(html, /id="pointy"/);
-  assert.match(html, /id="franchise"/);
-  assert.match(html, /id="franchise-form"/);
-  assert.match(html, /id="partner-form"/);
+  assert.equal(/id="franchise"/.test(html), false);
+  assert.equal(/id="partner-form"/.test(html), false);
+  assert.match(html, /pro-partnery\.html/);
   assert.match(html, /id="kontakty"/);
   assert.match(html, /id="pribeh"/);
   assert.match(html, /supplier-cow/);
   assert.match(html, /supplier-crest/);
   assert.equal(/hero-cow/.test(html), false);
+  const partners = fs.readFileSync("pro-partnery.html", "utf8");
+  assert.match(partners, /id="franchise"/);
+  assert.match(partners, /id="franchise-form"/);
+  assert.match(partners, /id="partner-form"/);
+  assert.match(partners, /pro-partnery\.html\?lang=/);
 });
