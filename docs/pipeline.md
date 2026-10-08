@@ -48,6 +48,15 @@ npm ci
 npx wrangler deploy
 ```
 
+## Agent: vždy dva kroky a jasný stav PR
+
+Po změnách kódu agent **nesmí** tvrdit, že je věc na ostrém webu, dokud neproběhne sloučení do `main` a nasazení Workeru.
+
+1. **Commit + push + PR** — agent oznámí výsledek: že PR vznikl/aktualizoval se, URL PR, a zda CI na větvi PR doběhlo (nebo že na výsledek CI ještě čeká). Samotný push na feature větev **není** produkce.
+2. **Nahrát na ostro** — agent se **výslovně zeptá**, jestli má sloučit PR do `main` a nasadit Cloudflare Worker (`raclettelovers.*`). Teprve po souhlasu („nahrát na ostro“, „na produkci“ atd.) merge + deploy provede a nahlásí výsledek (commit na `main`, stav CI, ověření živého webu).
+
+Když CI selže, agent to řekne hned a na produkci se neptá, dokud není oprava hotová.
+
 ## Lokální náhled
 
 ```bash
