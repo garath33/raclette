@@ -40,7 +40,7 @@ Sekce Pro partnery (dřív Spolupráce) teď sleduje strukturu B2B letáku, ne j
 
 ## Pro partnery je vlastní stránka
 
-Na hlavní stránce zůstává jen teaser „Proč s námi spolupracovat“ až po CTA. Celá nabídka (formáty, Partnerství a srdce, Co od nás získáte, Jak začít, formulář) je na `pro-partnery.html`. Horní lišta Pro partnery i CTA z hero/výhod tam míří. Partnerství a srdce, Co od nás získáte a Jak začít mají odlišný layout s barvami z charty mlékárny.
+Na hlavní stránce zůstává jen teaser „Proč s námi spolupracovat“ až po CTA. Celá nabídka (formáty, Partnerství a srdce, Co od nás získáte, Jak začít, formulář) je na `pro-partnery.html`. Horní lišta Pro partnery i CTA z hero/výhod tam míří. Partnerství a srdce, Co od nás získáte a Jak začít mají odlišný layout s barvami z charty mlékárny. Ostrý Worker na Cloudflare servíruje stránku i jako `/pro-partnery` (bez `.html`). Workflow Deploy production ověřuje formulář na `/pro-partnery`, ne na homepage.
 
 ## Laiterie zůstává vlastní jméno, mlékárna je překlad
 
