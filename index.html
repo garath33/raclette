@@ -40,6 +40,10 @@
     "email": "info@rakletparty.cz",
     "telephone": "+420777600223",
     "logo": "https://www.raclettelovers.com/assets/logo-point.png",
+    "sameAs": [
+      "https://www.instagram.com/racletteoriginal/",
+      "https://www.youtube.com/@RacletteOriginal"
+    ],
     "address": {
       "@type": "PostalAddress",
       "streetAddress": "Pekařská 162/90a",
@@ -69,11 +73,20 @@
       <a href="#pointy" data-i18n="nav.points">Naše raclette pointy</a>
       <a href="pro-partnery.html" data-i18n="nav.franchise">Pro partnery</a>
       <a href="#reference" data-i18n="nav.media">Reference</a>
+      <a href="#raclette" data-i18n="nav.raclette">O raclette</a>
       <a href="#pribeh" data-i18n="nav.story">O nás</a>
       <a href="#nakup" data-i18n="nav.shop">Kde nakoupit</a>
       <a href="#eventy" data-i18n="nav.events">Eventy</a>
       <a href="#kontakty" data-i18n="nav.contact">Kontakty</a>
     </nav>
+    <div class="header-social">
+      <a href="https://www.instagram.com/racletteoriginal/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3.2" y="3.2" width="17.6" height="17.6" rx="5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4.1" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="17.15" cy="6.85" r="1.05" fill="currentColor"/></svg>
+      </a>
+      <a href="https://www.youtube.com/@RacletteOriginal" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M22.5 7.2a3 3 0 0 0-2.1-2.1C18.6 4.6 12 4.6 12 4.6s-6.6 0-8.4.5a3 3 0 0 0-2.1 2.1C1 9 1 12 1 12s0 3 .5 4.8a3 3 0 0 0 2.1 2.1c1.8.5 8.4.5 8.4.5s6.6 0 8.4-.5a3 3 0 0 0 2.1-2.1c.5-1.8.5-4.8.5-4.8s0-3-.5-4.8zM9.8 15.4V8.6L16.2 12z"/></svg>
+      </a>
+    </div>
     <label class="lang">
       <span class="sr" data-i18n="lang.label">Jazyk</span>
       <select id="lang">
@@ -169,7 +182,7 @@
         <div class="section-head">
           <p class="kicker" data-i18n="points.kicker">Naše raclette pointy</p>
           <h2 data-i18n="points.title">Nejbližší stůl podle vaší polohy</h2>
-          <p class="lead" data-i18n="points.lead">U každého Pointu je rovnou jeho mapa, raclette menu a cesta do podniku. GPS označí nejbližší místo a Google Maps vás dovede až ke dveřím.</p>
+          <p class="lead" data-i18n="points.lead">U každého Pointu je rovnou jeho mapa, raclette menu a cesta do podniku. Poloha v prohlížeči označí nejbližší místo a Google Maps vás dovede až ke dveřím.</p>
         </div>
         <div class="locator">
           <button class="btn btn-solid" id="locate" type="button" data-i18n="points.locate">Použít mou polohu</button>
@@ -208,6 +221,53 @@
           <p data-i18n="media.quote">Milan rakluje s takovou elegancí, ladností a láskou, jako hrál Roger Federer tenis.</p>
           <footer data-i18n="media.quoteBy">Hervé Fumeaux, bývalý předseda Švýcarské raclette federace</footer>
         </blockquote>
+      </div>
+    </section>
+
+    <section class="section raclette" id="raclette">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="kicker" data-i18n="raclette.kicker">Co je raclette</p>
+          <h2 data-i18n="raclette.title">Originální pochoutka</h2>
+          <p class="lead" data-i18n="raclette.lead">Raclette, čti raklet, je název sýra a zároveň tradičního pokrmu, který se z něj připravuje. Spolu s fondue platí za národní jídlo Švýcarska.</p>
+        </div>
+        <div class="benefit-grid cols-3">
+          <article>
+            <h3 data-i18n="raclette.nameTitle">Seškrábnout</h3>
+            <p data-i18n="raclette.name">Název pochází z francouzského slova racler. Sýr se u ohně nebo na speciálním grilu zahřeje a rozteklý se seškrábe na talíř.</p>
+          </article>
+          <article>
+            <h3 data-i18n="raclette.alpsTitle">Alpské pastviny</h3>
+            <p data-i18n="raclette.alps">Tento polotvrdý sýr z kravského mléka vzniká na vysokohorských pastvinách švýcarských a francouzských Alp. Jemnou nebo výraznější chuť určuje doba zrání a to, jaké květiny, horské byliny a další rostliny krávy spasou.</p>
+          </article>
+          <article>
+            <h3 data-i18n="raclette.joyTitle">Specialita jménem raclette</h3>
+            <p data-i18n="raclette.joy">Z vyzrálého sýra se připravuje tradiční raclette. Je to zábava, požitek z jídla a způsob, jak překvapit hosty.</p>
+          </article>
+        </div>
+        <div class="raclette-quality">
+          <h3 data-i18n="raclette.qualityTitle">Jak vzniká kvalita</h3>
+          <p data-i18n="raclette.quality">Nejdůležitější surovinou je kravské mléko. Křišťálově čistá voda z alpských ledovců spolu s horskými květinami, bylinami a dalšími rostlinami tvoří jídelníček švýcarských krav a propíše se do chuti sýra. Raclette se vyrábí téměř po celém Švýcarsku a v části Francie. Hlavní oblasti jsou Valais, střední Švýcarsko, východní Švýcarsko a francouzské Savojsko. My distribuujeme Swiss AOP z mlékárny Laiterie d’Orsières v kantonu Valais.</p>
+          <p data-i18n="raclette.cellar">Kulaté bochníky jsou z nepasterizovaného horského mléka a zrají nejméně tři měsíce. Plnotučné mléko a zrání ve sklepích dávají krémově hladkou konzistenci, intenzivní chuť a vůni, která záleží na délce a období zrání.</p>
+        </div>
+        <div class="stat-grid">
+          <article class="fact">
+            <h3 data-i18n="raclette.stat1t">70 litrů</h3>
+            <p data-i18n="raclette.stat1d">Přibližně tolik kravského mléka je potřeba na jeden bochník raclette.</p>
+          </article>
+          <article class="fact">
+            <h3 data-i18n="raclette.stat2t">3 měsíce</h3>
+            <p data-i18n="raclette.stat2d">Minimální zrání kulatého bochníku z nepasterizovaného horského mléka.</p>
+          </article>
+          <article class="fact">
+            <h3 data-i18n="raclette.stat3t">25 litrů mléka</h3>
+            <p data-i18n="raclette.stat3d">Na ně padne asi 100 kg potravy a 85 litrů vody.</p>
+          </article>
+          <article class="fact">
+            <h3 data-i18n="raclette.stat4t">Přes 2 kg</h3>
+            <p data-i18n="raclette.stat4d">V průměru více než dvě kila sýra raclette na obyvatele Švýcarska za rok. Při téměř 9 milionech lidí přesahuje roční spotřeba 18 milionů kilogramů.</p>
+          </article>
+        </div>
       </div>
     </section>
 
@@ -292,6 +352,7 @@
             <li data-i18n="shop.fondue.t">Fondue</li>
             <li data-i18n="shop.wood.t">Family WOOD — řemeslná elegance, nově rakletovací stoly</li>
           </ul>
+          <p data-i18n="shop.rent.d">Půjčovna na víkend. Se zapůjčeným tradičním grilem a švýcarským sýrem se stanete raklerem. Vše potřebné pošleme domů, na chalupu, do firmy nebo kamkoli budete chtít.</p>
           <a class="btn btn-solid" href="https://www.rakletparty.cz/" target="_blank" rel="noopener noreferrer" data-i18n="shop.party.cta">Otevřít e-shop</a>
         </article>
         <div class="shop-grid shop-kindred">
@@ -308,6 +369,7 @@
             <a class="btn btn-solid" href="https://laiterie-orsieres.ch/" target="_blank" rel="noopener noreferrer" data-i18n="shop.cta">Otevřít web</a>
           </article>
         </div>
+        <p class="partners-line"><strong data-i18n="shop.partnersTitle">Naši partneři</strong> <span data-i18n="shop.partners">TTM, Raclette House a Provins.</span></p>
       </div>
     </section>
 
@@ -350,7 +412,28 @@
             <p data-i18n="ev6d"></p>
           </article>
         </div>
+        <div class="events-when">
+          <h3 data-i18n="events.whenTitle">Kdy si dát raclette? Kdykoli.</h3>
+          <p data-i18n="events.when">Narozeniny, svatba, raut, firemní večírek, zahradní párty, kolaudace, brunch, banket i promoce. Raclette může být s vámi, kdekoli budete chtít.</p>
+          <p data-i18n="events.chameleon">Sýr raclette je jako chameleon. Běžné jídlo mění ve specialitu. Zapojte fantazii a nechte se unést vlnou grilovaného sýra.</p>
+        </div>
         <p class="events-note" data-i18n="events.note"></p>
+        <aside class="social-follow" aria-labelledby="social-title">
+          <div>
+            <h3 id="social-title" data-i18n="social.title">Sledujte nás</h3>
+            <p data-i18n="social.lead">Aktuální dění a novinky najdete na Instagramu a YouTube.</p>
+          </div>
+          <div class="social-links">
+            <a href="https://www.instagram.com/racletteoriginal/" target="_blank" rel="noopener noreferrer">
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3.2" y="3.2" width="17.6" height="17.6" rx="5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4.1" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="17.15" cy="6.85" r="1.05" fill="currentColor"/></svg>
+              Instagram
+            </a>
+            <a href="https://www.youtube.com/@RacletteOriginal" target="_blank" rel="noopener noreferrer">
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M22.5 7.2a3 3 0 0 0-2.1-2.1C18.6 4.6 12 4.6 12 4.6s-6.6 0-8.4.5a3 3 0 0 0-2.1 2.1C1 9 1 12 1 12s0 3 .5 4.8a3 3 0 0 0 2.1 2.1c1.8.5 8.4.5 8.4.5s6.6 0 8.4-.5a3 3 0 0 0 2.1-2.1c.5-1.8.5-4.8.5-4.8s0-3-.5-4.8zM9.8 15.4V8.6L16.2 12z"/></svg>
+              YouTube
+            </a>
+          </div>
+        </aside>
       </div>
     </section>
 
@@ -374,6 +457,17 @@
             <p data-i18n="person.pavlina.role">Manažerka projektů, komunikace s klienty</p>
             <a href="tel:+420777600223">+420 777 600 223</a>
             <a href="mailto:info@rakletparty.cz">info@rakletparty.cz</a>
+          </li>
+          <li class="person">
+            <h3>Martin Kábrt</h3>
+            <p data-i18n="person.kabrt.role">Šéf gastronomie a mistr raclette show</p>
+            <a href="tel:+420777891177">+420 777 891 177</a>
+            <p data-i18n="person.kabrt.place">Food truck, Kladno</p>
+          </li>
+          <li class="person">
+            <h3>Eliška Reine</h3>
+            <p data-i18n="person.eliska.role">Manažerka eventů, Praha a Čechy</p>
+            <a href="tel:+420602402935">+420 602 402 935</a>
           </li>
           <li class="person">
             <h3>Václav Valenta</h3>
@@ -429,11 +523,24 @@
         <p>Pekařská 162/90a<br>747 05 Opava</p>
         <p>IČ 05340993 · DIČ CZ05340993</p>
         <p><a href="tel:+420777600223">+420 777 600 223</a><br><a href="mailto:info@rakletparty.cz">info@rakletparty.cz</a></p>
+        <h2 class="social-title" data-i18n="social.title">Sledujte nás</h2>
+        <p data-i18n="social.lead">Aktuální dění a novinky najdete na Instagramu a YouTube.</p>
+        <div class="social-links">
+          <a href="https://www.instagram.com/racletteoriginal/" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3.2" y="3.2" width="17.6" height="17.6" rx="5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4.1" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="17.15" cy="6.85" r="1.05" fill="currentColor"/></svg>
+            Instagram
+          </a>
+          <a href="https://www.youtube.com/@RacletteOriginal" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M22.5 7.2a3 3 0 0 0-2.1-2.1C18.6 4.6 12 4.6 12 4.6s-6.6 0-8.4.5a3 3 0 0 0-2.1 2.1C1 9 1 12 1 12s0 3 .5 4.8a3 3 0 0 0 2.1 2.1c1.8.5 8.4.5 8.4.5s6.6 0 8.4-.5a3 3 0 0 0 2.1-2.1c.5-1.8.5-4.8.5-4.8s0-3-.5-4.8zM9.8 15.4V8.6L16.2 12z"/></svg>
+            YouTube
+          </a>
+        </div>
       </div>
       <nav class="foot-links" aria-label="Footer">
         <a href="#pointy" data-i18n="nav.points">Naše raclette pointy</a>
         <a href="pro-partnery.html" data-i18n="nav.franchise">Pro partnery</a>
         <a href="#reference" data-i18n="nav.media">Reference</a>
+        <a href="#raclette" data-i18n="nav.raclette">O raclette</a>
         <a href="#pribeh" data-i18n="nav.story">O nás</a>
         <a href="#nakup" data-i18n="nav.shop">Kde nakoupit</a>
         <a href="#eventy" data-i18n="nav.events">Eventy</a>

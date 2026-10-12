@@ -267,22 +267,38 @@ function setLang(next) {
     hideNavigateNearest();
     setStatus("points.idle");
   } else {
-    const nearest = RacletteGeo.nearest(POINTS, origin.lat, origin.lng);
-    showNavigateNearest(nearest);
-    setStatus("points.found", {
-      name: t("point." + nearest.id + ".name"),
-      km: formatKm(haversine(origin.lat, origin.lng, nearest.lat, nearest.lng))
-    });
+    const status = locatedStatus(origin.lat, origin.lng, origin.accuracy);
+    showNavigateNearest(status.nearest);
+    setStatus(status.key, status.vars);
   }
 }
 
-function applyLocatedOrigin(lat, lng) {
-  origin = { lat, lng };
-  const nearest = RacletteGeo.nearest(POINTS, lat, lng);
-  const km = formatKm(haversine(lat, lng, nearest.lat, nearest.lng));
+function formatAccuracy(meters) {
+  if (meters >= 1000) return formatKm(meters / 1000);
+  const rounded = Math.max(10, Math.round(meters / 10) * 10);
+  return rounded + " m";
+}
+
+function locatedStatus(lat, lng, accuracyMeters) {
+  const ranked = RacletteGeo.rank(POINTS, lat, lng);
+  const nearest = ranked[0].point;
+  const name = t("point." + nearest.id + ".name");
+  const km = formatKm(ranked[0].km);
+  const kind = RacletteGeo.readingKind(POINTS, lat, lng, accuracyMeters);
+  if (kind === "precise") return { nearest, key: "points.found", vars: { name, km } };
+  const gap = formatKm(ranked[1].km - ranked[0].km);
+  const accuracy = formatAccuracy(Number(accuracyMeters));
+  const key = kind === "coarse" ? "points.foundCoarse" : "points.foundUncertain";
+  return { nearest, key, vars: { name, km, accuracy, gap } };
+}
+
+function applyLocatedOrigin(lat, lng, accuracyMeters) {
+  const accuracy = Number(accuracyMeters);
+  origin = { lat, lng, accuracy: Number.isFinite(accuracy) ? accuracy : null };
+  const status = locatedStatus(lat, lng, origin.accuracy);
   renderPoints();
-  showNavigateNearest(nearest);
-  setStatus("points.found", { name: t("point." + nearest.id + ".name"), km: km });
+  showNavigateNearest(status.nearest);
+  setStatus(status.key, status.vars);
   document.getElementById("navigate-nearest")?.focus();
 }
 
@@ -308,7 +324,7 @@ async function locate() {
         throw first;
       }
     }
-    applyLocatedOrigin(pos.coords.latitude, pos.coords.longitude);
+    applyLocatedOrigin(pos.coords.latitude, pos.coords.longitude, pos.coords.accuracy);
   } catch (err) {
     hideNavigateNearest();
     setStatus("points.denied");

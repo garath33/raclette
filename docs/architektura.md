@@ -24,10 +24,11 @@ Partnerský formulář odešle data přes FormSubmit na `milan@raclette-original
 2. Naše Raclette Pointy, poloha a Google Maps
 3. Pro partnery: úvod z B2B letáku, krátké vysvětlení AOP, čtyři přínosy, tři formáty s plochou a „pro koho“, principy partnerství, podpora, čtyři kroky a kontaktní formulář s telefonem +420 777 600 223.
 4. Reference a média
-5. Příběh českého krále, včetně videa pasování
-6. Kde nakoupit
-7. Gastro eventy a festivaly
-8. Kontakty
+5. Co je raclette: název, pastviny, podávání, původ chuti a čtyři čísla z výroby
+6. Příběh českého krále, včetně videa pasování
+7. Kde nakoupit, včetně víkendové půjčovny a partnerů TTM, Raclette House a Provins
+8. Gastro eventy a festivaly, včetně příležitostí, kdy si raclette dát
+9. Kontakty, včetně mistra raclette show Martina Kábrta a manažerky eventů Elišky Reine
 
 ## Jazyk
 
@@ -37,7 +38,7 @@ Výchozí jazyk testovacího webu je čeština. Volba se ukládá do `localStora
 
 Souřadnice jsou v `js/points.js`. Křížový vrch má ověřenou adresu Za Pilou 6. Špindlerův Mlýn je střed střediska, protože ulice nebyla dodaná. Food truck Martina Kábrta má základnu v Kladně, zastávka se mění podle akce.
 
-Vzdálenost počítá vzorec haversine. Tlačítko polohy otevře trasu v Google Maps z aktuální polohy.
+Vzdálenost počítá vzorec haversine. Tlačítko polohy vybere nejbližší Point. Odkaz do Google Maps má jen cíl, start si Maps vezme ze své polohy. Když prohlížeč hlásí přesnost horší než 300 m, stránka porovná tu chybu s odstupem druhého Pointu.
 
 ## Vzhled
 
