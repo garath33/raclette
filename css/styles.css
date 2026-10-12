@@ -898,10 +898,9 @@ p { margin: 0; }
   from { opacity: 0; }
   to { opacity: 1; }
 }
-.steps p, .franchise-proof, .franchise-close { color: var(--muted); }
-.franchise-proof { margin-top: 1.5rem; max-width: 46rem; }
+.steps p { color: var(--muted); }
 .franchise-close {
-  margin-top: 0.7rem;
+  margin-top: 1.5rem;
   font-weight: 700;
   color: var(--ink);
 }
