@@ -845,11 +845,77 @@ p { margin: 0; }
   color: var(--ink);
 }
 
+.shop-spotlight {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 1.15rem 1.4rem;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding: 1.3rem 1.25rem;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background:
+    linear-gradient(115deg, rgba(216, 168, 72, 0.2), transparent 48%),
+    white;
+}
+.shop-spotlight h3 { font-size: clamp(2rem, 4vw, 2.7rem); }
+.shop-spotlight p { margin-top: 0.4rem; color: var(--muted); max-width: 44rem; }
+.shop-spotlight .btn { white-space: nowrap; }
+.offer-grid {
+  list-style: none;
+  margin: 0 0 1rem;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.85rem;
+}
+.offer-grid a {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  min-height: 100%;
+  height: 100%;
+  padding: 1.05rem 1rem 1.1rem;
+  text-decoration: none;
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+}
+.offer-grid a:hover { border-color: var(--gold); }
+.offer-mark {
+  width: 12px;
+  height: 12px;
+  background: var(--c);
+  transform: rotate(45deg);
+}
+.offer-name {
+  font-family: var(--serif);
+  font-size: 1.45rem;
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+}
+.offer-copy { color: var(--muted); font-size: 0.92rem; }
+.offer-new a {
+  background:
+    linear-gradient(165deg, rgba(254, 206, 82, 0.34), transparent 58%),
+    #fff9ef;
+  border-color: var(--gold);
+}
+.offer-badge {
+  align-self: flex-start;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold-deep);
+}
 .shop-grid, .event-grid, .people {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1rem;
 }
+.shop-kindred { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .partner, .event, .person, .fact {
   background: white;
   border: 1px solid var(--line);
@@ -969,6 +1035,10 @@ p { margin: 0; }
   .hero-grid, .points-layout, .media-grid, .story-grid, .shop-grid, .event-grid, .people, .facts, .footer-grid, .format-grid {
     grid-template-columns: 1fr;
   }
+  .shop-kindred { grid-template-columns: 1fr 1fr; }
+  .offer-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .shop-spotlight { grid-template-columns: auto 1fr; }
+  .shop-spotlight .btn { grid-column: 1 / -1; justify-self: start; }
   .map-frame { position: static; min-height: 0; }
   .map-frame iframe { height: 320px; }
   .shot-main { grid-row: auto; }
@@ -995,6 +1065,8 @@ p { margin: 0; }
   .supplier-marks { justify-content: center; }
   .partner-form .form-grid { grid-template-columns: 1fr; }
   .partner-form { padding: 1.1rem; }
+  .offer-grid, .shop-kindred { grid-template-columns: 1fr; }
+  .shop-spotlight { grid-template-columns: 1fr; }
 }
 
 @media (prefers-reduced-motion: reduce) {
