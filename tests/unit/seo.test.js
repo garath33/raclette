@@ -62,6 +62,19 @@ test("veřejné soubory drží výkonnostní rozpočet", () => {
   }
 });
 
+test("web odkazuje na Instagram a YouTube Raclette Original", () => {
+  for (const file of ["index.html", "pro-partnery.html"]) {
+    const html = fs.readFileSync(file, "utf8");
+    assert.match(html, /https:\/\/www\.instagram\.com\/racletteoriginal\//);
+    assert.match(html, /https:\/\/www\.youtube\.com\/@RacletteOriginal/);
+    assert.match(html, /class="social-links"/);
+    assert.match(html, /class="header-social"/);
+    assert.match(html, /"sameAs"/);
+    assert.match(html, /data-i18n="social\.lead"/);
+  }
+  assert.match(fs.readFileSync("index.html", "utf8"), /class="social-follow"/);
+});
+
 test("kontaktní stránka neuvádí Veroniku a uvádí Martina Šimůnka", () => {
   const html = fs.readFileSync("index.html", "utf8");
   assert.equal(/veronika/i.test(html), false);

@@ -269,7 +269,9 @@ Object.assign(TRANSLATIONS, {
     "contact.quickLabel": "Rýchly kontakt",
     "footer.blurb": "Raclette Point Original. Originálna Swiss AOP raclette z údolia Entremont. Pre stôl doma, pre Point aj pre festival.",
     "footer.dairy": "Au cœur du pays des reines",
-    "footer.rights": "© 2026 Raclette Point Original.cz s.r.o. Biele stránky, farby z charty Laiterie d’Orsières."
+    "footer.rights": "© 2026 Raclette Point Original.cz s.r.o. Biele stránky, farby z charty Laiterie d’Orsières.",
+    "social.title": "Sledujte nás",
+    "social.lead": "Aktuálne dianie a novinky nájdete na Instagrame a YouTube."
   },
   it: {
     "meta.title": "Raclette Point Original — la raclette svizzera in Cechia e Slovacchia",
@@ -541,7 +543,9 @@ Object.assign(TRANSLATIONS, {
     "contact.quickLabel": "Contatto rapido",
     "footer.blurb": "Raclette Point Original. Raclette Swiss AOP originale dalla valle d’Entremont. Per la tavola, per un Point e per un festival.",
     "footer.dairy": "Au cœur du pays des reines",
-    "footer.rights": "© 2026 Raclette Point Original.cz s.r.o. Pagine bianche, colori della carta della Laiterie d’Orsières."
+    "footer.rights": "© 2026 Raclette Point Original.cz s.r.o. Pagine bianche, colori della carta della Laiterie d’Orsières.",
+    "social.title": "Seguiteci",
+    "social.lead": "Novità e quello che succede ora, su Instagram e YouTube."
   },
   de: {
     "meta.title": "Raclette Point Original — Schweizer Raclette in Tschechien und der Slowakei",
@@ -813,7 +817,9 @@ Object.assign(TRANSLATIONS, {
     "contact.quickLabel": "Schnellkontakt",
     "footer.blurb": "Raclette Point Original. Originale Swiss-AOP-Raclette aus dem Val d’Entremont. Für den Tisch zu Hause, für einen Point und für ein Festival.",
     "footer.dairy": "Au cœur du pays des reines",
-    "footer.rights": "© 2026 Raclette Point Original.cz s.r.o. Weisse Seiten, Farben aus der Charte der Laiterie d’Orsières."
+    "footer.rights": "© 2026 Raclette Point Original.cz s.r.o. Weisse Seiten, Farben aus der Charte der Laiterie d’Orsières.",
+    "social.title": "Folgen Sie uns",
+    "social.lead": "Aktuelles und Neuigkeiten finden Sie auf Instagram und YouTube."
   },
   pl: {
     "meta.title": "Raclette Point Original — szwajcarska raclette w Czechach i na Słowacji",
@@ -1085,7 +1091,9 @@ Object.assign(TRANSLATIONS, {
     "contact.quickLabel": "Szybki kontakt",
     "footer.blurb": "Raclette Point Original. Oryginalna raclette Swiss AOP z doliny Entremont. Na stół w domu, do Pointu i na festiwal.",
     "footer.dairy": "Au cœur du pays des reines",
-    "footer.rights": "© 2026 Raclette Point Original.cz s.r.o. Białe strony, kolory z karty Laiterie d’Orsières."
+    "footer.rights": "© 2026 Raclette Point Original.cz s.r.o. Białe strony, kolory z karty Laiterie d’Orsières.",
+    "social.title": "Obserwuj nas",
+    "social.lead": "Aktualne wydarzenia i nowości znajdziesz na Instagramie i YouTube."
   },
   es: {
     "meta.title": "Raclette Point Original — raclette suiza en Chequia y Eslovaquia",
@@ -1357,7 +1365,9 @@ Object.assign(TRANSLATIONS, {
     "contact.quickLabel": "Contacto rápido",
     "footer.blurb": "Raclette Point Original. Raclette Swiss AOP original del valle de Entremont. Para la mesa, para un Point y para un festival.",
     "footer.dairy": "Au cœur du pays des reines",
-    "footer.rights": "© 2026 Raclette Point Original.cz s.r.o. Páginas blancas, colores de la carta de la Laiterie d’Orsières."
+    "footer.rights": "© 2026 Raclette Point Original.cz s.r.o. Páginas blancas, colores de la carta de la Laiterie d’Orsières.",
+    "social.title": "Síguenos",
+    "social.lead": "La actualidad y las novedades están en Instagram y YouTube."
   },
   ru: {
     "meta.title": "Raclette Point Original — швейцарская раклет в Чехии и Словакии",
@@ -1629,6 +1639,8 @@ Object.assign(TRANSLATIONS, {
     "contact.quickLabel": "Быстрый контакт",
     "footer.blurb": "Raclette Point Original. Оригинальная раклет Swiss AOP из долины Антремон. Для домашнего стола, для точки и для фестиваля.",
     "footer.dairy": "Au cœur du pays des reines",
-    "footer.rights": "© 2026 Raclette Point Original.cz s.r.o. Белые страницы, цвета из хартии Laiterie d’Orsières."
+    "footer.rights": "© 2026 Raclette Point Original.cz s.r.o. Белые страницы, цвета из хартии Laiterie d’Orsières.",
+    "social.title": "Следите за нами",
+    "social.lead": "Новости и текущие события — в Instagram и YouTube."
   }
 });
