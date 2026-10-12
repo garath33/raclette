@@ -15,8 +15,38 @@
     return R * 2 * Math.atan2(Math.sqrt(h), Math.sqrt(1 - h));
   }
 
+  function rank(points, lat, lng) {
+    return points
+      .map((point) => ({ point, km: haversine(lat, lng, point.lat, point.lng) }))
+      .sort((a, b) => a.km - b.km || a.point.id.localeCompare(b.point.id));
+  }
+
   function nearest(points, lat, lng) {
-    return points.slice().sort((a, b) => haversine(lat, lng, a.lat, a.lng) - haversine(lat, lng, b.lat, b.lng))[0];
+    const ranked = rank(points, lat, lng);
+    return ranked.length ? ranked[0].point : undefined;
+  }
+
+  /**
+   * A fix with this accuracy radius cannot change the nearest Point when the
+   * gap to the runner-up is larger than twice the radius: the reading can
+   * move toward the second Point and away from the first at the same time.
+   */
+  function nearestIsStable(points, lat, lng, accuracyMeters) {
+    const ranked = rank(points, lat, lng);
+    if (ranked.length < 2) return true;
+    const accuracy = Number(accuracyMeters);
+    if (!Number.isFinite(accuracy) || accuracy < 0) return false;
+    const gapMeters = (ranked[1].km - ranked[0].km) * 1000;
+    return gapMeters > accuracy * 2;
+  }
+
+  /** precise: trust the fix. coarse: approximate, but the winner holds. uncertain: the error can flip it. */
+  function readingKind(points, lat, lng, accuracyMeters) {
+    const COARSE_M = 300;
+    const accuracy = Number(accuracyMeters);
+    if (!Number.isFinite(accuracy) || accuracy < COARSE_M) return "precise";
+    if (rank(points, lat, lng).length < 2) return "precise";
+    return nearestIsStable(points, lat, lng, accuracy) ? "coarse" : "uncertain";
   }
 
   /**
@@ -34,5 +64,5 @@
     );
   }
 
-  return { haversine, nearest, mapsDirUrl };
+  return { haversine, rank, nearest, nearestIsStable, readingKind, mapsDirUrl };
 });

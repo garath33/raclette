@@ -123,6 +123,25 @@ test("poloha u Kladna vybere food truck a u Jeseníku Křížový vrch", async (
   await expect(page.locator("#point-cards a[href='https://krizovyvrch.cz/cs']")).toBeVisible();
 });
 
+test("Záběhlice i pin u Hamerského rybníka vyberou food truck", async ({ page, context }) => {
+  await context.setGeolocation({ latitude: 50.045505, longitude: 14.4731025, accuracy: 30 });
+  await page.goto("/?lang=cs");
+  await page.locator("#locate").click();
+  await expect(page.locator("#locator-status")).toContainText("Martin Kábrt");
+  await expect(page.locator("#locator-status")).not.toContainText("přibližně");
+  await expect(page.locator("#point-cards .is-nearest h3")).toContainText("Martin Kábrt");
+
+  await context.setGeolocation({ latitude: 50.0518466, longitude: 14.4857067, accuracy: 1500 });
+  await page.locator("#locate").click();
+  await expect(page.locator("#locator-status")).toContainText("Martin Kábrt");
+  await expect(page.locator("#locator-status")).toContainText("přibližně");
+  await expect(page.locator("#locator-status")).toContainText("nemění");
+  await expect(page.locator("#point-cards .is-nearest h3")).toContainText("Martin Kábrt");
+  const navHref = await page.locator("#navigate-nearest").getAttribute("href");
+  expect(navHref).toMatch(/destination=50\.1466053%2C14\.1026398/);
+  expect(navHref).not.toMatch(/[?&]origin=/);
+});
+
 test("hero Najít nejbližší Point spustí polohu a nabídne navigaci", async ({ page, context }) => {
   await context.setGeolocation({ latitude: 50.7256, longitude: 15.6068 });
   await page.goto("/?lang=cs");

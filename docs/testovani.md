@@ -11,7 +11,7 @@ Příkaz `npm test` spustí všechno. Jednotlivé vrstvy jdou pustit zvlášť.
 
 ## Smoke
 
-Smoke ověří, že se stránka vůbec rozběhne: nadpis, tři vizitky, Martin Šimůnek, žádná zmínka o Veronice, testovací pruh a přepnutí do němčiny. Další smoke nastaví polohu u Kladna, Jeseníku a Špindlu, kontroluje výběr Pointu, tlačítko „Navigovat k …“ a že odkaz do Maps nemá zmražený `origin`. Samostatně běží odmítnutá poloha a trasa bez GPS.
+Smoke ověří, že se stránka vůbec rozběhne: nadpis, tři vizitky, Martin Šimůnek, žádná zmínka o Veronice, testovací pruh a přepnutí do němčiny. Další smoke nastaví polohu u Kladna, Jeseníku a Špindlu, kontroluje výběr Pointu, tlačítko „Navigovat k …“ a že odkaz do Maps nemá zmražený `origin`. Samostatně běží odmítnutá poloha a trasa bez GPS. Případ z notebooku v Záběhlicích (Trenčínská 10 i pin u Hamerského rybníka) musí vybrat food truck v Kladně; hrubý odečet (±1,5 km) navíc řekne, že odchylka výběr nemění.
 
 ## Regrese
 

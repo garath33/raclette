@@ -74,6 +74,10 @@ První verze testu nechala mezi Kladnem a Jeseníkem starou polohu, protože pro
 
 Prohlížečová poloha slouží jen k výběru nejbližšího Pointu a k výpočtu vzdálenosti. Odkaz do Google Maps má jen cíl (`destination`), bez `origin` s jednorázovým odečtem. Jinak Maps startoval z nepřesného pinu (Wi-Fi / timeout) místo z místa, kde člověk sedí. Živý start necháme na Google Maps (`dir_action=navigate`). Po úspěšném odečtu je tlačítko „Navigovat k …“. Když GPS selže timeoutem, zkusí se ještě jeden odečet bez vysoké přesnosti.
 
+## Notebook v Záběhlicích neukáže ulici, výběr Pointu drží
+
+Trenčínská 2628/10 v Záběhlicích je 50.045505, 14.4731025. Prohlížeč na notebooku bez GPS (Wi-Fi) v Google Maps ukázal start o 1,14 km severovýchodně, u Hamerského rybníka (50.0518466, 14.4857067). To není souřadnice z webu: odkaz do Maps cíl jen předá a pin „Vaše poloha“ si doplní Google. Vzdušná vzdálenost z Trenčínské na food truck v Kladně je asi 29 km, do Špindlerova Mlýna asi 110 km, na Křížový vrch asi 197 km. Stejné pořadí vychází i z pinu u rybníka. Odchylka o kilometr výběr neotočí, dokud je další Point o desítky kilometrů dál. Jízda kolem 47 km po D6 je silniční trasa, ne chyba výběru. Když prohlížeč sám hlásí přesnost horší než 300 m a odstup druhého Pointu je větší než dvojnásobek té přesnosti, stránka řekne, že pin může sedět o ulici vedle a že výběr platí. Když by chyba mohla pořadí otočit, řekne, ať se poloha zkusí znovu venku.
+
 ## E-shop Raklet Party prodává sortiment, ne jen odkaz
 
 Sekce Kde nakoupit drží sortiment e-shopu v jedné kartě E-shop Raklet Party: krátká věta, která zve podívat se na e-shop, a odrážky se sýry, grily, grily TTM na míru, kořením, půjčovnou, víny, fondue a Family WOOD včetně nových rakletovacích stolů. Bez cen a bez dlouhých popisů. Slovo nalákat na webu není.

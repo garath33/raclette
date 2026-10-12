@@ -37,7 +37,7 @@ Výchozí jazyk testovacího webu je čeština. Volba se ukládá do `localStora
 
 Souřadnice jsou v `js/points.js`. Křížový vrch má ověřenou adresu Za Pilou 6. Špindlerův Mlýn je střed střediska, protože ulice nebyla dodaná. Food truck Martina Kábrta má základnu v Kladně, zastávka se mění podle akce.
 
-Vzdálenost počítá vzorec haversine. Tlačítko polohy otevře trasu v Google Maps z aktuální polohy.
+Vzdálenost počítá vzorec haversine. Tlačítko polohy vybere nejbližší Point. Odkaz do Google Maps má jen cíl, start si Maps vezme ze své polohy. Když prohlížeč hlásí přesnost horší než 300 m, stránka porovná tu chybu s odstupem druhého Pointu.
 
 ## Vzhled
 

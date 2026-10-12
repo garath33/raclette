@@ -42,3 +42,37 @@ test("z Prahy je food truck, ze Špindlu Špindlerův Mlýn", () => {
   assert.equal(praha.id, "kabrt");
   assert.equal(spindl.id, "spindl");
 });
+
+test("ze Záběhlic je food truck i když prohlížeč ukáže Hamerský rybník", () => {
+  // Trenčínská 2628/10, RÚIAN. Pin z Google Maps na notebooku: 50.0518466,14.4857067.
+  const trencinska = { lat: 50.045505, lng: 14.4731025 };
+  const hamersky = { lat: 50.0518466, lng: 14.4857067 };
+  const offsetKm = geo.haversine(trencinska.lat, trencinska.lng, hamersky.lat, hamersky.lng);
+  assert.ok(offsetKm > 1 && offsetKm < 1.3, offsetKm);
+
+  for (const fix of [trencinska, hamersky]) {
+    const ranked = geo.rank(POINTS, fix.lat, fix.lng);
+    assert.equal(ranked[0].point.id, "kabrt");
+    assert.equal(ranked[1].point.id, "spindl");
+    assert.equal(geo.nearest(POINTS, fix.lat, fix.lng).id, "kabrt");
+    assert.ok(ranked[0].km > 25 && ranked[0].km < 35, ranked[0].km);
+    assert.ok(ranked[1].km - ranked[0].km > 70, ranked[1].km - ranked[0].km);
+    assert.equal(geo.nearestIsStable(POINTS, fix.lat, fix.lng, offsetKm * 1000), true);
+    assert.equal(geo.nearestIsStable(POINTS, fix.lat, fix.lng, 5000), true);
+    assert.equal(geo.readingKind(POINTS, fix.lat, fix.lng, 30), "precise");
+    assert.equal(geo.readingKind(POINTS, fix.lat, fix.lng, offsetKm * 1000), "coarse");
+  }
+});
+
+test("nejistý výběr, když přesnost spolkne odstup druhého Pointu", () => {
+  const close = [
+    { id: "a", lat: 50, lng: 14 },
+    { id: "b", lat: 50.001, lng: 14 }
+  ];
+  assert.equal(geo.nearest(close, 50, 14).id, "a");
+  assert.equal(geo.nearestIsStable(close, 50, 14, 20), true);
+  assert.equal(geo.nearestIsStable(close, 50, 14, 500), false);
+  assert.equal(geo.readingKind(close, 50, 14, 20), "precise");
+  assert.equal(geo.readingKind(close, 50, 14, 500), "uncertain");
+  assert.equal(geo.readingKind(POINTS, 50.045505, 14.4731025, null), "precise");
+});
