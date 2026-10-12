@@ -86,7 +86,7 @@ Překlepy se nepřenášejí: brunch, ne branch, kolaudace, ne koloudace, plnotu
 
 ## E-shop Raklet Party prodává sortiment, ne jen odkaz
 
-Sekce Kde nakoupit drží sortiment e-shopu v jedné kartě E-shop Raklet Party: krátká věta, která zve podívat se na e-shop, a odrážky se sýry, grily, grily TTM na míru, kořením, půjčovnou, víny, fondue a Family WOOD včetně nových rakletovacích stolů. Bez cen a bez dlouhých popisů. Slovo nalákat na webu není.
+Sekce Kde nakoupit drží sortiment e-shopu v jedné kartě E-shop Raklet Party: krátká věta, která zve podívat se na e-shop, a odrážky se sýry, grily, grily TTM na míru, kořením, půjčovnou, víny, fondue a Family WOOD. Family WOOD je značka praktických dřevěných výrobků na míru s řemeslnou elegancí. Katalog ani text značky neříká, že nově dělají rakletovací stoly, proto to web neříká. Bez cen a bez dlouhých popisů. Slovo nalákat na webu není.
 
 ## Pro partnery na ostrém webu
 

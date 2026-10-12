@@ -57,7 +57,8 @@ test("veřejný text nezmiňuje vyřazenou osobu a IT role existuje", () => {
   assert.equal(/nalák/i.test(franchiseBlob), false);
   assert.equal(/\d+\s*(Kč|EUR|CHF|€|%)/.test(franchiseBlob), false);
   assert.match(TRANSLATIONS.cs["shop.party.d"], /Podívejte se na náš e-shop/);
-  assert.match(TRANSLATIONS.cs["shop.party.d"], /rakletovací stoly/);
+  assert.match(TRANSLATIONS.cs["shop.party.d"], /dřevěné výrobky na míru/);
+  assert.equal(/rakletovací stoly/.test(TRANSLATIONS.cs["shop.party.d"]), false);
   assert.match(TRANSLATIONS.cs["shop.cheese.t"], /Raclette sýry/);
   assert.match(TRANSLATIONS.cs["shop.grills.t"], /Raclette grily a příslušenství/);
   assert.match(TRANSLATIONS.cs["shop.custom.t"], /TTM na míru/);
@@ -66,7 +67,9 @@ test("veřejný text nezmiňuje vyřazenou osobu a IT role existuje", () => {
   assert.match(TRANSLATIONS.cs["shop.wine.t"], /Švýcarská vína/);
   assert.match(TRANSLATIONS.cs["shop.fondue.t"], /Fondue/);
   assert.match(TRANSLATIONS.cs["shop.wood.t"], /Family WOOD/);
-  assert.match(TRANSLATIONS.cs["shop.wood.t"], /rakletovací stoly/);
+  assert.match(TRANSLATIONS.cs["shop.wood.t"], /řemeslná elegance/);
+  assert.match(TRANSLATIONS.cs["shop.wood.t"], /dřevěné výrobky na míru/);
+  assert.equal(/rakletovací stoly/.test(TRANSLATIONS.cs["shop.wood.t"]), false);
   assert.match(TRANSLATIONS.en["shop.party.d"], /shop/);
   assert.match(TRANSLATIONS.cs["person.martin.role"], /IT specialista/);
   assert.match(TRANSLATIONS.cs["raclette.lead"], /fondue/);
@@ -84,6 +87,15 @@ test("veřejný text nezmiňuje vyřazenou osobu a IT role existuje", () => {
   assert.match(TRANSLATIONS.en["nav.raclette"], /raclette/i);
   assert.match(TRANSLATIONS.sk["person.martin.role"], /IT špecialista/);
   assert.match(TRANSLATIONS.en["person.martin.role"], /IT specialist/);
+  assert.match(TRANSLATIONS.cs["footer.rights"], /Web vyvinul Martin Šimůnek/);
+  assert.match(TRANSLATIONS.sk["footer.rights"], /Web vyvinul Martin Šimůnek/);
+  assert.match(TRANSLATIONS.en["footer.rights"], /Website developed by Martin Šimůnek/);
+  assert.match(TRANSLATIONS.fr["footer.rights"], /Site développé par Martin Šimůnek/);
+  assert.match(TRANSLATIONS.de["footer.rights"], /Website entwickelt von Martin Šimůnek/);
+  assert.match(TRANSLATIONS.it["footer.rights"], /Sito sviluppato da Martin Šimůnek/);
+  assert.match(TRANSLATIONS.pl["footer.rights"], /Stronę opracował Martin Šimůnek/);
+  assert.match(TRANSLATIONS.es["footer.rights"], /Sitio desarrollado por Martin Šimůnek/);
+  assert.match(TRANSLATIONS.ru["footer.rights"], /Сайт разработал Martin Šimůnek/);
 });
 
 test("každý data-i18n klíč ze stránky je přeložený", () => {
