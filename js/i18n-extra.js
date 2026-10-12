@@ -271,7 +271,7 @@ Object.assign(TRANSLATIONS, {
     "contact.quickLabel": "Rýchly kontakt",
     "footer.blurb": "Raclette Point Original. Originálna Swiss AOP raclette z údolia Entremont. Pre stôl doma, pre Point aj pre festival.",
     "footer.dairy": "Au cœur du pays des reines",
-    "footer.rights": "© 2026 Raclette Point Original.cz s.r.o. Biele stránky, farby z charty Laiterie d’Orsières.",
+    "footer.rights": "© 2026 Raclette Point Original.cz s.r.o. Biele stránky, farby z charty Laiterie d’Orsières. Web vyvinul Martin Šimůnek.",
     "social.title": "Sledujte nás",
     "social.lead": "Aktuálne dianie a novinky nájdete na Instagrame a YouTube."
   },
@@ -547,7 +547,7 @@ Object.assign(TRANSLATIONS, {
     "contact.quickLabel": "Contatto rapido",
     "footer.blurb": "Raclette Point Original. Raclette Swiss AOP originale dalla valle d’Entremont. Per la tavola, per un Point e per un festival.",
     "footer.dairy": "Au cœur du pays des reines",
-    "footer.rights": "© 2026 Raclette Point Original.cz s.r.o. Pagine bianche, colori della carta della Laiterie d’Orsières.",
+    "footer.rights": "© 2026 Raclette Point Original.cz s.r.o. Pagine bianche, colori della carta della Laiterie d’Orsières. Sito sviluppato da Martin Šimůnek.",
     "social.title": "Seguiteci",
     "social.lead": "Novità e quello che succede ora, su Instagram e YouTube."
   },
@@ -823,7 +823,7 @@ Object.assign(TRANSLATIONS, {
     "contact.quickLabel": "Schnellkontakt",
     "footer.blurb": "Raclette Point Original. Originale Swiss-AOP-Raclette aus dem Val d’Entremont. Für den Tisch zu Hause, für einen Point und für ein Festival.",
     "footer.dairy": "Au cœur du pays des reines",
-    "footer.rights": "© 2026 Raclette Point Original.cz s.r.o. Weisse Seiten, Farben aus der Charte der Laiterie d’Orsières.",
+    "footer.rights": "© 2026 Raclette Point Original.cz s.r.o. Weisse Seiten, Farben aus der Charte der Laiterie d’Orsières. Website entwickelt von Martin Šimůnek.",
     "social.title": "Folgen Sie uns",
     "social.lead": "Aktuelles und Neuigkeiten finden Sie auf Instagram und YouTube."
   },
@@ -1099,7 +1099,7 @@ Object.assign(TRANSLATIONS, {
     "contact.quickLabel": "Szybki kontakt",
     "footer.blurb": "Raclette Point Original. Oryginalna raclette Swiss AOP z doliny Entremont. Na stół w domu, do Pointu i na festiwal.",
     "footer.dairy": "Au cœur du pays des reines",
-    "footer.rights": "© 2026 Raclette Point Original.cz s.r.o. Białe strony, kolory z karty Laiterie d’Orsières.",
+    "footer.rights": "© 2026 Raclette Point Original.cz s.r.o. Białe strony, kolory z karty Laiterie d’Orsières. Stronę opracował Martin Šimůnek.",
     "social.title": "Obserwuj nas",
     "social.lead": "Aktualne wydarzenia i nowości znajdziesz na Instagramie i YouTube."
   },
@@ -1375,7 +1375,7 @@ Object.assign(TRANSLATIONS, {
     "contact.quickLabel": "Contacto rápido",
     "footer.blurb": "Raclette Point Original. Raclette Swiss AOP original del valle de Entremont. Para la mesa, para un Point y para un festival.",
     "footer.dairy": "Au cœur du pays des reines",
-    "footer.rights": "© 2026 Raclette Point Original.cz s.r.o. Páginas blancas, colores de la carta de la Laiterie d’Orsières.",
+    "footer.rights": "© 2026 Raclette Point Original.cz s.r.o. Páginas blancas, colores de la carta de la Laiterie d’Orsières. Sitio desarrollado por Martin Šimůnek.",
     "social.title": "Síguenos",
     "social.lead": "La actualidad y las novedades están en Instagram y YouTube."
   },
@@ -1651,7 +1651,7 @@ Object.assign(TRANSLATIONS, {
     "contact.quickLabel": "Быстрый контакт",
     "footer.blurb": "Raclette Point Original. Оригинальная раклет Swiss AOP из долины Антремон. Для домашнего стола, для точки и для фестиваля.",
     "footer.dairy": "Au cœur du pays des reines",
-    "footer.rights": "© 2026 Raclette Point Original.cz s.r.o. Белые страницы, цвета из хартии Laiterie d’Orsières.",
+    "footer.rights": "© 2026 Raclette Point Original.cz s.r.o. Белые страницы, цвета из хартии Laiterie d’Orsières. Сайт разработал Martin Šimůnek.",
     "social.title": "Следите за нами",
     "social.lead": "Новости и текущие события — в Instagram и YouTube."
   }

@@ -84,6 +84,15 @@ test("veřejný text nezmiňuje vyřazenou osobu a IT role existuje", () => {
   assert.match(TRANSLATIONS.en["nav.raclette"], /raclette/i);
   assert.match(TRANSLATIONS.sk["person.martin.role"], /IT špecialista/);
   assert.match(TRANSLATIONS.en["person.martin.role"], /IT specialist/);
+  assert.match(TRANSLATIONS.cs["footer.rights"], /Web vyvinul Martin Šimůnek/);
+  assert.match(TRANSLATIONS.sk["footer.rights"], /Web vyvinul Martin Šimůnek/);
+  assert.match(TRANSLATIONS.en["footer.rights"], /Website developed by Martin Šimůnek/);
+  assert.match(TRANSLATIONS.fr["footer.rights"], /Site développé par Martin Šimůnek/);
+  assert.match(TRANSLATIONS.de["footer.rights"], /Website entwickelt von Martin Šimůnek/);
+  assert.match(TRANSLATIONS.it["footer.rights"], /Sito sviluppato da Martin Šimůnek/);
+  assert.match(TRANSLATIONS.pl["footer.rights"], /Stronę opracował Martin Šimůnek/);
+  assert.match(TRANSLATIONS.es["footer.rights"], /Sitio desarrollado por Martin Šimůnek/);
+  assert.match(TRANSLATIONS.ru["footer.rights"], /Сайт разработал Martin Šimůnek/);
 });
 
 test("každý data-i18n klíč ze stránky je přeložený", () => {

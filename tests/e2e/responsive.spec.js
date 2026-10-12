@@ -39,7 +39,22 @@ test("loga mlékárny drží poměr stran a layout nepřetéká", async ({ page 
     expect(cow.x, JSON.stringify(size)).toBeGreaterThanOrEqual(-1);
     expect(cow.x + cow.width, JSON.stringify(size)).toBeLessThanOrEqual(size.width + 1);
     expect(crest.x + crest.width, JSON.stringify(size)).toBeLessThanOrEqual(size.width + 1);
+    const dairy = await page.locator("footer img.dairy").boundingBox();
+    const lockup = 774 / 351;
+    for (const [name, box] of [["crest", crest], ["dairy", dairy]]) {
+      const aspect = box.width / box.height;
+      expect(aspect, name + " " + JSON.stringify(size)).toBeGreaterThan(lockup - 0.12);
+      expect(aspect, name + " " + JSON.stringify(size)).toBeLessThan(lockup + 0.12);
+    }
   }
+
+  await page.goto("/pro-partnery.html?lang=cs");
+  await page.setViewportSize({ width: 1280, height: 800 });
+  const partnersDairy = await page.locator("footer img.dairy").boundingBox();
+  const partnersAspect = partnersDairy.width / partnersDairy.height;
+  expect(partnersAspect).toBeGreaterThan(774 / 351 - 0.12);
+  expect(partnersAspect).toBeLessThan(774 / 351 + 0.12);
+  await expect(page.locator("footer .legal")).toContainText("Web vyvinul Martin Šimůnek");
 });
 
 test("na mobilu se otevře menu a na desktopu je navigace vidět rovnou", async ({ page }) => {
