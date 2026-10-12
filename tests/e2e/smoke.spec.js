@@ -15,6 +15,13 @@ test("stránka se načte, má sekce a testovací pruh", async ({ page }) => {
   }
   await expect(page.locator("#franchise")).toHaveCount(0);
   await expect(page.locator("#point-cards .card")).toHaveCount(3);
+  await expect(page.locator("#map-frame")).toHaveCount(0);
+  await expect(page.locator("#point-cards iframe.map-embed")).toHaveCount(3);
+  await expect(page.locator('#point-cards .card[data-id="krizovy"] iframe')).toHaveAttribute("src", /50\.2260421,17\.2250049/);
+  await expect(page.locator('#point-cards .card[data-id="krizovy"] iframe')).toHaveAttribute("title", "Mapa Pointu Křížový vrch");
+  await expect(page.locator('#point-cards .card[data-id="spindl"] iframe')).toHaveAttribute("src", /50\.7256448,15\.6067567/);
+  await expect(page.locator('#point-cards .card[data-id="kabrt"] iframe')).toHaveAttribute("src", /50\.1466053,14\.1026398/);
+  await expect(page.locator("#locator-status")).toContainText("Každý Point má vlastní mapu");
   await expect(page.locator("#hero-locate")).toHaveAttribute("href", "#pointy");
   await expect(page.locator("#site-nav a[href='#pointy']")).toHaveText("Naše raclette pointy");
   await expect(page.locator("#site-nav a[href='pro-partnery.html']")).toHaveText("Pro partnery");
@@ -103,6 +110,7 @@ test("přepnutí jazyka změní titulek a kanonickou adresu", async ({ page }) =
   await expect(page.locator("#site-nav")).toContainText("Kontakt");
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute("href", /lang=de/);
   await expect(page.locator("html")).toHaveAttribute("lang", "de");
+  await expect(page.locator("#point-cards iframe").first()).toHaveAttribute("src", /hl=de/);
 });
 
 test("poloha u Kladna vybere food truck a u Jeseníku Křížový vrch", async ({ page, context }) => {
@@ -110,7 +118,8 @@ test("poloha u Kladna vybere food truck a u Jeseníku Křížový vrch", async (
   await page.goto("/?lang=cs");
   await page.locator("#locate").click();
   await expect(page.locator("#locator-status")).toContainText("Martin Kábrt");
-  await expect(page.locator("#map-frame")).toHaveAttribute("src", /50\.1466053,14\.1026398/);
+  await expect(page.locator("#point-cards .is-nearest iframe")).toHaveAttribute("src", /50\.1466053,14\.1026398/);
+  await expect(page.locator('#point-cards .card[data-id="krizovy"] iframe')).toHaveAttribute("src", /50\.2260421,17\.2250049/);
   await expect(page.locator("#point-cards .badge")).toHaveText("Nejbližší");
   await expect(page.locator("#navigate-nearest")).toBeVisible();
   await expect(page.locator("#navigate-nearest")).toContainText("Martin Kábrt");
