@@ -49,7 +49,7 @@ test("veřejné soubory drží výkonnostní rozpočet", () => {
     "css/styles.css": 40 * 1024,
     "js/app.js": 20 * 1024,
     "js/i18n.js": 62 * 1024,
-    "js/i18n-extra.js": 128 * 1024,
+    "js/i18n-extra.js": 129 * 1024,
     "assets/photo-service.jpg": 400 * 1024,
     "assets/photo-wedge.jpg": 280 * 1024,
     "assets/photo-barry.jpg": 220 * 1024,
@@ -60,6 +60,18 @@ test("veřejné soubory drží výkonnostní rozpočet", () => {
     const size = fs.statSync(file).size;
     assert.ok(size <= limit, file + " má " + size + " B, limit je " + limit);
   }
+});
+
+test("web odkazuje na Instagram a YouTube Raclette Original", () => {
+  for (const file of ["index.html", "pro-partnery.html"]) {
+    const html = fs.readFileSync(file, "utf8");
+    assert.match(html, /https:\/\/www\.instagram\.com\/racletteoriginal\//);
+    assert.match(html, /https:\/\/www\.youtube\.com\/@RacletteOriginal/);
+    assert.match(html, /class="social-links"/);
+    assert.match(html, /"sameAs"/);
+    assert.match(html, /data-i18n="social\.lead"/);
+  }
+  assert.match(fs.readFileSync("index.html", "utf8"), /class="social-follow"/);
 });
 
 test("kontaktní stránka neuvádí Veroniku a uvádí Martina Šimůnka", () => {

@@ -232,7 +232,9 @@ const TRANSLATIONS = {
     "contact.quickLabel": "Rychlý kontakt",
     "footer.blurb": "Raclette Point Original. Originální Swiss AOP raclette z údolí Entremontu. Pro stůl doma, pro Point i pro festival.",
     "footer.dairy": "Au cœur du pays des reines",
-    "footer.rights": "© 2026 Raclette Point Original.cz s.r.o. Bílé stránky, barvy z charty Laiterie d’Orsières."
+    "footer.rights": "© 2026 Raclette Point Original.cz s.r.o. Bílé stránky, barvy z charty Laiterie d’Orsières.",
+    "social.title": "Sledujte nás",
+    "social.lead": "Aktuální dění a novinky najdete na Instagramu a YouTube."
   },
   en: {
     "meta.title": "Raclette Point Original — Swiss raclette in Czechia and Slovakia",
@@ -465,7 +467,9 @@ const TRANSLATIONS = {
     "contact.quickLabel": "Quick contact",
     "footer.blurb": "Raclette Point Original. Original Swiss AOP raclette from the Entremont valley. For the table at home, for a Point and for a festival.",
     "footer.dairy": "Au cœur du pays des reines",
-    "footer.rights": "© 2026 Raclette Point Original.cz s.r.o. White pages, colours from the Laiterie d’Orsières charter."
+    "footer.rights": "© 2026 Raclette Point Original.cz s.r.o. White pages, colours from the Laiterie d’Orsières charter.",
+    "social.title": "Follow us",
+    "social.lead": "Find the latest news and what is happening now on Instagram and YouTube."
   },
   fr: {
     "meta.title": "Raclette Point Original — la raclette suisse en Tchéquie et en Slovaquie",
@@ -698,6 +702,8 @@ const TRANSLATIONS = {
     "contact.quickLabel": "Contact rapide",
     "footer.blurb": "Raclette Point Original. Raclette Swiss AOP originale de la vallée d’Entremont. Pour la table, pour un Point et pour un festival.",
     "footer.dairy": "Au cœur du pays des reines",
-    "footer.rights": "© 2026 Raclette Point Original.cz s.r.o. Pages blanches, couleurs de la charte de la Laiterie d’Orsières."
+    "footer.rights": "© 2026 Raclette Point Original.cz s.r.o. Pages blanches, couleurs de la charte de la Laiterie d’Orsières.",
+    "social.title": "Suivez-nous",
+    "social.lead": "Retrouvez l’actualité et les nouveautés sur Instagram et YouTube."
   }
 };
