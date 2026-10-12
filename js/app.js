@@ -5,7 +5,6 @@ const MENU_COLORS = ["#fece52", "#f5811f", "#00a85c", "#007dc5"];
 
 let lang = "cs";
 let origin = null;
-let activeId = "krizovy";
 
 function t(key, vars) {
   const pack = TRANSLATIONS[lang] || TRANSLATIONS.cs;
@@ -81,7 +80,7 @@ function renderPoints() {
   });
   const nearestId = origin ? ranked[0].point.id : null;
 
-  host.innerHTML = ranked.map(({ point, distance }, index) => {
+  host.innerHTML = ranked.map(({ point, distance }) => {
     const name = t("point." + point.id + ".name");
     const web = point.web
       ? '<a class="btn btn-line" href="' + point.web + '" target="_blank" rel="noopener noreferrer">' + t("points.web") + "</a>"
@@ -93,33 +92,26 @@ function renderPoints() {
     const away = distance != null ? '<p class="distance">' + t("points.km", { km: formatKm(distance) }) + "</p>" : "";
     const menu = MENU.map((key, i) => '<li style="--c:' + MENU_COLORS[i] + '">' + t(key) + "</li>").join("");
     const classes = ["card"];
-    if (point.id === activeId) classes.push("is-active");
     if (point.id === nearestId) classes.push("is-nearest");
+    const mapTitle = t("points.mapTitle", { name }).replaceAll('"', "&quot;");
     return (
-      '<article class="' + classes.join(" ") + '" data-id="' + point.id + '" tabindex="0">' +
-        '<div class="card-top"><div><p class="kicker">' + t("point." + point.id + ".where") + "</p>" +
-        "<h3>" + name + "</h3>" + addressLine(point.id) + away + "</div>" + badge + "</div>" +
-        '<p class="note">' + t("point." + point.id + ".note") + "</p>" + phone +
-        "<h4>" + t("points.menu") + "</h4><ul class=\"menu\">" + menu + "</ul>" +
-        '<div class="card-actions">' + web +
-        '<a class="btn btn-solid" href="' + routeUrl(point) + '" target="_blank" rel="noopener noreferrer">' + t("points.route") + "</a></div>" +
+      '<article class="' + classes.join(" ") + '" data-id="' + point.id + '">' +
+        '<div class="card-head">' +
+          '<div class="card-top"><div><p class="kicker">' + t("point." + point.id + ".where") + "</p>" +
+          "<h3>" + name + "</h3>" + addressLine(point.id) + away + "</div>" + badge + "</div>" +
+          '<p class="note">' + t("point." + point.id + ".note") + "</p>" + phone +
+        "</div>" +
+        '<div class="card-map">' +
+          '<iframe class="map-embed" title="' + mapTitle + '" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="' + mapSrc(point) + '"></iframe>' +
+        "</div>" +
+        '<div class="card-more">' +
+          "<h4>" + t("points.menu") + "</h4><ul class=\"menu\">" + menu + "</ul>" +
+          '<div class="card-actions">' + web +
+          '<a class="btn btn-solid" href="' + routeUrl(point) + '" target="_blank" rel="noopener noreferrer">' + t("points.route") + "</a></div>" +
+        "</div>" +
       "</article>"
     );
   }).join("");
-
-  host.querySelectorAll(".card").forEach((card) => {
-    const select = () => selectPoint(card.dataset.id);
-    card.addEventListener("click", (event) => {
-      if (event.target.closest("a")) return;
-      select();
-    });
-    card.addEventListener("keydown", (event) => {
-      if (event.key === "Enter" || event.key === " ") {
-        event.preventDefault();
-        select();
-      }
-    });
-  });
 }
 
 function addressLine(id) {
@@ -129,15 +121,6 @@ function addressLine(id) {
     kabrt: "Kladno"
   };
   return '<p class="address">' + addresses[id] + "</p>";
-}
-
-function selectPoint(id) {
-  activeId = id;
-  const point = POINTS.find((item) => item.id === id);
-  const frame = document.getElementById("map-frame");
-  frame.src = mapSrc(point);
-  frame.title = t("points.mapTitle");
-  renderPoints();
 }
 
 function applyStatic() {
@@ -161,8 +144,6 @@ function applyStatic() {
   const toggle = document.getElementById("nav-toggle");
   const open = document.getElementById("site-nav").classList.contains("is-open");
   toggle.setAttribute("aria-label", t(open ? "nav.close" : "nav.open"));
-  const frame = document.getElementById("map-frame");
-  if (frame) frame.title = t("points.mapTitle");
   document.getElementById("lang").value = lang;
 }
 
@@ -281,9 +262,6 @@ function setLang(next) {
   history.replaceState(null, "", target.pathname + target.search + target.hash);
   applyStatic();
   if (!isHomePage()) return;
-  const point = POINTS.find((item) => item.id === activeId);
-  const map = document.getElementById("map-frame");
-  if (map) map.src = mapSrc(point);
   renderPoints();
   if (!origin) {
     hideNavigateNearest();
@@ -301,9 +279,7 @@ function setLang(next) {
 function applyLocatedOrigin(lat, lng) {
   origin = { lat, lng };
   const nearest = RacletteGeo.nearest(POINTS, lat, lng);
-  activeId = nearest.id;
   const km = formatKm(haversine(lat, lng, nearest.lat, nearest.lng));
-  document.getElementById("map-frame").src = mapSrc(nearest);
   renderPoints();
   showNavigateNearest(nearest);
   setStatus("points.found", { name: t("point." + nearest.id + ".name"), km: km });
@@ -370,7 +346,6 @@ function boot() {
   });
 
   if (isHomePage()) {
-    document.getElementById("map-frame").src = mapSrc(POINTS[0]);
     renderPoints();
     hideNavigateNearest();
     setStatus("points.idle");

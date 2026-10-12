@@ -310,31 +310,40 @@ p { margin: 0; }
   font-size: 0.95rem;
   min-height: 1.4em;
 }
-.points-layout {
-  display: grid;
-  grid-template-columns: minmax(0, 1.15fr) minmax(280px, 0.85fr);
-  gap: 1.25rem;
-  align-items: start;
-}
-.map-frame {
-  position: sticky;
-  top: calc(var(--header) + 16px);
-  background: white;
-  border-radius: 22px;
-  overflow: hidden;
-  box-shadow: var(--shadow);
-}
-.map-frame iframe { width: 100%; height: min(560px, calc(100vh - 140px)); border: 0; }
 .cards { display: grid; gap: 0.9rem; }
 .card {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(220px, 0.8fr);
+  grid-template-areas:
+    "head map"
+    "more map";
+  gap: 0.35rem 1.15rem;
+  align-items: stretch;
   background: white;
   border-radius: 20px;
   padding: 1.15rem 1.15rem 1.05rem;
   border: 1px solid transparent;
   box-shadow: 0 1px 0 rgba(26, 28, 29, 0.04);
-  cursor: pointer;
 }
-.card.is-active { border-color: var(--gold); box-shadow: var(--shadow); }
+.card-head { grid-area: head; }
+.card-more { grid-area: more; }
+.card-map {
+  grid-area: map;
+  position: relative;
+  align-self: start;
+  height: 280px;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #eceae4;
+}
+.card-map iframe {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
 .card.is-nearest { background: linear-gradient(180deg, #fffaf0 0%, #fff 42%); }
 .card-top { display: flex; justify-content: space-between; gap: 0.75rem; align-items: flex-start; }
 .card h3 { font-size: 1.85rem; }
@@ -991,16 +1000,25 @@ p { margin: 0; }
     gap: 0.8rem;
   }
   .site-nav.is-open { display: flex; }
-  .hero-grid, .points-layout, .media-grid, .story-grid, .shop-grid, .event-grid, .people, .facts, .footer-grid, .format-grid {
+  .hero-grid, .media-grid, .story-grid, .shop-grid, .event-grid, .people, .facts, .footer-grid, .format-grid {
     grid-template-columns: 1fr;
   }
   .shop-kindred { grid-template-columns: 1fr 1fr; }
-  .map-frame { position: static; min-height: 0; }
-  .map-frame iframe { height: 320px; }
   .shot-main { grid-row: auto; }
   .shot-main img, .stack .shot img { height: 240px; }
   .hero-visual { width: min(100%, 380px); margin-inline: auto; margin-top: 0.5rem; }
   .timeline li { grid-template-columns: 5.5rem 1fr; }
+}
+
+@media (max-width: 900px) {
+  .card {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "head"
+      "map"
+      "more";
+  }
+  .card-map { height: 220px; min-height: 0; }
 }
 
 @media (max-width: 720px) {
