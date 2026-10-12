@@ -1071,7 +1071,12 @@ p { margin: 0; }
   aspect-ratio: 480 / 584;
   object-fit: contain;
 }
-.footer-brand img.dairy { width: min(220px, 100%); }
+.footer-brand img.dairy {
+  width: min(220px, 100%);
+  height: auto;
+  aspect-ratio: 774 / 351;
+  object-fit: contain;
+}
 .footer-brand p { margin-top: 0.8rem; color: var(--muted); max-width: 28rem; }
 .site-footer h2 {
   font-family: var(--sans);
