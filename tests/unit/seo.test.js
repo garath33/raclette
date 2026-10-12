@@ -68,6 +68,7 @@ test("web odkazuje na Instagram a YouTube Raclette Original", () => {
     assert.match(html, /https:\/\/www\.instagram\.com\/racletteoriginal\//);
     assert.match(html, /https:\/\/www\.youtube\.com\/@RacletteOriginal/);
     assert.match(html, /class="social-links"/);
+    assert.match(html, /class="header-social"/);
     assert.match(html, /"sameAs"/);
     assert.match(html, /data-i18n="social\.lead"/);
   }
