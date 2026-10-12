@@ -56,8 +56,8 @@ test("veřejný text nezmiňuje vyřazenou osobu a IT role existuje", () => {
   const franchiseBlob = Object.entries(TRANSLATIONS.cs).filter(([key]) => key.startsWith("franchise.")).map(([, value]) => value).join("\n");
   assert.equal(/nalák/i.test(franchiseBlob), false);
   assert.equal(/\d+\s*(Kč|EUR|CHF|€|%)/.test(franchiseBlob), false);
+  assert.match(TRANSLATIONS.cs["shop.party.d"], /Podívejte se na náš e-shop/);
   assert.match(TRANSLATIONS.cs["shop.party.d"], /rakletovací stoly/);
-  assert.match(TRANSLATIONS.cs["shop.wood.d"], /rakletovací stoly/);
   assert.match(TRANSLATIONS.cs["shop.cheese.t"], /Raclette sýry/);
   assert.match(TRANSLATIONS.cs["shop.grills.t"], /Raclette grily a příslušenství/);
   assert.match(TRANSLATIONS.cs["shop.custom.t"], /TTM na míru/);
@@ -66,7 +66,8 @@ test("veřejný text nezmiňuje vyřazenou osobu a IT role existuje", () => {
   assert.match(TRANSLATIONS.cs["shop.wine.t"], /Švýcarská vína/);
   assert.match(TRANSLATIONS.cs["shop.fondue.t"], /Fondue/);
   assert.match(TRANSLATIONS.cs["shop.wood.t"], /Family WOOD/);
-  assert.match(TRANSLATIONS.en["shop.wood.d"], /raclette tables/);
+  assert.match(TRANSLATIONS.cs["shop.wood.t"], /rakletovací stoly/);
+  assert.match(TRANSLATIONS.en["shop.party.d"], /shop/);
   assert.match(TRANSLATIONS.cs["person.martin.role"], /IT specialista/);
   assert.match(TRANSLATIONS.sk["person.martin.role"], /IT špecialista/);
   assert.match(TRANSLATIONS.en["person.martin.role"], /IT specialist/);

@@ -76,7 +76,7 @@ Prohlížečová poloha slouží jen k výběru nejbližšího Pointu a k výpo�
 
 ## E-shop Raklet Party prodává sortiment, ne jen odkaz
 
-Sekce Kde nakoupit na hlavní stránce u karty E-shop Raklet Party vypisuje kategorie z rakletparty.cz: sýry, grily a příslušenství, grily TTM na míru, koření, sýrovou půjčovnu, švýcarská vína, fondue a Family WOOD. Nové rakletovací stoly jsou v úvodu karty i u Family WOOD, protože tam e-shop staví dřevo na míru (podstavec, kazeta, stojan, gravírování). Ceny ani rozměry stolů stránka neuvádí, katalog je zatím neukazuje. Strop překladů je proto `js/i18n.js` 78 kB a `js/i18n-extra.js` 156 kB. Přenosový limit 500 kB na vlastní soubor se nemění.
+Sekce Kde nakoupit drží sortiment e-shopu v jedné kartě E-shop Raklet Party: krátká věta, která zve podívat se na e-shop, a odrážky se sýry, grily, grily TTM na míru, kořením, půjčovnou, víny, fondue a Family WOOD včetně nových rakletovacích stolů. Bez cen a bez dlouhých popisů. Slovo nalákat na webu není.
 
 ## Pro partnery na ostrém webu
 
