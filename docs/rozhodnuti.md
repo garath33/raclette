@@ -74,6 +74,12 @@ První verze testu nechala mezi Kladnem a Jeseníkem starou polohu, protože pro
 
 Prohlížečová poloha slouží jen k výběru nejbližšího Pointu a k výpočtu vzdálenosti. Odkaz do Google Maps má jen cíl (`destination`), bez `origin` s jednorázovým odečtem. Jinak Maps startoval z nepřesného pinu (Wi-Fi / timeout) místo z místa, kde člověk sedí. Živý start necháme na Google Maps (`dir_action=navigate`). Po úspěšném odečtu je tlačítko „Navigovat k …“. Když GPS selže timeoutem, zkusí se ještě jeden odečet bez vysoké přesnosti.
 
+## Texty z letáku o raclette
+
+Leták „Co je raclette“ a „Raclette půjčovna na víkend“ je na webu rozdělený po sekcích, ne vložený jako jedna stránka. Definice, slovo racler, pastviny, podávání, fondue, oblasti výroby a čísla z mléka jsou v sekci Co je raclette. Víkendová půjčovna je odstavec u e-shopu, příležitosti (kolaudace, brunch, banket, promoce) jsou u eventů, partneři TTM, Raclette House a Provins jsou pod nákupem. Martin Kábrt a Eliška Reine přibyli do kontaktů s telefony z letáku.
+
+Překlepy se nepřenášejí: brunch, ne branch, kolaudace, ne koloudace, plnotučné, ne pinotučné, Savojsko, ne Savoyen jako jediný tvar v češtině. Věta „náš výrobní závod“ na webu není. Sýr vozíme z mlékárny Laiterie d’Orsières, závod nám nepatří. Roční spotřeba v letáku vychází 2 kg × 9 milionů jako 36 milionů kilogramů. Na webu je 18 milionů kilogramů, protože to z těch dvou čísel plyne. Pavlína zůstává Otýpková, +420 777 600 223 a info@rakletparty.cz. Leták má jiné číslo a jiný e-mail, oficiální kontakt firmy se kvůli tomu nemění. Milan zůstává český král a ambasador, ne švýcarský král.
+
 ## E-shop Raklet Party prodává sortiment, ne jen odkaz
 
 Sekce Kde nakoupit drží sortiment e-shopu v jedné kartě E-shop Raklet Party: krátká věta, která zve podívat se na e-shop, a odrážky se sýry, grily, grily TTM na míru, kořením, půjčovnou, víny, fondue a Family WOOD včetně nových rakletovacích stolů. Bez cen a bez dlouhých popisů. Slovo nalákat na webu není.

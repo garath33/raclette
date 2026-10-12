@@ -66,6 +66,13 @@ test("kontaktní stránka neuvádí Veroniku a uvádí Martina Šimůnka", () =>
   const html = fs.readFileSync("index.html", "utf8");
   assert.equal(/veronika/i.test(html), false);
   assert.match(html, /Martin Šimůnek/);
+  assert.match(html, /Eliška Reine/);
+  assert.match(html, /id="raclette"/);
+  assert.match(html, /tel:\+420777891177/);
+  assert.match(html, /tel:\+420602402935/);
+  assert.match(html, /tel:\+420777600223/);
+  assert.equal(/Ohýbková/.test(html), false);
+  assert.equal(/400237/.test(html), false);
   assert.match(html, /id="vyhody"/);
   assert.match(html, /id="pointy"/);
   assert.equal(/id="franchise"/.test(html), false);

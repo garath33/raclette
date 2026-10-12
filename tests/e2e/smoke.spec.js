@@ -10,7 +10,7 @@ test("stránka se načte, má sekce a testovací pruh", async ({ page }) => {
   await page.goto("/?lang=cs");
   await expect(page.locator("h1")).toContainText("Švýcarský raclette");
   await expect(page.locator("#env-banner")).toBeVisible();
-  for (const id of ["vyhody", "pointy", "reference", "pribeh", "nakup", "eventy", "kontakty"]) {
+  for (const id of ["vyhody", "pointy", "reference", "raclette", "pribeh", "nakup", "eventy", "kontakty"]) {
     await expect(page.locator("#" + id)).toHaveCount(1);
   }
   await expect(page.locator("#franchise")).toHaveCount(0);
@@ -25,6 +25,12 @@ test("stránka se načte, má sekce a testovací pruh", async ({ page }) => {
   await expect(page.locator(".supplier-cow")).toBeVisible();
   await expect(page.locator(".supplier-crest")).toBeVisible();
   await expect(page.getByRole("heading", { name: "Martin Šimůnek" })).toBeVisible();
+  await expect(page.locator("#raclette")).toContainText("racler");
+  await expect(page.locator("#nakup")).toContainText("raklerem");
+  await expect(page.locator("#eventy")).toContainText("kolaudace");
+  await expect(page.getByRole("heading", { name: "Eliška Reine" })).toBeVisible();
+  await expect(page.locator("#kontakty")).toContainText("+420 777 891 177");
+  await expect(page.locator("#kontakty")).toContainText("+420 777 600 223");
   await expect(page.locator("body")).not.toContainText(/veronika/i);
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute("href", /lang=cs/);
   expect(errors).toEqual([]);
