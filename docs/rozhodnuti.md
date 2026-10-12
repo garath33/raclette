@@ -74,6 +74,10 @@ První verze testu nechala mezi Kladnem a Jeseníkem starou polohu, protože pro
 
 Prohlížečová poloha slouží jen k výběru nejbližšího Pointu a k výpočtu vzdálenosti. Odkaz do Google Maps má jen cíl (`destination`), bez `origin` s jednorázovým odečtem. Jinak Maps startoval z nepřesného pinu (Wi-Fi / timeout) místo z místa, kde člověk sedí. Živý start necháme na Google Maps (`dir_action=navigate`). Po úspěšném odečtu je tlačítko „Navigovat k …“. Když GPS selže timeoutem, zkusí se ještě jeden odečet bez vysoké přesnosti.
 
+## E-shop Raklet Party prodává sortiment, ne jen odkaz
+
+Sekce Kde nakoupit drží sortiment e-shopu v jedné kartě E-shop Raklet Party: krátká věta, která zve podívat se na e-shop, a odrážky se sýry, grily, grily TTM na míru, kořením, půjčovnou, víny, fondue a Family WOOD včetně nových rakletovacích stolů. Bez cen a bez dlouhých popisů. Slovo nalákat na webu není.
+
 ## Pro partnery na ostrém webu
 
 Schválení „Hod na ostrý web“ posílá Pro partnery, telefon nad formulářem, vysvětlení AOP a znění mlékárny Laiterie d’Orsières na `raclettelovers.*` (bez zkušebního pruhu) a na GitHub Pages. Cloudflare Worker potřebuje v `wrangler.jsonc` prázdný blok `previews`, jinak build padá.

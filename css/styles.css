@@ -871,11 +871,36 @@ p { margin: 0; }
   color: var(--ink);
 }
 
+.shop-party { margin-bottom: 1rem; }
+.shop-points {
+  list-style: none;
+  margin: 0.15rem 0 0.35rem;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.4rem 1.6rem;
+}
+.shop-points li {
+  position: relative;
+  padding-left: 1.15rem;
+  color: #3c4144;
+}
+.shop-points li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.45em;
+  width: 0.45rem;
+  height: 0.45rem;
+  background: var(--gold-deep);
+  transform: rotate(45deg);
+}
 .shop-grid, .event-grid, .people {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1rem;
 }
+.shop-kindred { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .partner, .event, .person, .fact {
   background: white;
   border: 1px solid var(--line);
@@ -1054,6 +1079,7 @@ p { margin: 0; }
   .hero-grid, .points-layout, .media-grid, .story-grid, .shop-grid, .event-grid, .people, .facts, .footer-grid, .format-grid {
     grid-template-columns: 1fr;
   }
+  .shop-kindred { grid-template-columns: 1fr 1fr; }
   .map-frame { position: static; min-height: 0; }
   .map-frame iframe { height: 320px; }
   .shot-main { grid-row: auto; }
@@ -1080,6 +1106,7 @@ p { margin: 0; }
   .supplier-marks { justify-content: center; }
   .partner-form .form-grid { grid-template-columns: 1fr; }
   .partner-form { padding: 1.1rem; }
+  .shop-kindred, .shop-points { grid-template-columns: 1fr; }
 }
 
 @media (prefers-reduced-motion: reduce) {
