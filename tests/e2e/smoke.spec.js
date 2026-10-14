@@ -44,8 +44,9 @@ test("stránka se načte, má sekce a testovací pruh", async ({ page }) => {
   await expect(page.getByRole("heading", { name: "Martin Šimůnek" })).toBeVisible();
   await expect(page.locator("#raclette")).toContainText("racler");
   await expect(page.locator("#nakup")).toContainText("raklerem");
-  await expect(page.locator("#eventy")).toContainText("kolaudace");
+  await expect(page.locator("#eventy")).toContainText(/kolaudace/i);
   await expect(page.locator("#eventy")).toContainText("tisíci a více lidmi");
+  await expect(page.locator("#eventy .event-offer li")).toHaveCount(12);
   await expect(page.locator("#eventy .event-photo")).toHaveCount(6);
   await expect(page.locator("#eventy .event-grid")).toBeVisible();
   const whenBox = await page.locator("#eventy .events-when").boundingBox();
