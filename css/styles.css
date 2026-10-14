@@ -934,7 +934,7 @@ p { margin: 0; }
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1rem;
 }
-.shop-kindred { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.shop-kindred { grid-template-columns: 1fr; }
 .partner, .event, .person, .fact {
   background: white;
   border: 1px solid var(--line);
@@ -1120,7 +1120,6 @@ p { margin: 0; }
   }
   .benefit-grid.cols-3 { grid-template-columns: 1fr; }
   .stat-grid { grid-template-columns: 1fr 1fr; }
-  .shop-kindred { grid-template-columns: 1fr 1fr; }
   .shot-main { grid-row: auto; }
   .shot-main img, .stack .shot img { height: 240px; }
   .hero-visual { width: min(100%, 380px); margin-inline: auto; margin-top: 0.5rem; }
