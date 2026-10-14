@@ -9,7 +9,7 @@
 
   const PIN_SIDE = { krizovy: "above", spindl: "above", kabrt: "left" };
   const CITIES = [
-    { country: "cz", name: "Praha", lat: 50.0755, lng: 14.4378, side: "below" },
+    { country: "cz", name: "Praha", lat: 50.0755, lng: 14.4378, side: "right", dx: 9 },
     { country: "cz", name: "Brno", lat: 49.1951, lng: 16.6068, side: "below" },
     { country: "cz", name: "Ostrava", lat: 49.8209, lng: 18.2625, side: "right", dx: 22 },
     { country: "cz", name: "Opava", lat: 49.9384, lng: 17.9026, side: "below" },
@@ -69,7 +69,7 @@
       const anchor = city.side === "left" ? "end" : city.side === "right" ? "start" : "middle";
       const dx = city.dx != null ? city.dx : city.side === "left" ? -6 : city.side === "right" ? 6 : 0;
       const dy = city.side === "above" ? -7 : city.side === "below" ? 13 : 3;
-      const cls = "city" + (city.country === "ch" ? " city-ch" : "");
+      const cls = "city city-" + city.country + (city.country === "ch" ? " city-ch" : "");
       return '<g class="' + cls + '"><circle cx="' + pos.x.toFixed(1) + '" cy="' + pos.y.toFixed(1) + '" r="2.3"></circle><text x="' + (pos.x + dx).toFixed(1) + '" y="' + (pos.y + dy).toFixed(1) + '" text-anchor="' + anchor + '">' + esc(city.name) + "</text></g>";
     }).join("");
     const pins = state.points.map((point) => {
@@ -87,12 +87,17 @@
         '<g aria-hidden="true">' + labels + "</g></svg>" + pins;
     flags.setAttribute("role", "group");
     flags.setAttribute("aria-label", t("map.flags"));
+    const wheel = stage.parentElement;
+    if (wheel && wheel.classList.contains("cheese")) {
+      wheel.classList.toggle("is-cz", country === "cz");
+      wheel.classList.toggle("is-ch", country === "ch");
+    }
     flags.innerHTML = state.order.map((id) => {
       const name = t("map.country." + id);
       const count = state.count(id);
       const on = id === country;
       return '<button type="button" class="flag-btn' + (on ? " is-on" : "") + '" data-country="' + id + '" aria-pressed="' + (on ? "true" : "false") + '" aria-label="' + esc(t("map.flag", { name, count: String(count) })) + '">' +
-        FLAGS[id] + '<span class="flag-name">' + esc(name) + '</span><span class="flag-count">' + count + "</span></button>";
+        '<span class="flag-cloth">' + FLAGS[id] + '</span><span class="flag-name">' + esc(name) + '</span><span class="flag-count">' + count + "</span></button>";
     }).join("");
   }
 
