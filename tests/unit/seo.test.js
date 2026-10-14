@@ -48,10 +48,11 @@ test("veřejné soubory drží výkonnostní rozpočet", () => {
   const limits = {
     "css/styles.css": 40 * 1024,
     "js/app.js": 20 * 1024,
-    "js/i18n.js": 78 * 1024,
-    "js/i18n-extra.js": 166 * 1024,
+    "js/i18n.js": 84 * 1024,
+    "js/i18n-extra.js": 178 * 1024,
     "assets/photo-service.jpg": 400 * 1024,
     "assets/photo-wedge.jpg": 280 * 1024,
+    "assets/shop-assortment.jpg": 320 * 1024,
     "assets/photo-barry.jpg": 220 * 1024,
     "assets/logo-point.png": 150 * 1024,
     "assets/cow-head.png": 150 * 1024

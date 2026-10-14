@@ -45,7 +45,13 @@ test("veřejný text nezmiňuje vyřazenou osobu a IT role existuje", () => {
   assert.match(TRANSLATIONS.cs["franchise.approach"], /statisícové ani milionové vstupní poplatky/);
   assert.match(TRANSLATIONS.cs["franchise.a3d"], /Měsíční partnerský poplatek/);
   assert.match(TRANSLATIONS.cs["franchise.s4d"], /Eddy Baillifard/);
-  assert.match(TRANSLATIONS.cs["form.lead"], /milan@raclette-original\.com/);
+  assert.match(TRANSLATIONS.cs["form.lead"], /Ozveme se vám/);
+  for (const lang of Object.keys(TRANSLATIONS)) {
+    const blob = Object.values(TRANSLATIONS[lang]).join("\n");
+    assert.equal(/raclette-original\.com/i.test(blob), false, lang);
+  }
+  const pages = fs.readFileSync("index.html", "utf8") + fs.readFileSync("pro-partnery.html", "utf8");
+  assert.equal(/raclette-original\.com/i.test(pages), false);
   assert.match(TRANSLATIONS.cs["form.invite"], /formulář|zavolejte/);
   assert.match(TRANSLATIONS.cs["nav.franchise"], /Pro partnery/);
   assert.match(TRANSLATIONS.cs["aop.title"], /AOP/);
@@ -78,6 +84,15 @@ test("veřejný text nezmiňuje vyřazenou osobu a IT role existuje", () => {
   assert.match(TRANSLATIONS.cs["raclette.stat4d"], /18 milionů/);
   assert.equal(/36 milion/.test(Object.values(TRANSLATIONS.cs).join("\n")), false);
   assert.match(TRANSLATIONS.cs["shop.rent.d"], /rakler/);
+  assert.equal(TRANSLATIONS.cs["events.title"], "Kde se už na švýcarský Raklet stála fronta");
+  assert.match(TRANSLATIONS.cs["hero.lead"], /autentický a originální švýcarský raclette/);
+  assert.match(TRANSLATIONS.cs["hero.lead"], /sýry nejvyšší a originální kvality/);
+  assert.match(TRANSLATIONS.cs["hero.lead"], /původních švýcarských receptur/);
+  assert.match(TRANSLATIONS.cs["pitch.lead"], /původních švýcarských receptur/);
+  assert.match(TRANSLATIONS.cs["franchise.lead"], /autentický a originální švýcarský raclette/);
+  assert.match(TRANSLATIONS.cs["franchise.g2d"], /původních švýcarských receptur/);
+  assert.match(TRANSLATIONS.sk["events.title"], /švajčiarsky Raklet/);
+  assert.match(TRANSLATIONS.en["events.title"], /Swiss Raklet/);
   assert.match(TRANSLATIONS.cs["events.when"], /brunch/);
   assert.match(TRANSLATIONS.cs["events.when"], /kolaudace/);
   assert.match(TRANSLATIONS.cs["shop.partners"], /Raclette House/);
