@@ -82,23 +82,29 @@
             '<stop offset="72%" stop-color="#ef8422"/>' +
             '<stop offset="100%" stop-color="#c25812"/>' +
           "</radialGradient>" +
-          '<linearGradient id="fade-left" x1="0" y1="0" x2="88" y2="0" gradientUnits="userSpaceOnUse">' +
+          '<linearGradient id="fade-left" x1="0" y1="0" x2="80" y2="0" gradientUnits="userSpaceOnUse">' +
             '<stop offset="0" stop-color="#000"/>' +
-            '<stop offset="0.4" stop-color="#000"/>' +
+            '<stop offset="0.15" stop-color="#000"/>' +
             '<stop offset="1" stop-color="#fff"/>' +
           "</linearGradient>" +
-          '<linearGradient id="fade-bottom" x1="0" y1="698" x2="0" y2="720" gradientUnits="userSpaceOnUse">' +
+          '<linearGradient id="fade-top" x1="0" y1="0" x2="0" y2="36" gradientUnits="userSpaceOnUse">' +
+            '<stop offset="0" stop-color="#000"/>' +
+            '<stop offset="0.2" stop-color="#000"/>' +
+            '<stop offset="1" stop-color="#fff"/>' +
+          "</linearGradient>" +
+          '<linearGradient id="fade-bottom" x1="0" y1="680" x2="0" y2="720" gradientUnits="userSpaceOnUse">' +
             '<stop offset="0" stop-color="#fff"/>' +
+            '<stop offset="0.85" stop-color="#000"/>' +
             '<stop offset="1" stop-color="#000"/>' +
           "</linearGradient>" +
           '<mask id="map-fade" maskUnits="userSpaceOnUse">' +
             '<rect width="1040" height="720" fill="#fff"/>' +
-            '<rect width="88" height="720" fill="url(#fade-left)"/>' +
-            '<rect y="698" width="1040" height="22" fill="url(#fade-bottom)"/>' +
+            '<rect width="80" height="720" fill="url(#fade-left)"/>' +
+            '<rect width="1040" height="36" fill="url(#fade-top)"/>' +
+            '<rect y="680" width="1040" height="40" fill="url(#fade-bottom)"/>' +
           "</mask>" +
         "</defs>" +
-          '<rect x="0" y="0" width="1040" height="720" fill="#f4ddb4" mask="url(#map-fade)"/>' +
-          '<g class="lands" mask="url(#map-fade)">' + lands + "</g>" +
+        '<g class="lands" mask="url(#map-fade)">' + lands + "</g>" +
         '<g class="cities" aria-hidden="true">' + cities + "</g>" +
         '<g aria-hidden="true">' + labels + "</g></svg>" + pins;
     flags.setAttribute("role", "group");

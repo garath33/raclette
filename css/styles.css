@@ -329,8 +329,7 @@ p { margin: 0; }
   overflow: hidden;
   clip-path: url(#wheel-clip);
   background:
-    radial-gradient(ellipse 46% 70% at 32% 18%, rgba(255, 252, 244, 0.7), rgba(255, 252, 244, 0) 46%),
-    radial-gradient(ellipse 50% 75.8% at 50% 24.2%, #fff6d8 0%, #f7e3b0 62%, #f0d08a 84%, #e2ac58 91%, #c47a32 96%, #8d4e18 100%);
+    radial-gradient(ellipse 50% 75.8% at 50% 24.2%, #f5e2b8 0%, #f4ddb4 66%, #edd092 84%, #e2ac58 91%, #c47a32 96%, #8d4e18 100%);
 }
 .cheese::after {
   content: "";
@@ -358,27 +357,27 @@ p { margin: 0; }
 }
 .network-stage {
   position: absolute;
-  width: 138%;
-  left: -28%;
-  top: -18.5%;
+  width: 106%;
+  left: -10%;
+  top: -4.5%;
   background: transparent;
   transition: width 0.55s cubic-bezier(0.22, 1, 0.36, 1), left 0.55s cubic-bezier(0.22, 1, 0.36, 1), top 0.55s cubic-bezier(0.22, 1, 0.36, 1);
 }
 .network-stage.is-country-ch {
-  width: 155%;
-  left: 26%;
-  top: -88%;
+  width: 142%;
+  left: 25.5%;
+  top: -74%;
 }
 .cheese .pin { z-index: 5; }
 .network-stage svg { display: block; width: 100%; height: auto; }
 .land {
-  fill: #f4ddb4;
+  fill: transparent;
   stroke: #d2b07a;
   stroke-width: 1.2;
   stroke-linejoin: round;
   transition: fill 0.35s ease, opacity 0.35s ease, stroke-width 0.35s ease;
 }
-.land.is-button { fill: #f6d7a0; cursor: pointer; }
+.land.is-button { fill: transparent; cursor: pointer; }
 .land.is-on {
   fill: url(#cheese-melt);
   stroke: #8a3e12;
