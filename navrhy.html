@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Návrhy vzhledu — Raclette Point Original</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Dancing+Script:wght@600;700&family=Great+Vibes&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #1a1c1d;
+      --muted: #4c5358;
+      --yellow: #fece52;
+      --orange: #f5811f;
+      --coral: #f38479;
+      --red: #cd143e;
+      --pink: #f38193;
+      --magenta: #c3346a;
+      --purple: #642a7d;
+      --lime: #bdd970;
+      --green: #00a85c;
+      --forest: #027935;
+      --sky: #56b7e8;
+      --blue: #007dc5;
+      --teal: #00a5b9;
+      --deep: #00657d;
+      --gold-deep: #8a6420;
+      --serif: "Cormorant Garamond", Palatino, "Palatino Linotype", serif;
+      --sans: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+      --script: "Dancing Script", cursive;
+      --vibes: "Great Vibes", cursive;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: #f3f0e8;
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.6;
+    }
+    img { max-width: 100%; display: block; }
+    button, a { font-family: inherit; }
+    h1, h2, h3 { font-family: var(--serif); font-weight: 500; letter-spacing: -0.02em; line-height: 1.05; margin: 0; }
+    p { margin: 0; }
+    .sr {
+      position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+      overflow: hidden; clip: rect(0, 0, 0, 0); border: 0;
+    }
+
+    .chooser {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: #f7f4ee;
+      border-bottom: 1px solid #e3ddd2;
+      padding: 0.9rem 1.1rem 0.85rem;
+    }
+    .chooser-brand { display: flex; gap: 0.8rem; align-items: center; }
+    .chooser-brand img { width: 46px; height: auto; }
+    .chooser-kicker {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #7a7368;
+    }
+    .chooser-title {
+      font-family: var(--serif);
+      font-size: clamp(1.45rem, 2vw, 1.9rem);
+      line-height: 1.05;
+      margin-top: 0.1rem;
+    }
+    .chooser-help {
+      margin: 0.55rem 0 0.7rem;
+      max-width: 48rem;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+    .picks { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.55rem; }
+    .picks button {
+      text-align: left;
+      background: #fff;
+      border: 1px solid #e4dfd6;
+      border-top: 4px solid #ddd6cb;
+      padding: 0.65rem 0.75rem 0.7rem;
+      cursor: pointer;
+      color: var(--ink);
+    }
+    .picks button strong {
+      display: block;
+      font-family: var(--serif);
+      font-size: 1.45rem;
+      font-weight: 500;
+      letter-spacing: -0.02em;
+    }
+    .picks button span { display: block; margin-top: 0.15rem; color: var(--muted); font-size: 0.8rem; line-height: 1.35; }
+    .picks button.is-on { background: #fff; }
+    .picks button[data-sheet="a"].is-on { border-top-color: var(--orange); }
+    .picks button[data-sheet="b"].is-on { border-top-color: var(--ink); }
+    .picks button[data-sheet="c"].is-on { border-top-color: var(--blue); }
+    .chooser-note {
+      margin: 0.65rem 0 0;
+      min-height: 2.6em;
+      max-width: 52rem;
+      font-size: 0.95rem;
+    }
+    .palette { display: flex; flex-wrap: wrap; gap: 0.35rem; margin: 0.55rem 0 0; padding: 0; list-style: none; }
+    .palette i { width: 9px; height: 9px; display: block; transform: rotate(45deg); background: var(--c); }
+
+    .sheet { background: #fff; }
+    .sheet[hidden] { display: none !important; }
+    .inner { width: min(1080px, calc(100% - 2.75rem)); margin-inline: auto; }
+    .script {
+      font-family: var(--script);
+      font-size: 2.15rem;
+      font-weight: 600;
+      line-height: 1;
+      margin: 0 0 0.15rem;
+      color: var(--ink);
+    }
+    .kicker {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #8a847a;
+      margin-bottom: 0.35rem;
+    }
+    .lead { margin-top: 0.9rem; max-width: 38rem; color: #33383b; font-size: 1.02rem; }
+    .block { padding: 3.2rem 0; background: var(--wash, #fff); }
+    .block h2 { font-size: clamp(2.15rem, 4vw, 3.35rem); max-width: 16ch; }
+    .rule { border-top: 3px solid var(--rule, transparent); }
+
+    .mock-head {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      min-height: 74px;
+      padding: 0.4rem 1.2rem;
+      background: rgba(255, 255, 255, 0.92);
+    }
+    .mock-head img { width: 52px; height: 52px; }
+    .mock-nav { display: flex; flex-wrap: wrap; gap: 0.75rem 1rem; margin-left: auto; }
+    .mock-nav span {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #5e6366;
+    }
+
+    .hero-copy { padding: 2.6rem 0 2.2rem; }
+    .hero-copy h1 { font-size: clamp(3rem, 5.6vw, 4.8rem); }
+    .hero-copy h1 em { display: block; font-style: italic; font-weight: 500; color: var(--gold-deep); }
+    .actions { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 1.3rem; }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 46px;
+      padding: 0.65rem 1.05rem;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+    }
+    .btn-solid { background: var(--ink); color: #fff; }
+    .btn-line { border-color: var(--ink); color: var(--ink); background: transparent; }
+
+    .ridge-img { width: 100%; height: 108px; object-fit: fill; display: block; }
+    .ridge-img.slim { height: 72px; }
+    .ridge-img.big { height: 148px; }
+
+    .facet { display: grid; grid-template-columns: 1fr 1fr; gap: 1.45rem 2.4rem; margin-top: 1.35rem; padding-left: 0.35rem; }
+    .facet article { position: relative; padding: 0.1rem 0 0.15rem 1.45rem; }
+    .facet article::before {
+      content: "";
+      position: absolute;
+      left: 0; top: 0.15rem; bottom: 0.15rem;
+      width: 3px;
+      background: var(--tone);
+    }
+    .facet article::after {
+      content: "";
+      position: absolute;
+      left: -4.5px;
+      top: 0.05rem;
+      width: 12px;
+      height: 12px;
+      background: var(--tone);
+      transform: rotate(45deg);
+      box-shadow: 0 0 0 4px var(--wash, #fff);
+    }
+    .facet h3 { font-size: 1.65rem; margin: 0 0 0.28rem; }
+    .facet p { color: var(--muted); font-size: 0.95rem; }
+
+    .menu-label {
+      margin-top: 1rem;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #8b9194;
+    }
+    .place { margin-top: 0.35rem; font-weight: 600; }
+    .gems { list-style: none; margin: 0.85rem 0 0; padding: 0; display: grid; gap: 0.72rem; max-width: 38rem; }
+    .gems li { display: flex; gap: 0.7rem; align-items: flex-start; font-size: 1.02rem; }
+    .gems i { width: 11px; height: 11px; margin-top: 0.42em; transform: rotate(45deg); flex: 0 0 auto; }
+    .gems li:nth-child(4n+1) i { background: var(--yellow); }
+    .gems li:nth-child(4n+2) i { background: var(--orange); }
+    .gems li:nth-child(4n+3) i { background: var(--green); }
+    .gems li:nth-child(4n+4) i { background: var(--blue); }
+
+    .bands { margin-top: 0.4rem; }
+    .bands article {
+      display: grid;
+      grid-template-columns: 1.5rem minmax(0, 1fr);
+      column-gap: 0.75rem;
+      row-gap: 0.15rem;
+      padding: 0.95rem 0;
+      border-top: 1px solid var(--line, rgba(0, 101, 125, 0.2));
+    }
+    .bands article:last-child { border-bottom: 1px solid var(--line, rgba(0, 101, 125, 0.2)); }
+    .bands i {
+      width: 12px; height: 12px; margin-top: 0.4rem;
+      background: var(--tone); transform: rotate(45deg);
+    }
+    .bands h3, .bands p { grid-column: 2; }
+    .bands h3 { font-size: 1.55rem; }
+    .bands p { color: var(--muted); max-width: 44rem; }
+
+    .story-grid { display: grid; grid-template-columns: minmax(0, 0.86fr) minmax(0, 1.14fr); gap: 1.6rem; align-items: start; }
+    .food { margin: 0; }
+    .food img { width: 100%; height: 320px; object-fit: cover; }
+    .food figcaption { margin-top: 0.55rem; color: var(--muted); font-size: 0.88rem; }
+    .quote {
+      margin: 0.35rem 0 1rem;
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: clamp(1.55rem, 2.4vw, 2rem);
+      line-height: 1.2;
+    }
+    .quote footer { margin-top: 0.55rem; font-family: var(--sans); font-style: normal; font-size: 0.88rem; color: var(--muted); }
+    .prose { margin-top: 0.7rem; color: #33383b; max-width: 40rem; }
+    .prose + .prose { margin-top: 0.7rem; }
+
+    .stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1rem; margin-top: 0.4rem; }
+    .stats article { padding-top: 0.2rem; }
+    .tri {
+      width: 0; height: 0; display: block; margin-bottom: 0.45rem;
+      border-left: 8px solid transparent;
+      border-right: 8px solid transparent;
+      border-bottom: 13px solid var(--tone);
+    }
+    .stats strong {
+      display: block;
+      font-family: var(--serif);
+      font-size: 1.8rem;
+      font-weight: 500;
+      line-height: 1;
+      margin-bottom: 0.35rem;
+    }
+    .stats p { color: var(--muted); font-size: 0.9rem; }
+
+    .closing-row {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1.3rem 0 0.9rem;
+    }
+    .closing-row .point { width: 64px; height: 64px; }
+    .closing-row .cow { width: 52px; height: auto; }
+    .closing-row p { color: var(--muted); font-size: 0.9rem; max-width: 28rem; }
+
+    /* A — Lístek */
+    .sheet-a { background: #fff; }
+    .sheet-a .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(280px, 0.85fr);
+      min-height: 620px;
+    }
+    .sheet-a .hero-copy { padding: 3.2rem 6vw 2.4rem; }
+    .panel {
+      position: relative;
+      min-height: 620px;
+      background: #fff;
+      overflow: hidden;
+    }
+    .panel .mesh { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    .panel-content {
+      position: relative;
+      z-index: 1;
+      min-height: 620px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2.2rem 1.4rem 6.2rem;
+      gap: 0.35rem;
+    }
+    .panel .crest { width: min(250px, 78%); height: auto; }
+    .panel .word {
+      font-family: var(--vibes);
+      font-size: clamp(5.4rem, 8vw, 7.6rem);
+      line-height: 0.8;
+      font-weight: 400;
+      color: #1c1c1c;
+      margin: 0.2rem 0 0;
+    }
+    .stamp {
+      position: absolute;
+      right: 7%;
+      bottom: 8%;
+      z-index: 2;
+      width: 128px;
+      height: 128px;
+      border-radius: 50%;
+      background: #2c2e31;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      transform: rotate(-8deg);
+      gap: 0.05rem;
+    }
+    .stamp span {
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+    .stamp strong {
+      font-family: var(--script);
+      font-size: 1.55rem;
+      font-weight: 700;
+      letter-spacing: 0;
+      text-transform: none;
+      line-height: 1;
+    }
+    .sheet-a .pitch { --wash: #fff1df; --rule: var(--orange); }
+    .sheet-a .menu-block { --wash: #fff; --rule: var(--blue); }
+    .sheet-a .heart { --wash: #fde8ef; --rule: var(--magenta); }
+    .sheet-a .gain { --wash: #e5f3fb; --rule: var(--teal); --line: rgba(0, 125, 197, 0.22); }
+    .sheet-a .story { --wash: #f4eef8; --rule: var(--purple); }
+    .sheet-a .facts { --wash: #eaf6ee; --rule: var(--green); }
+
+    /* B — Dlaždice */
+    .sheet-b { background: #fff; position: relative; }
+    .sheet-b::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background: #fff url("navrhy/mesh.svg") center / cover no-repeat;
+    }
+    .sheet-b > * { position: relative; z-index: 1; }
+    .sheet-b .mock-head,
+    .sheet-b .hero,
+    .sheet-b .block,
+    .sheet-b .closing-row {
+      width: min(1080px, calc(100% - 2rem));
+      margin-left: auto;
+      margin-right: auto;
+      background: #fff;
+      border: 1px solid rgba(26, 28, 29, 0.16);
+    }
+    .sheet-b .mock-head { margin-top: 1.1rem; }
+    .sheet-b .hero { margin-top: 0.7rem; }
+    .sheet-b .block { margin-top: 0.7rem; padding: 2.4rem 0; }
+    .sheet-b .hero-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(240px, 0.8fr);
+      gap: 1.5rem;
+      align-items: center;
+      padding-bottom: 0.4rem;
+    }
+    .portrait-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.6rem 1.2rem;
+    }
+    .portrait {
+      width: min(100%, 300px);
+      height: auto;
+      aspect-ratio: 1 / 1;
+      flex: 0 0 auto;
+      border-radius: 50%;
+      object-fit: cover;
+      box-shadow: 0 0 0 6px rgba(0, 0, 0, 0.55);
+    }
+    .sheet-b .pitch { --wash: #fff6ea; --rule: var(--orange); background: var(--wash); }
+    .sheet-b .menu-block { --wash: #fff; --rule: var(--yellow); background: #fff; }
+    .sheet-b .heart { --wash: #fff0e4; --rule: var(--magenta); background: var(--wash); }
+    .sheet-b .gain { --wash: #e7f4fb; --rule: var(--teal); --line: rgba(0, 125, 197, 0.22); background: var(--wash); }
+    .sheet-b .story { --wash: #fdeff3; --rule: var(--pink); background: var(--wash); }
+    .sheet-b .facts { --wash: #eef8f1; --rule: var(--green); background: var(--wash); }
+    .sheet-b .closing { margin-top: 0.7rem; }
+    .sheet-b .closing-row { border-bottom: 0; }
+    .sheet-b .ridge-img { margin-top: 0.7rem; }
+
+    /* C — Údolí */
+    .sheet-c { background: #f6f3ec; }
+    .c-banner {
+      background-color: #f6f3ec;
+      background-image:
+        linear-gradient(to bottom, rgba(246, 243, 236, 0) 0, rgba(246, 243, 236, 0.15) 52px, #f6f3ec 128px),
+        url("navrhy/mesh.svg");
+      background-repeat: no-repeat;
+      background-size: auto, 1100px auto;
+      background-position: center, center top;
+    }
+    .sheet-c .hero-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(240px, 0.75fr);
+      gap: 1rem;
+      align-items: center;
+    }
+    .sheet-c .hero-copy { padding-top: 2.2rem; }
+    .sheet-c .pitch { --wash: #ffe8cc; --rule: var(--orange); }
+    .sheet-c .menu-block { --wash: #e3f2fb; --rule: var(--blue); }
+    .sheet-c .heart { --wash: #fde3ea; --rule: var(--magenta); }
+    .sheet-c .gain { --wash: #e5f6ec; --rule: var(--green); --line: rgba(0, 168, 92, 0.22); }
+    .sheet-c .story { --wash: #f3eaf8; --rule: var(--purple); }
+    .sheet-c .facts { --wash: #fff4df; --rule: var(--yellow); }
+    .sheet-c .block { border-top: 0; }
+    .sheet-c .mock-foot p { color: #3c4144; }
+
+    @media (max-width: 860px) {
+      .picks { grid-template-columns: 1fr; }
+      .chooser { position: static; }
+      .sheet-a .hero,
+      .sheet-b .hero-layout,
+      .sheet-c .hero-layout,
+      .facet,
+      .story-grid,
+      .stats { grid-template-columns: 1fr; }
+      .sheet-a .hero-copy { padding: 2rem 1.1rem 1.6rem; }
+      .panel, .panel-content { min-height: 420px; }
+      .stamp { position: static; margin: 0.4rem auto 0; transform: rotate(-6deg); }
+      .panel-content { padding-bottom: 1.6rem; }
+      .portrait-wrap { padding: 0 0 1.4rem; }
+      .mock-nav span:nth-child(n+4) { display: none; }
+      .stats { grid-template-columns: 1fr 1fr; }
+      .food img { height: 220px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="chooser">
+    <div class="chooser-brand">
+      <img src="assets/cow-head.png" width="480" height="584" alt="">
+      <div>
+        <p class="chooser-kicker">Návrh vzhledu · ostrý web se zatím nemění</p>
+        <p class="chooser-title">Tři cesty z menu Laiterie d’Orsières</p>
+      </div>
+    </div>
+    <p class="chooser-help">Stejné barvy jako na hlavě krávy a na horském hřebeni menu. Stejné barevné kosočtverce u bodů. Každá sekce má vlastní odstín, pořád z jedné sady. Napište A, B nebo C — jde vzít i pozadí z jednoho návrhu a odstavce z druhého.</p>
+    <div class="picks" role="tablist" aria-label="Návrhy vzhledu">
+      <button type="button" role="tab" id="tab-a" data-sheet="a" aria-controls="sheet-a" aria-selected="true" class="is-on">
+        <strong>A · Lístek</strong>
+        <span>Síť v panelu jako na menu, hory dole, odstavce v jemném odstínu.</span>
+      </button>
+      <button type="button" role="tab" id="tab-b" data-sheet="b" aria-controls="sheet-b" aria-selected="false">
+        <strong>B · Dlaždice</strong>
+        <span>Nepravidelná síť je pozadí celé stránky. Text leží na barevných listech.</span>
+      </button>
+      <button type="button" role="tab" id="tab-c" data-sheet="c" aria-controls="sheet-c" aria-selected="false">
+        <strong>C · Údolí</strong>
+        <span>Sekce jsou barevná údolí a mezi nimi vyrůstá horský hřeben.</span>
+      </button>
+    </div>
+    <p class="chooser-note" id="chooser-note"></p>
+    <ul class="palette" aria-label="Barvy mlékárny">
+      <li><i style="--c:#fece52"></i></li>
+      <li><i style="--c:#f5811f"></i></li>
+      <li><i style="--c:#f38479"></i></li>
+      <li><i style="--c:#cd143e"></i></li>
+      <li><i style="--c:#f38193"></i></li>
+      <li><i style="--c:#c3346a"></i></li>
+      <li><i style="--c:#642a7d"></i></li>
+      <li><i style="--c:#bdd970"></i></li>
+      <li><i style="--c:#00a85c"></i></li>
+      <li><i style="--c:#027935"></i></li>
+      <li><i style="--c:#56b7e8"></i></li>
+      <li><i style="--c:#007dc5"></i></li>
+      <li><i style="--c:#00a5b9"></i></li>
+      <li><i style="--c:#00657d"></i></li>
+    </ul>
+  </header>
+
+  <article class="sheet sheet-a" id="sheet-a">
+    <header class="mock-head">
+      <img src="assets/logo-point.png" alt="Raclette Point Original" width="701" height="701">
+      <nav class="mock-nav" aria-label="Ukázka navigace">
+        <span>Pointy</span><span>Pro partnery</span><span>O raclette</span><span>O nás</span><span>Kontakt</span>
+      </nav>
+    </header>
+    <div class="hero">
+      <div class="hero-copy">
+        <p class="kicker">Raclette Point Original</p>
+        <h1>Švýcarský raclette <em>na dosah.</em></h1>
+        <p class="lead">Síť míst, kde se škrábe Swiss AOP sýr z mlékárny Laiterie d’Orsières v kantonu Valais. Podle polohy vás navedeme k nejbližšímu Pointu.</p>
+        <div class="actions">
+          <span class="btn btn-solid">Najít nejbližší Point</span>
+          <span class="btn btn-line">Chci se stát raclette pointem</span>
+        </div>
+      </div>
+      <aside class="panel" aria-label="Grafický panel podle menu">
+        <img class="mesh" src="navrhy/mesh.svg" alt="">
+        <div class="panel-content">
+          <img class="crest" src="assets/laiterie-logo.png" alt="La Laiterie d’Orsières, au cœur du pays des reines">
+          <p class="word">Menu</p>
+        </div>
+        <div class="stamp" aria-hidden="true"><span>Objevte</span><strong>Swiss AOP</strong><span>z Valais</span></div>
+      </aside>
+    </div>
+    <img class="ridge-img slim" src="navrhy/ridge-slim.svg" alt="">
+
+    <section id="a-pitch" class="block pitch rule">
+      <div class="inner">
+        <p class="script">Spolupráce</p>
+        <h2>Proč s námi spolupracovat</h2>
+        <div class="facet">
+          <article style="--tone:#c3346a">
+            <h3>Sýrová show, která přitahuje lidi</h3>
+            <p>Vůně taveného AOP sýra, jiný styl grilování a atmosféra Švýcarska. Zážitek, kvůli kterému se hosté vracejí.</p>
+          </article>
+          <article style="--tone:#f5811f">
+            <h3>Bez kvalifikovaného kuchaře</h3>
+            <p>Díky nerezovým troubám a grilům TTM zvládne servis zaškolený člen obsluhy nebo baru.</p>
+          </article>
+          <article style="--tone:#00a85c">
+            <h3>Marže, která dává smysl</h3>
+            <p>Švýcarské sýrové speciality mají vysokou vnímanou hodnotu. Po zaškolení servírujete menu na míru provozovně.</p>
+          </article>
+          <article style="--tone:#007dc5">
+            <h3>Rychlý start</h3>
+            <p>Kuchyň se nepřestavuje. Všechno připravíme na míru k provozu, který už máte.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="a-menu" class="block menu-block rule">
+      <div class="inner">
+        <p class="script">Nabídka</p>
+        <p class="kicker">Jeseníky</p>
+        <h2>Křížový vrch</h2>
+        <p class="place">Za Pilou 6, 790 01 Jeseník</p>
+        <p class="menu-label">Raclette menu</p>
+        <ul class="gems">
+          <li><i></i><span>Klasické raclette, pečené brambory ve slupce, okurka</span></li>
+          <li><i></i><span>Raclette se steakovými hranolky</span></li>
+          <li><i></i><span>Raclette s grilovanou vepřovou panenkou</span></li>
+          <li><i></i><span>Raclette panini, verze s masem i vegetariánská</span></li>
+        </ul>
+        <div class="actions">
+          <span class="btn btn-line">Web podniku</span>
+          <span class="btn btn-solid">Trasa v Google Maps</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="a-heart" class="block heart rule">
+      <div class="inner">
+        <p class="script">Srdce</p>
+        <h2>Partnerství a srdce</h2>
+        <p class="lead">Nejsme klasická síťová franšíza. Neplatíte statisícové ani milionové vstupní poplatky za licenci.</p>
+        <div class="facet">
+          <article style="--tone:#c3346a">
+            <h3>Důvěra na dlouho</h3>
+            <p>Hledáme partnery, kteří dělají svou práci s láskou, srdcem a profesionálně.</p>
+          </article>
+          <article style="--tone:#f5811f">
+            <h3>Dostupný vstup</h3>
+            <p>Platíte za skutečné vybavení a příslušenství na míru, za zaškolení a za startovací branding.</p>
+          </article>
+          <article style="--tone:#8a6420">
+            <h3>Fér měsíční poplatek</h3>
+            <p>Měsíční partnerský poplatek se domlouvá individuálně, podle velikosti Pointu, typu provozovny a lokality.</p>
+          </article>
+          <article style="--tone:#642a7d">
+            <h3>Osobní přístup</h3>
+            <p>Jste partner, se kterým rozvíjíme švýcarskou gastro kulturu. Ne číslo v tabulce.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="a-gain" class="block gain rule">
+      <div class="inner">
+        <p class="script">Zázemí</p>
+        <h2>Co od nás získáte</h2>
+        <p class="lead">Když se stanete součástí rodiny Raclette Point Original, máte kompletní zázemí a know-how.</p>
+        <div class="bands">
+          <article style="--tone:#007dc5">
+            <i></i>
+            <h3>Technologie a vybavení</h3>
+            <p>Celonerezová raclette trouba na 8 až 16 porcí, nebo originální švýcarský gril TTM. K tomu náčiní, desky, stoly a branding.</p>
+          </article>
+          <article style="--tone:#00a5b9">
+            <i></i>
+            <h3>Sýry přímo od zdroje</h3>
+            <p>Pravidelné dodávky originálních Swiss AOP sýrů a certifikovaných fondue směsí za velkoobchodní ceny.</p>
+          </article>
+          <article style="--tone:#00a85c">
+            <i></i>
+            <h3>Akademie za jeden den</h3>
+            <p>Personál zaškolíme během jediného dne a předáme certifikaci Raclette Master.</p>
+          </article>
+          <article style="--tone:#00657d">
+            <i></i>
+            <h3>Marketing a mapa</h3>
+            <p>Point zařadíme na oficiální mapu. Web ukáže lokalitu, raclette menu a informace o místě.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="a-story" class="block story rule">
+      <div class="inner story-grid">
+        <figure class="food">
+          <img src="assets/photo-service.jpg" width="1200" height="1200" alt="Půlka raclette sýra na grilu, vedle pečené brambory a okurky">
+          <figcaption>Servis na akci. Rozteklý sýr se škrábe přímo z bochníku.</figcaption>
+        </figure>
+        <div>
+          <p class="script">Příběh</p>
+          <blockquote class="quote">Milan rakluje s takovou elegancí, ladností a láskou, jako hrál Roger Federer tenis.<footer>Hervé Fumeaux, bývalý předseda Švýcarské raclette federace</footer></blockquote>
+          <h2>Jak vzniká kvalita</h2>
+          <p class="prose">Nejdůležitější surovinou je kravské mléko. Křišťálově čistá voda z alpských ledovců spolu s horskými květinami a bylinami se propíše do chuti sýra.</p>
+          <p class="prose">Kulaté bochníky jsou z nepasterizovaného horského mléka a zrají nejméně tři měsíce. My distribuujeme Swiss AOP z mlékárny Laiterie d’Orsières v kantonu Valais.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="a-facts" class="block facts rule">
+      <div class="inner">
+        <p class="script">Čísla</p>
+        <h2>Z mléka bochník</h2>
+        <div class="stats">
+          <article><i class="tri" style="--tone:#fece52"></i><strong>70 litrů</strong><p>Přibližně tolik kravského mléka je potřeba na jeden bochník raclette.</p></article>
+          <article><i class="tri" style="--tone:#f5811f"></i><strong>3 měsíce</strong><p>Minimální zrání kulatého bochníku z nepasterizovaného horského mléka.</p></article>
+          <article><i class="tri" style="--tone:#00a85c"></i><strong>25 litrů</strong><p>Na ně padne asi 100 kg potravy a 85 litrů vody.</p></article>
+          <article><i class="tri" style="--tone:#007dc5"></i><strong>Přes 2 kg</strong><p>V průměru více než dvě kila raclette na obyvatele Švýcarska za rok.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <footer class="mock-foot">
+      <div class="inner closing-row">
+        <img class="point" src="assets/logo-point.png" alt="">
+        <img class="cow" src="assets/cow-head.png" alt="">
+        <p>Raclette Point Original. Barvy bereme z hlavy krávy a z hor na menu Laiterie d’Orsières.</p>
+      </div>
+      <img class="ridge-img big" src="navrhy/ridge.svg" alt="">
+    </footer>
+  </article>
+
+  <article class="sheet sheet-b" id="sheet-b" hidden>
+    <header class="mock-head">
+      <img src="assets/logo-point.png" alt="Raclette Point Original" width="701" height="701">
+      <nav class="mock-nav" aria-label="Ukázka navigace">
+        <span>Pointy</span><span>Pro partnery</span><span>O raclette</span><span>O nás</span><span>Kontakt</span>
+      </nav>
+    </header>
+    <div class="hero">
+      <div class="inner hero-layout">
+        <div class="hero-copy">
+          <p class="script">Menu</p>
+          <p class="kicker">Raclette Point Original</p>
+          <h1>Švýcarský raclette <em>na dosah.</em></h1>
+          <p class="lead">Síť míst, kde se škrábe Swiss AOP sýr z mlékárny Laiterie d’Orsières v kantonu Valais. Podle polohy vás navedeme k nejbližšímu Pointu.</p>
+          <div class="actions">
+            <span class="btn btn-solid">Najít nejbližší Point</span>
+            <span class="btn btn-line">Chci se stát raclette pointem</span>
+          </div>
+        </div>
+        <div class="portrait-wrap">
+          <img class="portrait" src="assets/photo-service.jpg" width="1200" height="1200" alt="Půlka raclette sýra na grilu, vedle pečené brambory a okurky">
+        </div>
+      </div>
+    </div>
+
+    <section id="b-pitch" class="block pitch rule">
+      <div class="inner">
+        <p class="script">Spolupráce</p>
+        <h2>Proč s námi spolupracovat</h2>
+        <div class="facet">
+          <article style="--tone:#c3346a"><h3>Sýrová show, která přitahuje lidi</h3><p>Vůně taveného AOP sýra, jiný styl grilování a atmosféra Švýcarska. Zážitek, kvůli kterému se hosté vracejí.</p></article>
+          <article style="--tone:#f5811f"><h3>Bez kvalifikovaného kuchaře</h3><p>Díky nerezovým troubám a grilům TTM zvládne servis zaškolený člen obsluhy nebo baru.</p></article>
+          <article style="--tone:#00a85c"><h3>Marže, která dává smysl</h3><p>Švýcarské sýrové speciality mají vysokou vnímanou hodnotu. Po zaškolení servírujete menu na míru provozovně.</p></article>
+          <article style="--tone:#007dc5"><h3>Rychlý start</h3><p>Kuchyň se nepřestavuje. Všechno připravíme na míru k provozu, který už máte.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="b-menu" class="block menu-block rule">
+      <div class="inner">
+        <p class="script">Nabídka</p>
+        <p class="kicker">Jeseníky</p>
+        <h2>Křížový vrch</h2>
+        <p class="place">Za Pilou 6, 790 01 Jeseník</p>
+        <p class="menu-label">Raclette menu</p>
+        <ul class="gems">
+          <li><i></i><span>Klasické raclette, pečené brambory ve slupce, okurka</span></li>
+          <li><i></i><span>Raclette se steakovými hranolky</span></li>
+          <li><i></i><span>Raclette s grilovanou vepřovou panenkou</span></li>
+          <li><i></i><span>Raclette panini, verze s masem i vegetariánská</span></li>
+        </ul>
+        <div class="actions">
+          <span class="btn btn-line">Web podniku</span>
+          <span class="btn btn-solid">Trasa v Google Maps</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="b-heart" class="block heart rule">
+      <div class="inner">
+        <p class="script">Srdce</p>
+        <h2>Partnerství a srdce</h2>
+        <p class="lead">Nejsme klasická síťová franšíza. Neplatíte statisícové ani milionové vstupní poplatky za licenci.</p>
+        <div class="facet">
+          <article style="--tone:#c3346a"><h3>Důvěra na dlouho</h3><p>Hledáme partnery, kteří dělají svou práci s láskou, srdcem a profesionálně.</p></article>
+          <article style="--tone:#f5811f"><h3>Dostupný vstup</h3><p>Platíte za skutečné vybavení a příslušenství na míru, za zaškolení a za startovací branding.</p></article>
+          <article style="--tone:#8a6420"><h3>Fér měsíční poplatek</h3><p>Měsíční partnerský poplatek se domlouvá individuálně, podle velikosti Pointu, typu provozovny a lokality.</p></article>
+          <article style="--tone:#642a7d"><h3>Osobní přístup</h3><p>Jste partner, se kterým rozvíjíme švýcarskou gastro kulturu. Ne číslo v tabulce.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="b-gain" class="block gain rule">
+      <div class="inner">
+        <p class="script">Zázemí</p>
+        <h2>Co od nás získáte</h2>
+        <p class="lead">Když se stanete součástí rodiny Raclette Point Original, máte kompletní zázemí a know-how.</p>
+        <div class="bands">
+          <article style="--tone:#007dc5"><i></i><h3>Technologie a vybavení</h3><p>Celonerezová raclette trouba na 8 až 16 porcí, nebo originální švýcarský gril TTM. K tomu náčiní, desky, stoly a branding.</p></article>
+          <article style="--tone:#00a5b9"><i></i><h3>Sýry přímo od zdroje</h3><p>Pravidelné dodávky originálních Swiss AOP sýrů a certifikovaných fondue směsí za velkoobchodní ceny.</p></article>
+          <article style="--tone:#00a85c"><i></i><h3>Akademie za jeden den</h3><p>Personál zaškolíme během jediného dne a předáme certifikaci Raclette Master.</p></article>
+          <article style="--tone:#00657d"><i></i><h3>Marketing a mapa</h3><p>Point zařadíme na oficiální mapu. Web ukáže lokalitu, raclette menu a informace o místě.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="b-story" class="block story rule">
+      <div class="inner story-grid">
+        <figure class="food">
+          <img src="assets/photo-service.jpg" width="1200" height="1200" alt="Půlka raclette sýra na grilu, vedle pečené brambory a okurky">
+          <figcaption>Servis na akci. Rozteklý sýr se škrábe přímo z bochníku.</figcaption>
+        </figure>
+        <div>
+          <p class="script">Příběh</p>
+          <blockquote class="quote">Milan rakluje s takovou elegancí, ladností a láskou, jako hrál Roger Federer tenis.<footer>Hervé Fumeaux, bývalý předseda Švýcarské raclette federace</footer></blockquote>
+          <h2>Jak vzniká kvalita</h2>
+          <p class="prose">Nejdůležitější surovinou je kravské mléko. Křišťálově čistá voda z alpských ledovců spolu s horskými květinami a bylinami se propíše do chuti sýra.</p>
+          <p class="prose">Kulaté bochníky jsou z nepasterizovaného horského mléka a zrají nejméně tři měsíce. My distribuujeme Swiss AOP z mlékárny Laiterie d’Orsières v kantonu Valais.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="b-facts" class="block facts rule">
+      <div class="inner">
+        <p class="script">Čísla</p>
+        <h2>Z mléka bochník</h2>
+        <div class="stats">
+          <article><i class="tri" style="--tone:#fece52"></i><strong>70 litrů</strong><p>Přibližně tolik kravského mléka je potřeba na jeden bochník raclette.</p></article>
+          <article><i class="tri" style="--tone:#f5811f"></i><strong>3 měsíce</strong><p>Minimální zrání kulatého bochníku z nepasterizovaného horského mléka.</p></article>
+          <article><i class="tri" style="--tone:#00a85c"></i><strong>25 litrů</strong><p>Na ně padne asi 100 kg potravy a 85 litrů vody.</p></article>
+          <article><i class="tri" style="--tone:#007dc5"></i><strong>Přes 2 kg</strong><p>V průměru více než dvě kila raclette na obyvatele Švýcarska za rok.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <footer class="mock-foot closing">
+      <div class="closing-row">
+        <img class="point" src="assets/logo-point.png" alt="">
+        <img class="cow" src="assets/cow-head.png" alt="">
+        <p>Raclette Point Original. Barvy bereme z hlavy krávy a z hor na menu Laiterie d’Orsières.</p>
+      </div>
+      <img class="ridge-img big" src="navrhy/ridge.svg" alt="">
+    </footer>
+  </article>
+
+  <article class="sheet sheet-c" id="sheet-c" hidden>
+    <div class="c-banner">
+      <header class="mock-head">
+        <img src="assets/logo-point.png" alt="Raclette Point Original" width="701" height="701">
+        <nav class="mock-nav" aria-label="Ukázka navigace">
+          <span>Pointy</span><span>Pro partnery</span><span>O raclette</span><span>O nás</span><span>Kontakt</span>
+        </nav>
+      </header>
+      <div class="hero">
+        <div class="inner hero-layout">
+          <div class="hero-copy">
+            <p class="kicker">Raclette Point Original</p>
+            <h1>Švýcarský raclette <em>na dosah.</em></h1>
+            <p class="lead">Síť míst, kde se škrábe Swiss AOP sýr z mlékárny Laiterie d’Orsières v kantonu Valais. Podle polohy vás navedeme k nejbližšímu Pointu.</p>
+            <div class="actions">
+              <span class="btn btn-solid">Najít nejbližší Point</span>
+              <span class="btn btn-line">Chci se stát raclette pointem</span>
+            </div>
+          </div>
+          <div class="portrait-wrap">
+            <img class="portrait" src="assets/photo-service.jpg" width="1200" height="1200" alt="Půlka raclette sýra na grilu, vedle pečené brambory a okurky">
+          </div>
+        </div>
+      </div>
+    </div>
+    <img class="ridge-img big" src="navrhy/ridge.svg" alt="">
+
+    <section id="c-pitch" class="block pitch">
+      <div class="inner">
+        <p class="script">Spolupráce</p>
+        <h2>Proč s námi spolupracovat</h2>
+        <div class="facet">
+          <article style="--tone:#c3346a"><h3>Sýrová show, která přitahuje lidi</h3><p>Vůně taveného AOP sýra, jiný styl grilování a atmosféra Švýcarska. Zážitek, kvůli kterému se hosté vracejí.</p></article>
+          <article style="--tone:#f5811f"><h3>Bez kvalifikovaného kuchaře</h3><p>Díky nerezovým troubám a grilům TTM zvládne servis zaškolený člen obsluhy nebo baru.</p></article>
+          <article style="--tone:#00a85c"><h3>Marže, která dává smysl</h3><p>Švýcarské sýrové speciality mají vysokou vnímanou hodnotu. Po zaškolení servírujete menu na míru provozovně.</p></article>
+          <article style="--tone:#007dc5"><h3>Rychlý start</h3><p>Kuchyň se nepřestavuje. Všechno připravíme na míru k provozu, který už máte.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="c-menu" class="block menu-block">
+      <div class="inner">
+        <p class="script">Nabídka</p>
+        <p class="kicker">Jeseníky</p>
+        <h2>Křížový vrch</h2>
+        <p class="place">Za Pilou 6, 790 01 Jeseník</p>
+        <p class="menu-label">Raclette menu</p>
+        <ul class="gems">
+          <li><i></i><span>Klasické raclette, pečené brambory ve slupce, okurka</span></li>
+          <li><i></i><span>Raclette se steakovými hranolky</span></li>
+          <li><i></i><span>Raclette s grilovanou vepřovou panenkou</span></li>
+          <li><i></i><span>Raclette panini, verze s masem i vegetariánská</span></li>
+        </ul>
+        <div class="actions">
+          <span class="btn btn-line">Web podniku</span>
+          <span class="btn btn-solid">Trasa v Google Maps</span>
+        </div>
+      </div>
+    </section>
+    <img class="ridge-img slim" src="navrhy/ridge-cool.svg" alt="">
+
+    <section id="c-heart" class="block heart">
+      <div class="inner">
+        <p class="script">Srdce</p>
+        <h2>Partnerství a srdce</h2>
+        <p class="lead">Nejsme klasická síťová franšíza. Neplatíte statisícové ani milionové vstupní poplatky za licenci.</p>
+        <div class="facet">
+          <article style="--tone:#c3346a"><h3>Důvěra na dlouho</h3><p>Hledáme partnery, kteří dělají svou práci s láskou, srdcem a profesionálně.</p></article>
+          <article style="--tone:#f5811f"><h3>Dostupný vstup</h3><p>Platíte za skutečné vybavení a příslušenství na míru, za zaškolení a za startovací branding.</p></article>
+          <article style="--tone:#8a6420"><h3>Fér měsíční poplatek</h3><p>Měsíční partnerský poplatek se domlouvá individuálně, podle velikosti Pointu, typu provozovny a lokality.</p></article>
+          <article style="--tone:#642a7d"><h3>Osobní přístup</h3><p>Jste partner, se kterým rozvíjíme švýcarskou gastro kulturu. Ne číslo v tabulce.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="c-gain" class="block gain">
+      <div class="inner">
+        <p class="script">Zázemí</p>
+        <h2>Co od nás získáte</h2>
+        <p class="lead">Když se stanete součástí rodiny Raclette Point Original, máte kompletní zázemí a know-how.</p>
+        <div class="bands">
+          <article style="--tone:#007dc5"><i></i><h3>Technologie a vybavení</h3><p>Celonerezová raclette trouba na 8 až 16 porcí, nebo originální švýcarský gril TTM. K tomu náčiní, desky, stoly a branding.</p></article>
+          <article style="--tone:#00a5b9"><i></i><h3>Sýry přímo od zdroje</h3><p>Pravidelné dodávky originálních Swiss AOP sýrů a certifikovaných fondue směsí za velkoobchodní ceny.</p></article>
+          <article style="--tone:#00a85c"><i></i><h3>Akademie za jeden den</h3><p>Personál zaškolíme během jediného dne a předáme certifikaci Raclette Master.</p></article>
+          <article style="--tone:#00657d"><i></i><h3>Marketing a mapa</h3><p>Point zařadíme na oficiální mapu. Web ukáže lokalitu, raclette menu a informace o místě.</p></article>
+        </div>
+      </div>
+    </section>
+    <img class="ridge-img slim" src="navrhy/ridge-warm.svg" alt="">
+
+    <section id="c-story" class="block story">
+      <div class="inner story-grid">
+        <figure class="food">
+          <img src="assets/photo-service.jpg" width="1200" height="1200" alt="Půlka raclette sýra na grilu, vedle pečené brambory a okurky">
+          <figcaption>Servis na akci. Rozteklý sýr se škrábe přímo z bochníku.</figcaption>
+        </figure>
+        <div>
+          <p class="script">Příběh</p>
+          <blockquote class="quote">Milan rakluje s takovou elegancí, ladností a láskou, jako hrál Roger Federer tenis.<footer>Hervé Fumeaux, bývalý předseda Švýcarské raclette federace</footer></blockquote>
+          <h2>Jak vzniká kvalita</h2>
+          <p class="prose">Nejdůležitější surovinou je kravské mléko. Křišťálově čistá voda z alpských ledovců spolu s horskými květinami a bylinami se propíše do chuti sýra.</p>
+          <p class="prose">Kulaté bochníky jsou z nepasterizovaného horského mléka a zrají nejméně tři měsíce. My distribuujeme Swiss AOP z mlékárny Laiterie d’Orsières v kantonu Valais.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="c-facts" class="block facts">
+      <div class="inner">
+        <p class="script">Čísla</p>
+        <h2>Z mléka bochník</h2>
+        <div class="stats">
+          <article><i class="tri" style="--tone:#cd143e"></i><strong>70 litrů</strong><p>Přibližně tolik kravského mléka je potřeba na jeden bochník raclette.</p></article>
+          <article><i class="tri" style="--tone:#642a7d"></i><strong>3 měsíce</strong><p>Minimální zrání kulatého bochníku z nepasterizovaného horského mléka.</p></article>
+          <article><i class="tri" style="--tone:#027935"></i><strong>25 litrů</strong><p>Na ně padne asi 100 kg potravy a 85 litrů vody.</p></article>
+          <article><i class="tri" style="--tone:#00657d"></i><strong>Přes 2 kg</strong><p>V průměru více než dvě kila raclette na obyvatele Švýcarska za rok.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <footer class="mock-foot">
+      <div class="inner closing-row">
+        <img class="point" src="assets/logo-point.png" alt="">
+        <img class="cow" src="assets/cow-head.png" alt="">
+        <p>Raclette Point Original. Barvy bereme z hlavy krávy a z hor na menu Laiterie d’Orsières.</p>
+      </div>
+      <img class="ridge-img big" src="navrhy/ridge.svg" alt="">
+    </footer>
+  </article>
+
+  <script>
+    const notes = {
+      a: "A je nejblíž papírovému menu. Vlevo text, vpravo černobílá síť a velký nápis Menu, dole barevné hory. Odstavce, které byly bílé na bílé, dostanou každý jiný jemný odstín.",
+      b: "B dává dlaždici na pozadí celého webu, jak jste psal. Text je na listech, mezi listy síť prosvítá. Listy nejsou všechny bílé — broskvová, růžová, nebeská a mátová jsou zředěné barvy krávy.",
+      c: "C barví celé sekce, ne jen karty. Mezi nimi je horský hřeben z menu. Dlaždice zůstává v hlavičce, ať stránka dýchá. Odstíny jsou výraznější než v A, pořád z jedné palety."
+    };
+    const buttons = document.querySelectorAll(".picks button");
+    function show(id) {
+      if (!notes[id]) id = "a";
+      document.querySelectorAll(".sheet").forEach((sheet) => {
+        sheet.hidden = sheet.id !== "sheet-" + id;
+      });
+      buttons.forEach((button) => {
+        const on = button.dataset.sheet === id;
+        button.classList.toggle("is-on", on);
+        button.setAttribute("aria-selected", on ? "true" : "false");
+      });
+      document.getElementById("chooser-note").textContent = notes[id];
+      if (location.hash !== "#" + id) history.replaceState(null, "", "#" + id);
+    }
+    buttons.forEach((button) => {
+      button.addEventListener("click", () => {
+        show(button.dataset.sheet);
+        const bar = document.querySelector(".chooser");
+        const top = bar.offsetHeight + 8;
+        if (window.scrollY > top) window.scrollTo(0, top);
+      });
+    });
+    const fromHash = (location.hash || "#a").replace("#", "");
+    show(notes[fromHash] ? fromHash : "a");
+  </script>
+</body>
+</html>
