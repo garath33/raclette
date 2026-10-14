@@ -118,7 +118,12 @@ function addressLine(id) {
   const addresses = {
     krizovy: "Za Pilou 6, 790 01 Jeseník",
     spindl: "Špindlerův Mlýn",
-    kabrt: "Kladno"
+    kabrt: "Kladno",
+    eddy: "Route de Valbord 55, 1934 Bruson",
+    orsieres: "Route du Grand Saint-Bernard 3, 1937 Orsières",
+    mouret: "Route de la Gruyère 6, 1724 Ferpicloz",
+    minorit: "Masarykova třída 342/39, 746 01 Opava",
+    bonte: "Husovo náměstí 78/6, 266 01 Beroun"
   };
   return '<p class="address">' + addresses[id] + "</p>";
 }

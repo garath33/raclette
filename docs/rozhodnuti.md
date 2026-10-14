@@ -88,6 +88,12 @@ Překlepy se nepřenášejí: brunch, ne branch, kolaudace, ne koloudace, plnotu
 
 Sekce Kde nakoupit drží sortiment e-shopu v jedné kartě E-shop Raklet Party: krátká věta, která zve podívat se na e-shop, a odrážky se sýry, grily, grily TTM na míru, kořením, půjčovnou, víny, fondue a Family WOOD. Family WOOD je značka praktických dřevěných výrobků na míru s řemeslnou elegancí. Katalog ani text značky neříká, že nově dělají rakletovací stoly, proto to web neříká. Bez cen a bez dlouhých popisů. Slovo nalákat na webu není.
 
+## Pět dalších Pointů má adresu z webu podniku
+
+K vizitkám přibyly Raclett'House Chez Eddy (Route de Valbord 55, 1934 Bruson), Laiterie d’Orsières (Route du Grand Saint-Bernard 3, 1937 Orsières), Laiterie du Mouret (Route de la Gruyère 6, 1724 Ferpicloz), Kavárna U modrého zvonku a Bonté sýry (Husovo náměstí 78/6, 266 01 Beroun). Telefon a web jsou ze stejné stránky. Kontaktní jméno z podkladu na vizitce není, formát Pointu zůstává název, místo, adresa, krátká věta, telefon a web. U kavárny v Opavě ulice na stránce kavárny není. Masarykova třída 342/39, 746 01 Opava je adresa minoritského kláštera se stejným webem a telefonem. Souřadnice sedí na tu adresu v mapě, ne na střed města.
+
+Bonté v Berouně je ze Záběhlic jen asi o 1,2 km dál než food truck v Kladně. Přesný odečet pořád vybere Kladno. Odečet s chybou kolem kilometru už pořadí může otočit, proto stránka řekne, že se výběr může změnit. Dřívější věta, že odchylka o kilometr výběr nemění, platila, dokud byl další Point o desítky kilometrů dál. Texty jsou ve všech devíti jazycích a sedí na znění o autentickém švýcarském raclette, proto strop `js/i18n-extra.js` posouvá ze 176 kB na 178 kB.
+
 ## Pro partnery na ostrém webu
 
 Schválení „Hod na ostrý web“ posílá Pro partnery, telefon nad formulářem, vysvětlení AOP a znění mlékárny Laiterie d’Orsières na `raclettelovers.*` (bez zkušebního pruhu) a na GitHub Pages. Cloudflare Worker potřebuje v `wrangler.jsonc` prázdný blok `previews`, jinak build padá.

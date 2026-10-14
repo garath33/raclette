@@ -8,19 +8,29 @@ test("stránka se načte, má sekce a testovací pruh", async ({ page }) => {
   const errors = [];
   page.on("pageerror", (error) => errors.push(String(error)));
   await page.goto("/?lang=cs");
-  await expect(page.locator("h1")).toContainText("Švýcarský raclette");
+  await expect(page.locator("h1")).toContainText("Originální švýcarský raclette");
   await expect(page.locator("#env-banner")).toBeVisible();
   for (const id of ["vyhody", "pointy", "reference", "raclette", "pribeh", "nakup", "eventy", "kontakty"]) {
     await expect(page.locator("#" + id)).toHaveCount(1);
   }
   await expect(page.locator("#franchise")).toHaveCount(0);
-  await expect(page.locator("#point-cards .card")).toHaveCount(3);
+  await expect(page.locator("#point-cards .card")).toHaveCount(8);
   await expect(page.locator("#map-frame")).toHaveCount(0);
-  await expect(page.locator("#point-cards iframe.map-embed")).toHaveCount(3);
+  await expect(page.locator("#point-cards iframe.map-embed")).toHaveCount(8);
   await expect(page.locator('#point-cards .card[data-id="krizovy"] iframe')).toHaveAttribute("src", /50\.2260421,17\.2250049/);
   await expect(page.locator('#point-cards .card[data-id="krizovy"] iframe')).toHaveAttribute("title", "Mapa Pointu Křížový vrch");
   await expect(page.locator('#point-cards .card[data-id="spindl"] iframe')).toHaveAttribute("src", /50\.7256448,15\.6067567/);
   await expect(page.locator('#point-cards .card[data-id="kabrt"] iframe')).toHaveAttribute("src", /50\.1466053,14\.1026398/);
+  await expect(page.locator('#point-cards .card[data-id="eddy"]')).toContainText("Route de Valbord 55, 1934 Bruson");
+  await expect(page.locator('#point-cards .card[data-id="eddy"] a[href="https://eddy-baillifard.com"]')).toBeVisible();
+  await expect(page.locator('#point-cards .card[data-id="orsieres"]')).toContainText("Route du Grand Saint-Bernard 3, 1937 Orsières");
+  await expect(page.locator('#point-cards .card[data-id="orsieres"] a[href="https://laiterie-orsieres.ch"]')).toBeVisible();
+  await expect(page.locator('#point-cards .card[data-id="mouret"]')).toContainText("Route de la Gruyère 6, 1724 Ferpicloz");
+  await expect(page.locator('#point-cards .card[data-id="mouret"] a[href="https://www.laiterie-du-mouret.ch"]')).toBeVisible();
+  await expect(page.locator('#point-cards .card[data-id="minorit"]')).toContainText("Masarykova třída 342/39, 746 01 Opava");
+  await expect(page.locator('#point-cards .card[data-id="minorit"] a[href="https://minorit-opava.cz/kavarna/"]')).toBeVisible();
+  await expect(page.locator('#point-cards .card[data-id="bonte"]')).toContainText("Husovo náměstí 78/6, 266 01 Beroun");
+  await expect(page.locator('#point-cards .card[data-id="bonte"] a[href="https://bontesyry.cz"]')).toBeVisible();
   await expect(page.locator("#locator-status")).toContainText("Každý Point má vlastní mapu");
   await expect(page.locator("#hero-locate")).toHaveAttribute("href", "#pointy");
   await expect(page.locator("#site-nav a[href='#pointy']")).toHaveText("Naše raclette pointy");
@@ -39,6 +49,9 @@ test("stránka se načte, má sekce a testovací pruh", async ({ page }) => {
   await expect(page.locator("body")).not.toContainText("raclette-original.com");
   await expect(page.locator("#eventy")).toContainText("kolaudace");
   await expect(page.getByRole("heading", { name: "Eliška Reine" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Sídlo firmy a fakturační adresa" })).toBeVisible();
+  await expect(page.locator("#kontakty")).not.toContainText("Dodací adresa");
+  await expect(page.locator("#kontakty")).not.toContainText("Ratibořská");
   await expect(page.locator("#kontakty")).toContainText("+420 777 891 177");
   await expect(page.locator("#kontakty")).toContainText("+420 777 600 223");
   await expect(page.locator("body")).not.toContainText(/veronika/i);
@@ -153,8 +166,7 @@ test("Záběhlice i pin u Hamerského rybníka vyberou food truck", async ({ pag
   await context.setGeolocation({ latitude: 50.0518466, longitude: 14.4857067, accuracy: 1500 });
   await page.locator("#locate").click();
   await expect(page.locator("#locator-status")).toContainText("Martin Kábrt");
-  await expect(page.locator("#locator-status")).toContainText("přibližně");
-  await expect(page.locator("#locator-status")).toContainText("nemění");
+  await expect(page.locator("#locator-status")).toContainText("může změnit");
   await expect(page.locator("#point-cards .is-nearest h3")).toContainText("Martin Kábrt");
   const navHref = await page.locator("#navigate-nearest").getAttribute("href");
   expect(navHref).toMatch(/destination=50\.1466053%2C14\.1026398/);
