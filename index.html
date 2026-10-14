@@ -30,6 +30,9 @@
   <meta name="twitter:description" content="Autentický originální švýcarský raclette AOP z Laiterie d’Orsières. Sýry nejvyšší kvality a původní švýcarské receptury.">
   <meta name="twitter:image" content="https://www.raclettelovers.com/assets/photo-service.jpg">
   <link rel="icon" href="assets/favicon.png" type="image/png">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+  <link rel="manifest" href="manifest.webmanifest">
+  <meta name="apple-mobile-web-app-title" content="Raclette Lovers">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -116,6 +119,7 @@
           <p class="lead" data-i18n="hero.lead">Síť míst Raclette Point Original. Servírujeme autentický a originální švýcarský raclette podle původních švýcarských receptur. Distribuujeme sýry nejvyšší a originální kvality z mlékárny Laiterie d’Orsières v kantonu Valais. Podle vaší polohy vás navedeme k nejbližšímu Pointu v Google Maps. Svůj podnik můžete o stejný zážitek rozšířit.</p>
           <div class="hero-actions">
             <a class="btn btn-solid" href="#pointy" id="hero-locate" data-i18n="hero.primary">Najít nejbližší Point</a>
+            <a class="btn btn-line" href="app.html" data-i18n="app.cta">Aplikace Raclette Lovers</a>
             <a class="btn btn-line" href="pro-partnery.html" data-i18n="hero.secondary">Chci se stát raclette pointem</a>
           </div>
         </div>
@@ -194,7 +198,25 @@
       </div>
     </section>
 
-    
+    <section class="section app-install" id="aplikace">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="kicker" data-i18n="app.kicker">Raclette Lovers</p>
+          <h2 data-i18n="app.how.title">Uložit na plochu telefonu</h2>
+          <p class="lead" data-i18n="app.how.lead">Zástupce Raclette Lovers otevře hledání nejbližšího Pointu. Polohu se zeptáme až po klepnutí.</p>
+        </div>
+        <div class="hero-actions">
+          <a class="btn btn-solid" href="app.html" data-i18n="app.open">Otevřít aplikaci</a>
+          <button class="btn btn-line" id="pwa-install" type="button" hidden data-i18n="app.install">Přidat na plochu</button>
+        </div>
+        <p id="pwa-installed" class="pwa-installed" hidden data-i18n="app.installed">Aplikace je na ploše. Otevřete ji ikonou Raclette Lovers.</p>
+        <ol class="pwa-howto">
+          <li data-i18n="app.how.ios">iPhone: otevřete aplikaci v Safari, klepněte na Sdílet a zvolte Na plochu. Ikona bude logo Raclette Lovers.</li>
+          <li data-i18n="app.how.android">Android: v Chrome klepněte na Instalovat aplikaci, nebo v nabídce zvolte Přidat na plochu.</li>
+        </ol>
+      </div>
+    </section>
+
     <section class="section" id="reference">
       <div class="wrap">
         <div class="section-head">
@@ -546,6 +568,7 @@
       </div>
       <nav class="foot-links" aria-label="Footer">
         <a href="#pointy" data-i18n="nav.points">Naše raclette pointy</a>
+        <a href="app.html" data-i18n="app.cta">Aplikace Raclette Lovers</a>
         <a href="pro-partnery.html" data-i18n="nav.franchise">Pro partnery</a>
         <a href="#reference" data-i18n="nav.media">Reference</a>
         <a href="#raclette" data-i18n="nav.raclette">O raclette</a>
@@ -565,6 +588,8 @@
   <script src="js/site.js"></script>
   <script src="js/i18n.js"></script>
   <script src="js/i18n-extra.js"></script>
+  <script src="js/i18n-app.js"></script>
   <script src="js/app.js"></script>
+  <script src="js/pwa.js"></script>
 </body>
 </html>

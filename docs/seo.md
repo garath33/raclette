@@ -9,6 +9,7 @@ Ostré domény se indexují. Zkušební adresy ne.
 - `hreflang` pro cs, en, fr, sk, it, de, pl, es, ru a `x-default` na angličtinu
 - Open Graph a Twitter karta, obrázek je fotka servisu
 - JSON-LD `Organization` pro Raclette Point Original.cz s.r.o.
+- stránka aplikace `app.html` s vlastním title, hreflang jen cs/en/fr/sk a `manifest.webmanifest`
 - `sitemap.xml` a `robots.txt`
 - textové alternativy obrázků a jedna úroveň nadpisů v sekcích
 

@@ -31,7 +31,8 @@ const TARGETS = {
 
 export function pagePath(pathname) {
   const leaf = String(pathname || "").split("/").filter(Boolean).pop() || "";
-  if (leaf === "pro-partnery.html") return "/pro-partnery.html";
+  if (leaf === "pro-partnery.html" || leaf === "pro-partnery") return "/pro-partnery.html";
+  if (leaf === "app.html" || leaf === "app") return "/app.html";
   return "/";
 }
 

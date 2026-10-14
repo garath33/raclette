@@ -37,6 +37,10 @@ test("robots a sitemap ukazují na ostré domény a všechny jazyky", () => {
   assert.match(sitemap, /https:\/\/raclettelovers\.ch\/\?lang=fr/);
   assert.match(sitemap, /pro-partnery\.html\?lang=cs/);
   assert.match(sitemap, /pro-partnery\.html\?lang=sk/);
+  assert.match(sitemap, /app\.html\?lang=cs/);
+  assert.match(sitemap, /app\.html\?lang=en/);
+  assert.match(sitemap, /app\.html\?lang=fr/);
+  assert.match(sitemap, /app\.html\?lang=sk/);
   for (const lang of LANGS) {
     assert.match(sitemap, new RegExp("lang=" + lang));
   }
@@ -48,6 +52,8 @@ test("veřejné soubory drží výkonnostní rozpočet", () => {
   const limits = {
     "css/styles.css": 40 * 1024,
     "js/app.js": 20 * 1024,
+    "js/i18n-app.js": 16 * 1024,
+    "js/lovers-app.js": 12 * 1024,
     "js/i18n.js": 84 * 1024,
     "js/i18n-extra.js": 178 * 1024,
     "assets/photo-service.jpg": 400 * 1024,
@@ -55,6 +61,7 @@ test("veřejné soubory drží výkonnostní rozpočet", () => {
     "assets/shop-assortment.jpg": 320 * 1024,
     "assets/photo-barry.jpg": 220 * 1024,
     "assets/logo-point.png": 150 * 1024,
+    "assets/icon-512.png": 120 * 1024,
     "assets/cow-head.png": 150 * 1024
   };
   for (const [file, limit] of Object.entries(limits)) {
@@ -89,6 +96,9 @@ test("kontaktní stránka neuvádí Veroniku a uvádí Martina Šimůnka", () =>
   assert.equal(/400237/.test(html), false);
   assert.match(html, /id="vyhody"/);
   assert.match(html, /id="pointy"/);
+  assert.match(html, /id="aplikace"/);
+  assert.match(html, /app\.html/);
+  assert.match(html, /rel="manifest"/);
   assert.equal(/id="franchise"/.test(html), false);
   assert.equal(/id="partner-form"/.test(html), false);
   assert.match(html, /pro-partnery\.html/);
@@ -102,4 +112,28 @@ test("kontaktní stránka neuvádí Veroniku a uvádí Martina Šimůnka", () =>
   assert.match(partners, /id="franchise-form"/);
   assert.match(partners, /id="partner-form"/);
   assert.match(partners, /pro-partnery\.html\?lang=/);
+});
+
+test("PWA Raclette Lovers má manifest, ikony a stránku aplikace", () => {
+  const manifest = JSON.parse(fs.readFileSync("manifest.webmanifest", "utf8"));
+  assert.equal(manifest.name, "Raclette Lovers");
+  assert.equal(manifest.short_name, "Raclette Lovers");
+  assert.equal(manifest.display, "standalone");
+  assert.equal(manifest.start_url, "./app.html");
+  const app = fs.readFileSync("app.html", "utf8");
+  assert.match(app, /rel="manifest"/);
+  assert.match(app, /apple-touch-icon/);
+  assert.match(app, /apple-mobile-web-app-capable/);
+  assert.match(app, /id="locate"/);
+  assert.match(app, /option value="cs"/);
+  assert.match(app, /option value="sk"/);
+  assert.match(app, /option value="en"/);
+  assert.match(app, /option value="fr"/);
+  assert.equal(/option value="de"/.test(app), false);
+  assert.match(app, /https:\/\/www\.facebook\.com\/rakletparty\//);
+  assert.ok(fs.existsSync("assets/icon-192.png"));
+  assert.ok(fs.existsSync("assets/icon-512.png"));
+  assert.ok(fs.existsSync("assets/icon-maskable.png"));
+  assert.ok(fs.existsSync("assets/apple-touch-icon.png"));
+  assert.match(fs.readFileSync("sw.js", "utf8"), /fetch/);
 });

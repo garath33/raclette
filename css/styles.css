@@ -1225,6 +1225,111 @@ p { margin: 0; }
   outline-offset: 3px;
 }
 
+.pwa-howto {
+  margin: 1.2rem 0 0;
+  padding-left: 1.2rem;
+  max-width: 40rem;
+  color: var(--muted);
+  display: grid;
+  gap: 0.65rem;
+}
+.pwa-installed {
+  margin-top: 1rem;
+  color: var(--gold-deep);
+  font-weight: 700;
+}
+html[data-pwa="installed"] .pwa-howto,
+html[data-pwa="installed"] #pwa-install { display: none; }
+.app-install { background: var(--white); }
+
+body.lovers-app {
+  background: var(--paper);
+  min-height: 100vh;
+}
+.lovers-header {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.8rem;
+  min-height: var(--header);
+  padding: 0.55rem 1.1rem;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--line);
+}
+.lovers-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  text-decoration: none;
+  font-family: var(--serif);
+  font-size: 1.35rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+.lovers-brand img { width: 52px; height: 52px; }
+.lovers-main {
+  width: min(42rem, calc(100% - 2rem));
+  margin: 0 auto;
+  padding: 1.6rem 0 3rem;
+}
+.lovers-hero h1 {
+  font-size: clamp(2.4rem, 8vw, 3.4rem);
+  max-width: 14ch;
+}
+.lovers-hero .lead { margin-top: 0.9rem; }
+.lovers-hero .locator { margin-top: 1.4rem; }
+.lovers-hero .status { flex-basis: 100%; }
+.lovers-cards { margin-top: 0.4rem; }
+.lovers-card {
+  display: block;
+  grid-template-columns: none;
+  padding: 1rem 1.05rem 1rem;
+}
+.lovers-card .card-actions { margin-top: 0.85rem; }
+.lovers-install {
+  margin-top: 1.8rem;
+  padding: 1.2rem 1.1rem 1.3rem;
+  background: white;
+  border-radius: 20px;
+  border: 1px solid var(--line);
+}
+.lovers-install h2 {
+  font-size: 1.85rem;
+  max-width: none;
+}
+.lovers-install > p { margin-top: 0.7rem; color: var(--muted); }
+.lovers-install #pwa-install { margin-top: 1rem; }
+.lovers-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  margin-top: 1.4rem;
+}
+.lovers-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-height: 42px;
+  padding: 0.4rem 0.85rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: white;
+  text-decoration: none;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+.lovers-links a:hover {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: white;
+}
+.lovers-links svg { width: 16px; height: 16px; display: block; }
+.lovers-links .btn-line { min-height: 42px; }
+
 @media (max-width: 1100px) {
   .site-header { gap: 0.5rem; }
   .nav-toggle { display: grid; place-items: center; margin-left: auto; }

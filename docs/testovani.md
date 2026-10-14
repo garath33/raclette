@@ -5,13 +5,13 @@ Příkaz `npm test` spustí všechno. Jednotlivé vrstvy jdou pustit zvlášť.
 | Příkaz | Co hlídá |
 | --- | --- |
 | `npm run test:unit` | Jazyky, vzdálenost Pointů, SEO soubory, velikost assetů |
-| `npm run test:smoke` | Načtení stránky, sekce, jazyk, nejbližší Point |
+| `npm run test:smoke` | Načtení stránky, sekce, jazyk, nejbližší Point, aplikace Raclette Lovers |
 | `npm run test:responsive` | 390, 768, 1280 a 1440 px, menu, žádný vodorovný přetok |
 | `npm run test:performance` | Žádná vlastní odpověď nad 500 kB, čistá konzole, hero má prioritu |
 
 ## Smoke
 
-Smoke ověří, že se stránka vůbec rozběhne: nadpis, tři vizitky, Martin Šimůnek, žádná zmínka o Veronice, testovací pruh a přepnutí do němčiny. Další smoke nastaví polohu u Kladna, Jeseníku a Špindlu, kontroluje výběr Pointu, tlačítko „Navigovat k …“ a že odkaz do Maps nemá zmražený `origin`. Samostatně běží odmítnutá poloha a trasa bez GPS. Případ z notebooku v Záběhlicích (Trenčínská 10 i pin u Hamerského rybníka) musí vybrat food truck v Kladně; hrubý odečet (±1,5 km) navíc řekne, že odchylka výběr nemění.
+Smoke ověří, že se stránka vůbec rozběhne: nadpis, tři vizitky, Martin Šimůnek, žádná zmínka o Veronice, testovací pruh, sekce aplikace Raclette Lovers a přepnutí do němčiny. Aplikace `app.html` má čtyři jazyky, osm karet bez mapy a polohu spouští až po klepnutí. Další smoke nastaví polohu u Kladna, Jeseníku a Špindlu, kontroluje výběr Pointu, tlačítko „Navigovat k …“ a že odkaz do Maps nemá zmražený `origin`. Samostatně běží odmítnutá poloha a trasa bez GPS. Případ z notebooku v Záběhlicích (Trenčínská 10 i pin u Hamerského rybníka) musí vybrat food truck v Kladně; hrubý odečet (±1,5 km) navíc řekne, že odchylka výběr nemění.
 
 ## Regrese
 
