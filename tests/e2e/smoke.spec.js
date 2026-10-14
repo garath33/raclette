@@ -52,7 +52,14 @@ test("stránka se načte, má sekce a testovací pruh", async ({ page }) => {
   await expect(page.locator("#nakup")).toContainText("Laiterie");
   await expect(page.locator('a[href*="raclette-original.com"]')).toHaveCount(0);
   await expect(page.locator("body")).not.toContainText("raclette-original.com");
-  await expect(page.locator("#eventy")).toContainText("kolaudace");
+  await expect(page.locator("#eventy")).toContainText(/kolaudace/i);
+  await expect(page.locator("#eventy")).toContainText("tisíci a více lidmi");
+  await expect(page.locator("#eventy .event-offer li")).toHaveCount(12);
+  await expect(page.locator("#eventy .event-photo")).toHaveCount(6);
+  await expect(page.locator("#eventy .event-grid")).toBeVisible();
+  const whenBox = await page.locator("#eventy .events-when").boundingBox();
+  const gridBox = await page.locator("#eventy .event-grid").boundingBox();
+  expect(whenBox.y).toBeLessThan(gridBox.y);
   await expect(page.getByRole("heading", { name: "Eliška Reine" })).toBeVisible();
   await expect(page.getByRole("heading", { name: "Sídlo firmy a fakturační adresa" })).toBeVisible();
   await expect(page.locator("#kontakty")).not.toContainText("Dodací adresa");
