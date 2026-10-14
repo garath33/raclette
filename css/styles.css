@@ -781,7 +781,7 @@ p { margin: 0; }
   max-width: 46rem;
   padding: 1.1rem 1.15rem 1.15rem;
   border-left: 3px solid var(--gold-deep);
-  background: white;
+  background: linear-gradient(165deg, rgba(254, 206, 82, 0.42), rgba(245, 129, 31, 0.08) 58%, #fff8ee);
 }
 .aop-note h3 {
   font-size: 1.35rem;
@@ -800,8 +800,8 @@ p { margin: 0; }
   margin: 1.2rem 0 0;
   max-width: 46rem;
   padding: 1rem 1.1rem;
-  background: var(--paper);
-  border: 1px solid var(--line);
+  background: #fff4e4;
+  border: 0;
 }
 .form-invite p {
   margin: 0;
@@ -823,8 +823,9 @@ p { margin: 0; }
   margin-top: 1.4rem;
   max-width: 46rem;
   padding: 1.4rem 1.5rem 1.6rem;
-  border: 1px solid var(--line);
-  background: white;
+  border: 0;
+  border-top: 3px solid var(--orange);
+  background: linear-gradient(180deg, rgba(254, 206, 82, 0.32), #fff8ee 42%);
 }
 .partner-form .form-grid {
   display: grid;
@@ -849,7 +850,7 @@ p { margin: 0; }
   font: inherit;
   font-weight: 400;
   color: var(--ink);
-  background: var(--paper);
+  background: #fff;
 }
 .partner-form textarea { resize: vertical; min-height: 8rem; }
 .partner-form input:invalid:not(:placeholder-shown),
@@ -1133,6 +1134,70 @@ p { margin: 0; }
 .site-footer .social-links a:hover { color: white; }
 .foot-links { display: grid; gap: 0.35rem; }
 .legal { margin-top: 2rem; color: var(--silver); font-size: 0.82rem; }
+
+.pitch .benefit-grid article,
+.raclette .benefit-grid article,
+.raclette .fact,
+#nakup .partner,
+#eventy .event,
+#eventy .social-follow,
+.contact .person,
+.contact .fact {
+  position: relative;
+  border-color: transparent;
+}
+.pitch .benefit-grid article {
+  background: linear-gradient(165deg, rgba(254, 206, 82, 0.48), rgba(245, 129, 31, 0.12) 52%, #fff6ea);
+  --card: var(--orange);
+}
+.raclette .benefit-grid article,
+.raclette .fact {
+  background: linear-gradient(165deg, rgba(195, 52, 106, 0.18), rgba(100, 42, 125, 0.1) 50%, #faf4fb);
+  --card: var(--purple);
+}
+.points .card {
+  background: linear-gradient(180deg, rgba(86, 183, 232, 0.28), rgba(0, 125, 197, 0.07) 40%, #f5fbfe);
+  --card: var(--blue);
+}
+.points .card.is-nearest {
+  background: linear-gradient(180deg, rgba(254, 206, 82, 0.5), rgba(245, 129, 31, 0.12) 36%, #fffaf2);
+  --card: var(--orange);
+}
+#reference .quote {
+  background: linear-gradient(165deg, rgba(243, 129, 147, 0.38), rgba(195, 52, 106, 0.08) 50%, #fff5f7);
+  border-left-color: var(--magenta);
+}
+#reference .shot { background: #fff4f6; }
+#nakup .partner {
+  background: linear-gradient(165deg, rgba(0, 168, 92, 0.16), rgba(2, 121, 53, 0.07) 52%, #f3fbf6);
+  --card: var(--green);
+}
+#eventy .event,
+#eventy .social-follow {
+  background: linear-gradient(165deg, rgba(245, 129, 31, 0.2), rgba(254, 206, 82, 0.14) 48%, #fff6ee);
+  --card: var(--orange);
+}
+#eventy .event time { color: var(--orange); }
+.contact .person,
+.contact .fact {
+  background: linear-gradient(165deg, rgba(0, 165, 185, 0.2), rgba(0, 125, 197, 0.08) 50%, #f4fafd);
+  --card: var(--teal);
+}
+.pitch .benefit-grid article::after,
+.raclette .benefit-grid article::after,
+.raclette .fact::after,
+#eventy .event::after,
+.contact .person::after,
+.contact .fact::after {
+  content: "";
+  position: absolute;
+  top: 1.05rem;
+  right: 1.05rem;
+  width: 0.62rem;
+  height: 0.62rem;
+  background: var(--card, var(--orange));
+  transform: rotate(45deg);
+}
 
 :focus-visible {
   outline: 2px solid var(--gold-deep);
