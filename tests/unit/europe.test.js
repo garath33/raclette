@@ -19,4 +19,13 @@ test("české Pointy i Švýcarsko leží uvnitř výřezu mapy", () => {
   assert.ok(Math.abs(mark.y - swiss.label[1]) < 8);
   assert.ok(swiss.label[0] < europe.VIEW.width / 2);
   assert.ok(swiss.label[1] > europe.VIEW.height / 2);
+  const names = europe.CITIES.map((city) => city.name);
+  for (const name of ["Praha", "Opava", "Ostrava", "Brno", "Poprad", "Bratislava"]) {
+    assert.ok(names.includes(name), name);
+  }
+  for (const city of europe.CITIES) {
+    const pos = europe.project(city.lat, city.lng);
+    assert.ok(pos.x > 15 && pos.x < europe.VIEW.width - 8, city.name);
+    assert.ok(pos.y > 15 && pos.y < europe.VIEW.height - 8, city.name);
+  }
 });

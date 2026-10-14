@@ -336,6 +336,16 @@ p { margin: 0; }
 }
 .land-label.is-on { fill: var(--ink); }
 .land-label-ch { fill: #fff; font-size: 13px; letter-spacing: 0.04em; }
+.city { pointer-events: none; }
+.city circle { fill: #8a6420; }
+.city text {
+  font-family: var(--sans);
+  font-size: 12px;
+  font-weight: 600;
+  fill: #5e5346;
+}
+.city-ch circle,
+.city-ch text { fill: #fff; }
 .swiss-mark { pointer-events: none; }
 .swiss-mark rect { fill: #fff; }
 .pin {
@@ -1240,7 +1250,8 @@ p { margin: 0; }
 }
 
 @media (max-width: 720px) {
-  .pin-name { display: none; }
+  .pin-name,
+  .city text { display: none; }
   .benefit-grid,
   .approach-rail { grid-template-columns: 1fr; }
   .approach-block,
