@@ -84,6 +84,9 @@ test("veřejný text nezmiňuje vyřazenou osobu a IT role existuje", () => {
   assert.match(TRANSLATIONS.cs["person.kabrt.role"], /raclette show/);
   assert.match(TRANSLATIONS.cs["person.eliska.role"], /eventů/);
   assert.match(TRANSLATIONS.cs["person.pavlina.role"], /Manažerka projektů/);
+  assert.equal(TRANSLATIONS.cs["contact.billingLabel"], "Sídlo firmy a fakturační adresa");
+  assert.equal(TRANSLATIONS.en["contact.billingLabel"], "Registered office and billing address");
+  assert.equal(Object.hasOwn(TRANSLATIONS.cs, "contact.deliveryLabel"), false);
   assert.match(TRANSLATIONS.en["nav.raclette"], /raclette/i);
   assert.match(TRANSLATIONS.sk["person.martin.role"], /IT špecialista/);
   assert.match(TRANSLATIONS.en["person.martin.role"], /IT specialist/);
