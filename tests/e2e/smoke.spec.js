@@ -8,7 +8,7 @@ test("stránka se načte, má sekce a testovací pruh", async ({ page }) => {
   const errors = [];
   page.on("pageerror", (error) => errors.push(String(error)));
   await page.goto("/?lang=cs");
-  await expect(page.locator("h1")).toContainText("Švýcarský raclette");
+  await expect(page.locator("h1")).toContainText("Originální švýcarský raclette");
   await expect(page.locator("#env-banner")).toBeVisible();
   for (const id of ["vyhody", "pointy", "reference", "raclette", "pribeh", "nakup", "eventy", "kontakty"]) {
     await expect(page.locator("#" + id)).toHaveCount(1);
