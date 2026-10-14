@@ -42,6 +42,11 @@ test("stránka se načte, má sekce a testovací pruh", async ({ page }) => {
   await expect(page.locator(".supplier-cow")).toBeVisible();
   await expect(page.locator(".supplier-crest")).toBeVisible();
   await expect(page.getByRole("heading", { name: "Martin Šimůnek" })).toBeVisible();
+  await expect(page.locator("#reference h2")).toContainText("Celebrity a náš Raclette");
+  await expect(page.locator("#reference .celeb-row figure img")).toHaveCount(2);
+  await expect(page.locator("#reference .celeb-row figure img").first()).toHaveAttribute("alt", /Tomáš Klus/);
+  await expect(page.locator("#reference a.fb-card")).toHaveAttribute("href", "https://www.facebook.com/rakletparty/");
+  await expect(page.locator("#reference a.fb-card")).toContainText("Sledujte naše aktuality");
   await expect(page.locator("#raclette")).toContainText("racler");
   await expect(page.locator("#nakup")).toContainText("raklerem");
   await expect(page.locator("#nakup")).toContainText("Laiterie");
