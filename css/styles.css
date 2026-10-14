@@ -357,16 +357,11 @@ p { margin: 0; }
 }
 .network-stage {
   position: absolute;
-  width: 106%;
-  left: -10%;
-  top: -4.5%;
+  width: 89.9%;
+  left: -0.9%;
+  top: 4%;
   background: transparent;
   transition: width 0.55s cubic-bezier(0.22, 1, 0.36, 1), left 0.55s cubic-bezier(0.22, 1, 0.36, 1), top 0.55s cubic-bezier(0.22, 1, 0.36, 1);
-}
-.network-stage.is-country-ch {
-  width: 142%;
-  left: 25.5%;
-  top: -74%;
 }
 .cheese .pin { z-index: 5; }
 .network-stage svg { display: block; width: 100%; height: auto; }

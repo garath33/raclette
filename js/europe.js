@@ -28,6 +28,51 @@
     };
   }
 
+  const CHEESE_ASPECT = 1.515;
+  const STAGE_RATIO = CHEESE_ASPECT / (VIEW.width / VIEW.height);
+  const CENTER_X = 50;
+  const CENTER_Y = 44;
+  const MAX_RX = 18.5;
+  const MAX_RY = 14.5;
+
+  function countryBounds(countryId) {
+    const entry = COUNTRIES.find((item) => item.id === countryId);
+    if (!entry) return null;
+    const nums = entry.d.match(/[\d.]+/g).map(Number);
+    const points = [];
+    let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+    for (let i = 0; i < nums.length; i += 2) {
+      const x = nums[i], y = nums[i + 1];
+      points.push([x, y]);
+      if (x < minX) minX = x;
+      if (x > maxX) maxX = x;
+      if (y < minY) minY = y;
+      if (y > maxY) maxY = y;
+    }
+    return {
+      minX, maxX, midX: (minX + maxX) / 2, width: maxX - minX,
+      minY, maxY, midY: (minY + maxY) / 2, height: maxY - minY,
+      points
+    };
+  }
+
+  function cameraFor(countryId) {
+    const b = countryBounds(countryId) || countryBounds("cz");
+    let widthPct = 200;
+    for (const [x, y] of b.points) {
+      const dx = Math.abs(x - b.midX) / VIEW.width * 100;
+      const dy = Math.abs(y - b.midY) / VIEW.height * STAGE_RATIO * 100;
+      if (dx > 0) widthPct = Math.min(widthPct, (MAX_RX / dx) * 100);
+      if (dy > 0) widthPct = Math.min(widthPct, (MAX_RY / dy) * 100);
+      const ell = Math.hypot(dx / (MAX_RX * 1.08), dy / (MAX_RY * 1.08));
+      if (ell > 0) widthPct = Math.min(widthPct, (1 / ell) * 100);
+    }
+    const heightPct = widthPct * STAGE_RATIO;
+    const leftPct = CENTER_X - (b.midX / VIEW.width) * widthPct;
+    const topPct = CENTER_Y - (b.midY / VIEW.height) * heightPct;
+    return { widthPct, heightPct, leftPct, topPct, bounds: b };
+  }
+
   function esc(value) {
     return String(value).replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;");
   }
@@ -38,23 +83,17 @@
 
   function mount(stage, flags, state) {
     const country = state.country;
+    const cam = cameraFor(country);
     stage.classList.toggle("is-country-ch", country === "ch");
     stage.classList.toggle("is-country-cz", country === "cz");
+    stage.style.width = cam.widthPct.toFixed(2) + "%";
+    stage.style.left = cam.leftPct.toFixed(2) + "%";
+    stage.style.top = cam.topPct.toFixed(2) + "%";
     const pickedId = state.pickedId;
     const t = state.t;
-    const lands = COUNTRIES.map((entry) => {
-      const on = entry.id === country;
-      const classes = ["land", "land-" + entry.id];
-      if (on) classes.push("is-on");
-      if (entry.interactive) classes.push("is-button");
-      const button = entry.interactive
-        ? ' data-country="' + entry.id + '" role="button" tabindex="0" aria-pressed="' + (on ? "true" : "false") + '" aria-label="' + esc(t("map.flag", { name: t("map.country." + entry.id), count: String(state.count(entry.id)) })) + '"'
-        : ' aria-hidden="true"';
-      return '<path class="' + classes.join(" ") + '" fill-rule="evenodd" d="' + entry.d + '"' + button + "></path>";
-    }).join("");
     const labels = COUNTRIES.filter((entry) => entry.interactive && entry.label).map((entry) => {
-      const y = entry.label[1] + (entry.id === "ch" ? -24 : entry.id === "cz" ? 34 : 0);
-      const x = entry.label[0] + (entry.id === "ch" ? 44 : 0);
+      const y = entry.label[1] + (entry.id === "ch" ? 18 : entry.id === "cz" ? 34 : 0);
+      const x = entry.label[0] + (entry.id === "ch" ? 48 : 0);
       const classes = "land-label" + (entry.id === "ch" ? " land-label-ch" : "");
       return '<text class="' + classes + (entry.id === country ? " is-on" : "") + '" x="' + x + '" y="' + y + '" text-anchor="middle">' + esc(t("map.country." + entry.id)) + "</text>";
     }).join("");
@@ -82,29 +121,54 @@
             '<stop offset="72%" stop-color="#ef8422"/>' +
             '<stop offset="100%" stop-color="#c25812"/>' +
           "</radialGradient>" +
-          '<linearGradient id="fade-left" x1="0" y1="0" x2="80" y2="0" gradientUnits="userSpaceOnUse">' +
+          '<linearGradient id="fade-left" x1="0" y1="0" x2="170" y2="0" gradientUnits="userSpaceOnUse">' +
             '<stop offset="0" stop-color="#000"/>' +
-            '<stop offset="0.15" stop-color="#000"/>' +
+            '<stop offset="0.35" stop-color="#000"/>' +
             '<stop offset="1" stop-color="#fff"/>' +
           "</linearGradient>" +
-          '<linearGradient id="fade-top" x1="0" y1="0" x2="0" y2="36" gradientUnits="userSpaceOnUse">' +
-            '<stop offset="0" stop-color="#000"/>' +
-            '<stop offset="0.2" stop-color="#000"/>' +
-            '<stop offset="1" stop-color="#fff"/>' +
-          "</linearGradient>" +
-          '<linearGradient id="fade-bottom" x1="0" y1="680" x2="0" y2="720" gradientUnits="userSpaceOnUse">' +
+          '<linearGradient id="fade-right" x1="940" y1="0" x2="1040" y2="0" gradientUnits="userSpaceOnUse">' +
             '<stop offset="0" stop-color="#fff"/>' +
-            '<stop offset="0.85" stop-color="#000"/>' +
+            '<stop offset="0.7" stop-color="#000"/>' +
+            '<stop offset="1" stop-color="#000"/>' +
+          "</linearGradient>" +
+          '<linearGradient id="fade-top" x1="0" y1="0" x2="0" y2="60" gradientUnits="userSpaceOnUse">' +
+            '<stop offset="0" stop-color="#000"/>' +
+            '<stop offset="0.3" stop-color="#000"/>' +
+            '<stop offset="1" stop-color="#fff"/>' +
+          "</linearGradient>" +
+          '<linearGradient id="fade-bottom" x1="0" y1="640" x2="0" y2="720" gradientUnits="userSpaceOnUse">' +
+            '<stop offset="0" stop-color="#fff"/>' +
+            '<stop offset="0.7" stop-color="#000"/>' +
             '<stop offset="1" stop-color="#000"/>' +
           "</linearGradient>" +
           '<mask id="map-fade" maskUnits="userSpaceOnUse">' +
             '<rect width="1040" height="720" fill="#fff"/>' +
-            '<rect width="80" height="720" fill="url(#fade-left)"/>' +
-            '<rect width="1040" height="36" fill="url(#fade-top)"/>' +
-            '<rect y="680" width="1040" height="40" fill="url(#fade-bottom)"/>' +
+            '<rect width="170" height="720" fill="url(#fade-left)"/>' +
+            '<rect x="940" width="100" height="720" fill="url(#fade-right)"/>' +
+            '<rect width="1040" height="60" fill="url(#fade-top)"/>' +
+            '<rect y="640" width="1040" height="80" fill="url(#fade-bottom)"/>' +
           "</mask>" +
         "</defs>" +
-        '<g class="lands" mask="url(#map-fade)">' + lands + "</g>" +
+        '<g class="lands" mask="url(#map-fade)">' +
+          COUNTRIES.filter((entry) => entry.id !== country).map((entry) => {
+            const classes = ["land", "land-" + entry.id];
+            if (entry.interactive) classes.push("is-button");
+            const button = entry.interactive
+              ? ' data-country="' + entry.id + '" role="button" tabindex="0" aria-pressed="false" aria-label="' + esc(t("map.flag", { name: t("map.country." + entry.id), count: String(state.count(entry.id)) })) + '"'
+              : ' aria-hidden="true"';
+            return '<path class="' + classes.join(" ") + '" fill-rule="evenodd" d="' + entry.d + '"' + button + "></path>";
+          }).join("") +
+        "</g>" +
+        '<g class="lands-active">' +
+          COUNTRIES.filter((entry) => entry.id === country).map((entry) => {
+            const classes = ["land", "land-" + entry.id, "is-on"];
+            if (entry.interactive) classes.push("is-button");
+            const button = entry.interactive
+              ? ' data-country="' + entry.id + '" role="button" tabindex="0" aria-pressed="true" aria-label="' + esc(t("map.flag", { name: t("map.country." + entry.id), count: String(state.count(entry.id)) })) + '"'
+              : ' aria-hidden="true"';
+            return '<path class="' + classes.join(" ") + '" fill-rule="evenodd" d="' + entry.d + '"' + button + "></path>";
+          }).join("") +
+        "</g>" +
         '<g class="cities" aria-hidden="true">' + cities + "</g>" +
         '<g aria-hidden="true">' + labels + "</g></svg>" + pins;
     flags.setAttribute("role", "group");
@@ -118,5 +182,5 @@
     }).join("");
   }
 
-  return { VIEW, COUNTRIES, CITIES, project, mount };
+  return { VIEW, COUNTRIES, CITIES, project, countryBounds, cameraFor, mount };
 });

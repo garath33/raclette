@@ -91,3 +91,7 @@ Sekce Kde nakoupit drží sortiment e-shopu v jedné kartě E-shop Raklet Party:
 ## Pro partnery na ostrém webu
 
 Schválení „Hod na ostrý web“ posílá Pro partnery, telefon nad formulářem, vysvětlení AOP a znění mlékárny Laiterie d’Orsières na `raclettelovers.*` (bez zkušebního pruhu) a na GitHub Pages. Cloudflare Worker potřebuje v `wrangler.jsonc` prázdný blok `previews`, jinak build padá.
+
+## Každý stát v mapě bochníku je automaticky vycentrovaný výškově i do šířky
+
+Při přepínání vlajek v mapě poboček (`#pointy`) musí být aktivní stát — a každý další stát, který v budoucnu přibude — vždy plně vycentrovaný uprostřed vnitřní plochy půlbochníku sýra jak vodorovně, tak výškově, s dostatečným odstupem od zaoblené kůrky i horní grilované krusty. Místo ručně psaných CSS posunů pro jednotlivé země počítá `RacletteEurope.cameraFor(countryId)` v `js/europe.js` obdélník a vrcholy polygonu daného státu a automaticky nastaví šířku i pozici mapy (`left`, `top`, `width`) tak, aby střed státu ležel uprostřed čisté plochy bochníku a žádný výběžek (například západní a jižní cípy Švýcarska) se nedotýkal okraje.

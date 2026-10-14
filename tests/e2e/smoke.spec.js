@@ -203,6 +203,24 @@ test("vlajka vybere zemi a pin zvýrazní kartu", async ({ page }) => {
   await expect(page.locator("#network-map .land-ch")).toHaveClass(/is-on/);
   await expect(page.locator("#network-map")).toHaveClass(/is-country-ch/);
   await expect(page.locator("#network-map .pin")).toHaveCount(8);
+  await page.waitForTimeout(650);
+  const chCenter = await page.evaluate(() => {
+    const cheese = document.querySelector(".cheese").getBoundingClientRect();
+    const ch = document.querySelector(".land-ch").getBoundingClientRect();
+    return {
+      midX: ((ch.left + ch.right) / 2 - cheese.left) / cheese.width * 100,
+      midY: ((ch.top + ch.bottom) / 2 - cheese.top) / cheese.height * 100,
+      left: (ch.left - cheese.left) / cheese.width * 100,
+      right: (ch.right - cheese.left) / cheese.width * 100,
+      top: (ch.top - cheese.top) / cheese.height * 100,
+      bottom: (ch.bottom - cheese.top) / cheese.height * 100
+    };
+  });
+  expect(Math.abs(chCenter.midX - 50)).toBeLessThan(1.5);
+  expect(Math.abs(chCenter.midY - 44)).toBeLessThan(2);
+  expect(chCenter.left).toBeGreaterThan(32);
+  expect(chCenter.right).toBeLessThan(68);
+  expect(chCenter.bottom).toBeLessThan(62);
 
   await page.locator("#country-flags [data-country='cz']").click();
   await expect(page.locator("#point-cards .card")).toHaveCount(5);

@@ -32,3 +32,26 @@ test("české Pointy i Švýcarsko leží uvnitř výřezu mapy", () => {
     assert.ok(pos.y > 15 && pos.y < europe.VIEW.height - 8, city.name);
   }
 });
+
+test("cameraFor automaticky vycentruje každý stát výškově i vodorovně s bezpečným odstupem od okraje bochníku", () => {
+  for (const country of europe.COUNTRIES) {
+    const cam = europe.cameraFor(country.id);
+    const b = cam.bounds;
+    const minXPct = cam.leftPct + (b.minX / europe.VIEW.width) * cam.widthPct;
+    const maxXPct = cam.leftPct + (b.maxX / europe.VIEW.width) * cam.widthPct;
+    const midXPct = (minXPct + maxXPct) / 2;
+    const minYPct = cam.topPct + (b.minY / europe.VIEW.height) * cam.heightPct;
+    const maxYPct = cam.topPct + (b.maxY / europe.VIEW.height) * cam.heightPct;
+    const midYPct = (minYPct + maxYPct) / 2;
+    assert.ok(Math.abs(midXPct - 50) < 0.05, country.id + " midX=" + midXPct);
+    assert.ok(Math.abs(midYPct - 44) < 0.05, country.id + " midY=" + midYPct);
+    assert.ok(minXPct >= 31 && maxXPct <= 69, country.id + " X range");
+    assert.ok(minYPct >= 29 && maxYPct <= 59, country.id + " Y range");
+    for (const [x, y] of b.points) {
+      const cx = cam.leftPct + (x / europe.VIEW.width) * cam.widthPct;
+      const cy = cam.topPct + (y / europe.VIEW.height) * cam.heightPct;
+      const rindRatio = Math.hypot((cx - 50) / 50, (cy - 24.2) / 75.8);
+      assert.ok(rindRatio < 0.52, country.id + " vertex distance to rind=" + rindRatio);
+    }
+  }
+});
