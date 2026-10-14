@@ -36,6 +36,9 @@ test("stránka se načte, má sekce a testovací pruh", async ({ page }) => {
   await expect(page.locator("#nakup")).toContainText("raklerem");
   await expect(page.locator("#eventy")).toContainText("kolaudace");
   await expect(page.getByRole("heading", { name: "Eliška Reine" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Sídlo firmy a fakturační adresa" })).toBeVisible();
+  await expect(page.locator("#kontakty")).not.toContainText("Dodací adresa");
+  await expect(page.locator("#kontakty")).not.toContainText("Ratibořská");
   await expect(page.locator("#kontakty")).toContainText("+420 777 891 177");
   await expect(page.locator("#kontakty")).toContainText("+420 777 600 223");
   await expect(page.locator("body")).not.toContainText(/veronika/i);
