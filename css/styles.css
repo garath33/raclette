@@ -606,6 +606,33 @@ p { margin: 0; }
 }
 .benefit-grid p,
 .format-grid p { color: var(--muted); }
+.format-grid article {
+  position: relative;
+  border: 0;
+  background:
+    linear-gradient(165deg, rgba(254, 206, 82, 0.55), rgba(245, 129, 31, 0.16) 46%, #fff4e4);
+  --card: var(--orange);
+}
+.format-grid article::after {
+  content: "";
+  position: absolute;
+  top: 1.15rem;
+  right: 1.05rem;
+  width: 0.72rem;
+  height: 0.72rem;
+  background: var(--card);
+  transform: rotate(45deg);
+}
+.format-grid article:nth-child(2) {
+  background:
+    linear-gradient(165deg, rgba(243, 129, 147, 0.5), rgba(195, 52, 106, 0.14) 48%, #fff1f5);
+  --card: var(--magenta);
+}
+.format-grid article:nth-child(3) {
+  background:
+    linear-gradient(165deg, rgba(86, 183, 232, 0.48), rgba(0, 165, 185, 0.16) 50%, #eef8fb);
+  --card: var(--teal);
+}
 
 /* Partnerství a srdce — warm facets, no white bubbles */
 .approach-block {
@@ -732,7 +759,7 @@ p { margin: 0; }
   text-transform: uppercase;
 }
 .format-grid .format-badge { color: var(--gold-deep); margin-bottom: 0.4rem; }
-.format-grid .format-kind { color: var(--silver); margin: 0.1rem 0 0.75rem; }
+.format-grid .format-kind { color: var(--card, var(--orange)); margin: 0.1rem 0 0.75rem; }
 .format-meta {
   display: grid;
   gap: 0.55rem;
@@ -744,7 +771,7 @@ p { margin: 0; }
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--silver);
+  color: var(--card, var(--silver));
 }
 .format-meta dd { margin: 0; color: var(--ink); }
 .franchise-sign { margin-top: 0.35rem; color: var(--muted); }
