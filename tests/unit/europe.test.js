@@ -44,14 +44,14 @@ test("cameraFor automaticky vycentruje každý stát výškově i vodorovně s b
     const maxYPct = cam.topPct + (b.maxY / europe.VIEW.height) * cam.heightPct;
     const midYPct = (minYPct + maxYPct) / 2;
     assert.ok(Math.abs(midXPct - 50) < 0.05, country.id + " midX=" + midXPct);
-    assert.ok(Math.abs(midYPct - 44) < 0.05, country.id + " midY=" + midYPct);
-    assert.ok(minXPct >= 31 && maxXPct <= 69, country.id + " X range");
-    assert.ok(minYPct >= 29 && maxYPct <= 59, country.id + " Y range");
+    assert.ok(Math.abs(midYPct - 38.5) < 0.05, country.id + " midY=" + midYPct);
+    assert.ok(minXPct >= 26 && maxXPct <= 74, country.id + " X range");
+    assert.ok(minYPct >= 19.5 && maxYPct <= 57.5, country.id + " Y range");
     for (const [x, y] of b.points) {
       const cx = cam.leftPct + (x / europe.VIEW.width) * cam.widthPct;
       const cy = cam.topPct + (y / europe.VIEW.height) * cam.heightPct;
       const rindRatio = Math.hypot((cx - 50) / 50, (cy - 24.2) / 75.8);
-      assert.ok(rindRatio < 0.52, country.id + " vertex distance to rind=" + rindRatio);
+      assert.ok(rindRatio < 0.62, country.id + " vertex distance to rind=" + rindRatio);
     }
   }
 });

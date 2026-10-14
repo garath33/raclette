@@ -31,9 +31,9 @@
   const CHEESE_ASPECT = 1.515;
   const STAGE_RATIO = CHEESE_ASPECT / (VIEW.width / VIEW.height);
   const CENTER_X = 50;
-  const CENTER_Y = 44;
-  const MAX_RX = 18.5;
-  const MAX_RY = 14.5;
+  const CENTER_Y = 38.5;
+  const MAX_RX = 23.5;
+  const MAX_RY = 18.5;
 
   function countryBounds(countryId) {
     const entry = COUNTRIES.find((item) => item.id === countryId);

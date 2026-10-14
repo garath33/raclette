@@ -217,10 +217,10 @@ test("vlajka vybere zemi a pin zvýrazní kartu", async ({ page }) => {
     };
   });
   expect(Math.abs(chCenter.midX - 50)).toBeLessThan(1.5);
-  expect(Math.abs(chCenter.midY - 44)).toBeLessThan(2);
-  expect(chCenter.left).toBeGreaterThan(32);
-  expect(chCenter.right).toBeLessThan(68);
-  expect(chCenter.bottom).toBeLessThan(62);
+  expect(Math.abs(chCenter.midY - 38.5)).toBeLessThan(2);
+  expect(chCenter.left).toBeGreaterThan(26);
+  expect(chCenter.right).toBeLessThan(74);
+  expect(chCenter.bottom).toBeLessThan(60);
 
   await page.locator("#country-flags [data-country='cz']").click();
   await expect(page.locator("#point-cards .card")).toHaveCount(5);
