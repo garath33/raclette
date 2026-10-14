@@ -1,7 +1,7 @@
 # Pipeline
 
 ```text
-větev cursor/…  →  CI + Cloudflare Workers preview na pull requestu
+větev cursor/…  →  náhled na *.workers.dev (hned po pushi, ještě před sloučením)
                          ↓
                   sloučení / push do main
                          ↓
@@ -25,7 +25,19 @@ větev cursor/…  →  CI + Cloudflare Workers preview na pull requestu
 2. **Deploy test environment** — GitHub Pages. `github.io` se přesměruje na `https://www.raclettelovers.com/`. Obsah na `www` se indexuje. Pruh a `noindex` zůstávají jen když se HTML otevře přímo na `github.io` nebo na localhostu.
 3. **Deploy production** — `npx wrangler deploy` Workeru `raclette` na ostré domény Cloudflare (`.cz`, `.sk`, `.ch` a aliasy). Vyžaduje secret `CLOUDFLARE_API_TOKEN`.
 
-Cloudflare **Workers Builds** (napojený na GitHub) může nasadit paralelní build z `main` nebo z PR jako preview. Spolehlivá cesta z repozitáře je workflow výše.
+Cloudflare **Workers Builds** (napojený na GitHub) nasadí stejnou větev ještě jednou jako náhled. Ostré domény se tím nemění.
+
+## Náhled k otestování
+
+Autor webu zkouší změny na náhledu větve, ne až po sloučení do `main`. GitHub Pages se aktualizuje jen z `main`. U každé úpravy, kterou má projít v prohlížeči, patří do odpovědi odkaz na náhled.
+
+Adresa se skládá z názvu větve: lomítka se změní na pomlčky, na konec se připojí `-raclette.simunek-m.workers.dev`.
+
+| Větev | Náhled |
+| --- | --- |
+| `cursor/dairy-menu-designs-bccf` | <https://cursor-dairy-menu-designs-bccf-raclette.simunek-m.workers.dev/> |
+
+Česky: přidej `?lang=cs`. Partneři jsou na `/pro-partnery?lang=cs`. Náhled má zkušební pruh a `noindex`. Nahý `raclette.simunek-m.workers.dev` není veřejný (`workers_dev` je vypnuté), platí jen adresa větve. Po pushi chvíli trvá, než Workers Builds stránku přebuduje.
 
 ## Secret pro ostré nasazení
 

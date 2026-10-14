@@ -12,7 +12,9 @@ U Špindlerova Mlýna a food trucku nebyla ulice. Mapa ukazuje střed střediska
 
 ## Test není ostrý web
 
-Testovací adresa je `https://garath33.github.io/raclette/`. Má `noindex` a viditelný pruh. GitHub Pages jde jen z `main`.
+Testovací adresa po sloučení do `main` je `https://garath33.github.io/raclette/`. Má `noindex` a viditelný pruh. GitHub Pages jde jen z `main`.
+
+Větev se zkouší dřív, na náhledu Cloudflare Workers. Adresa je v [pipeline](pipeline.md). U každé úpravy, kterou má autor projet sám, se ten odkaz pošle v odpovědi. Nestačí odkaz na pull request.
 
 Ostrý web je Cloudflare Worker `raclette` na `raclettelovers.cz` / `.sk` / `.ch`. Dřívější workflow Deploy production po testech dělal `exit 1` s textem, že hosting není připojený — to už neplatí a mástilo to při merge. Po sloučení do `main` teď běží Pages (test) i `wrangler deploy` (ostrý Worker), pokud je v Actions secret `CLOUDFLARE_API_TOKEN`.
 
@@ -87,6 +89,12 @@ Překlepy se nepřenášejí: brunch, ne branch, kolaudace, ne koloudace, plnotu
 ## E-shop Raklet Party prodává sortiment, ne jen odkaz
 
 Sekce Kde nakoupit drží sortiment e-shopu v jedné kartě E-shop Raklet Party: krátká věta, která zve podívat se na e-shop, a odrážky se sýry, grily, grily TTM na míru, kořením, půjčovnou, víny, fondue a Family WOOD. Family WOOD je značka praktických dřevěných výrobků na míru s řemeslnou elegancí. Katalog ani text značky neříká, že nově dělají rakletovací stoly, proto to web neříká. Bez cen a bez dlouhých popisů. Slovo nalákat na webu není.
+
+## Pět dalších Pointů má adresu z webu podniku
+
+K vizitkám přibyly Raclett'House Chez Eddy (Route de Valbord 55, 1934 Bruson), Laiterie d’Orsières (Route du Grand Saint-Bernard 3, 1937 Orsières), Laiterie du Mouret (Route de la Gruyère 6, 1724 Ferpicloz), Kavárna U modrého zvonku a Bonté sýry (Husovo náměstí 78/6, 266 01 Beroun). Telefon a web jsou ze stejné stránky. Kontaktní jméno z podkladu na vizitce není, formát Pointu zůstává název, místo, adresa, krátká věta, telefon a web. U kavárny v Opavě ulice na stránce kavárny není. Masarykova třída 342/39, 746 01 Opava je adresa minoritského kláštera se stejným webem a telefonem. Souřadnice sedí na tu adresu v mapě, ne na střed města.
+
+Bonté v Berouně je ze Záběhlic jen asi o 1,2 km dál než food truck v Kladně. Přesný odečet pořád vybere Kladno. Odečet s chybou kolem kilometru už pořadí může otočit, proto stránka řekne, že se výběr může změnit. Dřívější věta, že odchylka o kilometr výběr nemění, platila, dokud byl další Point o desítky kilometrů dál. Texty jsou ve všech devíti jazycích a sedí na znění o autentickém švýcarském raclette, proto strop `js/i18n-extra.js` posouvá ze 176 kB na 178 kB.
 
 ## Pro partnery na ostrém webu
 

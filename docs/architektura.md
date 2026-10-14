@@ -38,7 +38,7 @@ Výchozí jazyk testovacího webu je čeština. Volba se ukládá do `localStora
 
 Mapa poboček v sekci Naše Raclette Pointy je vykreslená v uřízlém půlbochníku sýra (`js/europe.js`, `css/styles.css`). Zvolená země (a každý další stát, který v budoucnu přibude) se pomocí `RacletteEurope.cameraFor(countryId)` automaticky vycentruje přesně doprostřed vnitřní plochy bochníku jak vodorovně (`50 %` šířky), tak výškově (střed čisté plochy sýra mezi grilovanou krustou nahoře a spodní kůrkou), a měřítko se spočítá z obrysu státu tak, aby se žádný cíp (včetně výběžků Švýcarska) nikdy nepřiblížil ke kůrce ani k hornímu řezu.
 
-Souřadnice jsou v `js/points.js`. Křížový vrch má ověřenou adresu Za Pilou 6. Špindlerův Mlýn je střed střediska, protože ulice nebyla dodaná. Food truck Martina Kábrta má základnu v Kladně, zastávka se mění podle akce.
+Souřadnice jsou v `js/points.js`. Křížový vrch má ověřenou adresu Za Pilou 6. Špindlerův Mlýn je střed střediska, protože ulice nebyla dodaná. Food truck Martina Kábrta má základnu v Kladně, zastávka se mění podle akce. Další Pointy mají adresu z webu podniku: Raclett'House Chez Eddy, Laiterie d’Orsières, Laiterie du Mouret, Kavárna U modrého zvonku a Bonté sýry.
 
 Vzdálenost počítá vzorec haversine. Tlačítko polohy vybere nejbližší Point. Odkaz do Google Maps má jen cíl, start si Maps vezme ze své polohy. Když prohlížeč hlásí přesnost horší než 300 m, stránka porovná tu chybu s odstupem druhého Pointu.
 

@@ -19,4 +19,6 @@ wrangler.jsonc
 .assetsignore
 worker.js
 _redirects
+navrhy.html
+navrhy
 

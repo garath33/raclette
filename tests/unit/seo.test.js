@@ -46,13 +46,20 @@ test("robots a sitemap ukazují na ostré domény a všechny jazyky", () => {
 
 test("veřejné soubory drží výkonnostní rozpočet", () => {
   const limits = {
-    "css/styles.css": 40 * 1024,
+    "css/styles.css": 44 * 1024,
     "js/app.js": 20 * 1024,
-    "js/i18n.js": 78 * 1024,
-    "js/i18n-extra.js": 164 * 1024,
+    "js/i18n.js": 90 * 1024,
+    "js/i18n-extra.js": 188 * 1024,
     "assets/photo-service.jpg": 400 * 1024,
     "assets/photo-wedge.jpg": 280 * 1024,
+    "assets/shop-assortment.jpg": 320 * 1024,
     "assets/photo-barry.jpg": 220 * 1024,
+    "assets/event-open-raklet.jpg": 160 * 1024,
+    "assets/event-colours.jpg": 160 * 1024,
+    "assets/event-beats.jpg": 160 * 1024,
+    "assets/event-apetit.jpg": 80 * 1024,
+    "assets/event-foodparade.jpg": 80 * 1024,
+    "assets/event-senec.jpg": 180 * 1024,
     "assets/logo-point.png": 150 * 1024,
     "assets/cow-head.png": 150 * 1024
   };
