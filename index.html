@@ -184,6 +184,11 @@
           <h2 data-i18n="points.title">Nejbližší stůl podle vaší polohy</h2>
           <p class="lead" data-i18n="points.lead">U každého Pointu je rovnou jeho mapa, raclette menu a cesta do podniku. Poloha v prohlížeči označí nejbližší místo a Google Maps vás dovede až ke dveřím.</p>
         </div>
+        <div class="network" id="network">
+          <div class="network-stage" id="network-map"></div>
+          <div class="flag-row" id="country-flags"></div>
+          <p class="network-caption" data-i18n="map.caption">Vlajka vybere zemi a pod mapou zůstanou jen její Pointy. Švýcarsko je zatím označené celé, přesná adresa přijde s podklady.</p>
+        </div>
         <div class="locator">
           <button class="btn btn-solid" id="locate" type="button" data-i18n="points.locate">Použít mou polohu</button>
           <a class="btn btn-diamond" id="navigate-nearest" hidden target="_blank" rel="noopener noreferrer">Navigovat k nejbližšímu</a>
@@ -554,6 +559,7 @@
 
   <script src="js/geo.js"></script>
   <script src="js/points.js"></script>
+  <script src="js/europe.js"></script>
   <script src="js/site.js"></script>
   <script src="js/i18n.js"></script>
   <script src="js/i18n-extra.js"></script>

@@ -177,6 +177,31 @@ test("bez polohy zůstává trasa jen s cílem a navigace je skrytá", async ({ 
   expect(href).toMatch(/dir_action=navigate/);
 });
 
+test("vlajka vybere zemi a pin zvýrazní kartu", async ({ page }) => {
+  await page.goto("/?lang=cs");
+  await expect(page.locator("#network-map .land-ch")).toHaveCount(1);
+  await expect(page.locator("#network-map .land-cz")).toHaveClass(/is-on/);
+  await expect(page.locator("#network-map .pin")).toHaveCount(3);
+  await expect(page.locator("#country-flags [data-country='cz']")).toHaveAttribute("aria-pressed", "true");
+  await expect(page.locator("#country-flags [data-country='cz'] .flag-count")).toHaveText("3");
+  await expect(page.locator("#country-flags [data-country='ch'] .flag-count")).toHaveText("1");
+
+  await page.locator("#country-flags [data-country='ch']").click();
+  await expect(page.locator("#point-cards .card")).toHaveCount(1);
+  await expect(page.locator("#point-cards .is-pending")).toContainText("podklady");
+  await expect(page.locator("#point-cards .is-pending")).toContainText("První Point ve Švýcarsku");
+  await expect(page.locator("#point-cards iframe")).toHaveCount(0);
+  await expect(page.locator("#network-map .land-ch")).toHaveClass(/is-on/);
+  await expect(page.locator("#network-map .pin")).toHaveCount(3);
+
+  await page.locator("#network-map .land-cz").click();
+  await expect(page.locator("#point-cards .card")).toHaveCount(3);
+  await expect(page.locator("#point-cards iframe")).toHaveCount(3);
+  await page.locator("#network-map .pin[data-point='spindl']").click();
+  await expect(page.locator('#point-cards .card[data-id="spindl"]')).toHaveClass(/is-picked/);
+  await expect(page.locator("#network-map .pin[data-point='spindl']")).toHaveAttribute("aria-current", "true");
+});
+
 test("odmítnutá poloha ukáže hlášku a navigaci neschová jako dostupnou", async ({ page, context }) => {
   await context.grantPermissions([]);
   await page.addInitScript(() => {

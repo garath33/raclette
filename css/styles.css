@@ -312,6 +312,107 @@ p { margin: 0; }
 .section-head .lead { margin-top: 1rem; }
 
 .points { background: var(--paper); }
+.network { margin: 0 0 1.6rem; }
+.network-stage {
+  position: relative;
+  background: #fbf6ee;
+  border-radius: 22px;
+  overflow: hidden;
+}
+.network-stage svg { display: block; width: 100%; height: auto; }
+.land { fill: #f3ddb4; stroke: #c4a36b; stroke-width: 1.35; stroke-linejoin: round; }
+.land-cz { fill: #f2c85a; stroke: #e0b03a; }
+.land-ch { fill: #cd143e; stroke: #a10f31; }
+.land.is-on { stroke: var(--ink); stroke-width: 2.75; }
+.land.is-button { cursor: pointer; }
+.land-label {
+  font-family: var(--sans);
+  font-size: 15px;
+  font-weight: 700;
+  fill: #7a6240;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  pointer-events: none;
+}
+.land-label.is-on { fill: var(--ink); }
+.land-label-ch { fill: #fff; font-size: 13px; letter-spacing: 0.04em; }
+.swiss-mark { pointer-events: none; }
+.swiss-mark rect { fill: #fff; }
+.pin {
+  position: absolute;
+  z-index: 1;
+  width: 44px;
+  height: 44px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+}
+.pin-dot {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: var(--red);
+  box-shadow: 0 0 0 2px #fff;
+  transform: translate(-50%, -50%);
+}
+.pin-name {
+  position: absolute;
+  white-space: nowrap;
+  font-family: var(--sans);
+  font-size: 0.72rem;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--ink);
+  background: rgba(255, 250, 240, 0.94);
+  border-radius: 999px;
+  padding: 0.08rem 0.42rem;
+  pointer-events: none;
+}
+.pin-above .pin-name { bottom: calc(50% + 12px); left: 50%; transform: translateX(-50%); }
+.pin-left .pin-name { top: 50%; right: calc(50% + 12px); transform: translateY(-50%); }
+.pin-right .pin-name { top: 50%; left: calc(50% + 12px); transform: translateY(-50%); }
+.pin.is-dim { opacity: 0.42; }
+.pin.is-picked .pin-dot { background: var(--ink); box-shadow: 0 0 0 2px #fff, 0 0 0 5px var(--gold); }
+.flag-row { display: flex; flex-wrap: wrap; gap: 0.65rem; margin-top: 0.85rem; }
+.flag-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  min-height: 48px;
+  padding: 0.3rem 0.85rem 0.3rem 0.35rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--ink);
+  cursor: pointer;
+}
+.flag-btn.is-on { border-color: var(--ink); background: #fff8ea; }
+.flag-svg { display: block; height: 24px; width: auto; border-radius: 3px; box-shadow: 0 0 0 1px rgba(26, 28, 29, 0.12); }
+.flag-name { font-weight: 700; font-size: 0.95rem; }
+.flag-count {
+  min-width: 1.45rem;
+  height: 1.45rem;
+  padding: 0 0.35rem;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  background: var(--paper);
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+.flag-btn.is-on .flag-count { background: var(--ink); color: #fff; }
+.network-caption { margin: 0.85rem 0 0; max-width: 46rem; color: var(--muted); font-size: 0.95rem; }
+.card.is-picked { border-color: var(--gold-deep); }
+.card.is-pending {
+  grid-template-columns: 1fr;
+  grid-template-areas: "head";
+}
 .locator {
   display: flex;
   flex-wrap: wrap;
@@ -1139,6 +1240,7 @@ p { margin: 0; }
 }
 
 @media (max-width: 720px) {
+  .pin-name { display: none; }
   .benefit-grid,
   .approach-rail { grid-template-columns: 1fr; }
   .approach-block,
