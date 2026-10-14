@@ -32,6 +32,9 @@ test("stránka se načte, má sekce a testovací pruh", async ({ page }) => {
   await expect(page.locator(".supplier-cow")).toBeVisible();
   await expect(page.locator(".supplier-crest")).toBeVisible();
   await expect(page.getByRole("heading", { name: "Martin Šimůnek" })).toBeVisible();
+  await expect(page.locator("#reference h2")).toContainText("Celebrity a náš raclette");
+  await expect(page.locator("#reference")).toContainText("Tomáš Klus");
+  await expect(page.locator('#reference time')).toHaveAttribute("datetime", "2026-07-25");
   await expect(page.locator("#raclette")).toContainText("racler");
   await expect(page.locator("#nakup")).toContainText("raklerem");
   await expect(page.locator("#eventy")).toContainText("kolaudace");

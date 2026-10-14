@@ -90,6 +90,11 @@ test("veřejný text nezmiňuje vyřazenou osobu a IT role existuje", () => {
   assert.match(TRANSLATIONS.en["nav.raclette"], /raclette/i);
   assert.match(TRANSLATIONS.sk["person.martin.role"], /IT špecialista/);
   assert.match(TRANSLATIONS.en["person.martin.role"], /IT specialist/);
+  assert.match(TRANSLATIONS.cs["celeb.title"], /Celebrity a náš raclette/);
+  assert.match(TRANSLATIONS.cs["celeb.klus.who"], /Tomáš Klus/);
+  assert.match(TRANSLATIONS.cs["celeb.klus.when"], /25\. července 2026/);
+  assert.match(TRANSLATIONS.cs["celeb.klus.text"], /Mirkou/);
+  assert.match(TRANSLATIONS.en["celeb.klus.text"], /Kladno/);
   assert.match(TRANSLATIONS.cs["footer.rights"], /Web vyvinul Martin Šimůnek/);
   assert.match(TRANSLATIONS.sk["footer.rights"], /Web vyvinul Martin Šimůnek/);
   assert.match(TRANSLATIONS.en["footer.rights"], /Website developed by Martin Šimůnek/);
