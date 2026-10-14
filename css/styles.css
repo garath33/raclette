@@ -358,10 +358,16 @@ p { margin: 0; }
 }
 .network-stage {
   position: absolute;
-  width: 101%;
-  left: 13%;
-  top: -19.5%;
+  width: 138%;
+  left: -28%;
+  top: -18.5%;
   background: transparent;
+  transition: width 0.55s cubic-bezier(0.22, 1, 0.36, 1), left 0.55s cubic-bezier(0.22, 1, 0.36, 1), top 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.network-stage.is-country-ch {
+  width: 155%;
+  left: 26%;
+  top: -88%;
 }
 .cheese .pin { z-index: 5; }
 .network-stage svg { display: block; width: 100%; height: auto; }
@@ -392,8 +398,10 @@ p { margin: 0; }
 }
 .land-label.is-on { fill: #3a2410; }
 .land-label:not(.is-on) { opacity: 0.62; }
-.land-label-ch { font-size: 16px; letter-spacing: 0.03em; }
-.city { pointer-events: none; }
+.land-label-ch { font-size: 18px; letter-spacing: 0.05em; }
+.city { pointer-events: none; transition: opacity 0.35s ease; }
+.network-stage.is-country-cz .city:not(.city-cz) { opacity: 0.55; }
+.network-stage.is-country-ch .city:not(.city-ch) { opacity: 0; }
 .city circle { fill: #7a5428; }
 .city text {
   font-family: var(--sans);
@@ -444,7 +452,8 @@ p { margin: 0; }
 .pin-above .pin-name { bottom: calc(50% + 12px); left: 50%; transform: translateX(-50%); }
 .pin-left .pin-name { top: 50%; right: calc(50% + 12px); transform: translateY(-50%); }
 .pin-right .pin-name { top: 50%; left: calc(50% + 12px); transform: translateY(-50%); }
-.pin.is-dim { opacity: 0.42; }
+.pin.is-dim { opacity: 0; pointer-events: none; }
+.pin { transition: opacity 0.35s ease; }
 .pin.is-picked .pin-dot { background: var(--ink); box-shadow: 0 0 0 2px #fff, 0 0 0 5px var(--gold); }
 .flag-row {
   position: relative;

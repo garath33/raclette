@@ -38,6 +38,8 @@
 
   function mount(stage, flags, state) {
     const country = state.country;
+    stage.classList.toggle("is-country-ch", country === "ch");
+    stage.classList.toggle("is-country-cz", country === "cz");
     const pickedId = state.pickedId;
     const t = state.t;
     const lands = COUNTRIES.map((entry) => {
@@ -51,9 +53,10 @@
       return '<path class="' + classes.join(" ") + '" fill-rule="evenodd" d="' + entry.d + '"' + button + "></path>";
     }).join("");
     const labels = COUNTRIES.filter((entry) => entry.interactive && entry.label).map((entry) => {
-      const y = entry.label[1] + (entry.id === "ch" ? -70 : entry.id === "cz" ? 34 : 0);
+      const y = entry.label[1] + (entry.id === "ch" ? -24 : entry.id === "cz" ? 34 : 0);
+      const x = entry.label[0] + (entry.id === "ch" ? 44 : 0);
       const classes = "land-label" + (entry.id === "ch" ? " land-label-ch" : "");
-      return '<text class="' + classes + (entry.id === country ? " is-on" : "") + '" x="' + entry.label[0] + '" y="' + y + '" text-anchor="middle">' + esc(t("map.country." + entry.id)) + "</text>";
+      return '<text class="' + classes + (entry.id === country ? " is-on" : "") + '" x="' + x + '" y="' + y + '" text-anchor="middle">' + esc(t("map.country." + entry.id)) + "</text>";
     }).join("");
     const cities = CITIES.map((city) => {
       const pos = project(city.lat, city.lng);
@@ -94,7 +97,8 @@
             '<rect y="698" width="1040" height="22" fill="url(#fade-bottom)"/>' +
           "</mask>" +
         "</defs>" +
-        '<g class="lands" mask="url(#map-fade)">' + lands + "</g>" +
+          '<rect x="0" y="0" width="1040" height="720" fill="#f4ddb4" mask="url(#map-fade)"/>' +
+          '<g class="lands" mask="url(#map-fade)">' + lands + "</g>" +
         '<g class="cities" aria-hidden="true">' + cities + "</g>" +
         '<g aria-hidden="true">' + labels + "</g></svg>" + pins;
     flags.setAttribute("role", "group");

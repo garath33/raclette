@@ -201,11 +201,13 @@ test("vlajka vybere zemi a pin zvýrazní kartu", async ({ page }) => {
   await expect(page.locator("#point-cards")).toContainText("Laiterie du Mouret");
   await expect(page.locator("#point-cards iframe")).toHaveCount(3);
   await expect(page.locator("#network-map .land-ch")).toHaveClass(/is-on/);
+  await expect(page.locator("#network-map")).toHaveClass(/is-country-ch/);
   await expect(page.locator("#network-map .pin")).toHaveCount(8);
 
-  await page.locator("#network-map .land-cz").click();
+  await page.locator("#country-flags [data-country='cz']").click();
   await expect(page.locator("#point-cards .card")).toHaveCount(5);
   await expect(page.locator("#point-cards iframe")).toHaveCount(5);
+  await expect(page.locator("#network-map")).toHaveClass(/is-country-cz/);
   await page.locator("#network-map .pin[data-point='spindl']").click();
   await expect(page.locator('#point-cards .card[data-id="spindl"]')).toHaveClass(/is-picked/);
   await expect(page.locator("#network-map .pin[data-point='spindl']")).toHaveAttribute("aria-current", "true");
