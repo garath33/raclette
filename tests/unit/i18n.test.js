@@ -45,7 +45,13 @@ test("veřejný text nezmiňuje vyřazenou osobu a IT role existuje", () => {
   assert.match(TRANSLATIONS.cs["franchise.approach"], /statisícové ani milionové vstupní poplatky/);
   assert.match(TRANSLATIONS.cs["franchise.a3d"], /Měsíční partnerský poplatek/);
   assert.match(TRANSLATIONS.cs["franchise.s4d"], /Eddy Baillifard/);
-  assert.match(TRANSLATIONS.cs["form.lead"], /milan@raclette-original\.com/);
+  assert.match(TRANSLATIONS.cs["form.lead"], /Ozveme se vám/);
+  for (const lang of Object.keys(TRANSLATIONS)) {
+    const blob = Object.values(TRANSLATIONS[lang]).join("\n");
+    assert.equal(/raclette-original\.com/i.test(blob), false, lang);
+  }
+  const pages = fs.readFileSync("index.html", "utf8") + fs.readFileSync("pro-partnery.html", "utf8");
+  assert.equal(/raclette-original\.com/i.test(pages), false);
   assert.match(TRANSLATIONS.cs["form.invite"], /formulář|zavolejte/);
   assert.match(TRANSLATIONS.cs["nav.franchise"], /Pro partnery/);
   assert.match(TRANSLATIONS.cs["aop.title"], /AOP/);
