@@ -946,7 +946,7 @@ p { margin: 0; }
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: 58% 46%;
+  object-position: center 34%;
 }
 .shop-points {
   list-style: none;
@@ -1190,7 +1190,7 @@ p { margin: 0; }
   .hero-grid, .media-grid, .story-grid, .shop-grid, .shop-feature, .event-grid, .people, .facts, .footer-grid, .format-grid {
     grid-template-columns: 1fr;
   }
-  .shop-photo { min-height: 0; height: 240px; order: -1; }
+  .shop-photo { min-height: 0; height: 300px; order: -1; }
   .shop-dairy { grid-template-columns: 1fr; justify-items: start; }
   .shop-crest { width: min(200px, 72%); }
   .benefit-grid.cols-3 { grid-template-columns: 1fr; }

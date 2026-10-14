@@ -52,6 +52,7 @@ test("veřejné soubory drží výkonnostní rozpočet", () => {
     "js/i18n-extra.js": 158 * 1024,
     "assets/photo-service.jpg": 400 * 1024,
     "assets/photo-wedge.jpg": 280 * 1024,
+    "assets/shop-assortment.jpg": 320 * 1024,
     "assets/photo-barry.jpg": 220 * 1024,
     "assets/logo-point.png": 150 * 1024,
     "assets/cow-head.png": 150 * 1024
