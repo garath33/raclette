@@ -13,7 +13,7 @@
       "app.how.lead": "Zástupce Raclette Lovers otevře hledání nejbližšího Pointu. Polohu se zeptáme až po klepnutí.",
       "app.how.ios": "iPhone: otevřete aplikaci v Safari, klepněte na Sdílet a zvolte Na plochu. Ikona bude logo Raclette Lovers.",
       "app.how.android": "Android: v Chrome klepněte na Instalovat aplikaci, nebo v nabídce zvolte Přidat na plochu.",
-      "app.install": "Přidat na plochu",
+      "app.install": "Na plochu telefonu",
       "app.installed": "Aplikace je na ploše. Otevřete ji ikonou Raclette Lovers.",
       "app.idle": "Klepněte na Použít mou polohu. Navigaci spustíme až potom."
     },
@@ -64,7 +64,7 @@
       "app.how.lead": "Zástupca Raclette Lovers otvorí hľadanie najbližšieho Pointu. Polohu sa spýtame až po ťuknutí.",
       "app.how.ios": "iPhone: otvorte aplikáciu v Safari, ťuknite na Zdieľať a zvoľte Na plochu. Ikona bude logo Raclette Lovers.",
       "app.how.android": "Android: v Chrome ťuknite na Inštalovať aplikáciu, alebo v ponuke zvoľte Pridať na plochu.",
-      "app.install": "Pridať na plochu",
+      "app.install": "Na plochu telefónu",
       "app.installed": "Aplikácia je na ploche. Otvorte ju ikonou Raclette Lovers.",
       "app.idle": "Ťuknite na Použiť moju polohu. Navigáciu spustíme až potom."
     },

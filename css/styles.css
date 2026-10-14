@@ -229,6 +229,21 @@ p { margin: 0; }
 .btn-solid:hover { background: var(--gold-deep); }
 .btn-diamond { background: var(--red); color: white; }
 .btn-diamond:hover { background: var(--magenta); }
+.btn-gold {
+  background: var(--yellow);
+  border-color: var(--yellow);
+  color: var(--ink);
+}
+.btn-gold:hover { background: var(--gold); border-color: var(--gold); }
+.btn-gold:before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  margin-right: 0.45rem;
+  background: currentColor;
+  transform: rotate(45deg);
+  flex: 0 0 auto;
+}
 .btn-line { border-color: var(--ink); }
 .btn-line:hover { background: var(--ink); color: white; }
 .btn[aria-disabled="true"] { pointer-events: none; opacity: 0.45; }
@@ -1238,9 +1253,30 @@ p { margin: 0; }
   color: var(--gold-deep);
   font-weight: 700;
 }
+.pwa-panel {
+  flex-basis: 100%;
+  margin-top: 0.15rem;
+  padding: 1rem 1.05rem 1.1rem;
+  background: white;
+  border: 1px solid var(--gold);
+  border-radius: 16px;
+}
+.pwa-panel[hidden] { display: none !important; }
+.pwa-panel .pwa-howto { margin-top: 0.75rem; }
+.pwa-panel-lead { color: var(--muted); }
+html[data-pwa="ios"] .pwa-step-ios,
+html[data-pwa="android"] .pwa-step-android {
+  color: var(--ink);
+  font-weight: 600;
+}
 html[data-pwa="installed"] .pwa-howto,
 html[data-pwa="installed"] #pwa-install { display: none; }
 .app-install { background: var(--white); }
+.app-install.is-open {
+  outline: 2px solid var(--gold);
+  outline-offset: 8px;
+  border-radius: 8px;
+}
 
 body.lovers-app {
   background: var(--paper);

@@ -213,10 +213,13 @@ test("odmítnutá poloha ukáže hlášku a navigaci neschová jako dostupnou", 
 
 test("web nabízí aplikaci Raclette Lovers a návod na plochu", async ({ page }) => {
   await page.goto("/?lang=cs");
-  await expect(page.locator('#uvod a[href="app.html"]')).toHaveText("Aplikace Raclette Lovers");
+  await expect(page.locator("#uvod #pwa-install")).toHaveText("Na plochu telefonu");
+  await expect(page.locator("#uvod #pwa-install")).toBeVisible();
+  await page.locator("#uvod #pwa-install").click();
+  await expect(page.locator("#aplikace")).toBeInViewport();
   await expect(page.locator("#aplikace")).toContainText("Safari");
   await expect(page.locator("#aplikace")).toContainText("Chrome");
-  await expect(page.locator('#aplikace a[href="app.html"]')).toBeVisible();
+  await expect(page.locator('#aplikace a[href="app.html#na-plochu"]')).toBeVisible();
   await expect(page.locator('link[rel="manifest"]')).toHaveAttribute("href", "manifest.webmanifest");
 });
 
@@ -227,6 +230,12 @@ test("aplikace Raclette Lovers hledá Point až po klepnutí a má čtyři jazyk
   await page.goto("/app.html?lang=cs");
   await expect(page.locator("h1")).toContainText("Najít nejbližší Point");
   await expect(page.locator("#navigate-nearest")).toBeHidden();
+  await expect(page.locator("#pwa-install")).toBeVisible();
+  await expect(page.locator("#pwa-install")).toHaveText("Na plochu telefonu");
+  await expect(page.locator("#pwa-panel")).toBeHidden();
+  await page.locator("#pwa-install").click();
+  await expect(page.locator("#pwa-panel")).toBeVisible();
+  await expect(page.locator("#pwa-panel")).toContainText("Safari");
   await expect(page.locator("#locator-status")).toContainText("Klepněte");
   await expect(page.locator("#lang option")).toHaveCount(4);
   await expect(page.locator("#lang option[value='de']")).toHaveCount(0);
@@ -246,4 +255,18 @@ test("aplikace Raclette Lovers hledá Point až po klepnutí a má čtyři jazyk
   await expect(page.locator("h1")).toContainText("Find the nearest Point");
   await expect(page.locator("#navigate-nearest")).toContainText("Martin Kábrt");
   expect(errors).toEqual([]);
+});
+
+test("když prohlížeč instalaci odmítne, aplikace ukáže návod", async ({ page }) => {
+  await page.goto("/app.html?lang=cs");
+  await page.evaluate(() => {
+    const event = new Event("beforeinstallprompt");
+    event.preventDefault = () => {};
+    event.prompt = () => {};
+    event.userChoice = Promise.resolve({ outcome: "dismissed" });
+    window.dispatchEvent(event);
+  });
+  await page.locator("#pwa-install").click();
+  await expect(page.locator("#pwa-panel")).toBeVisible();
+  await expect(page.locator("#pwa-panel")).toContainText("Safari");
 });

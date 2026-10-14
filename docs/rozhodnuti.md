@@ -96,7 +96,7 @@ Bonté v Berouně je ze Záběhlic jen asi o 1,2 km dál než food truck v Kladn
 
 ## Aplikace je zástupce, ne App Store
 
-Hosté chtějí ikonu Raclette Lovers na ploše telefonu a navigaci k nejbližšímu Pointu. To už web umí, proto není nativní appka v App Store ani Google Play. Stránka `app.html` je PWA: manifest, ikona z loga, zástupce ze Safari i Chrome. Polohu se zeptá až po klepnutí. Jazyky v aplikaci jsou jen cs, sk, en a fr. Instagram, YouTube, Facebook a odkaz na web jsou dole. Návod jak ikonu uložit je na webu v sekci Aplikace i v samotné appce.
+Hosté chtějí ikonu Raclette Lovers na ploše telefonu a navigaci k nejbližšímu Pointu. To už web umí, proto není nativní appka v App Store ani Google Play. Stránka `app.html` je PWA: manifest, ikona z loga, zástupce ze Safari i Chrome. Polohu se zeptá až po klepnutí. Jazyky v aplikaci jsou jen cs, sk, en a fr. Instagram, YouTube, Facebook a odkaz na web jsou dole. Žluté tlačítko „Na plochu telefonu“ je nahoře vedle hledání Pointu. Když prohlížeč umí instalaci, nabídne ji. Jinak se otevře návod pro iPhone a Android.
 
 ## Pro partnery na ostrém webu
 

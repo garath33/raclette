@@ -61,23 +61,23 @@
       <p class="lead" data-i18n="app.lead">Klepněte na polohu, označíme nejbližší Raclette Point Original a Google Maps vás tam navede.</p>
       <div class="locator">
         <button class="btn btn-solid" id="locate" type="button" data-i18n="points.locate">Použít mou polohu</button>
+        <button class="btn btn-gold" id="pwa-install" type="button" aria-expanded="false" aria-controls="pwa-panel">
+          <span data-i18n="app.install">Na plochu telefonu</span>
+        </button>
         <a class="btn btn-diamond" id="navigate-nearest" hidden target="_blank" rel="noopener noreferrer">Navigovat k nejbližšímu</a>
         <p class="status" id="locator-status" aria-live="polite"></p>
+        <div id="pwa-panel" class="pwa-panel" hidden>
+          <p id="pwa-installed" class="pwa-installed" hidden data-i18n="app.installed">Aplikace je na ploše. Otevřete ji ikonou Raclette Lovers.</p>
+          <p class="pwa-panel-lead" data-i18n="app.how.lead">Zástupce Raclette Lovers otevře hledání nejbližšího Pointu. Polohu se zeptáme až po klepnutí.</p>
+          <ol class="pwa-howto">
+            <li class="pwa-step-ios" data-i18n="app.how.ios">iPhone: otevřete aplikaci v Safari, klepněte na Sdílet a zvolte Na plochu. Ikona bude logo Raclette Lovers.</li>
+            <li class="pwa-step-android" data-i18n="app.how.android">Android: v Chrome klepněte na Instalovat aplikaci, nebo v nabídce zvolte Přidat na plochu.</li>
+          </ol>
+        </div>
       </div>
     </section>
 
     <div class="cards lovers-cards" id="point-cards"></div>
-
-    <section class="lovers-install" id="aplikace" aria-labelledby="app-how-title">
-      <h2 id="app-how-title" data-i18n="app.how.title">Uložit na plochu telefonu</h2>
-      <p data-i18n="app.how.lead">Zástupce Raclette Lovers otevře hledání nejbližšího Pointu. Polohu se zeptáme až po klepnutí.</p>
-      <button class="btn btn-solid" id="pwa-install" type="button" hidden data-i18n="app.install">Přidat na plochu</button>
-      <p id="pwa-installed" class="pwa-installed" hidden data-i18n="app.installed">Aplikace je na ploše. Otevřete ji ikonou Raclette Lovers.</p>
-      <ol class="pwa-howto">
-        <li data-i18n="app.how.ios">iPhone: otevřete aplikaci v Safari, klepněte na Sdílet a zvolte Na plochu. Ikona bude logo Raclette Lovers.</li>
-        <li data-i18n="app.how.android">Android: v Chrome klepněte na Instalovat aplikaci, nebo v nabídce zvolte Přidat na plochu.</li>
-      </ol>
-    </section>
 
     <nav class="lovers-links" aria-label="Raclette Lovers">
       <a class="btn btn-line" href="index.html" target="_blank" rel="noopener noreferrer" data-i18n="app.website">Náš web</a>
