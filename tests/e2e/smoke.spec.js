@@ -182,8 +182,14 @@ test("vlajka vybere zemi a pin zvýrazní kartu", async ({ page }) => {
   await expect(page.locator("#network-map .land-cz")).toHaveClass(/is-on/);
   await expect(page.locator("#network-map .pin")).toHaveCount(8);
   await expect(page.locator("#network-map")).toContainText("Praha");
+  await expect(page.locator("#network-map")).toContainText("Brno");
+  await expect(page.locator("#network-map")).toContainText("Bern");
   await expect(page.locator("#network-map")).toContainText("Bratislava");
-  await expect(page.locator("#network-map")).toContainText("Curych");
+  await expect(page.locator("#network-map")).not.toContainText("Curych");
+  await expect(page.locator("#network-map")).not.toContainText("Ostrava");
+  await expect(page.locator("#network-map #cheese-melt")).toHaveCount(1);
+  await expect(page.locator("#locate")).toHaveText("Najdi nejbližší Raclette point.");
+  await expect(page.locator(".network-caption")).toContainText("Zvolte vlajku pro výběr poboček");
   await expect(page.locator("#country-flags [data-country='cz']")).toHaveAttribute("aria-pressed", "true");
   await expect(page.locator("#country-flags [data-country='cz'] .flag-count")).toHaveText("5");
   await expect(page.locator("#country-flags [data-country='ch'] .flag-count")).toHaveText("3");

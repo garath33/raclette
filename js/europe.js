@@ -9,17 +9,12 @@
 
   const PIN_SIDE = { krizovy: "above", spindl: "above", kabrt: "left" };
   const CITIES = [
-    { country: "cz", name: "Praha", lat: 50.0755, lng: 14.4378, side: "right", dx: 9 },
+    { country: "cz", name: "Praha", lat: 50.0755, lng: 14.4378, side: "right", dx: 10 },
     { country: "cz", name: "Brno", lat: 49.1951, lng: 16.6068, side: "below" },
-    { country: "cz", name: "Ostrava", lat: 49.8209, lng: 18.2625, side: "right", dx: 22 },
-    { country: "cz", name: "Opava", lat: 49.9384, lng: 17.9026, side: "below" },
+    { country: "ch", name: "Bern", lat: 46.948, lng: 7.4474, side: "above" },
     { country: "sk", name: "Bratislava", lat: 48.1486, lng: 17.1077, side: "below" },
-    { country: "sk", name: "Poprad", lat: 49.0552, lng: 20.297, side: "below" },
-    { country: "at", name: "Vídeň", lat: 48.2082, lng: 16.3738, side: "left" },
-    { country: "de", name: "Mnichov", lat: 48.1351, lng: 11.582, side: "below" },
-    { country: "pl", name: "Krakov", lat: 50.0647, lng: 19.945, side: "above" },
-    { country: "hu", name: "Budapešť", lat: 47.4979, lng: 19.0402, side: "below" },
-    { country: "ch", name: "Curych", lat: 47.3769, lng: 8.5417, side: "right" }
+    { country: "at", name: "Vídeň", lat: 48.2082, lng: 16.3738, side: "above" },
+    { country: "hu", name: "Budapešť", lat: 47.4979, lng: 19.0402, side: "left" }
   ];
   const FLAGS = {
     cz: '<svg class="flag-svg" viewBox="0 0 60 40" aria-hidden="true"><rect width="60" height="20" fill="#ffffff"/><rect y="20" width="60" height="20" fill="#d7141a"/><path d="M0 0 L28 20 L0 40 Z" fill="#11457e"/></svg>',
@@ -56,21 +51,16 @@
       return '<path class="' + classes.join(" ") + '" fill-rule="evenodd" d="' + entry.d + '"' + button + "></path>";
     }).join("");
     const labels = COUNTRIES.filter((entry) => entry.interactive && entry.label).map((entry) => {
-      const y = entry.label[1] + (entry.id === "ch" ? 22 : entry.id === "cz" ? 34 : 0);
-      const classes = entry.id === "ch" ? "land-label land-label-ch" : "land-label";
+      const y = entry.label[1] + (entry.id === "ch" ? -70 : entry.id === "cz" ? 34 : 0);
+      const classes = "land-label" + (entry.id === "ch" ? " land-label-ch" : "");
       return '<text class="' + classes + (entry.id === country ? " is-on" : "") + '" x="' + entry.label[0] + '" y="' + y + '" text-anchor="middle">' + esc(t("map.country." + entry.id)) + "</text>";
     }).join("");
-    const swiss = COUNTRIES.find((entry) => entry.id === "ch");
-    const mark = swiss && swiss.label
-      ? '<g class="swiss-mark" aria-hidden="true" transform="translate(' + swiss.label[0] + " " + (swiss.label[1] - 8) + ')"><rect x="-3.2" y="-12" width="6.4" height="24"></rect><rect x="-12" y="-3.2" width="24" height="6.4"></rect></g>'
-      : "";
     const cities = CITIES.map((city) => {
       const pos = project(city.lat, city.lng);
       const anchor = city.side === "left" ? "end" : city.side === "right" ? "start" : "middle";
-      const dx = city.dx != null ? city.dx : city.side === "left" ? -6 : city.side === "right" ? 6 : 0;
-      const dy = city.side === "above" ? -7 : city.side === "below" ? 13 : 3;
-      const cls = "city city-" + city.country + (city.country === "ch" ? " city-ch" : "");
-      return '<g class="' + cls + '"><circle cx="' + pos.x.toFixed(1) + '" cy="' + pos.y.toFixed(1) + '" r="2.3"></circle><text x="' + (pos.x + dx).toFixed(1) + '" y="' + (pos.y + dy).toFixed(1) + '" text-anchor="' + anchor + '">' + esc(city.name) + "</text></g>";
+      const dx = city.dx != null ? city.dx : city.side === "left" ? -7 : city.side === "right" ? 7 : 0;
+      const dy = city.side === "above" ? -8 : city.side === "below" ? 14 : 3;
+      return '<g class="city city-' + city.country + '"><circle cx="' + pos.x.toFixed(1) + '" cy="' + pos.y.toFixed(1) + '" r="2.2"></circle><text x="' + (pos.x + dx).toFixed(1) + '" y="' + (pos.y + dy).toFixed(1) + '" text-anchor="' + anchor + '">' + esc(city.name) + "</text></g>";
     }).join("");
     const pins = state.points.map((point) => {
       const pos = project(point.lat, point.lng);
@@ -82,16 +72,33 @@
     }).join("");
     stage.innerHTML =
       '<svg viewBox="0 0 ' + VIEW.width + " " + VIEW.height + '" role="img" aria-label="' + esc(t("map.title")) + '">' +
-        '<g class="lands">' + lands + "</g>" + mark +
+        '<defs>' +
+          '<radialGradient id="cheese-melt" cx="46%" cy="38%" r="68%">' +
+            '<stop offset="0%" stop-color="#fff6c4"/>' +
+            '<stop offset="36%" stop-color="#ffc247"/>' +
+            '<stop offset="72%" stop-color="#ef8422"/>' +
+            '<stop offset="100%" stop-color="#c25812"/>' +
+          "</radialGradient>" +
+          '<linearGradient id="fade-left" x1="0" y1="0" x2="88" y2="0" gradientUnits="userSpaceOnUse">' +
+            '<stop offset="0" stop-color="#000"/>' +
+            '<stop offset="0.4" stop-color="#000"/>' +
+            '<stop offset="1" stop-color="#fff"/>' +
+          "</linearGradient>" +
+          '<linearGradient id="fade-bottom" x1="0" y1="698" x2="0" y2="720" gradientUnits="userSpaceOnUse">' +
+            '<stop offset="0" stop-color="#fff"/>' +
+            '<stop offset="1" stop-color="#000"/>' +
+          "</linearGradient>" +
+          '<mask id="map-fade" maskUnits="userSpaceOnUse">' +
+            '<rect width="1040" height="720" fill="#fff"/>' +
+            '<rect width="88" height="720" fill="url(#fade-left)"/>' +
+            '<rect y="698" width="1040" height="22" fill="url(#fade-bottom)"/>' +
+          "</mask>" +
+        "</defs>" +
+        '<g class="lands" mask="url(#map-fade)">' + lands + "</g>" +
         '<g class="cities" aria-hidden="true">' + cities + "</g>" +
         '<g aria-hidden="true">' + labels + "</g></svg>" + pins;
     flags.setAttribute("role", "group");
     flags.setAttribute("aria-label", t("map.flags"));
-    const wheel = stage.parentElement;
-    if (wheel && wheel.classList.contains("cheese")) {
-      wheel.classList.toggle("is-cz", country === "cz");
-      wheel.classList.toggle("is-ch", country === "ch");
-    }
     flags.innerHTML = state.order.map((id) => {
       const name = t("map.country." + id);
       const count = state.count(id);
