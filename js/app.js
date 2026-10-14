@@ -123,6 +123,45 @@ function addressLine(id) {
   return '<p class="address">' + addresses[id] + "</p>";
 }
 
+const HERO_KICKER_STEPS = [
+  "#f5811f", "#f5811f",
+  "#f38479", "#f38479",
+  "#cd143e", "#cd143e",
+  "#f38193", "#f38193",
+  "#c3346a", "#c3346a",
+  "#642a7d", "#642a7d",
+  "#00a85c", "#00a85c",
+  "#027935",
+  "#56b7e8", "#56b7e8",
+  "#007dc5", "#007dc5",
+  "#00a5b9",
+  "#00657d"
+];
+
+function paintHeroKicker() {
+  const el = document.querySelector(".hero .kicker");
+  if (!el) return;
+  const text = el.textContent;
+  const letters = [...text].filter((ch) => ch.trim() !== "");
+  if (!letters.length) return;
+  const steps = letters.length === HERO_KICKER_STEPS.length
+    ? HERO_KICKER_STEPS
+    : letters.map((_, index) => HERO_KICKER_STEPS[Math.min(HERO_KICKER_STEPS.length - 1, Math.floor(index * HERO_KICKER_STEPS.length / letters.length))]);
+  el.replaceChildren();
+  let index = 0;
+  for (const ch of text) {
+    if (ch.trim() === "") {
+      el.append(ch);
+      continue;
+    }
+    const span = document.createElement("span");
+    span.style.color = steps[index];
+    span.textContent = ch;
+    el.append(span);
+    index += 1;
+  }
+}
+
 function applyStatic() {
   document.documentElement.lang = RacletteSite.htmlLang(lang, location.hostname);
   const partnersPage = Boolean(document.querySelector(".franchise-page"));
@@ -135,6 +174,7 @@ function applyStatic() {
   document.querySelectorAll("[data-i18n]").forEach((el) => {
     el.textContent = t(el.dataset.i18n);
   });
+  paintHeroKicker();
   document.querySelectorAll("[data-i18n-alt]").forEach((el) => {
     el.alt = t(el.dataset.i18nAlt);
   });
