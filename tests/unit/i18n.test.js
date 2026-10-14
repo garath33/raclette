@@ -45,7 +45,13 @@ test("veřejný text nezmiňuje vyřazenou osobu a IT role existuje", () => {
   assert.match(TRANSLATIONS.cs["franchise.approach"], /statisícové ani milionové vstupní poplatky/);
   assert.match(TRANSLATIONS.cs["franchise.a3d"], /Měsíční partnerský poplatek/);
   assert.match(TRANSLATIONS.cs["franchise.s4d"], /Eddy Baillifard/);
-  assert.match(TRANSLATIONS.cs["form.lead"], /milan@raclette-original\.com/);
+  assert.match(TRANSLATIONS.cs["form.lead"], /Ozveme se vám/);
+  for (const lang of Object.keys(TRANSLATIONS)) {
+    const blob = Object.values(TRANSLATIONS[lang]).join("\n");
+    assert.equal(/raclette-original\.com/i.test(blob), false, lang);
+  }
+  const pages = fs.readFileSync("index.html", "utf8") + fs.readFileSync("pro-partnery.html", "utf8");
+  assert.equal(/raclette-original\.com/i.test(pages), false);
   assert.match(TRANSLATIONS.cs["form.invite"], /formulář|zavolejte/);
   assert.match(TRANSLATIONS.cs["nav.franchise"], /Pro partnery/);
   assert.match(TRANSLATIONS.cs["aop.title"], /AOP/);
@@ -103,6 +109,11 @@ test("veřejný text nezmiňuje vyřazenou osobu a IT role existuje", () => {
   assert.match(TRANSLATIONS.en["nav.raclette"], /raclette/i);
   assert.match(TRANSLATIONS.sk["person.martin.role"], /IT špecialista/);
   assert.match(TRANSLATIONS.en["person.martin.role"], /IT specialist/);
+  assert.match(TRANSLATIONS.cs["celeb.title"], /Celebrity a náš Raclette/);
+  assert.equal(TRANSLATIONS.cs["celeb.fb"], "Sledujte naše aktuality");
+  assert.match(TRANSLATIONS.cs["celeb.klus.alt"], /Tomáš Klus/);
+  assert.match(TRANSLATIONS.en["celeb.fb"], /Follow our news/);
+  assert.equal(Object.hasOwn(TRANSLATIONS.cs, "celeb.lead"), false);
   assert.match(TRANSLATIONS.cs["footer.rights"], /Web vyvinul Martin Šimůnek/);
   assert.match(TRANSLATIONS.sk["footer.rights"], /Web vyvinul Martin Šimůnek/);
   assert.match(TRANSLATIONS.en["footer.rights"], /Website developed by Martin Šimůnek/);
