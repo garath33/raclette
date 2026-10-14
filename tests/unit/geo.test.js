@@ -17,32 +17,32 @@ test("z Kladna je nejbližší food truck, z Jeseníku Křížový vrch", () => 
 });
 
 test("body Pointů mají souřadnice a Křížový vrch má web", () => {
-  assert.equal(POINTS.length, 3);
+  assert.equal(POINTS.length, 8);
   for (const point of POINTS) {
     assert.equal(typeof point.lat, "number");
     assert.equal(typeof point.lng, "number");
-    assert.equal(point.country, "cz");
+    assert.ok(point.country === "cz" || point.country === "ch");
   }
   assert.equal(POINTS.find((point) => point.id === "krizovy").web, "https://krizovyvrch.cz/cs");
   assert.equal(POINTS.find((point) => point.id === "spindl").web, null);
+  assert.equal(POINTS.find((point) => point.id === "eddy").web, "https://eddy-baillifard.com");
+  assert.equal(POINTS.find((point) => point.id === "orsieres").web, "https://laiterie-orsieres.ch");
+  assert.equal(POINTS.find((point) => point.id === "mouret").web, "https://www.laiterie-du-mouret.ch");
+  assert.equal(POINTS.find((point) => point.id === "minorit").web, "https://minorit-opava.cz/kavarna/");
+  assert.equal(POINTS.find((point) => point.id === "bonte").web, "https://bontesyry.cz");
 });
 
-test("švýcarská pobočka čeká na podklady a neplete nejbližší Point", () => {
-  assert.equal(PENDING.length, 1);
-  assert.equal(PENDING[0].id, "swiss");
-  assert.equal(PENDING[0].country, "ch");
-  assert.equal(PENDING[0].lat, undefined);
-  assert.equal(placesFor("cz").points.length, 3);
-  assert.equal(placesFor("cz").pending.length, 0);
-  assert.equal(placesFor("ch").points.length, 0);
-  assert.equal(placesFor("ch").pending.length, 1);
-  assert.equal(branchCount("cz"), 3);
-  assert.equal(branchCount("ch"), 1);
+test("švýcarské Pointy mají zemi a z Curychu vychází švýcarský Point", () => {
+  assert.equal(PENDING.length, 0);
+  assert.equal(placesFor("cz").points.length, 5);
+  assert.equal(placesFor("ch").points.length, 3);
+  assert.equal(branchCount("cz"), 5);
+  assert.equal(branchCount("ch"), 3);
   assert.equal(homeCountry("raclettelovers.ch"), "ch");
   assert.equal(homeCountry("www.raclettelovers.ch"), "ch");
   assert.equal(homeCountry("raclettelovers.cz"), "cz");
   assert.equal(homeCountry("localhost"), "cz");
-  assert.equal(geo.nearest(POINTS, 47.37, 8.54).country, "cz");
+  assert.equal(geo.nearest(POINTS, 47.37, 8.54).country, "ch");
 });
 
 test("mapsDirUrl má jen destination, žádný zmražený origin", () => {
@@ -72,14 +72,14 @@ test("ze Záběhlic je food truck i když prohlížeč ukáže Hamerský rybník
   for (const fix of [trencinska, hamersky]) {
     const ranked = geo.rank(POINTS, fix.lat, fix.lng);
     assert.equal(ranked[0].point.id, "kabrt");
-    assert.equal(ranked[1].point.id, "spindl");
+    assert.equal(ranked[1].point.id, "bonte");
     assert.equal(geo.nearest(POINTS, fix.lat, fix.lng).id, "kabrt");
     assert.ok(ranked[0].km > 25 && ranked[0].km < 35, ranked[0].km);
-    assert.ok(ranked[1].km - ranked[0].km > 70, ranked[1].km - ranked[0].km);
-    assert.equal(geo.nearestIsStable(POINTS, fix.lat, fix.lng, offsetKm * 1000), true);
-    assert.equal(geo.nearestIsStable(POINTS, fix.lat, fix.lng, 5000), true);
+    const gap = ranked[1].km - ranked[0].km;
+    assert.ok(gap > 0.5 && gap < 3, gap);
+    assert.equal(geo.nearestIsStable(POINTS, fix.lat, fix.lng, offsetKm * 1000), false);
     assert.equal(geo.readingKind(POINTS, fix.lat, fix.lng, 30), "precise");
-    assert.equal(geo.readingKind(POINTS, fix.lat, fix.lng, offsetKm * 1000), "coarse");
+    assert.equal(geo.readingKind(POINTS, fix.lat, fix.lng, offsetKm * 1000), "uncertain");
   }
 });
 

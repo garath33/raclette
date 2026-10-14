@@ -26,13 +26,55 @@
       lat: 50.1466053,
       lng: 14.1026398,
       web: null
+    },
+    {
+      id: "minorit",
+      country: "cz",
+      lat: 49.9361636,
+      lng: 17.9036825,
+      web: "https://minorit-opava.cz/kavarna/",
+      phone: "+420 737 286 726",
+      phoneHref: "tel:+420737286726"
+    },
+    {
+      id: "bonte",
+      country: "cz",
+      lat: 49.9638485,
+      lng: 14.0741966,
+      web: "https://bontesyry.cz",
+      phone: "+420 601 537 896",
+      phoneHref: "tel:+420601537896"
+    },
+    {
+      id: "eddy",
+      country: "ch",
+      lat: 46.0632584,
+      lng: 7.2161147,
+      web: "https://eddy-baillifard.com",
+      phone: "+41 27 776 14 70",
+      phoneHref: "tel:+41277761470"
+    },
+    {
+      id: "orsieres",
+      country: "ch",
+      lat: 46.0409525,
+      lng: 7.1467833,
+      web: "https://laiterie-orsieres.ch",
+      phone: "+41 27 783 29 56",
+      phoneHref: "tel:+41277832956"
+    },
+    {
+      id: "mouret",
+      country: "ch",
+      lat: 46.7450192,
+      lng: 7.1714657,
+      web: "https://www.laiterie-du-mouret.ch",
+      phone: "+41 26 413 11 07",
+      phoneHref: "tel:+41264131107"
     }
   ];
 
-  /* Švýcarská pobočka už je, ale bez adresy a souřadnic. Nesmí vstoupit do výběru nejbližšího Pointu. */
-  const PENDING = [
-    { id: "swiss", country: "ch" }
-  ];
+  const PENDING = [];
 
   const COUNTRIES = ["cz", "ch"];
 

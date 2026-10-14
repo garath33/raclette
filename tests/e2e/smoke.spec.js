@@ -14,9 +14,9 @@ test("stránka se načte, má sekce a testovací pruh", async ({ page }) => {
     await expect(page.locator("#" + id)).toHaveCount(1);
   }
   await expect(page.locator("#franchise")).toHaveCount(0);
-  await expect(page.locator("#point-cards .card")).toHaveCount(3);
+  await expect(page.locator("#point-cards .card")).toHaveCount(5);
   await expect(page.locator("#map-frame")).toHaveCount(0);
-  await expect(page.locator("#point-cards iframe.map-embed")).toHaveCount(3);
+  await expect(page.locator("#point-cards iframe.map-embed")).toHaveCount(5);
   await expect(page.locator('#point-cards .card[data-id="krizovy"] iframe')).toHaveAttribute("src", /50\.2260421,17\.2250049/);
   await expect(page.locator('#point-cards .card[data-id="krizovy"] iframe')).toHaveAttribute("title", "Mapa Pointu Křížový vrch");
   await expect(page.locator('#point-cards .card[data-id="spindl"] iframe')).toHaveAttribute("src", /50\.7256448,15\.6067567/);
@@ -149,8 +149,7 @@ test("Záběhlice i pin u Hamerského rybníka vyberou food truck", async ({ pag
   await context.setGeolocation({ latitude: 50.0518466, longitude: 14.4857067, accuracy: 1500 });
   await page.locator("#locate").click();
   await expect(page.locator("#locator-status")).toContainText("Martin Kábrt");
-  await expect(page.locator("#locator-status")).toContainText("přibližně");
-  await expect(page.locator("#locator-status")).toContainText("nemění");
+  await expect(page.locator("#locator-status")).toContainText("může změnit");
   await expect(page.locator("#point-cards .is-nearest h3")).toContainText("Martin Kábrt");
   const navHref = await page.locator("#navigate-nearest").getAttribute("href");
   expect(navHref).toMatch(/destination=50\.1466053%2C14\.1026398/);
@@ -181,25 +180,26 @@ test("vlajka vybere zemi a pin zvýrazní kartu", async ({ page }) => {
   await page.goto("/?lang=cs");
   await expect(page.locator("#network-map .land-ch")).toHaveCount(1);
   await expect(page.locator("#network-map .land-cz")).toHaveClass(/is-on/);
-  await expect(page.locator("#network-map .pin")).toHaveCount(3);
+  await expect(page.locator("#network-map .pin")).toHaveCount(8);
   await expect(page.locator("#network-map")).toContainText("Praha");
   await expect(page.locator("#network-map")).toContainText("Bratislava");
   await expect(page.locator("#network-map")).toContainText("Curych");
   await expect(page.locator("#country-flags [data-country='cz']")).toHaveAttribute("aria-pressed", "true");
-  await expect(page.locator("#country-flags [data-country='cz'] .flag-count")).toHaveText("3");
-  await expect(page.locator("#country-flags [data-country='ch'] .flag-count")).toHaveText("1");
+  await expect(page.locator("#country-flags [data-country='cz'] .flag-count")).toHaveText("5");
+  await expect(page.locator("#country-flags [data-country='ch'] .flag-count")).toHaveText("3");
 
   await page.locator("#country-flags [data-country='ch']").click();
-  await expect(page.locator("#point-cards .card")).toHaveCount(1);
-  await expect(page.locator("#point-cards .is-pending")).toContainText("podklady");
-  await expect(page.locator("#point-cards .is-pending")).toContainText("První Point ve Švýcarsku");
-  await expect(page.locator("#point-cards iframe")).toHaveCount(0);
+  await expect(page.locator("#point-cards .card")).toHaveCount(3);
+  await expect(page.locator("#point-cards")).toContainText("Raclett'House Chez Eddy");
+  await expect(page.locator("#point-cards")).toContainText("Laiterie d’Orsières");
+  await expect(page.locator("#point-cards")).toContainText("Laiterie du Mouret");
+  await expect(page.locator("#point-cards iframe")).toHaveCount(3);
   await expect(page.locator("#network-map .land-ch")).toHaveClass(/is-on/);
-  await expect(page.locator("#network-map .pin")).toHaveCount(3);
+  await expect(page.locator("#network-map .pin")).toHaveCount(8);
 
   await page.locator("#network-map .land-cz").click();
-  await expect(page.locator("#point-cards .card")).toHaveCount(3);
-  await expect(page.locator("#point-cards iframe")).toHaveCount(3);
+  await expect(page.locator("#point-cards .card")).toHaveCount(5);
+  await expect(page.locator("#point-cards iframe")).toHaveCount(5);
   await page.locator("#network-map .pin[data-point='spindl']").click();
   await expect(page.locator('#point-cards .card[data-id="spindl"]')).toHaveClass(/is-picked/);
   await expect(page.locator("#network-map .pin[data-point='spindl']")).toHaveAttribute("aria-current", "true");
