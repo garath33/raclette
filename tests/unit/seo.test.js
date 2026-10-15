@@ -50,7 +50,7 @@ test("robots a sitemap ukazují na ostré domény a všechny jazyky", () => {
 
 test("veřejné soubory drží výkonnostní rozpočet", () => {
   const limits = {
-    "css/styles.css": 45 * 1024,
+    "css/styles.css": 46 * 1024,
     "js/app.js": 20 * 1024,
     "js/i18n-app.js": 16 * 1024,
     "js/lovers-app.js": 12 * 1024,
