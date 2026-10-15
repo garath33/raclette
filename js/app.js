@@ -140,11 +140,12 @@ function renderPoints() {
     if (point.id === nearestId) classes.push("is-nearest");
     if (point.id === pickedId) classes.push("is-picked");
     const mapTitle = t("points.mapTitle", { name }).replaceAll('"', "&quot;");
+    const flag = RaclettePoints.branchFlag(point.country, t("map.country." + point.country));
     return (
       '<article class="' + classes.join(" ") + '" data-id="' + point.id + '">' +
         '<div class="card-head">' +
           '<div class="card-top"><div><p class="kicker">' + t("point." + point.id + ".where") + "</p>" +
-          "<h3>" + name + "</h3>" + '<p class="address">' + point.address + "</p>" + away + "</div>" + badge + "</div>" +
+          "<h3>" + flag + name + "</h3>" + '<p class="address">' + point.address + "</p>" + away + "</div>" + badge + "</div>" +
           '<p class="note">' + t("point." + point.id + ".note") + "</p>" + phone +
         "</div>" +
         '<div class="card-map">' +
@@ -161,7 +162,7 @@ function renderPoints() {
   const pending = RaclettePoints.PENDING.filter((point) => point.country === country).map((point) => (
     '<article class="card is-pending" data-id="' + point.id + '" data-country="' + point.country + '">' +
       '<div class="card-head"><p class="kicker">' + t("point." + point.id + ".where") + "</p>" +
-      "<h3>" + t("point." + point.id + ".name") + "</h3>" +
+      "<h3>" + RaclettePoints.branchFlag(point.country, t("map.country." + point.country)) + t("point." + point.id + ".name") + "</h3>" +
       '<p class="note">' + t("point." + point.id + ".note") + "</p></div></article>"
   )).join("");
   host.innerHTML += pending;
