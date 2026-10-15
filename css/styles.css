@@ -631,6 +631,13 @@ p { margin: 0; }
 .card.is-nearest { background: linear-gradient(180deg, #fffaf0 0%, #fff 42%); }
 .card-top { display: flex; justify-content: space-between; gap: 0.75rem; align-items: flex-start; }
 .card h3 { font-size: 1.85rem; }
+.card-flag {
+  display: inline-block;
+  margin-right: 0.5rem;
+  line-height: 0;
+  vertical-align: middle;
+}
+.card-flag .flag-svg { height: 22px; }
 .badge {
   flex: 0 0 auto;
   border-radius: 999px;

@@ -81,11 +81,12 @@ function renderPoints() {
     const away = distance != null ? '<p class="distance">' + t("points.km", { km: formatKm(distance) }) + "</p>" : "";
     const classes = ["card", "lovers-card"];
     if (point.id === nearestId) classes.push("is-nearest");
+    const flag = RaclettePoints.branchFlag(point.country, t("map.country." + point.country));
     return (
       '<article class="' + classes.join(" ") + '" data-id="' + point.id + '">' +
         '<div class="card-head">' +
           '<div class="card-top"><div><p class="kicker">' + t("point." + point.id + ".where") + "</p>" +
-          "<h3>" + name + "</h3>" +
+          "<h3>" + flag + name + "</h3>" +
           '<p class="address">' + point.address + "</p>" + away + "</div>" + badge + "</div>" +
           '<p class="note">' + t("point." + point.id + ".note") + "</p>" + phone +
         "</div>" +
