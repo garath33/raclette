@@ -9,6 +9,7 @@ Web Raclette Point Original. Tahle složka je mapa projektu, ne marketingová st
 | [Testování](testovani.md) | Smoke, regrese, responsivita, výkon |
 | [SEO](seo.md) | Titulky, jazyky, sitemap a proč je testovací web noindex |
 | [Domény](domeny.md) | Budoucí adresy a přesměrování |
+| [E-mail](email.md) | `info@raclettelovers.com`: příjem, odesílání a kdy se smí dát na web |
 | [Rozhodnutí](rozhodnuti.md) | Proč je něco udělané právě tak, včetně oprav chyb |
 
 Náhled aktuální větve je hned po pushi na `*.workers.dev`. Vzorec a odkaz jsou v [pipeline](pipeline.md). Veřejný test po sloučení do `main` je `https://garath33.github.io/raclette/`. Ostré domény se z repozitáře nezapínají.
