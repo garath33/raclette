@@ -288,6 +288,25 @@ function isHomePage() {
   return Boolean(document.getElementById("pointy"));
 }
 
+function setPartnerStatus(form, status, kind, key) {
+  status.hidden = false;
+  status.classList.toggle("is-error", kind === "error");
+  status.classList.toggle("is-success", kind === "success");
+  form.classList.toggle("is-sent", kind === "success");
+  status.replaceChildren();
+  if (kind === "success") {
+    const title = document.createElement("strong");
+    title.className = "form-status-title";
+    title.textContent = t("form.successTitle");
+    const detail = document.createElement("span");
+    detail.className = "form-status-detail";
+    detail.textContent = t(key);
+    status.append(title, detail);
+    return;
+  }
+  status.textContent = t(key);
+}
+
 function bindPartnerForm() {
   const form = document.getElementById("partner-form");
   if (!form || form.dataset.bound === "1") return;
@@ -308,23 +327,17 @@ function bindPartnerForm() {
       lang
     };
     if (fields.website) {
-      status.hidden = false;
-      status.classList.remove("is-error");
-      status.textContent = t("form.success");
+      setPartnerStatus(form, status, "success", "form.success");
       form.reset();
       return;
     }
     const missing = ["name", "type", "city", "phone", "email", "idea"].some((key) => !fields[key]);
     if (missing || !form.checkValidity()) {
       form.reportValidity();
-      status.hidden = false;
-      status.classList.add("is-error");
-      status.textContent = t("form.error");
+      setPartnerStatus(form, status, "error", "form.error");
       return;
     }
-    status.hidden = false;
-    status.classList.remove("is-error");
-    status.textContent = t("form.sending");
+    setPartnerStatus(form, status, "pending", "form.sending");
     if (submit) submit.disabled = true;
     const endpoint = RacletteSite.partnerInquiryUrl();
     const body = partnerPayload(fields);
@@ -346,13 +359,11 @@ function bindPartnerForm() {
     }
     if (submit) submit.disabled = false;
     if (ok) {
-      status.classList.remove("is-error");
-      status.textContent = t("form.success");
+      setPartnerStatus(form, status, "success", "form.success");
       form.reset();
       return;
     }
-    status.classList.add("is-error");
-    status.textContent = t("form.sendError");
+    setPartnerStatus(form, status, "error", "form.sendError");
   });
 }
 
