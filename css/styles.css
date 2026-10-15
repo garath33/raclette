@@ -344,6 +344,7 @@ p { margin: 0; }
 }
 .section-head { max-width: 42rem; margin-bottom: 2rem; }
 .section-head .lead { margin-top: 1rem; }
+#pointy .section-head { margin-bottom: 1.15rem; }
 
 .points { background: #e3f2fb; }
 .network {
@@ -554,12 +555,12 @@ p { margin: 0; }
 .flag-btn.is-on .flag-name { color: var(--gold-deep); }
 .flag-btn.is-on .flag-count { color: var(--red); }
 .network-caption {
-  margin: 1rem auto 0;
-  max-width: 40rem;
-  text-align: center;
-  color: var(--ink);
-  font-size: 1.02rem;
-  line-height: 1.45;
+  margin: 0.9rem 0 0;
+  max-width: 38rem;
+  text-align: left;
+  color: #3c4144;
+  font-size: 1.05rem;
+  line-height: 1.65;
 }
 @keyframes melt-in {
   from { filter: drop-shadow(0 0 0 rgba(255, 176, 48, 0)); }
