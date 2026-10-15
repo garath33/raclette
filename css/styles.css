@@ -594,6 +594,24 @@ p { margin: 0; }
   font-size: 0.95rem;
   min-height: 1.4em;
 }
+.status.is-need {
+  color: var(--ink);
+  font-weight: 700;
+  font-size: 1.02rem;
+  line-height: 1.45;
+  background: #fff1f3;
+  border: 1px solid rgba(205, 20, 62, 0.28);
+  border-radius: 14px;
+  padding: 0.85rem 1rem;
+}
+.status.is-warn {
+  color: var(--ink);
+  font-weight: 600;
+  background: #fff7e8;
+  border: 1px solid rgba(138, 100, 32, 0.28);
+  border-radius: 14px;
+  padding: 0.75rem 0.95rem;
+}
 .cards { display: grid; gap: 0.9rem; }
 .card {
   display: grid;

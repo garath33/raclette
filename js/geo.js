@@ -165,9 +165,112 @@
     );
   }
 
+  function isAndroid(nav) {
+    return /Android/i.test(String((nav && nav.userAgent) || ""));
+  }
+
+  function isIos(nav) {
+    const ua = String((nav && (nav.userAgent || nav.vendor)) || "");
+    if (/iPhone|iPod|iPad/i.test(ua)) return true;
+    return !!(nav && nav.platform === "MacIntel" && Number(nav.maxTouchPoints) > 1);
+  }
+
+  function hasCoarsePointer(matchMediaFn, nav) {
+    if (typeof matchMediaFn !== "function") return false;
+    try {
+      if (!matchMediaFn("(hover: none) and (pointer: coarse)").matches) return false;
+    } catch (err) {
+      return false;
+    }
+    return Number(nav && nav.maxTouchPoints) > 0;
+  }
+
+  /**
+   * Phones and tablets have GPS. A mobile-carrier IP is often a POP hundreds of
+   * kilometres away (Zličín via CGNAT can look like Jeseník), so the network
+   * fallback is only for laptops, where Wi-Fi IPs are usually city-level.
+   */
+  function isMobileDevice(env) {
+    const source = env || {};
+    if (typeof source.mobile === "boolean") return source.mobile;
+    const nav = source.navigator || (typeof navigator !== "undefined" ? navigator : null);
+    if (!nav) return false;
+    // UA first: Playwright and "Request desktop site" can disagree with client hints.
+    if (isAndroid(nav) || isIos(nav)) return true;
+    const ua = String(nav.userAgent || "");
+    if (/webOS|BlackBerry|IEMobile|Opera Mini|Mobile/i.test(ua)) return true;
+    if (nav.userAgentData && typeof nav.userAgentData.mobile === "boolean") {
+      return nav.userAgentData.mobile;
+    }
+    const mm = source.matchMedia || (typeof matchMedia === "function" ? matchMedia : null);
+    return hasCoarsePointer(typeof mm === "function" ? mm : null, nav);
+  }
+
+  function geoErrorReason(err) {
+    if (!err) return "unavailable";
+    if (err.code === 1) return "denied";
+    if (err.code === 3) return "timeout";
+    if (err.message === "stale") return "stale";
+    return "unavailable";
+  }
+
+  function failureStatusKey(result) {
+    if (!result || result.fix) return null;
+    if (result.reason === "unsupported") return "points.unsupported";
+    if (result.mobile) {
+      return result.reason === "timeout" ? "points.timeout" : "points.needGps";
+    }
+    return "points.denied";
+  }
+
+  function statusTone(key) {
+    if (
+      key === "points.needGps" ||
+      key === "points.denied" ||
+      key === "points.timeout" ||
+      key === "points.unsupported"
+    ) {
+      return "need";
+    }
+    if (key === "points.foundIp" || key === "points.foundStale" || key === "points.foundUncertain") {
+      return "warn";
+    }
+    return "";
+  }
+
   function readPosition(geo, options) {
     return new Promise((resolve, reject) => {
       geo.getCurrentPosition(resolve, reject, options);
+    });
+  }
+
+  function readWatch(geo, options, ms) {
+    return new Promise((resolve, reject) => {
+      if (!geo || typeof geo.watchPosition !== "function") {
+        const err = new Error("unsupported");
+        err.code = 2;
+        reject(err);
+        return;
+      }
+      let finished = false;
+      let id = null;
+      const finish = (fn, value) => {
+        if (finished) return;
+        finished = true;
+        clearTimeout(timer);
+        if (id != null && typeof geo.clearWatch === "function") geo.clearWatch(id);
+        fn(value);
+      };
+      const timer = setTimeout(() => {
+        const err = new Error("timeout");
+        err.code = 3;
+        finish(reject, err);
+      }, ms);
+      id = geo.watchPosition(
+        (pos) => finish(resolve, pos),
+        (err) => finish(reject, err || { code: 2 }),
+        options
+      );
     });
   }
 
@@ -177,8 +280,19 @@
       // Long enough for the permission prompt. maximumAge 0 refuses a cached pin.
       pos = await readPosition(geo, { enableHighAccuracy: true, timeout: 20000, maximumAge: 0 });
     } catch (first) {
-      if (!(first && (first.code === 2 || first.code === 3))) throw first;
-      pos = await readPosition(geo, { enableHighAccuracy: false, timeout: 12000, maximumAge: 0 });
+      if (first && first.code === 1) throw first;
+      try {
+        pos = await readPosition(geo, { enableHighAccuracy: false, timeout: 12000, maximumAge: 0 });
+      } catch (second) {
+        if (second && second.code === 1) throw second;
+        try {
+          // Android Chrome sometimes times out getCurrentPosition indoors, then
+          // delivers a fix on watchPosition once the fused provider warms up.
+          pos = await readWatch(geo, { enableHighAccuracy: true, timeout: 8000, maximumAge: 0 }, 8000);
+        } catch (watchErr) {
+          throw second;
+        }
+      }
     }
     const fix = browserFix(pos, Date.now(), FRESH_MS);
     if (!fix) {
@@ -223,15 +337,18 @@
   }
 
   /**
-   * Starts the browser prompt immediately (no await before getCurrentPosition)
-   * and reads the current IP in parallel. A denied or switched-off laptop
-   * still gets the IP when the worker can see it.
+   * Starts the browser prompt immediately (no await before getCurrentPosition).
+   * Laptops may fall back to the current IP. Phones never do: a carrier IP is
+   * too coarse and too often in another region.
    */
   function acquireFix(env) {
     const source = env || {};
+    const mobile = isMobileDevice(source);
     const geo = source.geolocation;
     const fetchImpl = source.fetch || (typeof fetch === "function" ? fetch : null);
-    const networkPromise = withTimeout(readNetwork(fetchImpl, source.networkUrl), 4000);
+    const networkPromise = mobile
+      ? Promise.resolve(null)
+      : withTimeout(readNetwork(fetchImpl, source.networkUrl), 4000);
     let browserPromise;
     if (!geo || typeof geo.getCurrentPosition !== "function") {
       browserPromise = Promise.resolve({ browser: null, reason: "unsupported" });
@@ -240,13 +357,16 @@
         (browser) => ({ browser, reason: null }),
         (err) => ({
           browser: err && err.fix ? err.fix : null,
-          reason: err && err.code === 1 ? "denied" : "unavailable"
+          reason: geoErrorReason(err)
         })
       );
     }
     return Promise.all([browserPromise, networkPromise]).then(([browserResult, network]) => {
-      const fix = chooseFix(browserResult.browser, network);
-      return { fix, reason: fix ? null : (browserResult.reason || "unavailable") };
+      const fix = chooseFix(browserResult.browser, mobile ? null : network);
+      if (mobile && (!fix || fix.source !== "browser")) {
+        return { fix: null, reason: browserResult.reason || "unavailable", mobile: true };
+      }
+      return { fix, reason: fix ? null : (browserResult.reason || "unavailable"), mobile };
     });
   }
 
@@ -263,6 +383,12 @@
     describeFix,
     mapsDirUrl,
     acquireFix,
+    isMobileDevice,
+    isAndroid,
+    isIos,
+    geoErrorReason,
+    failureStatusKey,
+    statusTone,
     STALE_KM,
     FRESH_MS
   };

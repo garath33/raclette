@@ -153,6 +153,18 @@ test("veřejný text nezmiňuje vyřazenou osobu a IT role existuje", () => {
   assert.match(TRANSLATIONS.ru["footer.rights"], /Сайт разработал Martin Šimůnek/);
 });
 
+test("hlášky k poloze jsou krátké a na telefonu žádají GPS", () => {
+  const { TRANSLATIONS } = loadTranslations();
+  for (const lang of Object.keys(TRANSLATIONS)) {
+    assert.match(TRANSLATIONS[lang]["points.needGps"], /GPS|IP/i);
+    assert.ok(TRANSLATIONS[lang]["points.found"].length < 80, lang + " found");
+    assert.ok(TRANSLATIONS[lang]["points.foundIp"].length < 220, lang + " foundIp");
+    assert.ok(TRANSLATIONS[lang]["points.needGps"].length < 280, lang + " needGps");
+  }
+  assert.match(TRANSLATIONS.cs["points.needGps"], /Android/);
+  assert.match(TRANSLATIONS.cs["points.timeout"], /GPS se nenačetla včas/);
+});
+
 test("každý data-i18n klíč ze stránky je přeložený", () => {
   const { TRANSLATIONS } = loadTranslations();
   const html = fs.readFileSync("index.html", "utf8") + fs.readFileSync("pro-partnery.html", "utf8") + fs.readFileSync("app.html", "utf8");

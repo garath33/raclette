@@ -165,3 +165,179 @@ test("nejistý výběr, když přesnost spolkne odstup druhého Pointu", () => {
   assert.equal(geo.readingKind(close, 50, 14, 500), "uncertain");
   assert.equal(geo.readingKind(POINTS, 50.045505, 14.4731025, null), "precise");
 });
+
+test("telefon pozná Android, iPhone i iPad předstírající Mac", () => {
+  assert.equal(geo.isMobileDevice({ mobile: true }), true);
+  assert.equal(geo.isMobileDevice({ mobile: false }), false);
+  assert.equal(geo.isMobileDevice({
+    navigator: { userAgent: "Mozilla/5.0 (Linux; Android 14; Pixel 8) AppleWebKit/537.36 Mobile Safari/537.36" }
+  }), true);
+  assert.equal(geo.isMobileDevice({
+    navigator: { userAgent: "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15" }
+  }), true);
+  assert.equal(geo.isMobileDevice({
+    navigator: { userAgent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)", platform: "MacIntel", maxTouchPoints: 5 }
+  }), true);
+  assert.equal(geo.isMobileDevice({
+    navigator: {
+      userAgent: "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/120.0.0.0 Safari/537.36",
+      userAgentData: { mobile: true }
+    }
+  }), true);
+  assert.equal(geo.isMobileDevice({
+    navigator: {
+      userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/120.0.0.0",
+      userAgentData: { mobile: false }
+    }
+  }), false);
+  assert.equal(geo.isMobileDevice({
+    navigator: { userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64)" },
+    matchMedia: () => ({ matches: false })
+  }), false);
+});
+
+function deniedGeo() {
+  return {
+    getCurrentPosition(_ok, err) {
+      err({ code: 1, message: "denied" });
+    }
+  };
+}
+
+function fixGeo(lat, lng, accuracy) {
+  return {
+    getCurrentPosition(ok) {
+      ok({
+        timestamp: Date.now(),
+        coords: { latitude: lat, longitude: lng, accuracy: accuracy || 20 }
+      });
+    }
+  };
+}
+
+function ipFetch(lat, lng) {
+  return async () => ({
+    ok: true,
+    json: async () => ({ ok: true, lat, lng, accuracy: 20000 })
+  });
+}
+
+test("telefon s vypnutou polohou nebere IP z Jeseníku", async () => {
+  let fetched = 0;
+  const result = await geo.acquireFix({
+    geolocation: deniedGeo(),
+    mobile: true,
+    fetch: async () => {
+      fetched += 1;
+      return ipFetch(50.23, 17.22)();
+    }
+  });
+  assert.equal(fetched, 0);
+  assert.equal(result.fix, null);
+  assert.equal(result.mobile, true);
+  assert.equal(result.reason, "denied");
+  assert.equal(geo.failureStatusKey(result), "points.needGps");
+  assert.equal(geo.statusTone("points.needGps"), "need");
+});
+
+test("notebook s vypnutou polohou vezme IP na Zličíně", async () => {
+  const result = await geo.acquireFix({
+    geolocation: deniedGeo(),
+    mobile: false,
+    fetch: ipFetch(50.0535, 14.3062)
+  });
+  assert.equal(result.fix.source, "ip");
+  assert.equal(result.mobile, false);
+  assert.equal(geo.describeFix(POINTS, result.fix).nearest.id, "kabrt");
+  assert.equal(geo.failureStatusKey(result), null);
+});
+
+test("telefon se zapnutou GPS na Zličíně vybere food truck i proti IP z Jeseníku", async () => {
+  let fetched = 0;
+  const result = await geo.acquireFix({
+    geolocation: fixGeo(50.0535, 14.3062, 18),
+    mobile: true,
+    fetch: async () => {
+      fetched += 1;
+      return ipFetch(50.23, 17.22)();
+    }
+  });
+  assert.equal(fetched, 0);
+  assert.equal(result.fix.source, "browser");
+  assert.equal(result.fix.lat, 50.0535);
+  assert.equal(geo.describeFix(POINTS, result.fix).nearest.id, "kabrt");
+  assert.notEqual(geo.describeFix(POINTS, result.fix).nearest.id, "krizovy");
+});
+
+test("timeout na telefonu nespustí IP odhad", async () => {
+  const result = await geo.acquireFix({
+    geolocation: {
+      getCurrentPosition(_ok, err) {
+        err({ code: 3, message: "timeout" });
+      },
+      watchPosition(_ok, err) {
+        err({ code: 3, message: "timeout" });
+        return 0;
+      },
+      clearWatch() {}
+    },
+    mobile: true,
+    fetch: ipFetch(50.23, 17.22)
+  });
+  assert.equal(result.fix, null);
+  assert.equal(result.reason, "timeout");
+  assert.equal(geo.failureStatusKey(result), "points.timeout");
+});
+
+test("Android Chrome po timeoutu vezme watchPosition", async () => {
+  const result = await geo.acquireFix({
+    geolocation: {
+      getCurrentPosition(_ok, err) {
+        err({ code: 3, message: "timeout" });
+      },
+      watchPosition(ok) {
+        ok({
+          timestamp: Date.now(),
+          coords: { latitude: 50.0535, longitude: 14.3062, accuracy: 30 }
+        });
+        return 7;
+      },
+      clearWatch() {}
+    },
+    mobile: true,
+    fetch: ipFetch(50.23, 17.22)
+  });
+  assert.equal(result.fix.source, "browser");
+  assert.equal(result.fix.lat, 50.0535);
+  assert.equal(geo.describeFix(POINTS, result.fix).nearest.id, "kabrt");
+});
+
+test("telefon bez geolocation API neuhádne Point z IP", async () => {
+  const result = await geo.acquireFix({
+    geolocation: null,
+    mobile: true,
+    fetch: ipFetch(50.23, 17.22)
+  });
+  assert.equal(result.fix, null);
+  assert.equal(result.reason, "unsupported");
+  assert.equal(geo.failureStatusKey(result), "points.unsupported");
+});
+
+test("starý pin na telefonu se nahradí požadavkem na GPS, ne IP", async () => {
+  const now = Date.now();
+  const result = await geo.acquireFix({
+    geolocation: {
+      getCurrentPosition(ok) {
+        ok({
+          timestamp: now - 5 * 60 * 1000,
+          coords: { latitude: 50.0518466, longitude: 14.4857067, accuracy: 40 }
+        });
+      }
+    },
+    mobile: true,
+    fetch: ipFetch(50.23, 17.22)
+  });
+  assert.equal(result.fix, null);
+  assert.equal(result.reason, "stale");
+  assert.equal(geo.failureStatusKey(result), "points.needGps");
+});

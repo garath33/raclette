@@ -34,7 +34,11 @@ function routeUrl(point) {
 
 function setStatus(key, vars) {
   const el = document.getElementById("locator-status");
-  if (el) el.textContent = t(key, vars);
+  if (!el) return;
+  el.textContent = t(key, vars);
+  const tone = RacletteGeo.statusTone(key);
+  el.classList.toggle("is-need", tone === "need");
+  el.classList.toggle("is-warn", tone === "warn");
 }
 
 function hideNavigateNearest() {
@@ -53,6 +57,7 @@ function showNavigateNearest(point) {
 }
 
 let locateBusy = false;
+let locateAttempted = false;
 
 function renderPoints() {
   const host = document.getElementById("point-cards");
@@ -140,6 +145,11 @@ function locatedStatus(lat, lng, accuracyMeters, source, staleKm) {
 }
 
 function applyLocatedOrigin(fix) {
+  if (!fix || (fix.source === "ip" && RacletteGeo.isMobileDevice())) {
+    hideNavigateNearest();
+    setStatus("points.needGps");
+    return;
+  }
   const accuracy = Number(fix.accuracy);
   origin = {
     lat: fix.lat,
@@ -179,15 +189,16 @@ async function locate() {
     });
     if (!result.fix) {
       restoreNavigate();
-      setStatus(result.reason === "unsupported" ? "points.unsupported" : "points.denied");
+      setStatus(RacletteGeo.failureStatusKey(result));
       return;
     }
     applyLocatedOrigin(result.fix);
   } catch (err) {
     restoreNavigate();
-    setStatus("points.denied");
+    setStatus(RacletteGeo.isMobileDevice() ? "points.needGps" : "points.denied");
   } finally {
     locateBusy = false;
+    locateAttempted = true;
     if (locateBtn) locateBtn.disabled = false;
   }
 }
@@ -231,7 +242,7 @@ function boot() {
   document.getElementById("locate").addEventListener("click", locate);
   document.getElementById("point-cards").addEventListener("click", (event) => {
     const link = event.target.closest("a[data-route]");
-    if (!link || origin) return;
+    if (!link || origin || locateAttempted) return;
     event.preventDefault();
     locate();
   });

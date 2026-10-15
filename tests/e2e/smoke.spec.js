@@ -307,8 +307,8 @@ test("vypnutá poloha na notebooku navede k zapnutí sdílení a neotevře star�
   await page.goto("/?lang=cs");
   await page.locator("#point-cards a[data-route]").first().click();
   await expect(page.locator("#locator-status")).toContainText("Polohu se nepodařilo načíst");
-  await expect(page.locator("#locator-status")).toContainText("sdílení polohy");
   await expect(page.locator("#locator-status")).toContainText("Povolit");
+  await expect(page.locator("#locator-status")).toHaveClass(/is-need/);
   await expect(page).toHaveURL(/lang=cs/);
   await expect(page.locator("#navigate-nearest")).toBeHidden();
 });
@@ -323,7 +323,8 @@ test("aktuální IP na Zličíně přebije starý pin u Hamerského rybníka", a
   await page.goto("/?lang=cs");
   await page.locator("#locate").click();
   await expect(page.locator("#locator-status")).toContainText("aktuální IP");
-  await expect(page.locator("#locator-status")).toContainText("Vaše poloha");
+  await expect(page.locator("#locator-status")).toContainText("Martin Kábrt");
+  await expect(page.locator("#locator-status")).toHaveClass(/is-warn/);
   const navHref = await page.locator("#navigate-nearest").getAttribute("href");
   expect(navHref).toMatch(/destination=50\.1466053%2C14\.1026398/);
   expect(navHref).not.toMatch(/[?&]origin=/);
@@ -344,9 +345,8 @@ test("bez prohlížečové polohy navigace startuje z aktuální IP", async ({ p
   }));
   await page.goto("/app.html?lang=cs");
   await page.locator("#locate").click();
-  await expect(page.locator("#locator-status")).toContainText("Sdílení polohy");
-  await expect(page.locator("#locator-status")).toContainText("aktuální IP");
-  await expect(page.locator("#locator-status")).toContainText("Vaší polohy");
+  await expect(page.locator("#locator-status")).toContainText("Odhad z IP");
+  await expect(page.locator("#locator-status")).toContainText("Martin Kábrt");
   const navHref = await page.locator("#navigate-nearest").getAttribute("href");
   expect(navHref).toMatch(/destination=50\.1466053%2C14\.1026398/);
   expect(navHref).not.toMatch(/[?&]origin=/);
@@ -431,4 +431,104 @@ test("když prohlížeč instalaci odmítne, aplikace ukáže návod", async ({ 
   await page.locator("#pwa-install").click();
   await expect(page.locator("#pwa-panel")).toBeVisible();
   await expect(page.locator("#pwa-panel")).toContainText("Safari");
+});
+
+const ANDROID_UA = "Mozilla/5.0 (Linux; Android 14; Pixel 8) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36";
+
+test.describe("mobil bez GPS", () => {
+  test.use({
+    viewport: { width: 390, height: 844 },
+    isMobile: true,
+    hasTouch: true,
+    userAgent: ANDROID_UA
+  });
+
+  test("Android bez polohy nevezme IP u Křížového vrchu", async ({ page, context }) => {
+    await context.grantPermissions([]);
+    await page.addInitScript(() => {
+      navigator.geolocation.getCurrentPosition = (_ok, err) => {
+        err({ code: 1, message: "denied" });
+      };
+    });
+    await page.route("**/api/where", (route) => route.fulfill({
+      status: 200,
+      contentType: "application/json",
+      body: JSON.stringify({ ok: true, lat: 50.23, lng: 17.22, accuracy: 20000, city: "Jesenik" })
+    }));
+    await page.goto("/?lang=cs");
+    await page.locator("#locate").click();
+    await expect(page.locator("#locator-status")).toContainText("bez GPS");
+    await expect(page.locator("#locator-status")).toContainText("Android");
+    await expect(page.locator("#locator-status")).toHaveClass(/is-need/);
+    await expect(page.locator("#navigate-nearest")).toBeHidden();
+    await expect(page.locator("#point-cards .is-nearest")).toHaveCount(0);
+    await expect(page.locator("#locator-status")).not.toContainText("Křížový vrch");
+    await expect(page.locator("#locator-status")).not.toContainText("IP");
+  });
+
+  test("Android na Zličíně s GPS vybere food truck i proti IP z Jeseníku", async ({ page, context }) => {
+    await context.grantPermissions(["geolocation"]);
+    await context.setGeolocation({ latitude: 50.0535, longitude: 14.3062, accuracy: 20 });
+    await page.route("**/api/where", (route) => route.fulfill({
+      status: 200,
+      contentType: "application/json",
+      body: JSON.stringify({ ok: true, lat: 50.23, lng: 17.22, accuracy: 20000 })
+    }));
+    await page.goto("/?lang=cs");
+    await page.locator("#locate").click();
+    await expect(page.locator("#locator-status")).toContainText("Martin Kábrt");
+    await expect(page.locator("#locator-status")).not.toContainText("IP");
+    await expect(page.locator("#locator-status")).not.toContainText("Křížový vrch");
+    await expect(page.locator("#navigate-nearest")).toBeVisible();
+    await expect(page.locator("#point-cards .is-nearest h3")).toContainText("Martin Kábrt");
+  });
+
+  test("timeout na Androidu žádá GPS a neschová odhad z IP", async ({ page, context }) => {
+    await context.grantPermissions([]);
+    await page.addInitScript(() => {
+      navigator.geolocation.getCurrentPosition = (_ok, err) => {
+        err({ code: 3, message: "timeout" });
+      };
+      navigator.geolocation.watchPosition = (_ok, err) => {
+        err({ code: 3, message: "timeout" });
+        return 0;
+      };
+    });
+    await page.route("**/api/where", (route) => route.fulfill({
+      status: 200,
+      contentType: "application/json",
+      body: JSON.stringify({ ok: true, lat: 50.23, lng: 17.22, accuracy: 20000 })
+    }));
+    await page.goto("/?lang=cs");
+    await page.locator("#locate").click();
+    await expect(page.locator("#locator-status")).toContainText("GPS se nenačetla včas");
+    await expect(page.locator("#navigate-nearest")).toBeHidden();
+    await expect(page.locator("#locator-status")).not.toContainText("Křížový vrch");
+  });
+
+  test("po odmítnutí GPS otevře vizitka Maps bez falešného Pointu", async ({ page, context }) => {
+    await context.grantPermissions([]);
+    await page.addInitScript(() => {
+      navigator.geolocation.getCurrentPosition = (_ok, err) => {
+        err({ code: 1, message: "denied" });
+      };
+    });
+    await page.goto("/?lang=cs");
+    await page.locator("#locate").click();
+    await expect(page.locator("#locator-status")).toContainText("bez GPS");
+    const link = page.locator("#point-cards a[data-route]").first();
+    await expect(link).toHaveAttribute("href", /google\.com\/maps\/dir/);
+    const allowed = await link.evaluate((el) => {
+      let went = false;
+      el.addEventListener("click", (event) => {
+        went = !event.defaultPrevented;
+        event.preventDefault();
+      }, { once: true });
+      el.click();
+      return went;
+    });
+    expect(allowed).toBe(true);
+    await expect(page.locator("#navigate-nearest")).toBeHidden();
+    await expect(page.locator("#locator-status")).not.toContainText("Křížový vrch");
+  });
 });
