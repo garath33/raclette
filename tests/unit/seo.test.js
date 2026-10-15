@@ -61,6 +61,7 @@ test("veřejné soubory drží výkonnostní rozpočet", () => {
     "assets/shop-assortment.jpg": 320 * 1024,
     "assets/photo-barry.jpg": 220 * 1024,
     "assets/photo-laiterie.jpg": 80 * 1024,
+    "assets/photo-cellar.jpg": 80 * 1024,
     "assets/event-open-raklet.jpg": 160 * 1024,
     "assets/event-colours.jpg": 160 * 1024,
     "assets/event-beats.jpg": 160 * 1024,

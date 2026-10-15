@@ -685,10 +685,10 @@ p { margin: 0; }
 .shot-main img { height: 520px; }
 .media-grid > .quote { margin: 0; display: flex; flex-direction: column; justify-content: center; }
 .raclette-origin { margin-top: 1.5rem; display: grid; grid-template-columns: minmax(0, 1fr) 16.5rem; gap: 1rem 1.15rem; align-items: start; }
+.raclette .section-head.raclette-origin { max-width: none; margin-top: 0; }
+.raclette-origin > .shot { grid-column: 2; }
 .dairy-shot { margin: 0; max-width: 16.5rem; }
 .dairy-shot img { height: auto; aspect-ratio: 4 / 3; }
-.cheese-row { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-.cheese-row .shot img { height: 248px; object-position: center 46%; }
 .quote {
   margin: 1rem 0 0;
   padding: 1.4rem 1.4rem 1.2rem;
@@ -1826,7 +1826,8 @@ body.lovers-app {
   .shop-crest { width: min(200px, 72%); }
   .benefit-grid.cols-3 { grid-template-columns: 1fr; }
   .stat-grid { grid-template-columns: 1fr 1fr; }
-  .shot-main img, .cheese-row .shot img { height: 220px; }
+  .shot-main img { height: 220px; }
+  .raclette-origin > .shot { grid-column: auto; }
   .hero-visual { width: min(100%, 380px); margin-inline: auto; margin-top: 0.5rem; }
   .timeline li { grid-template-columns: 5.5rem 1fr; }
 }
@@ -1858,8 +1859,7 @@ body.lovers-app {
   .flag-svg { height: 46px; }
   .benefit-grid,
   .event-offer,
-  .approach-rail,
-  .cheese-row { grid-template-columns: 1fr; }
+  .approach-rail { grid-template-columns: 1fr; }
   .event-photo { height: 112px; }
   .approach-block,
   .gain-block { padding-inline: 1rem; }
