@@ -137,7 +137,7 @@
           </h1>
           <p class="lead" data-i18n="hero.lead">Síť míst Raclette Point Original. Servírujeme autentický a originální švýcarský raclette podle původních švýcarských receptur. Distribuujeme sýry nejvyšší a originální kvality z mlékárny Laiterie d’Orsières v kantonu Valais. Podle vaší polohy vás navedeme k nejbližšímu Pointu v Google Maps. Svůj podnik můžete o stejný zážitek rozšířit.</p>
           <div class="hero-actions">
-            <a class="btn btn-solid" href="#pointy" id="hero-locate" data-i18n="hero.primary">Najít nejbližší Point</a>
+            <a class="btn btn-solid" href="#locate" id="hero-locate" data-i18n="hero.primary">Najít nejbližší Point</a>
             <button class="btn btn-gold" id="pwa-install" type="button" aria-expanded="false" aria-controls="aplikace">
               <span data-i18n="app.install">Na plochu telefonu</span>
             </button>
@@ -214,6 +214,11 @@
         </div>
         <div class="network" id="network">
           <div class="flag-row" id="country-flags"></div>
+          <div class="locator">
+            <button class="btn btn-solid" id="locate" type="button" data-i18n="points.locate">Najdi nejbližší Raclette point.</button>
+            <a class="btn btn-diamond" id="navigate-nearest" hidden target="_blank" rel="noopener noreferrer">Navigovat k nejbližšímu</a>
+            <p class="status" id="locator-status" aria-live="polite"></p>
+          </div>
           <div class="cheese-wheel">
             <div class="cheese" id="cheese">
               <div class="network-stage" id="network-map"></div>
@@ -267,11 +272,6 @@
               </g>
             </svg>
           </div>
-        </div>
-        <div class="locator">
-          <button class="btn btn-solid" id="locate" type="button" data-i18n="points.locate">Najdi nejbližší Raclette point.</button>
-          <a class="btn btn-diamond" id="navigate-nearest" hidden target="_blank" rel="noopener noreferrer">Navigovat k nejbližšímu</a>
-          <p class="status" id="locator-status" aria-live="polite"></p>
         </div>
         <div class="cards" id="point-cards"></div>
       </div>

@@ -82,3 +82,12 @@ test("na mobilu se otevře menu a na desktopu je navigace vidět rovnou", async 
   await expect(page.locator("#nav-toggle")).toBeHidden();
   await expect(page.locator("#site-nav a[href='#pointy']")).toBeVisible();
 });
+
+test("na mobilu je tlačítko polohy vidět po přechodu z hero", async ({ page, context }) => {
+  await context.setGeolocation({ latitude: 50.7256, longitude: 15.6068 });
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/?lang=cs");
+  await page.locator("#hero-locate").click();
+  await expect(page).toHaveURL(/#locate/);
+  await expect(page.locator("#locate")).toBeInViewport();
+});

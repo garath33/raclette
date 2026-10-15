@@ -35,7 +35,7 @@ test("stránka se načte, má sekce a testovací pruh", async ({ page }) => {
   await expect(page.locator('#point-cards .card[data-id="mouret"] a[href="https://www.laiterie-du-mouret.ch"]')).toBeVisible();
   await page.locator("#country-flags [data-country='cz']").click();
   await expect(page.locator("#locator-status")).toContainText("Každý Point má vlastní mapu");
-  await expect(page.locator("#hero-locate")).toHaveAttribute("href", "#pointy");
+  await expect(page.locator("#hero-locate")).toHaveAttribute("href", "#locate");
   await expect(page.locator("#site-nav a[href='#pointy']")).toHaveText("Naše raclette pointy");
   await expect(page.locator("#site-nav a[href='pro-partnery.html']")).toHaveText("Pro partnery");
   await expect(page.locator('#uvod a[data-i18n="hero.secondary"]')).toHaveText("Chci se stát raclette pointem");
@@ -221,7 +221,7 @@ test("hero Najít nejbližší Point spustí polohu a nabídne navigaci", async 
   await expect(page.locator("#locator-status")).toContainText("Špindlerův Mlýn");
   await expect(page.locator("#navigate-nearest")).toBeVisible();
   await expect(page.locator("#point-cards .is-nearest h3")).toContainText("Špindlerův Mlýn");
-  await expect(page).toHaveURL(/#pointy/);
+  await expect(page).toHaveURL(/#locate/);
 });
 
 test("bez polohy zůstává trasa jen s cílem a navigace je skrytá", async ({ page, context }) => {

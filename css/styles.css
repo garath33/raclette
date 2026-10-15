@@ -344,9 +344,17 @@ p { margin: 0; }
 .points { background: #e3f2fb; }
 .network {
   position: relative;
+  display: flex;
+  flex-direction: column;
   width: min(680px, 100%);
   margin: 0 auto .15rem;
   pointer-events: none;
+}
+.network .flag-row { order: 1; }
+.network .cheese-wheel { order: 2; }
+.network .locator {
+  order: 3;
+  pointer-events: auto;
 }
 .cheese-wheel {
   position: relative;
@@ -578,11 +586,16 @@ p { margin: 0; }
   margin-bottom: 1.4rem;
 }
 .points .locator {
+  position: relative;
+  z-index: 6;
   width: min(680px, 100%);
   margin-inline: auto;
   justify-content: center;
   text-align: center;
+  scroll-margin-top: calc(var(--header) + 12px);
+  scroll-margin-bottom: 1rem;
 }
+#locate { scroll-margin-top: calc(var(--header) + 12px); }
 .points .status { flex-basis: 100%; text-align: center; }
 .locator #navigate-nearest[hidden] {
   display: none !important;
@@ -1930,6 +1943,11 @@ body.lovers-app {
 }
 
 @media (max-width: 720px) {
+  .network .locator { order: 2; margin-bottom: 0.35rem; }
+  .network .cheese-wheel {
+    order: 3;
+    margin-bottom: 0.85rem;
+  }
   .pin-name,
   .city text { display: none; }
   .flag-svg { height: 46px; }
