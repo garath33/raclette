@@ -60,9 +60,17 @@ test("stránka se načte, má sekce a testovací pruh", async ({ page }) => {
   await expect(page.locator("#eventy .event-offer li")).toHaveCount(12);
   await expect(page.locator("#eventy .event-photo")).toHaveCount(6);
   await expect(page.locator("#eventy .event-grid")).toBeVisible();
+  await expect(page.locator("#eventy")).toContainText("Kde se už na švýcarský raklet stála fronta");
+  await expect(page.locator("#eventy")).toContainText("A kde jste nás mohli ochutnat.");
+  await expect(page.locator("#eventy a[href='tel:+420777600223']")).toHaveText("Zavolat +420 777 600 223");
+  await expect(page.locator("#eventy a[href='mailto:info@rakletparty.cz']")).toBeVisible();
   const whenBox = await page.locator("#eventy .events-when").boundingBox();
+  const bookBox = await page.locator("#eventy .event-book").boundingBox();
+  const pastBox = await page.locator("#eventy .events-past").boundingBox();
   const gridBox = await page.locator("#eventy .event-grid").boundingBox();
-  expect(whenBox.y).toBeLessThan(gridBox.y);
+  expect(whenBox.y).toBeLessThan(bookBox.y);
+  expect(bookBox.y).toBeLessThan(pastBox.y);
+  expect(pastBox.y).toBeLessThan(gridBox.y);
   await expect(page.getByRole("heading", { name: "Eliška Reine" })).toBeVisible();
   await expect(page.getByRole("heading", { name: "Sídlo firmy a fakturační adresa" })).toBeVisible();
   await expect(page.locator("#kontakty")).not.toContainText("Dodací adresa");
@@ -174,7 +182,7 @@ test("poloha u Kladna vybere food truck a u Jeseníku Křížový vrch", async (
   await expect(page.locator("#navigate-nearest")).toContainText("Martin Kábrt");
   const navHref = await page.locator("#navigate-nearest").getAttribute("href");
   expect(navHref).toMatch(/destination=50\.1466053%2C14\.1026398/);
-  expect(navHref).toMatch(/dir_action=navigate/);
+  expect(navHref).not.toMatch(/dir_action=navigate/);
   expect(navHref).not.toMatch(/[?&]origin=/);
   const cardRoute = await page.locator("#point-cards .is-nearest a.btn-solid").getAttribute("href");
   expect(cardRoute).toMatch(/destination=50\.1466053%2C14\.1026398/);
@@ -223,7 +231,7 @@ test("bez polohy zůstává trasa jen s cílem a navigace je skrytá", async ({ 
   const href = await page.locator("#point-cards .card").first().locator("a.btn-solid").getAttribute("href");
   expect(href).toMatch(/destination=/);
   expect(href).not.toMatch(/[?&]origin=/);
-  expect(href).toMatch(/dir_action=navigate/);
+  expect(href).not.toMatch(/dir_action=navigate/);
 });
 
 test("vlajka vybere zemi a pin zvýrazní kartu", async ({ page }) => {

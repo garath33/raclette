@@ -74,7 +74,7 @@ První verze testu nechala mezi Kladnem a Jeseníkem starou polohu, protože pro
 
 ## Navigace nebere zmraženou GPS z prohlížeče
 
-Prohlížečová poloha slouží jen k výběru nejbližšího Pointu a k výpočtu vzdálenosti. Odkaz do Google Maps má jen cíl (`destination`), bez `origin` s jednorázovým odečtem. Jinak Maps startoval z nepřesného pinu (Wi-Fi / timeout) místo z místa, kde člověk sedí. Živý start necháme na Google Maps (`dir_action=navigate`). Po úspěšném odečtu je tlačítko „Navigovat k …“. Když GPS selže timeoutem, zkusí se ještě jeden odečet bez vysoké přesnosti.
+Prohlížečová poloha slouží jen k výběru nejbližšího Pointu a k výpočtu vzdálenosti. Odkaz do Google Maps má jen cíl (`destination`), bez `origin` s jednorázovým odečtem. Jinak Maps startoval z nepřesného pinu (Wi-Fi / timeout) místo z místa, kde člověk sedí. Živý start necháme na Google Maps. Odkaz neskáče rovnou do navádění. Po úspěšném odečtu je tlačítko „Navigovat k …“. Když GPS selže timeoutem, zkusí se ještě jeden odečet bez vysoké přesnosti.
 
 ## Notebook v Záběhlicích neukáže ulici, výběr Pointu drží
 
@@ -104,6 +104,10 @@ Hosté chtějí ikonu Raclette Lovers na ploše telefonu a navigaci k nejbližš
 
 Schválení „Hod na ostrý web“ posílá Pro partnery, telefon nad formulářem, vysvětlení AOP a znění mlékárny Laiterie d’Orsières na `raclettelovers.*` (bez zkušebního pruhu) a na GitHub Pages. Cloudflare Worker potřebuje v `wrangler.jsonc` prázdný blok `previews`, jinak build padá.
 
+## Android ukáže modrou trasu dřív než navádění
+
+Na Pixelu odkaz s `dir_action=navigate` otevřel rovnou navádění. Zelený pruh a čas příjezdu už byly, auto stálo na 0 km/h u Domova a modrá čára k pobočce několik vteřin chyběla. Google v tom režimu čeká, až se telefon chytí směru jízdy, a teprve potom čáru dokreslí. Odkaz proto navádění nespouští. Mapy otevřou přehled trasy z Vaší polohy, modrá čára je hned, a v aplikaci na telefonu je tlačítko Navigovat. Na notebooku to tlačítko Google stejně nenabízí.
+
 ## Hrubý bod uprostřed Prahy není adresa startu
 
 Po zapnutí polohy na notebooku Maps ukázaly start „pragERLEBNIS, Staroměstské náměstí“. V odkazu byl bod 50.080804, 14.42076. Notebook bez GPS často nevrátí Zličín, ale jeden bod ve středu města. Google Maps takový bod nepřeloží jako „Vaše poloha“, ale přilepí ho na nejbližší podnik. Cíl (food truck v Kladně) seděl, adresa startu ne. Odkaz proto znovu nemá `origin`. Odečet dál vybírá nejbližší Point a text řekne, že start v Mapách je Vaše poloha, ne adresa vymyšlená z toho bodu. Hláška je ve všech devíti jazycích, proto strop `js/i18n.js` posouvá z 90 kB na 91 kB.
@@ -117,3 +121,7 @@ Na notebooku ve Zličíně Google Maps pořád startoval od Hamerského rybníka
 ## Každý stát v mapě bochníku je automaticky vycentrovaný výškově i do šířky
 
 Při přepínání vlajek v mapě poboček (`#pointy`) musí být aktivní stát — a každý další stát, který v budoucnu přibude — vždy plně vycentrovaný uprostřed vnitřní plochy půlbochníku sýra jak vodorovně, tak výškově, s dostatečným odstupem od zaoblené kůrky i horní grilované krusty. Místo ručně psaných CSS posunů pro jednotlivé země počítá `RacletteEurope.cameraFor(countryId)` v `js/europe.js` obdélník a vrcholy polygonu daného státu a automaticky nastaví šířku i pozici mapy (`left`, `top`, `width`) tak, aby střed státu ležel uprostřed čisté plochy bochníku a žádný výběžek (například západní a jižní cípy Švýcarska) se nedotýkal okraje.
+
+## Oslavu si host domluví telefonem, ne dalším formulářem
+
+Sekce Eventy vypisuje, na co raclette umíme. Kdo si chce objednat oslavu, svatbu nebo párty, nemá vyplňovat další formulář. Hned pod výčtem je výzva „Zavolejte nám“ na +420 777 600 223, stejné číslo jako rychlý kontakt, a vedle něj e-mail info@rakletparty.cz. Výzva mluví za tým. Eliška Reine zůstává v kontaktech jako manažerka eventů pro Prahu a Čechy. Nad fotografiemi z akcí je věta „Kde se už na švýcarský raklet stála fronta“ a doplněk „A kde jste nás mohli ochutnat.“ Texty jsou v devíti jazycích, proto strop `css/styles.css` posouvá ze 47 kB na 48 kB, `js/i18n.js` z 91 kB na 92 kB a `js/i18n-extra.js` ze 194 kB na 196 kB.
