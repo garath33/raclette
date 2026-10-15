@@ -147,6 +147,7 @@ p { margin: 0; }
   border-color: var(--ink);
   color: white;
 }
+.header-social a:active { background: var(--red); border-color: var(--red); }
 .header-social svg {
   width: 16px;
   height: 16px;
@@ -243,17 +244,23 @@ p { margin: 0; }
   cursor: pointer;
   background: transparent;
   color: var(--ink);
+  transition: .15s ease;
 }
+.btn:hover { transform: translateY(-2px); box-shadow: 0 8px 16px #1a1c1d24; }
+.btn:active { transform: translateY(1px); box-shadow: none; }
 .btn-solid { background: var(--ink); color: white; }
-.btn-solid:hover { background: var(--gold-deep); }
+.btn-solid:hover { background: var(--red); }
+.btn-solid:active { background: #8e102c; }
 .btn-diamond { background: var(--red); color: white; }
 .btn-diamond:hover { background: var(--magenta); }
+.btn-diamond:active { background: #6e1c3e; }
 .btn-gold {
   background: var(--yellow);
   border-color: var(--yellow);
   color: var(--ink);
 }
-.btn-gold:hover { background: var(--gold); border-color: var(--gold); }
+.btn-gold:hover { background: var(--orange); border-color: var(--orange); }
+.btn-gold:active { background: #a34e0a; border-color: #a34e0a; color: white; }
 .btn-gold:before {
   content: "";
   width: 8px;
@@ -265,6 +272,7 @@ p { margin: 0; }
 }
 .btn-line { border-color: var(--ink); }
 .btn-line:hover { background: var(--ink); color: white; }
+.btn-line:active { background: var(--red); border-color: var(--red); color: white; }
 .btn[aria-disabled="true"] { pointer-events: none; opacity: 0.45; }
 
 .hero-visual {
@@ -576,13 +584,6 @@ p { margin: 0; }
   align-items: center;
   gap: 0.9rem 1.2rem;
   margin-bottom: 1.4rem;
-}
-.locator #navigate-nearest {
-  background: var(--red);
-  color: #fff;
-}
-.locator #navigate-nearest:hover {
-  background: var(--magenta);
 }
 .locator #navigate-nearest[hidden] {
   display: none !important;
@@ -1888,5 +1889,7 @@ body.lovers-app {
   .land,
   .land.is-on,
   .flag-cloth,
-  .city { animation: none; transition: none; }
+  .city,
+  .btn { animation: none; transition: none; }
+  .btn:hover, .btn:active { transform: none; }
 }
