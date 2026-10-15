@@ -50,7 +50,7 @@ test("robots a sitemap ukazují na ostré domény a všechny jazyky", () => {
 
 test("veřejné soubory drží výkonnostní rozpočet", () => {
   const limits = {
-    "css/styles.css": 47 * 1024,
+    "css/styles.css": 48 * 1024,
     "js/app.js": 20 * 1024,
     "js/i18n-app.js": 16 * 1024,
     "js/lovers-app.js": 12 * 1024,
@@ -99,8 +99,9 @@ test("kontaktní stránka neuvádí Veroniku a uvádí Martina Šimůnka", () =>
   assert.equal(/tel:\+420602402935/.test(html), false);
   assert.match(html, /tel:\+420777600223/);
   assert.match(html, /tel:\+41766083983/);
-  assert.match(html, /🇨🇿 🇸🇰/);
-  assert.match(html, /🇨🇭/);
+  assert.match(html, /data-flags="cz sk"/);
+  assert.match(html, /data-flags="ch"/);
+  assert.equal(/🇨🇿|🇸🇰|🇨🇭/.test(html), false);
   assert.match(html, /"areaServed": \["CZ", "SK"\]/);
   assert.match(html, /"areaServed": "CH"/);
   assert.equal(/Ohýbková/.test(html), false);

@@ -2,7 +2,7 @@ const test = require("node:test");
 const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const europe = require("../../js/europe");
-const { POINTS, flagSvg, branchFlag } = require("../../js/points");
+const { POINTS, flagSvg, branchFlag, contactFlag } = require("../../js/points");
 
 test("české Pointy i Švýcarsko leží uvnitř výřezu mapy", () => {
   for (const point of POINTS) {
@@ -45,6 +45,10 @@ test("vlajka na kartě pobočky je stejná kresba jako nad bochníkem", () => {
   assert.match(ch, /#da291c/);
   assert.match(ch, /x="13" y="6"/);
   assert.equal(flagSvg("sk"), "");
+  assert.equal(contactFlag("cz"), cz);
+  assert.equal(contactFlag("ch"), ch);
+  assert.match(contactFlag("sk"), /#0b4ea2/);
+  assert.match(contactFlag("sk"), /class="flag-svg"/);
   const marked = branchFlag("ch", 'Švýcarsko & "CH"');
   assert.match(marked, /class="card-flag"/);
   assert.match(marked, /aria-label="Švýcarsko &amp; &quot;CH&quot;"/);

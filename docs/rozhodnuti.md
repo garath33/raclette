@@ -54,7 +54,7 @@ U nabídky pro partnery je edukační odstavec: AOP = chráněné označení pů
 
 ## Telefon nad formulářem
 
-Nad kontaktním formulářem jsou dvě linky s vlajkami: Pavlína Otýpková 🇨🇿 🇸🇰 +420 777 600 223 pro Česko a Slovensko, Milan Kolář 🇨🇭 +41 76 608 39 83 pro Švýcarsko.
+Nad kontaktním formulářem jsou dvě linky se stejnými látkovými vlajkami jako nad bochníkem. Pavlína má českou a slovenskou, Milan švýcarskou. Názvy zemí ani zkratky CZ, SK a CH u čísla nejsou.
 
 ## raclettelovers.com je první vlastní doména
 

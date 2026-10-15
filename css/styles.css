@@ -1175,7 +1175,30 @@ p { margin: 0; }
   color: var(--ink);
   font-weight: 600;
 }
-.form-invite .btn { flex: 1 1 16rem; justify-content: flex-start; gap: .55rem; text-align: left; }
+.phone-call {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  width: fit-content;
+  max-width: 100%;
+  color: inherit;
+  font-weight: 700;
+  text-decoration: none;
+}
+.phone-flags { display: inline-flex; align-items: flex-end; gap: 0.2rem; }
+.phone-call .flag-svg { height: 36px; }
+.phone-flags .flag-cloth + .flag-cloth { transform: rotate(8deg); }
+.phone-call:hover .flag-cloth { transform: translateY(-4px) rotate(-3deg); }
+.phone-call:hover .phone-flags .flag-cloth + .flag-cloth { transform: translateY(-4px) rotate(8deg); }
+.phone-who { display: grid; line-height: 1.15; }
+.phone-name {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gold-deep);
+}
+.phone-num { font-family: var(--serif); font-size: 1.35rem; font-weight: 600; line-height: 1; }
 
 .partner-form .form-honey {
   position: absolute;

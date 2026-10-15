@@ -71,8 +71,12 @@ test("stránka se načte, má sekce a testovací pruh", async ({ page }) => {
   await expect(page.locator("#kontakty")).not.toContainText("+420 602 402 935");
   await expect(page.locator("#kontakty")).toContainText("+420 777 600 223");
   await expect(page.locator("#kontakty")).toContainText("+41 76 608 39 83");
-  await expect(page.locator("#kontakty")).toContainText("Česko a Slovensko");
-  await expect(page.locator("#kontakty")).toContainText("Švýcarsko");
+  await expect(page.locator("#kontakty .call-lines a[href='tel:+420777600223'] .flag-svg")).toHaveCount(2);
+  await expect(page.locator("#kontakty .call-lines a[href='tel:+41766083983'] .flag-svg")).toHaveCount(1);
+  const cheeseCz = await page.locator("#country-flags [data-country='cz'] .flag-svg").evaluate((el) => el.outerHTML);
+  const cheeseCh = await page.locator("#country-flags [data-country='ch'] .flag-svg").evaluate((el) => el.outerHTML);
+  expect(await page.locator("#kontakty .call-lines a[href='tel:+420777600223'] .flag-svg").first().evaluate((el) => el.outerHTML)).toBe(cheeseCz);
+  expect(await page.locator("#kontakty .call-lines a[href='tel:+41766083983'] .flag-svg").evaluate((el) => el.outerHTML)).toBe(cheeseCh);
   await expect(page.getByRole("heading", { name: "Pavlína Otýpková" })).toBeVisible();
   await expect(page.getByRole("heading", { name: "Milan Kolář" })).toBeVisible();
   await expect(page.locator("body")).not.toContainText(/veronika/i);
@@ -89,8 +93,11 @@ test("Pro partnery je samostatná stránka s nabídkou a formulářem", async ({
   await expect(page.locator("#franchise .aop-note")).toContainText("Appellation d’Origine Protégée");
   await expect(page.locator("#franchise-form .form-invite")).toContainText("+420 777 600 223");
   await expect(page.locator("#franchise-form .form-invite")).toContainText("+41 76 608 39 83");
-  await expect(page.locator("#franchise-form .form-invite")).toContainText("Česko a Slovensko");
-  await expect(page.locator("#franchise-form .form-invite")).toContainText("Švýcarsko");
+  await expect(page.locator("#franchise-form .form-invite")).toContainText("Pavlína");
+  await expect(page.locator("#franchise-form .form-invite")).toContainText("Milan");
+  await expect(page.locator("#franchise-form .form-invite")).not.toContainText("Česko a Slovensko");
+  await expect(page.locator('#franchise-form a[href="tel:+420777600223"] .flag-svg')).toHaveCount(2);
+  await expect(page.locator('#franchise-form a[href="tel:+41766083983"] .flag-svg')).toHaveCount(1);
   await expect(page.locator('#franchise-form a[href="tel:+420777600223"]')).toBeVisible();
   await expect(page.locator('#franchise-form a[href="tel:+41766083983"]')).toBeVisible();
   await expect(page.locator("#partner-form")).toBeVisible();
