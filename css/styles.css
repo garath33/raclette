@@ -928,6 +928,28 @@ p { margin: 0; }
   background: var(--gold-deep);
   transform: rotate(45deg);
 }
+.event-book {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 0.85rem;
+  margin-top: 1.25rem;
+  padding: 0.95rem 1.05rem;
+  background: white;
+  border-radius: 18px;
+}
+.event-book p {
+  margin: 0;
+  flex: 1 1 16rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+.events-past { margin: 0 0 0.85rem; }
+.events-past h3 {
+  font-size: clamp(1.45rem, 2.6vw, 1.95rem);
+  margin: 0 0 0.2rem;
+}
+.events-past p { margin: 0; max-width: 40rem; color: var(--muted); }
 .partners-line { margin-top: 1.3rem; color: var(--muted); }
 .partners-line strong {
   display: block;
@@ -1871,6 +1893,7 @@ body.lovers-app {
   .benefit-grid,
   .event-offer,
   .approach-rail { grid-template-columns: 1fr; }
+  .event-book .btn { flex: 1 1 12rem; }
   .event-photo { height: 112px; }
   .approach-block,
   .gain-block { padding-inline: 1rem; }

@@ -60,9 +60,17 @@ test("stránka se načte, má sekce a testovací pruh", async ({ page }) => {
   await expect(page.locator("#eventy .event-offer li")).toHaveCount(12);
   await expect(page.locator("#eventy .event-photo")).toHaveCount(6);
   await expect(page.locator("#eventy .event-grid")).toBeVisible();
+  await expect(page.locator("#eventy")).toContainText("Kde se už na švýcarský raklet stála fronta");
+  await expect(page.locator("#eventy")).toContainText("A kde jste nás mohli ochutnat.");
+  await expect(page.locator("#eventy a[href='tel:+420777600223']")).toHaveText("Zavolat +420 777 600 223");
+  await expect(page.locator("#eventy a[href='mailto:info@rakletparty.cz']")).toBeVisible();
   const whenBox = await page.locator("#eventy .events-when").boundingBox();
+  const bookBox = await page.locator("#eventy .event-book").boundingBox();
+  const pastBox = await page.locator("#eventy .events-past").boundingBox();
   const gridBox = await page.locator("#eventy .event-grid").boundingBox();
-  expect(whenBox.y).toBeLessThan(gridBox.y);
+  expect(whenBox.y).toBeLessThan(bookBox.y);
+  expect(bookBox.y).toBeLessThan(pastBox.y);
+  expect(pastBox.y).toBeLessThan(gridBox.y);
   await expect(page.getByRole("heading", { name: "Eliška Reine" })).toBeVisible();
   await expect(page.getByRole("heading", { name: "Sídlo firmy a fakturační adresa" })).toBeVisible();
   await expect(page.locator("#kontakty")).not.toContainText("Dodací adresa");

@@ -121,3 +121,7 @@ Na notebooku ve Zličíně Google Maps pořád startoval od Hamerského rybníka
 ## Každý stát v mapě bochníku je automaticky vycentrovaný výškově i do šířky
 
 Při přepínání vlajek v mapě poboček (`#pointy`) musí být aktivní stát — a každý další stát, který v budoucnu přibude — vždy plně vycentrovaný uprostřed vnitřní plochy půlbochníku sýra jak vodorovně, tak výškově, s dostatečným odstupem od zaoblené kůrky i horní grilované krusty. Místo ručně psaných CSS posunů pro jednotlivé země počítá `RacletteEurope.cameraFor(countryId)` v `js/europe.js` obdélník a vrcholy polygonu daného státu a automaticky nastaví šířku i pozici mapy (`left`, `top`, `width`) tak, aby střed státu ležel uprostřed čisté plochy bochníku a žádný výběžek (například západní a jižní cípy Švýcarska) se nedotýkal okraje.
+
+## Oslavu si host domluví telefonem, ne dalším formulářem
+
+Sekce Eventy vypisuje, na co raclette umíme. Kdo si chce objednat oslavu, svatbu nebo párty, nemá vyplňovat další formulář. Hned pod výčtem je výzva zavolat Pavlíně Otýpkové na +420 777 600 223, stejné číslo jako rychlý kontakt, a vedle něj e-mail info@rakletparty.cz. Eliška Reine zůstává v kontaktech jako manažerka eventů pro Prahu a Čechy, objednávka oslavy jde přes komunikaci s klienty. Nad fotografiemi z akcí je věta „Kde se už na švýcarský raklet stála fronta“ a doplněk „A kde jste nás mohli ochutnat.“ Texty jsou v devíti jazycích, proto strop `css/styles.css` posouvá ze 47 kB na 48 kB, `js/i18n.js` z 91 kB na 92 kB a `js/i18n-extra.js` ze 194 kB na 196 kB.
