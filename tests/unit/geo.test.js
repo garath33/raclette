@@ -45,7 +45,7 @@ test("švýcarské Pointy mají zemi a z Curychu vychází švýcarský Point", 
   assert.equal(geo.nearest(POINTS, 47.37, 8.54).country, "ch");
 });
 
-test("mapsDirUrl bez odečtu nemá origin, s čerstvým odečtem ho předá", () => {
+test("mapsDirUrl má jen cíl, hrubý bod v centru Prahy se nestane adresou startu", () => {
   const point = POINTS.find((item) => item.id === "kabrt");
   const bare = geo.mapsDirUrl(point);
   assert.match(bare, /^https:\/\/www\.google\.com\/maps\/dir\/\?api=1/);
@@ -53,8 +53,10 @@ test("mapsDirUrl bez odečtu nemá origin, s čerstvým odečtem ho předá", ()
   assert.match(bare, /travelmode=driving/);
   assert.match(bare, /dir_action=navigate/);
   assert.equal(/[?&]origin=/.test(bare), false);
-  const url = geo.mapsDirUrl(point, { lat: 50.0535, lng: 14.3062 });
-  assert.match(url, /origin=50\.0535%2C14\.3062/);
+  // 50.080804,14.42076 je hrubý bod u Staroměstského náměstí. Maps z něj udělaly pragERLEBNIS.
+  const url = geo.mapsDirUrl(point, { lat: 50.080804, lng: 14.42076 });
+  assert.equal(/[?&]origin=/.test(url), false);
+  assert.equal(url.includes("50.080804"), false);
   assert.match(url, /destination=50\.1466053%2C14\.1026398/);
 });
 

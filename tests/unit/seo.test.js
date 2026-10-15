@@ -54,7 +54,7 @@ test("veřejné soubory drží výkonnostní rozpočet", () => {
     "js/app.js": 20 * 1024,
     "js/i18n-app.js": 16 * 1024,
     "js/lovers-app.js": 12 * 1024,
-    "js/i18n.js": 90 * 1024,
+    "js/i18n.js": 91 * 1024,
     "js/i18n-extra.js": 193 * 1024,
     "assets/photo-service.jpg": 400 * 1024,
     "assets/photo-wedge.jpg": 280 * 1024,

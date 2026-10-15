@@ -104,6 +104,10 @@ Hosté chtějí ikonu Raclette Lovers na ploše telefonu a navigaci k nejbližš
 
 Schválení „Hod na ostrý web“ posílá Pro partnery, telefon nad formulářem, vysvětlení AOP a znění mlékárny Laiterie d’Orsières na `raclettelovers.*` (bez zkušebního pruhu) a na GitHub Pages. Cloudflare Worker potřebuje v `wrangler.jsonc` prázdný blok `previews`, jinak build padá.
 
+## Hrubý bod uprostřed Prahy není adresa startu
+
+Po zapnutí polohy na notebooku Maps ukázaly start „pragERLEBNIS, Staroměstské náměstí“. V odkazu byl bod 50.080804, 14.42076. Notebook bez GPS často nevrátí Zličín, ale jeden bod ve středu města. Google Maps takový bod nepřeloží jako „Vaše poloha“, ale přilepí ho na nejbližší podnik. Cíl (food truck v Kladně) seděl, adresa startu ne. Odkaz proto znovu nemá `origin`. Odečet dál vybírá nejbližší Point a text řekne, že start v Mapách je Vaše poloha, ne adresa vymyšlená z toho bodu. Hláška je ve všech devíti jazycích, proto strop `js/i18n.js` posouvá z 90 kB na 91 kB.
+
 ## Navigace nesmí vyrazit ze starého pinu a bez polohy má říct, co zapnout
 
 Na notebooku ve Zličíně Google Maps pořád startoval od Hamerského rybníka, jako před několika dny v Záběhlicích. Odkaz měl jen cíl, takže si Maps doplnil poslední uloženou „Vaši polohu“. Sdílení polohy na notebooku bylo vypnuté, klepnutí na trasu nic neřeklo a neporadilo, kde polohu zapnout.

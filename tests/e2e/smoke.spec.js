@@ -158,10 +158,10 @@ test("poloha u Kladna vybere food truck a u Jeseníku Křížový vrch", async (
   const navHref = await page.locator("#navigate-nearest").getAttribute("href");
   expect(navHref).toMatch(/destination=50\.1466053%2C14\.1026398/);
   expect(navHref).toMatch(/dir_action=navigate/);
-  expect(navHref).toMatch(/origin=50\.1466%2C14\.1026/);
+  expect(navHref).not.toMatch(/[?&]origin=/);
   const cardRoute = await page.locator("#point-cards .is-nearest a.btn-solid").getAttribute("href");
   expect(cardRoute).toMatch(/destination=50\.1466053%2C14\.1026398/);
-  expect(cardRoute).toMatch(/origin=50\.1466%2C14\.1026/);
+  expect(cardRoute).not.toMatch(/[?&]origin=/);
 
   await context.setGeolocation({ latitude: 50.23, longitude: 17.22 });
   await page.locator("#locate").click();
@@ -185,7 +185,8 @@ test("Záběhlice i pin u Hamerského rybníka vyberou food truck", async ({ pag
   await expect(page.locator("#point-cards .is-nearest h3")).toContainText("Martin Kábrt");
   const navHref = await page.locator("#navigate-nearest").getAttribute("href");
   expect(navHref).toMatch(/destination=50\.1466053%2C14\.1026398/);
-  expect(navHref).toMatch(/origin=50\.0518466%2C14\.4857067/);
+  expect(navHref).not.toMatch(/[?&]origin=/);
+  expect(navHref).not.toMatch(/50\.0518466|50\.080804/);
 });
 
 test("hero Najít nejbližší Point spustí polohu a nabídne navigaci", async ({ page, context }) => {
@@ -289,9 +290,11 @@ test("aktuální IP na Zličíně přebije starý pin u Hamerského rybníka", a
   await page.goto("/?lang=cs");
   await page.locator("#locate").click();
   await expect(page.locator("#locator-status")).toContainText("aktuální IP");
+  await expect(page.locator("#locator-status")).toContainText("Vaše poloha");
   const navHref = await page.locator("#navigate-nearest").getAttribute("href");
-  expect(navHref).toMatch(/origin=50\.0535%2C14\.3062/);
-  expect(navHref).not.toMatch(/14\.4857067/);
+  expect(navHref).toMatch(/destination=50\.1466053%2C14\.1026398/);
+  expect(navHref).not.toMatch(/[?&]origin=/);
+  expect(navHref).not.toMatch(/50\.0535|14\.4857067|50\.080804/);
 });
 
 test("bez prohlížečové polohy navigace startuje z aktuální IP", async ({ page, context }) => {
@@ -310,9 +313,11 @@ test("bez prohlížečové polohy navigace startuje z aktuální IP", async ({ p
   await page.locator("#locate").click();
   await expect(page.locator("#locator-status")).toContainText("Sdílení polohy");
   await expect(page.locator("#locator-status")).toContainText("aktuální IP");
+  await expect(page.locator("#locator-status")).toContainText("Vaší polohy");
   const navHref = await page.locator("#navigate-nearest").getAttribute("href");
-  expect(navHref).toMatch(/origin=50\.0535%2C14\.3062/);
-  expect(navHref).not.toMatch(/14\.4857067/);
+  expect(navHref).toMatch(/destination=50\.1466053%2C14\.1026398/);
+  expect(navHref).not.toMatch(/[?&]origin=/);
+  expect(navHref).not.toMatch(/50\.0535|50\.080804/);
 });
 
 test("odmítnutá poloha ukáže hlášku a navigaci neschová jako dostupnou", async ({ page, context }) => {
@@ -367,7 +372,7 @@ test("aplikace Raclette Lovers hledá Point až po klepnutí a má čtyři jazyk
   await expect(page.locator("#navigate-nearest")).toBeVisible();
   const navHref = await page.locator("#navigate-nearest").getAttribute("href");
   expect(navHref).toMatch(/destination=50\.1466053%2C14\.1026398/);
-  expect(navHref).toMatch(/origin=50\.1466%2C14\.1026/);
+  expect(navHref).not.toMatch(/[?&]origin=/);
   await page.selectOption("#lang", "en");
   await expect(page.locator("h1")).toContainText("Find the nearest Point");
   await expect(page.locator("#navigate-nearest")).toContainText("Martin Kábrt");

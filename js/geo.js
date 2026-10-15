@@ -147,17 +147,20 @@
   }
 
   /**
-   * Directions URL. With a fresh fix, origin is that fix so Google Maps does
-   * not reuse a saved pin. Without a fix, destination only — callers must not
-   * open navigation until a fix exists.
+   * Directions URL with destination only. A laptop fix is often just a dot in
+   * the city centre; putting it in origin makes Maps reverse-geocode it into a
+   * nearby business (pragERLEBNIS on Staroměstské náměstí for 50.080804,14.42076).
+   * Maps then starts from "Your location" instead of that invented address.
+   * The origin argument is ignored on purpose.
    */
-  function mapsDirUrl(point, origin) {
+  function mapsDirUrl(point) {
     const dest = point.lat + "," + point.lng;
-    let url = "https://www.google.com/maps/dir/?api=1&destination=" + encodeURIComponent(dest);
-    if (origin && Number.isFinite(Number(origin.lat)) && Number.isFinite(Number(origin.lng))) {
-      url += "&origin=" + encodeURIComponent(Number(origin.lat) + "," + Number(origin.lng));
-    }
-    return url + "&travelmode=driving&dir_action=navigate";
+    return (
+      "https://www.google.com/maps/dir/?api=1" +
+      "&destination=" + encodeURIComponent(dest) +
+      "&travelmode=driving" +
+      "&dir_action=navigate"
+    );
   }
 
   function readPosition(geo, options) {
