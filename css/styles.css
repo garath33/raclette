@@ -350,15 +350,19 @@ p { margin: 0; }
 .network {
   position: relative;
   width: min(680px, 100%);
-  margin: 0 auto 1.6rem;
+  margin: 0 auto .15rem;
+  pointer-events: none;
 }
 .cheese-wheel {
   position: relative;
   width: 100%;
+  margin-bottom: calc(100% * -.33 / 1.515 + .85rem);
   filter: drop-shadow(0 14px 14px rgba(110, 64, 16, 0.18));
+  pointer-events: none;
 }
 .cheese {
   position: relative;
+  pointer-events: auto;
   width: 100%;
   aspect-ratio: 1.515 / 1;
   overflow: hidden;
@@ -487,6 +491,7 @@ p { margin: 0; }
 .flag-row {
   position: relative;
   z-index: 2;
+  pointer-events: auto;
   display: flex;
   justify-content: center;
   align-items: flex-end;
@@ -577,6 +582,13 @@ p { margin: 0; }
   gap: 0.9rem 1.2rem;
   margin-bottom: 1.4rem;
 }
+.points .locator {
+  width: min(680px, 100%);
+  margin-inline: auto;
+  justify-content: center;
+  text-align: center;
+}
+.points .status { flex-basis: 100%; text-align: center; }
 .locator #navigate-nearest {
   background: var(--red);
   color: #fff;

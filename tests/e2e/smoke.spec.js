@@ -186,6 +186,7 @@ test("Záběhlice i pin u Hamerského rybníka vyberou food truck", async ({ pag
   const navHref = await page.locator("#navigate-nearest").getAttribute("href");
   expect(navHref).toMatch(/destination=50\.1466053%2C14\.1026398/);
   expect(navHref).not.toMatch(/[?&]origin=/);
+  expect(navHref).not.toMatch(/50\.0518466|50\.080804/);
 });
 
 test("hero Najít nejbližší Point spustí polohu a nabídne navigaci", async ({ page, context }) => {
@@ -269,6 +270,62 @@ test("vlajka vybere zemi a pin zvýrazní kartu", async ({ page }) => {
   await page.locator("#network-map .pin[data-point='spindl']").click();
   await expect(page.locator('#point-cards .card[data-id="spindl"]')).toHaveClass(/is-picked/);
   await expect(page.locator("#network-map .pin[data-point='spindl']")).toHaveAttribute("aria-current", "true");
+});
+
+test("vypnutá poloha na notebooku navede k zapnutí sdílení a neotevře starý pin", async ({ page, context }) => {
+  await context.grantPermissions([]);
+  await page.addInitScript(() => {
+    navigator.geolocation.getCurrentPosition = (_ok, err) => {
+      err({ code: 1, message: "denied" });
+    };
+  });
+  await page.goto("/?lang=cs");
+  await page.locator("#point-cards a[data-route]").first().click();
+  await expect(page.locator("#locator-status")).toContainText("Polohu se nepodařilo načíst");
+  await expect(page.locator("#locator-status")).toContainText("sdílení polohy");
+  await expect(page.locator("#locator-status")).toContainText("Povolit");
+  await expect(page).toHaveURL(/lang=cs/);
+  await expect(page.locator("#navigate-nearest")).toBeHidden();
+});
+
+test("aktuální IP na Zličíně přebije starý pin u Hamerského rybníka", async ({ page, context }) => {
+  await context.setGeolocation({ latitude: 50.0518466, longitude: 14.4857067, accuracy: 1500 });
+  await page.route("**/api/where", (route) => route.fulfill({
+    status: 200,
+    contentType: "application/json",
+    body: JSON.stringify({ ok: true, lat: 50.0535, lng: 14.3062, accuracy: 20000, city: "Prague" })
+  }));
+  await page.goto("/?lang=cs");
+  await page.locator("#locate").click();
+  await expect(page.locator("#locator-status")).toContainText("aktuální IP");
+  await expect(page.locator("#locator-status")).toContainText("Vaše poloha");
+  const navHref = await page.locator("#navigate-nearest").getAttribute("href");
+  expect(navHref).toMatch(/destination=50\.1466053%2C14\.1026398/);
+  expect(navHref).not.toMatch(/[?&]origin=/);
+  expect(navHref).not.toMatch(/50\.0535|14\.4857067|50\.080804/);
+});
+
+test("bez prohlížečové polohy navigace startuje z aktuální IP", async ({ page, context }) => {
+  await context.grantPermissions([]);
+  await page.addInitScript(() => {
+    navigator.geolocation.getCurrentPosition = (_ok, err) => {
+      err({ code: 1, message: "denied" });
+    };
+  });
+  await page.route("**/api/where", (route) => route.fulfill({
+    status: 200,
+    contentType: "application/json",
+    body: JSON.stringify({ ok: true, lat: 50.0535, lng: 14.3062, accuracy: 20000 })
+  }));
+  await page.goto("/app.html?lang=cs");
+  await page.locator("#locate").click();
+  await expect(page.locator("#locator-status")).toContainText("Sdílení polohy");
+  await expect(page.locator("#locator-status")).toContainText("aktuální IP");
+  await expect(page.locator("#locator-status")).toContainText("Vaší polohy");
+  const navHref = await page.locator("#navigate-nearest").getAttribute("href");
+  expect(navHref).toMatch(/destination=50\.1466053%2C14\.1026398/);
+  expect(navHref).not.toMatch(/[?&]origin=/);
+  expect(navHref).not.toMatch(/50\.0535|50\.080804/);
 });
 
 test("odmítnutá poloha ukáže hlášku a navigaci neschová jako dostupnou", async ({ page, context }) => {

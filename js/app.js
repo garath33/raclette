@@ -43,7 +43,7 @@ function mapSrc(point) {
 }
 
 function routeUrl(point) {
-  return RacletteGeo.mapsDirUrl(point);
+  return RacletteGeo.mapsDirUrl(point, origin);
 }
 
 function setStatus(key, vars) {
@@ -66,11 +66,7 @@ function showNavigateNearest(point) {
   link.textContent = t("points.navigate", { name: t("point." + point.id + ".name") });
 }
 
-function readPosition(options) {
-  return new Promise((resolve, reject) => {
-    navigator.geolocation.getCurrentPosition(resolve, reject, options);
-  });
-}
+let locateBusy = false;
 
 function bindNetwork() {
   const root = document.getElementById("network");
@@ -158,7 +154,7 @@ function renderPoints() {
         '<div class="card-more">' +
           "<h4>" + t("points.menu") + "</h4><ul class=\"menu\">" + menu + "</ul>" +
           '<div class="card-actions">' + web +
-          '<a class="btn btn-solid" href="' + routeUrl(point) + '" target="_blank" rel="noopener noreferrer">' + t("points.route") + "</a></div>" +
+          '<a class="btn btn-solid" data-route="' + point.id + '" href="' + routeUrl(point) + '" target="_blank" rel="noopener noreferrer">' + t("points.route") + "</a></div>" +
         "</div>" +
       "</article>"
     );
@@ -368,7 +364,7 @@ function setLang(next) {
     hideNavigateNearest();
     setStatus("points.idle");
   } else {
-    const status = locatedStatus(origin.lat, origin.lng, origin.accuracy);
+    const status = locatedStatus(origin.lat, origin.lng, origin.accuracy, origin.source, origin.staleKm);
     showNavigateNearest(status.nearest);
     setStatus(status.key, status.vars);
   }
@@ -380,23 +376,39 @@ function formatAccuracy(meters) {
   return rounded + " m";
 }
 
-function locatedStatus(lat, lng, accuracyMeters) {
-  const ranked = RacletteGeo.rank(POINTS, lat, lng);
-  const nearest = ranked[0].point;
-  const name = t("point." + nearest.id + ".name");
-  const km = formatKm(ranked[0].km);
-  const kind = RacletteGeo.readingKind(POINTS, lat, lng, accuracyMeters);
-  if (kind === "precise") return { nearest, key: "points.found", vars: { name, km } };
-  const gap = formatKm(ranked[1].km - ranked[0].km);
-  const accuracy = formatAccuracy(Number(accuracyMeters));
-  const key = kind === "coarse" ? "points.foundCoarse" : "points.foundUncertain";
-  return { nearest, key, vars: { name, km, accuracy, gap } };
+function locatedStatus(lat, lng, accuracyMeters, source, staleKm) {
+  const info = RacletteGeo.describeFix(POINTS, {
+    lat,
+    lng,
+    accuracy: accuracyMeters,
+    source: source || "browser",
+    staleKm: staleKm || 0
+  });
+  const name = t("point." + info.nearest.id + ".name");
+  const km = formatKm(info.km);
+  if (info.key === "points.found" || info.key === "points.foundIp") {
+    return { nearest: info.nearest, key: info.key, vars: { name, km } };
+  }
+  if (info.key === "points.foundStale") {
+    return { nearest: info.nearest, key: info.key, vars: { name, km, gap: formatKm(info.staleKm) } };
+  }
+  return {
+    nearest: info.nearest,
+    key: info.key,
+    vars: { name, km, accuracy: formatAccuracy(Number(info.accuracy)), gap: formatKm(info.gapKm) }
+  };
 }
 
-function applyLocatedOrigin(lat, lng, accuracyMeters) {
-  const accuracy = Number(accuracyMeters);
-  origin = { lat, lng, accuracy: Number.isFinite(accuracy) ? accuracy : null };
-  const status = locatedStatus(lat, lng, origin.accuracy);
+function applyLocatedOrigin(fix) {
+  const accuracy = Number(fix.accuracy);
+  origin = {
+    lat: fix.lat,
+    lng: fix.lng,
+    accuracy: Number.isFinite(accuracy) ? accuracy : null,
+    source: fix.source || "browser",
+    staleKm: Number(fix.staleKm) || 0
+  };
+  const status = locatedStatus(origin.lat, origin.lng, origin.accuracy, origin.source, origin.staleKm);
   country = status.nearest.country || country;
   pickedId = status.nearest.id;
   renderNetwork();
@@ -406,33 +418,39 @@ function applyLocatedOrigin(lat, lng, accuracyMeters) {
   document.getElementById("navigate-nearest")?.focus();
 }
 
-async function locate() {
-  if (!navigator.geolocation) {
+function restoreNavigate() {
+  if (!origin) {
     hideNavigateNearest();
-    setStatus("points.unsupported");
     return;
   }
+  const status = locatedStatus(origin.lat, origin.lng, origin.accuracy, origin.source, origin.staleKm);
+  showNavigateNearest(status.nearest);
+}
+
+async function locate() {
+  if (locateBusy) return;
+  locateBusy = true;
   setStatus("points.locating");
   hideNavigateNearest();
   const locateBtn = document.getElementById("locate");
   if (locateBtn) locateBtn.disabled = true;
   try {
-    let pos;
-    try {
-      pos = await readPosition({ enableHighAccuracy: true, timeout: 8000, maximumAge: 0 });
-    } catch (first) {
-      // GPS timeout / unavailable → one softer network-based reading for ranking only
-      if (first && (first.code === 2 || first.code === 3)) {
-        pos = await readPosition({ enableHighAccuracy: false, timeout: 10000, maximumAge: 0 });
-      } else {
-        throw first;
-      }
+    const result = await RacletteGeo.acquireFix({
+      geolocation: navigator.geolocation,
+      fetch,
+      networkUrl: new URL("api/where", location.href).href
+    });
+    if (!result.fix) {
+      restoreNavigate();
+      setStatus(result.reason === "unsupported" ? "points.unsupported" : "points.denied");
+      return;
     }
-    applyLocatedOrigin(pos.coords.latitude, pos.coords.longitude, pos.coords.accuracy);
+    applyLocatedOrigin(result.fix);
   } catch (err) {
-    hideNavigateNearest();
+    restoreNavigate();
     setStatus("points.denied");
   } finally {
+    locateBusy = false;
     if (locateBtn) locateBtn.disabled = false;
   }
 }
@@ -473,6 +491,17 @@ function boot() {
     hideNavigateNearest();
     setStatus("points.idle");
     document.getElementById("locate").addEventListener("click", locate);
+    document.getElementById("point-cards").addEventListener("click", (event) => {
+      const link = event.target.closest("a[data-route]");
+      if (!link || origin) return;
+      event.preventDefault();
+      locate();
+    });
+    document.getElementById("navigate-nearest").addEventListener("click", (event) => {
+      if (origin && event.currentTarget.getAttribute("href")) return;
+      event.preventDefault();
+      locate();
+    });
     document.getElementById("hero-locate").addEventListener("click", () => {
       // Keep #pointy scroll from the href; still run locate from the same gesture.
       locate();
