@@ -54,7 +54,7 @@ U nabídky pro partnery je edukační odstavec: AOP = chráněné označení pů
 
 ## Telefon nad formulářem
 
-Nad kontaktním formulářem je výzva vyplnit formulář nebo zavolat na +420 777 600 223.
+Nad kontaktním formulářem jsou dvě linky s vlajkami: Pavlína Otýpková 🇨🇿 🇸🇰 +420 777 600 223 pro Česko a Slovensko, Milan Kolář 🇨🇭 +41 76 608 39 83 pro Švýcarsko.
 
 ## raclettelovers.com je první vlastní doména
 
@@ -82,7 +82,7 @@ Trenčínská 2628/10 v Záběhlicích je 50.045505, 14.4731025. Prohlížeč na
 
 ## Texty z letáku o raclette
 
-Leták „Co je raclette“ a „Raclette půjčovna na víkend“ je na webu rozdělený po sekcích, ne vložený jako jedna stránka. Definice, slovo racler, pastviny, podávání, fondue, oblasti výroby a čísla z mléka jsou v sekci Co je raclette. Víkendová půjčovna je odstavec u e-shopu, příležitosti (kolaudace, brunch, banket, promoce) jsou u eventů, partneři TTM, Raclette House a Provins jsou pod nákupem. Martin Kábrt a Eliška Reine přibyli do kontaktů s telefony z letáku.
+Leták „Co je raclette“ a „Raclette půjčovna na víkend“ je na webu rozdělený po sekcích, ne vložený jako jedna stránka. Definice, slovo racler, pastviny, podávání, fondue, oblasti výroby a čísla z mléka jsou v sekci Co je raclette. Víkendová půjčovna je odstavec u e-shopu, příležitosti (kolaudace, brunch, banket, promoce) jsou u eventů, partneři TTM, Raclette House a Provins jsou pod nákupem. Martin Kábrt a Eliška Reine zůstávají v týmu bez veřejného telefonu. Zavolat se dá jen na dvě čísla: Pavlína Otýpková pro Česko a Slovensko, Milan Kolář pro Švýcarsko.
 
 Překlepy se nepřenášejí: brunch, ne branch, kolaudace, ne koloudace, plnotučné, ne pinotučné, Savojsko, ne Savoyen jako jediný tvar v češtině. Věta „náš výrobní závod“ na webu není. Sýr vozíme z mlékárny Laiterie d’Orsières, závod nám nepatří. Roční spotřeba v letáku vychází 2 kg × 9 milionů jako 36 milionů kilogramů. Na webu je 18 milionů kilogramů, protože to z těch dvou čísel plyne. Pavlína zůstává Otýpková, +420 777 600 223 a info@rakletparty.cz. Leták má jiné číslo a jiný e-mail, oficiální kontakt firmy se kvůli tomu nemění. Milan zůstává český král a ambasador, ne švýcarský král.
 

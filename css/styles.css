@@ -1171,11 +1171,11 @@ p { margin: 0; }
 }
 .form-invite p {
   margin: 0;
-  flex: 1 1 16rem;
+  flex: 1 1 100%;
   color: var(--ink);
   font-weight: 600;
 }
-.form-invite .btn { flex: 0 0 auto; }
+.form-invite .btn { flex: 1 1 16rem; justify-content: flex-start; gap: .55rem; text-align: left; }
 
 .partner-form .form-honey {
   position: absolute;
@@ -1557,6 +1557,8 @@ p { margin: 0; }
 
 .contact { background: #e7f3fb; }
 .people { list-style: none; margin: 0; padding: 0; }
+.call-lines { grid-template-columns: 1fr 1fr; }
+.team-label { margin-top: 1.6rem; }
 .person strong { font-size: 0.95rem; }
 .person a { color: var(--ink); font-weight: 600; text-decoration: none; }
 .person a:hover { color: var(--gold-deep); }

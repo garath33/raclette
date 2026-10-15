@@ -29,7 +29,7 @@ Partnerský formulář odešle data přes FormSubmit na `milan@raclette-original
 1. Úvod se dvěma cestami: nejbližší Point, aplikace Raclette Lovers a franchise
 2. Naše Raclette Pointy, poloha a Google Maps
 3. Aplikace Raclette Lovers: zástupce na plochu telefonu a návod pro iPhone i Android
-4. Pro partnery: úvod z B2B letáku, krátké vysvětlení AOP, čtyři přínosy, tři formáty s plochou a „pro koho“, principy partnerství, podpora, čtyři kroky a kontaktní formulář s telefonem +420 777 600 223.
+4. Pro partnery: úvod z B2B letáku, krátké vysvětlení AOP, čtyři přínosy, tři formáty s plochou a „pro koho“, principy partnerství, podpora, čtyři kroky a kontaktní formulář se dvěma telefony: Pavlína Otýpková +420 777 600 223 pro Česko a Slovensko, Milan Kolář +41 76 608 39 83 pro Švýcarsko.
 5. Reference a média
 6. Co je raclette: název, pastviny, podávání, původ chuti a čtyři čísla z výroby
 7. Příběh českého krále, včetně videa pasování
