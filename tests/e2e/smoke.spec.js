@@ -10,7 +10,7 @@ test("stránka se načte, má sekce a testovací pruh", async ({ page }) => {
   await page.goto("/?lang=cs");
   await expect(page.locator("h1")).toContainText("Originální švýcarský raclette");
   await expect(page.locator("#env-banner")).toBeVisible();
-  for (const id of ["vyhody", "pointy", "reference", "raclette", "pribeh", "nakup", "eventy", "kontakty"]) {
+  for (const id of ["vyhody", "pointy", "aplikace", "reference", "raclette", "pribeh", "nakup", "eventy", "kontakty"]) {
     await expect(page.locator("#" + id)).toHaveCount(1);
   }
   await expect(page.locator("#franchise")).toHaveCount(0);
@@ -274,4 +274,64 @@ test("odmítnutá poloha ukáže hlášku a navigaci neschová jako dostupnou", 
   await page.locator("#locate").click();
   await expect(page.locator("#locator-status")).toContainText("Polohu se nepodařilo načíst");
   await expect(page.locator("#navigate-nearest")).toBeHidden();
+});
+
+test("web nabízí aplikaci Raclette Lovers a návod na plochu", async ({ page }) => {
+  await page.goto("/?lang=cs");
+  await expect(page.locator("#uvod #pwa-install")).toHaveText("Na plochu telefonu");
+  await expect(page.locator("#uvod #pwa-install")).toBeVisible();
+  await page.locator("#uvod #pwa-install").click();
+  await expect(page.locator("#aplikace")).toBeInViewport();
+  await expect(page.locator("#aplikace")).toContainText("Safari");
+  await expect(page.locator("#aplikace")).toContainText("Chrome");
+  await expect(page.locator('#aplikace a[href="app.html#na-plochu"]')).toBeVisible();
+  await expect(page.locator('link[rel="manifest"]')).toHaveAttribute("href", "manifest.webmanifest");
+});
+
+test("aplikace Raclette Lovers hledá Point až po klepnutí a má čtyři jazyky", async ({ page, context }) => {
+  const errors = [];
+  page.on("pageerror", (error) => errors.push(String(error)));
+  await context.setGeolocation({ latitude: 50.1466, longitude: 14.1026 });
+  await page.goto("/app.html?lang=cs");
+  await expect(page.locator("h1")).toContainText("Najít nejbližší Point");
+  await expect(page.locator("#navigate-nearest")).toBeHidden();
+  await expect(page.locator("#pwa-install")).toBeVisible();
+  await expect(page.locator("#pwa-install")).toHaveText("Na plochu telefonu");
+  await expect(page.locator("#pwa-panel")).toBeHidden();
+  await page.locator("#pwa-install").click();
+  await expect(page.locator("#pwa-panel")).toBeVisible();
+  await expect(page.locator("#pwa-panel")).toContainText("Safari");
+  await expect(page.locator("#locator-status")).toContainText("Klepněte");
+  await expect(page.locator("#lang option")).toHaveCount(4);
+  await expect(page.locator("#lang option[value='de']")).toHaveCount(0);
+  await expect(page.locator("#point-cards .card")).toHaveCount(8);
+  await expect(page.locator("#point-cards iframe")).toHaveCount(0);
+  await expect(page.locator('.lovers-links a[href="index.html"]')).toBeVisible();
+  await expect(page.locator('.lovers-links a[href="https://www.instagram.com/racletteoriginal/"]')).toBeVisible();
+  await expect(page.locator('.lovers-links a[href="https://www.youtube.com/@RacletteOriginal"]')).toBeVisible();
+  await expect(page.locator('.lovers-links a[href="https://www.facebook.com/rakletparty/"]')).toBeVisible();
+  await page.locator("#locate").click();
+  await expect(page.locator("#locator-status")).toContainText("Martin Kábrt");
+  await expect(page.locator("#navigate-nearest")).toBeVisible();
+  const navHref = await page.locator("#navigate-nearest").getAttribute("href");
+  expect(navHref).toMatch(/destination=50\.1466053%2C14\.1026398/);
+  expect(navHref).not.toMatch(/[?&]origin=/);
+  await page.selectOption("#lang", "en");
+  await expect(page.locator("h1")).toContainText("Find the nearest Point");
+  await expect(page.locator("#navigate-nearest")).toContainText("Martin Kábrt");
+  expect(errors).toEqual([]);
+});
+
+test("když prohlížeč instalaci odmítne, aplikace ukáže návod", async ({ page }) => {
+  await page.goto("/app.html?lang=cs");
+  await page.evaluate(() => {
+    const event = new Event("beforeinstallprompt");
+    event.preventDefault = () => {};
+    event.prompt = () => {};
+    event.userChoice = Promise.resolve({ outcome: "dismissed" });
+    window.dispatchEvent(event);
+  });
+  await page.locator("#pwa-install").click();
+  await expect(page.locator("#pwa-panel")).toBeVisible();
+  await expect(page.locator("#pwa-panel")).toContainText("Safari");
 });

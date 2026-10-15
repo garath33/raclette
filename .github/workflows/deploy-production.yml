@@ -73,6 +73,11 @@ jobs:
             test "$code" = "200"
             grep -q "partner-form" /tmp/partners.html
             grep -q "franchise-page" /tmp/partners.html
+            echo "Kontrola $base/app"
+            code=$(curl -sSL -o /tmp/app.html -w "%{http_code}" "$base/app")
+            test "$code" = "200"
+            grep -q "Raclette Lovers" /tmp/app.html
+            grep -q "id=\"locate\"" /tmp/app.html
           done
           if curl -sS https://raclettelovers.cz/js/site.js | grep -q 'formsubmit.co/ajax/milan@raclette-original.com'; then
             echo "Formulář míří na FormSubmit / Milan — OK."

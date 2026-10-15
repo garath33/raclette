@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Raclette Lovers — najít nejbližší Point</title>
+  <meta name="description" content="Aplikace Raclette Lovers. Najděte nejbližší Raclette Point Original podle polohy a spusťte navigaci v Google Maps.">
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#1a1c1d">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Raclette Lovers">
+  <link rel="canonical" href="https://www.raclettelovers.com/app.html?lang=en">
+  <link rel="alternate" hreflang="cs" href="https://raclettelovers.cz/app.html?lang=cs">
+  <link rel="alternate" hreflang="en" href="https://www.raclettelovers.com/app.html?lang=en">
+  <link rel="alternate" hreflang="fr" href="https://raclettelovers.ch/app.html?lang=fr">
+  <link rel="alternate" hreflang="sk" href="https://raclettelovers.sk/app.html?lang=sk">
+  <link rel="alternate" hreflang="x-default" href="https://www.raclettelovers.com/app.html?lang=en">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Raclette Lovers">
+  <meta property="og:locale" content="cs_CZ">
+  <meta property="og:title" content="Raclette Lovers — najít nejbližší Point">
+  <meta property="og:description" content="Aplikace Raclette Lovers. Najděte nejbližší Raclette Point Original podle polohy a spusťte navigaci v Google Maps.">
+  <meta property="og:url" content="https://www.raclettelovers.com/app.html?lang=en">
+  <meta property="og:image" content="https://www.raclettelovers.com/assets/logo-point.png">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Raclette Lovers">
+  <meta name="twitter:description" content="Najděte nejbližší Raclette Point Original a spusťte navigaci z aktuální polohy.">
+  <meta name="twitter:image" content="https://www.raclettelovers.com/assets/logo-point.png">
+  <link rel="icon" href="assets/favicon.png" type="image/png">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="lovers-app">
+  <p id="env-banner" class="env-banner" hidden data-i18n="env.banner">Testovací prostředí. Na ostrý web se tato verze nasadí až po schválení.</p>
+  <a class="skip" href="#obsah" data-i18n="skip">Přeskočit na obsah</a>
+  <header class="lovers-header">
+    <a class="lovers-brand" href="app.html">
+      <img src="assets/logo-point.png" alt="Raclette Lovers" width="62" height="62">
+      <span>Raclette Lovers</span>
+    </a>
+    <label class="lang">
+      <span class="sr" data-i18n="lang.label">Jazyk</span>
+      <select id="lang">
+        <option value="cs">Čeština</option>
+        <option value="sk">Slovenčina</option>
+        <option value="en">English</option>
+        <option value="fr">Français</option>
+      </select>
+    </label>
+  </header>
+
+  <main id="obsah" class="lovers-main">
+    <section class="lovers-hero" id="pointy">
+      <p class="kicker" data-i18n="app.kicker">Raclette Lovers</p>
+      <h1 data-i18n="app.title">Najít nejbližší Point</h1>
+      <p class="lead" data-i18n="app.lead">Klepněte na polohu, označíme nejbližší Raclette Point Original a Google Maps vás tam navede.</p>
+      <div class="locator">
+        <button class="btn btn-solid" id="locate" type="button" data-i18n="app.locate">Použít mou polohu</button>
+        <button class="btn btn-gold" id="pwa-install" type="button" aria-expanded="false" aria-controls="pwa-panel">
+          <span data-i18n="app.install">Na plochu telefonu</span>
+        </button>
+        <a class="btn btn-diamond" id="navigate-nearest" hidden target="_blank" rel="noopener noreferrer">Navigovat k nejbližšímu</a>
+        <p class="status" id="locator-status" aria-live="polite"></p>
+        <div id="pwa-panel" class="pwa-panel" hidden>
+          <p id="pwa-installed" class="pwa-installed" hidden data-i18n="app.installed">Aplikace je na ploše. Otevřete ji ikonou Raclette Lovers.</p>
+          <p class="pwa-panel-lead" data-i18n="app.how.lead">Zástupce Raclette Lovers otevře hledání nejbližšího Pointu. Polohu se zeptáme až po klepnutí.</p>
+          <ol class="pwa-howto">
+            <li class="pwa-step-ios" data-i18n="app.how.ios">iPhone: otevřete aplikaci v Safari, klepněte na Sdílet a zvolte Na plochu. Ikona bude logo Raclette Lovers.</li>
+            <li class="pwa-step-android" data-i18n="app.how.android">Android: v Chrome klepněte na Instalovat aplikaci, nebo v nabídce zvolte Přidat na plochu.</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <div class="cards lovers-cards" id="point-cards"></div>
+
+    <nav class="lovers-links" aria-label="Raclette Lovers">
+      <a class="btn btn-line" href="index.html" target="_blank" rel="noopener noreferrer" data-i18n="app.website">Náš web</a>
+      <a href="https://www.instagram.com/racletteoriginal/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3.2" y="3.2" width="17.6" height="17.6" rx="5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4.1" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="17.15" cy="6.85" r="1.05" fill="currentColor"/></svg>
+        Instagram
+      </a>
+      <a href="https://www.youtube.com/@RacletteOriginal" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M22.5 7.2a3 3 0 0 0-2.1-2.1C18.6 4.6 12 4.6 12 4.6s-6.6 0-8.4.5a3 3 0 0 0-2.1 2.1C1 9 1 12 1 12s0 3 .5 4.8a3 3 0 0 0 2.1 2.1c1.8.5 8.4.5 8.4.5s6.6 0 8.4-.5a3 3 0 0 0 2.1-2.1c.5-1.8.5-4.8.5-4.8s0-3-.5-4.8zM9.8 15.4V8.6L16.2 12z"/></svg>
+        YouTube
+      </a>
+      <a href="https://www.facebook.com/rakletparty/" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M14 8h3.2V5.2H14c-1.9 0-3.2 1.4-3.2 3.3V11H8v3.2h2.8V21h3.3v-6.8H17l.5-3.2h-3.2V8.8c0-.4.3-.8.7-.8z"/></svg>
+        Facebook
+      </a>
+    </nav>
+  </main>
+
+  <script src="js/geo.js"></script>
+  <script src="js/points.js"></script>
+  <script src="js/site.js"></script>
+  <script src="js/i18n.js"></script>
+  <script src="js/i18n-extra.js"></script>
+  <script src="js/i18n-app.js"></script>
+  <script src="js/lovers-app.js"></script>
+  <script src="js/pwa.js"></script>
+</body>
+</html>

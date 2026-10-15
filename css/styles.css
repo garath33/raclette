@@ -248,6 +248,21 @@ p { margin: 0; }
 .btn-solid:hover { background: var(--gold-deep); }
 .btn-diamond { background: var(--red); color: white; }
 .btn-diamond:hover { background: var(--magenta); }
+.btn-gold {
+  background: var(--yellow);
+  border-color: var(--yellow);
+  color: var(--ink);
+}
+.btn-gold:hover { background: var(--gold); border-color: var(--gold); }
+.btn-gold:before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  margin-right: 0.45rem;
+  background: currentColor;
+  transform: rotate(45deg);
+  flex: 0 0 auto;
+}
 .btn-line { border-color: var(--ink); }
 .btn-line:hover { background: var(--ink); color: white; }
 .btn[aria-disabled="true"] { pointer-events: none; opacity: 0.45; }
@@ -329,6 +344,7 @@ p { margin: 0; }
 }
 .section-head { max-width: 42rem; margin-bottom: 2rem; }
 .section-head .lead { margin-top: 1rem; }
+#pointy .section-head { margin-bottom: 1.15rem; }
 
 .points { background: #e3f2fb; }
 .network {
@@ -539,12 +555,12 @@ p { margin: 0; }
 .flag-btn.is-on .flag-name { color: var(--gold-deep); }
 .flag-btn.is-on .flag-count { color: var(--red); }
 .network-caption {
-  margin: 1rem auto 0;
-  max-width: 40rem;
-  text-align: center;
-  color: var(--ink);
-  font-size: 1.02rem;
-  line-height: 1.45;
+  margin: 0.9rem 0 0;
+  max-width: 38rem;
+  text-align: left;
+  color: #3c4144;
+  font-size: 1.05rem;
+  line-height: 1.65;
 }
 @keyframes melt-in {
   from { filter: drop-shadow(0 0 0 rgba(255, 176, 48, 0)); }
@@ -1670,6 +1686,132 @@ p { margin: 0; }
   outline: 2px solid var(--gold-deep);
   outline-offset: 3px;
 }
+
+.pwa-howto {
+  margin: 1.2rem 0 0;
+  padding-left: 1.2rem;
+  max-width: 40rem;
+  color: var(--muted);
+  display: grid;
+  gap: 0.65rem;
+}
+.pwa-installed {
+  margin-top: 1rem;
+  color: var(--gold-deep);
+  font-weight: 700;
+}
+.pwa-panel {
+  flex-basis: 100%;
+  margin-top: 0.15rem;
+  padding: 1rem 1.05rem 1.1rem;
+  background: white;
+  border: 1px solid var(--gold);
+  border-radius: 16px;
+}
+.pwa-panel[hidden] { display: none !important; }
+.pwa-panel .pwa-howto { margin-top: 0.75rem; }
+.pwa-panel-lead { color: var(--muted); }
+html[data-pwa="ios"] .pwa-step-ios,
+html[data-pwa="android"] .pwa-step-android {
+  color: var(--ink);
+  font-weight: 600;
+}
+html[data-pwa="installed"] .pwa-howto,
+html[data-pwa="installed"] #pwa-install { display: none; }
+.app-install { background: var(--white); }
+.app-install.is-open {
+  outline: 2px solid var(--gold);
+  outline-offset: 8px;
+  border-radius: 8px;
+}
+
+body.lovers-app {
+  background: var(--paper);
+  min-height: 100vh;
+}
+.lovers-header {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.8rem;
+  min-height: var(--header);
+  padding: 0.55rem 1.1rem;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--line);
+}
+.lovers-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  text-decoration: none;
+  font-family: var(--serif);
+  font-size: 1.35rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+.lovers-brand img { width: 52px; height: 52px; }
+.lovers-main {
+  width: min(42rem, calc(100% - 2rem));
+  margin: 0 auto;
+  padding: 1.6rem 0 3rem;
+}
+.lovers-hero h1 {
+  font-size: clamp(2.4rem, 8vw, 3.4rem);
+  max-width: 14ch;
+}
+.lovers-hero .lead { margin-top: 0.9rem; }
+.lovers-hero .locator { margin-top: 1.4rem; }
+.lovers-hero .status { flex-basis: 100%; }
+.lovers-cards { margin-top: 0.4rem; }
+.lovers-card {
+  display: block;
+  grid-template-columns: none;
+  padding: 1rem 1.05rem 1rem;
+}
+.lovers-card .card-actions { margin-top: 0.85rem; }
+.lovers-install {
+  margin-top: 1.8rem;
+  padding: 1.2rem 1.1rem 1.3rem;
+  background: white;
+  border-radius: 20px;
+  border: 1px solid var(--line);
+}
+.lovers-install h2 {
+  font-size: 1.85rem;
+  max-width: none;
+}
+.lovers-install > p { margin-top: 0.7rem; color: var(--muted); }
+.lovers-install #pwa-install { margin-top: 1rem; }
+.lovers-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  margin-top: 1.4rem;
+}
+.lovers-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-height: 42px;
+  padding: 0.4rem 0.85rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: white;
+  text-decoration: none;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+.lovers-links a:hover {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: white;
+}
+.lovers-links svg { width: 16px; height: 16px; display: block; }
+.lovers-links .btn-line { min-height: 42px; }
 
 @media (max-width: 1100px) {
   .site-header { gap: 0.5rem; }

@@ -96,6 +96,10 @@ K vizitkám přibyly Raclett'House Chez Eddy (Route de Valbord 55, 1934 Bruson),
 
 Bonté v Berouně je ze Záběhlic jen asi o 1,2 km dál než food truck v Kladně. Přesný odečet pořád vybere Kladno. Odečet s chybou kolem kilometru už pořadí může otočit, proto stránka řekne, že se výběr může změnit. Dřívější věta, že odchylka o kilometr výběr nemění, platila, dokud byl další Point o desítky kilometrů dál. Texty jsou ve všech devíti jazycích a sedí na znění o autentickém švýcarském raclette, proto strop `js/i18n-extra.js` posouvá ze 176 kB na 178 kB.
 
+## Aplikace je zástupce, ne App Store
+
+Hosté chtějí ikonu Raclette Lovers na ploše telefonu a navigaci k nejbližšímu Pointu. To už web umí, proto není nativní appka v App Store ani Google Play. Stránka `app.html` je PWA: manifest, ikona z loga, zástupce ze Safari i Chrome. Polohu se zeptá až po klepnutí. Jazyky v aplikaci jsou jen cs, sk, en a fr. Instagram, YouTube, Facebook a odkaz na web jsou dole. Žluté tlačítko „Na plochu telefonu“ je nahoře vedle hledání Pointu. Když prohlížeč umí instalaci, nabídne ji. Jinak se otevře návod pro iPhone a Android.
+
 ## Pro partnery na ostrém webu
 
 Schválení „Hod na ostrý web“ posílá Pro partnery, telefon nad formulářem, vysvětlení AOP a znění mlékárny Laiterie d’Orsières na `raclettelovers.*` (bez zkušebního pruhu) a na GitHub Pages. Cloudflare Worker potřebuje v `wrangler.jsonc` prázdný blok `previews`, jinak build padá.

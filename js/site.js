@@ -5,6 +5,7 @@
 })(typeof self !== "undefined" ? self : this, function () {
   const STAGING_BASE = "https://garath33.github.io/raclette/";
   const LANGUAGES = ["cs", "en", "fr", "sk", "it", "de", "pl", "es", "ru"];
+  const APP_LANGUAGES = ["cs", "en", "fr", "sk"];
   const OG_LOCALE = {
     cs: "cs_CZ",
     en: "en_GB",
@@ -110,6 +111,16 @@
     return languageFromLocales(locales) || defaultLanguage(hostname) || "cs";
   }
 
+  function appLanguage(hostname, locales, stored) {
+    if (APP_LANGUAGES.indexOf(stored) !== -1) return stored;
+    const fromNav = languageFromLocales(locales);
+    if (APP_LANGUAGES.indexOf(fromNav) !== -1) return fromNav;
+    if (stored && LANGUAGES.indexOf(stored) !== -1) return "en";
+    const domain = defaultLanguage(hostname);
+    if (APP_LANGUAGES.indexOf(domain) !== -1) return domain;
+    return "en";
+  }
+
   function languageUrl(code, loc) {
     loc = loc || {};
     const hostname = loc.hostname || "";
@@ -168,7 +179,8 @@
 
   function pagePath(pathname) {
     const leaf = String(pathname || "").split("/").filter(Boolean).pop() || "";
-    if (leaf === "pro-partnery.html") return "/pro-partnery.html";
+    if (leaf === "pro-partnery.html" || leaf === "pro-partnery") return "/pro-partnery.html";
+    if (leaf === "app.html" || leaf === "app") return "/app.html";
     return "/";
   }
 
@@ -215,6 +227,7 @@
   return {
     STAGING_BASE,
     LANGUAGES,
+    APP_LANGUAGES,
     OG_LOCALE,
     SITES,
     COUNTRY_LANG,
@@ -226,6 +239,7 @@
     defaultLanguage,
     languageFromLocales,
     preferredLanguage,
+    appLanguage,
     languageUrl,
     indexedUrl,
     htmlLang,

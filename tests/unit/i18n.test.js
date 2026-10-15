@@ -8,6 +8,7 @@ function loadTranslations() {
   vm.createContext(context);
   vm.runInContext(fs.readFileSync("js/i18n.js", "utf8") + "\nglobalThis.TRANSLATIONS = TRANSLATIONS;\nglobalThis.LANGS = LANGS;", context);
   vm.runInContext(fs.readFileSync("js/i18n-extra.js", "utf8"), context);
+  vm.runInContext(fs.readFileSync("js/i18n-app.js", "utf8"), context);
   return context;
 }
 
@@ -54,6 +55,13 @@ test("veřejný text nezmiňuje vyřazenou osobu a IT role existuje", () => {
   assert.equal(/raclette-original\.com/i.test(pages), false);
   assert.match(TRANSLATIONS.cs["form.invite"], /formulář|zavolejte/);
   assert.match(TRANSLATIONS.cs["nav.franchise"], /Pro partnery/);
+  assert.match(TRANSLATIONS.cs["app.cta"], /Raclette Lovers/);
+  assert.match(TRANSLATIONS.cs["app.how.ios"], /Safari/);
+  assert.match(TRANSLATIONS.cs["app.how.android"], /Chrome/);
+  assert.match(TRANSLATIONS.sk["app.open"], /Otvoriť/);
+  assert.match(TRANSLATIONS.en["app.install"], /Home screen/);
+  assert.match(TRANSLATIONS.cs["app.install"], /Na plochu telefonu/);
+  assert.match(TRANSLATIONS.fr["app.website"], /Notre site/);
   assert.match(TRANSLATIONS.cs["aop.title"], /AOP/);
   assert.match(TRANSLATIONS.cs["aop.body"], /Appellation d’Origine Protégée/);
   assert.match(TRANSLATIONS.cs["supplier"], /mlékárny Laiterie d’Orsières/);
@@ -127,7 +135,7 @@ test("veřejný text nezmiňuje vyřazenou osobu a IT role existuje", () => {
 
 test("každý data-i18n klíč ze stránky je přeložený", () => {
   const { TRANSLATIONS } = loadTranslations();
-  const html = fs.readFileSync("index.html", "utf8") + fs.readFileSync("pro-partnery.html", "utf8");
+  const html = fs.readFileSync("index.html", "utf8") + fs.readFileSync("pro-partnery.html", "utf8") + fs.readFileSync("app.html", "utf8");
   const used = [...html.matchAll(/data-i18n(?:-alt|-title)?="([^"]+)"/g)].map((match) => match[1]);
   const missing = [...new Set(used)].filter((key) => !TRANSLATIONS.cs[key]);
   assert.deepEqual(missing, []);

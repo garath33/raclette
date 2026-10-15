@@ -57,6 +57,18 @@ test("loga mlékárny drží poměr stran a layout nepřetéká", async ({ page 
   await expect(page.locator("footer .legal")).toContainText("Web vyvinul Martin Šimůnek");
 });
 
+test("aplikace Raclette Lovers na mobilu nepřetéká", async ({ page }) => {
+  await page.goto("/app.html?lang=cs");
+  for (const size of [
+    { width: 390, height: 844 },
+    { width: 768, height: 1024 },
+    { width: 1280, height: 800 }
+  ]) {
+    await page.setViewportSize(size);
+    expect(await overflow(page), JSON.stringify(size)).toBeLessThanOrEqual(1);
+  }
+});
+
 test("na mobilu se otevře menu a na desktopu je navigace vidět rovnou", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/?lang=cs");

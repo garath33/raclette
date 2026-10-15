@@ -1,6 +1,5 @@
 const test = require("node:test");
 const assert = require("node:assert/strict");
-const fs = require("node:fs");
 const geo = require("../../js/geo");
 const { POINTS, PENDING, placesFor, homeCountry, branchCount } = require("../../js/points");
 
@@ -85,10 +84,9 @@ test("ze Záběhlic je food truck, Beroun je těsně druhý", () => {
 });
 
 test("každý Point má v kartě adresu", () => {
-  const app = fs.readFileSync("js/app.js", "utf8");
-  const block = app.slice(app.indexOf("const addresses = {"), app.indexOf("return '<p class=\"address\">'"));
   for (const point of POINTS) {
-    assert.match(block, new RegExp("\\b" + point.id + ": \"[^\"]+\""));
+    assert.equal(typeof point.address, "string");
+    assert.notEqual(point.address.trim(), "");
   }
 });
 

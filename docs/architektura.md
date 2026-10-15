@@ -4,35 +4,42 @@ Statický web bez bundleru. Prohlížeč načte HTML, CSS a několik skriptů v 
 
 ```text
 index.html
+app.html         aplikace Raclette Lovers — hledání nejbližšího Pointu
+manifest.webmanifest  zástupce na plochu telefonu
+sw.js            service worker pro instalaci PWA
 css/styles.css
 js/geo.js        vzdálenost a výběr nejbližšího Pointu
-js/points.js     souřadnice a odkazy Pointů
+js/points.js     souřadnice, adresy a odkazy Pointů
 js/site.js       SEO, kanonické adresy a rozpoznání testovacího prostředí
 js/i18n.js       čeština, angličtina, francouzština
 js/i18n-extra.js slovenština, italština, němčina, polština, španělština, ruština
+js/i18n-app.js   texty aplikace a návodu na plochu
 js/app.js        vykreslení vizitek, mapa, přepínač jazyka, odeslání partnerského formuláře
+js/lovers-app.js stránka aplikace: poloha až po klepnutí, jazyky cs/sk/en/fr
+js/pwa.js        instalace zástupce a service worker
 lib/partner-inquiry.mjs  sestavení a validace poptávky (FormSubmit → milan@raclette-original.com)
 worker.js        přesměrování aliasů domén
-assets/          logo, fotky, favicon
+assets/          logo, ikony aplikace, fotky, favicon
 ```
 
 Partnerský formulář odešle data přes FormSubmit na `milan@raclette-original.com`. Při prvním odeslání FormSubmit pošle na tuto adresu potvrzovací e-mail — odkaz v něm je potřeba jednou potvrdit, teprve potom začnou poptávky chodit.
 
 ## Sekce
 
-1. Úvod se dvěma cestami: nejbližší Point a franchise
+1. Úvod se dvěma cestami: nejbližší Point, aplikace Raclette Lovers a franchise
 2. Naše Raclette Pointy, poloha a Google Maps
-3. Pro partnery: úvod z B2B letáku, krátké vysvětlení AOP, čtyři přínosy, tři formáty s plochou a „pro koho“, principy partnerství, podpora, čtyři kroky a kontaktní formulář s telefonem +420 777 600 223.
-4. Reference a média
-5. Co je raclette: název, pastviny, podávání, původ chuti a čtyři čísla z výroby
-6. Příběh českého krále, včetně videa pasování
-7. Kde nakoupit, včetně víkendové půjčovny a partnerů TTM, Raclette House a Provins
-8. Gastro eventy a festivaly, včetně příležitostí, kdy si raclette dát
-9. Kontakty, včetně mistra raclette show Martina Kábrta a manažerky eventů Elišky Reine
+3. Aplikace Raclette Lovers: zástupce na plochu telefonu a návod pro iPhone i Android
+4. Pro partnery: úvod z B2B letáku, krátké vysvětlení AOP, čtyři přínosy, tři formáty s plochou a „pro koho“, principy partnerství, podpora, čtyři kroky a kontaktní formulář s telefonem +420 777 600 223.
+5. Reference a média
+6. Co je raclette: název, pastviny, podávání, původ chuti a čtyři čísla z výroby
+7. Příběh českého krále, včetně videa pasování
+8. Kde nakoupit, včetně víkendové půjčovny a partnerů TTM, Raclette House a Provins
+9. Gastro eventy a festivaly, včetně příležitostí, kdy si raclette dát
+10. Kontakty, včetně mistra raclette show Martina Kábrta a manažerky eventů Elišky Reine
 
 ## Jazyk
 
-Výchozí jazyk testovacího webu je čeština. Volba se ukládá do `localStorage` a do adresy jako `?lang=cs`. Na budoucích doménách se výchozí jazyk bude řídit doménou, viz [Domény](domeny.md).
+Výchozí jazyk testovacího webu je čeština. Volba se ukládá do `localStorage` a do adresy jako `?lang=cs`. Na budoucích doménách se výchozí jazyk bude řídit doménou, viz [Domény](domeny.md). Aplikace Raclette Lovers nabízí jen češtinu, slovenštinu, angličtinu a francouzštinu.
 
 ## Mapa
 

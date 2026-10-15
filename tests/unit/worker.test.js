@@ -17,6 +17,14 @@ test("česká doména dostane index a vlastní kanonickou adresu", async () => {
     canonicalFor("raclettelovers.cz", "?lang=cs", "/pro-partnery.html"),
     "https://raclettelovers.cz/pro-partnery.html?lang=cs"
   );
+  assert.equal(
+    canonicalFor("raclettelovers.cz", "?lang=cs", "/app.html"),
+    "https://raclettelovers.cz/app.html?lang=cs"
+  );
+  assert.equal(
+    canonicalFor("raclettelovers.ch", "?lang=fr", "/app"),
+    "https://raclettelovers.ch/app.html?lang=fr"
+  );
   const out = prepareHtml(html, "raclettelovers.cz", "");
   assert.match(out, /content="index, follow"/);
   assert.match(out, /href="https:\/\/raclettelovers\.cz\/\?lang=cs"/);

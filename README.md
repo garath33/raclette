@@ -16,4 +16,4 @@ npm start
 npm run deploy   # ostrý Worker, potřebuje CLOUDFLARE_API_TOKEN
 ```
 
-Lokální náhled je na `http://127.0.0.1:4173`. Náhled větve, na kterém se web zkouší před sloučením, je v [docs/pipeline.md](docs/pipeline.md).
+Lokální náhled je na `http://127.0.0.1:4173`. Aplikace Raclette Lovers je na `/app.html`. Náhled větve, na kterém se web zkouší před sloučením, je v [docs/pipeline.md](docs/pipeline.md).
