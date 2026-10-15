@@ -74,7 +74,7 @@ První verze testu nechala mezi Kladnem a Jeseníkem starou polohu, protože pro
 
 ## Navigace nebere zmraženou GPS z prohlížeče
 
-Prohlížečová poloha slouží jen k výběru nejbližšího Pointu a k výpočtu vzdálenosti. Odkaz do Google Maps má jen cíl (`destination`), bez `origin` s jednorázovým odečtem. Jinak Maps startoval z nepřesného pinu (Wi-Fi / timeout) místo z místa, kde člověk sedí. Živý start necháme na Google Maps (`dir_action=navigate`). Po úspěšném odečtu je tlačítko „Navigovat k …“. Když GPS selže timeoutem, zkusí se ještě jeden odečet bez vysoké přesnosti.
+Prohlížečová poloha slouží jen k výběru nejbližšího Pointu a k výpočtu vzdálenosti. Odkaz do Google Maps má jen cíl (`destination`), bez `origin` s jednorázovým odečtem. Jinak Maps startoval z nepřesného pinu (Wi-Fi / timeout) místo z místa, kde člověk sedí. Živý start necháme na Google Maps. Odkaz neskáče rovnou do navádění. Po úspěšném odečtu je tlačítko „Navigovat k …“. Když GPS selže timeoutem, zkusí se ještě jeden odečet bez vysoké přesnosti.
 
 ## Notebook v Záběhlicích neukáže ulici, výběr Pointu drží
 
@@ -103,6 +103,10 @@ Hosté chtějí ikonu Raclette Lovers na ploše telefonu a navigaci k nejbližš
 ## Pro partnery na ostrém webu
 
 Schválení „Hod na ostrý web“ posílá Pro partnery, telefon nad formulářem, vysvětlení AOP a znění mlékárny Laiterie d’Orsières na `raclettelovers.*` (bez zkušebního pruhu) a na GitHub Pages. Cloudflare Worker potřebuje v `wrangler.jsonc` prázdný blok `previews`, jinak build padá.
+
+## Android ukáže modrou trasu dřív než navádění
+
+Na Pixelu odkaz s `dir_action=navigate` otevřel rovnou navádění. Zelený pruh a čas příjezdu už byly, auto stálo na 0 km/h u Domova a modrá čára k pobočce několik vteřin chyběla. Google v tom režimu čeká, až se telefon chytí směru jízdy, a teprve potom čáru dokreslí. Odkaz proto navádění nespouští. Mapy otevřou přehled trasy z Vaší polohy, modrá čára je hned, a v aplikaci na telefonu je tlačítko Navigovat. Na notebooku to tlačítko Google stejně nenabízí.
 
 ## Hrubý bod uprostřed Prahy není adresa startu
 

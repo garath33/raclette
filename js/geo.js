@@ -151,6 +151,9 @@
    * the city centre; putting it in origin makes Maps reverse-geocode it into a
    * nearby business (pragERLEBNIS on Staroměstské náměstí for 50.080804,14.42076).
    * Maps then starts from "Your location" instead of that invented address.
+   * dir_action=navigate is omitted on purpose: on Android it opens turn-by-turn
+   * before the blue route is drawn, so a stationary phone shows only the car.
+   * The overview draws the line immediately; the Maps app then has its own Start.
    * The origin argument is ignored on purpose.
    */
   function mapsDirUrl(point) {
@@ -158,8 +161,7 @@
     return (
       "https://www.google.com/maps/dir/?api=1" +
       "&destination=" + encodeURIComponent(dest) +
-      "&travelmode=driving" +
-      "&dir_action=navigate"
+      "&travelmode=driving"
     );
   }
 

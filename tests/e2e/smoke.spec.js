@@ -157,7 +157,7 @@ test("poloha u Kladna vybere food truck a u Jeseníku Křížový vrch", async (
   await expect(page.locator("#navigate-nearest")).toContainText("Martin Kábrt");
   const navHref = await page.locator("#navigate-nearest").getAttribute("href");
   expect(navHref).toMatch(/destination=50\.1466053%2C14\.1026398/);
-  expect(navHref).toMatch(/dir_action=navigate/);
+  expect(navHref).not.toMatch(/dir_action=navigate/);
   expect(navHref).not.toMatch(/[?&]origin=/);
   const cardRoute = await page.locator("#point-cards .is-nearest a.btn-solid").getAttribute("href");
   expect(cardRoute).toMatch(/destination=50\.1466053%2C14\.1026398/);
@@ -206,7 +206,7 @@ test("bez polohy zůstává trasa jen s cílem a navigace je skrytá", async ({ 
   const href = await page.locator("#point-cards .card").first().locator("a.btn-solid").getAttribute("href");
   expect(href).toMatch(/destination=/);
   expect(href).not.toMatch(/[?&]origin=/);
-  expect(href).toMatch(/dir_action=navigate/);
+  expect(href).not.toMatch(/dir_action=navigate/);
 });
 
 test("vlajka vybere zemi a pin zvýrazní kartu", async ({ page }) => {
