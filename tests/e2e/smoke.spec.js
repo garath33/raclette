@@ -133,6 +133,54 @@ test("formulář spolupráce vyžaduje všechna pole a odešle poptávku", async
   });
   expect(posted._subject).toMatch(/Raclette Point Original/);
   expect(posted.message).toContain("Hotel Test");
+  await expect(page.locator("#form-fallback")).toBeHidden();
+});
+
+test("nepotvrzený příjem ukáže důvod a nabídne e-mail", async ({ page }) => {
+  await page.route("https://formsubmit.co/ajax/**", async (route) => {
+    await route.fulfill({
+      status: 200,
+      contentType: "application/json",
+      body: JSON.stringify({
+        success: "false",
+        message: "This form needs Activation. We've sent you an email containing an 'Activate Form' link. Just click it and your form will be actived!"
+      })
+    });
+  });
+  await page.goto("/pro-partnery.html?lang=cs#franchise-form");
+  await page.locator("#partner-form button[type='submit']").click();
+  await expect(page.locator("#form-status")).toContainText("Vyplňte");
+  await expect(page.locator("#form-fallback")).toBeHidden();
+  await page.fill("#form-name", "Hotel Test");
+  await page.selectOption("#form-type", "hotel");
+  await page.fill("#form-city", "Opava");
+  await page.fill("#form-phone", "+420777600223");
+  await page.fill("#form-email", "partner@example.com");
+  await page.fill("#form-idea", "Chci shop-in-shop na terasu.");
+  await page.locator("#partner-form button[type='submit']").click();
+  await expect(page.locator("#form-status")).toContainText("FormSubmit");
+  await expect(page.locator("#form-status")).toContainText("milan@raclette-original.com");
+  const href = await page.locator("#form-mail").getAttribute("href");
+  expect(href).toMatch(/^mailto:milan@raclette-original\.com\?/);
+  expect(decodeURIComponent(href)).toContain("Hotel Test");
+  expect(decodeURIComponent(href)).toContain("Opava");
+  await expect(page.locator("#form-name")).toHaveValue("Hotel Test");
+});
+
+test("když se poptávka nepodaří odeslat, zůstane odkaz e-mailem", async ({ page }) => {
+  await page.route("https://formsubmit.co/ajax/**", (route) => route.abort());
+  await page.goto("/pro-partnery.html?lang=cs#franchise-form");
+  await page.fill("#form-name", "Hotel Test");
+  await page.selectOption("#form-type", "hotel");
+  await page.fill("#form-city", "Opava");
+  await page.fill("#form-phone", "+420777600223");
+  await page.fill("#form-email", "partner@example.com");
+  await page.fill("#form-idea", "Chci shop-in-shop na terasu.");
+  await page.locator("#partner-form button[type='submit']").click();
+  await expect(page.locator("#form-status")).toContainText("Nepovedlo se odeslat");
+  await expect(page.locator("#form-mail")).toBeVisible();
+  const href = await page.locator("#form-mail").getAttribute("href");
+  expect(decodeURIComponent(href)).toContain("Hotel Test");
 });
 
 test("přepnutí jazyka změní titulek a kanonickou adresu", async ({ page }) => {

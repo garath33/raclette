@@ -1191,6 +1191,8 @@ p { margin: 0; }
   font-weight: 400;
 }
 .partner-form .form-status.is-error { color: #cd143e; }
+.partner-form .form-fallback { margin: 0.7rem 0 0; }
+.partner-form .form-fallback a { color: #cd143e; font-weight: 700; }
 .partner-form .btn { margin-top: 1.1rem; }
 /* Jak začít — vertical path with dairy color steps */
 .steps-path {

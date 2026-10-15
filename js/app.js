@@ -296,6 +296,8 @@ function bindPartnerForm() {
     event.preventDefault();
     const status = document.getElementById("form-status");
     const submit = form.querySelector("button[type='submit']");
+    const fallback = document.getElementById("form-fallback");
+    if (fallback) fallback.hidden = true;
     const fields = {
       name: form.elements.namedItem("name").value.trim(),
       type: form.elements.namedItem("type").value,
@@ -329,6 +331,7 @@ function bindPartnerForm() {
     const endpoint = RacletteSite.partnerInquiryUrl();
     const body = partnerPayload(fields);
     let ok = false;
+    let payload = null;
     try {
       const response = await fetch(endpoint, {
         method: "POST",
@@ -338,7 +341,7 @@ function bindPartnerForm() {
         },
         body: JSON.stringify(body)
       });
-      const payload = await response.json().catch(() => ({}));
+      payload = await response.json().catch(() => ({}));
       ok = response.ok && (payload.success === true || payload.success === "true" || payload.ok === true);
       window.__lastPartnerInquiry = { endpoint, ok, fields };
     } catch (err) {
@@ -351,8 +354,14 @@ function bindPartnerForm() {
       form.reset();
       return;
     }
+    const activation = RacletteSite.partnerInquiryNeedsActivation(payload);
     status.classList.add("is-error");
-    status.textContent = t("form.sendError");
+    status.textContent = t(activation ? "form.activate" : "form.sendError");
+    const link = document.getElementById("form-mail");
+    if (fallback && link) {
+      link.href = RacletteSite.partnerInquiryMailto(fields);
+      fallback.hidden = false;
+    }
   });
 }
 

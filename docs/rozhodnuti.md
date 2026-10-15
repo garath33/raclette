@@ -26,6 +26,10 @@ Budoucí domény `raclettelovers.*` se do SEO značek nedávají, dokud neodpov�
 
 Charta předepisuje Luthier a Open Sans. Open Sans je na webu. Luthier v podkladech jako soubor písma není, proto jsou nadpisy v Cormorant Garamond. Písmo se nestahuje z cizího úložiště.
 
+## Partnerský formulář mlčel o aktivaci
+
+Vyplněná poptávka na FormSubmit vrací `success: "false"` a větu, že schránka milan@raclette-original.com musí jednou potvrdit odkaz v e-mailu od FormSubmit. Stránka z toho dělala obecné „Nepovedlo se odeslat“, takže to vypadalo jako výpadek a text poptávky zmizel z cesty k Milanovi. Teď se ukáže důvod a odkaz se stejnou zprávou. Test „nepotvrzený příjem ukáže důvod a nabídne e-mail“ to drží.
+
 ## Chyba, která dostala test
 
 Když se poloha spletla, stránka uměla ukázat špatný Point bez toho, aby si toho někdo všiml. Test „z Kladna je food truck, z Jeseníku je Křížový vrch“ to drží.

@@ -16,6 +16,29 @@ test("partnerInquiryUrl míří na FormSubmit pro Milana", () => {
   );
 });
 
+test("nepotvrzený FormSubmit poznáme a poptávka jde e-mailem", () => {
+  assert.equal(
+    site.partnerInquiryNeedsActivation({ success: "false", message: "This form needs Activation. We've sent you an email containing an 'Activate Form' link. Just click it and your form will be actived!" }),
+    true
+  );
+  assert.equal(site.partnerInquiryNeedsActivation({ success: "true" }), false);
+  assert.equal(site.partnerInquiryNeedsActivation(null), false);
+  const href = site.partnerInquiryMailto({
+    name: "Hotel Test",
+    typeLabel: "Hotel",
+    city: "Opava",
+    phone: "+420777600223",
+    email: "partner@example.com",
+    idea: "Chci shop-in-shop.",
+    lang: "cs"
+  });
+  assert.match(href, /^mailto:milan@raclette-original\.com\?/);
+  assert.match(href, /subject=/);
+  assert.match(decodeURIComponent(href), /Hotel Test/);
+  assert.match(decodeURIComponent(href), /Opava/);
+  assert.match(decodeURIComponent(href), /partner@example.com/);
+});
+
 test("github.io zůstává zkušební a raclettelovers.* je ostrý web", () => {
   assert.equal(site.isStagingHost("garath33.github.io"), true);
   assert.equal(site.isStagingHost("raclettelovers.com"), false);

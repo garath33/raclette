@@ -184,6 +184,29 @@
     return "https://formsubmit.co/ajax/milan@raclette-original.com";
   }
 
+  function partnerInquiryNeedsActivation(payload) {
+    return /needs activation/i.test(String(payload && payload.message || ""));
+  }
+
+  function partnerInquiryMailto(fields) {
+    const text = [
+      "Nová poptávka z webu Raclette Point Original",
+      "",
+      "Název: " + (fields.name || ""),
+      "Typ provozovny: " + (fields.typeLabel || fields.type || ""),
+      "Město: " + (fields.city || ""),
+      "Telefon: " + (fields.phone || ""),
+      "E-mail: " + (fields.email || ""),
+      fields.lang ? "Jazyk formuláře: " + fields.lang : "",
+      "",
+      "Představa:",
+      fields.idea || ""
+    ].filter(Boolean).join("\n").slice(0, 1500);
+    return "mailto:milan@raclette-original.com?subject="
+      + encodeURIComponent("Raclette Point Original — spolupráce")
+      + "&body=" + encodeURIComponent(text);
+  }
+
   function apply(lang, translate, loc) {
     loc = loc || (typeof location !== "undefined" ? location : { hostname: "", origin: "", pathname: "/", hash: "" });
     const title = translate("meta.title");
@@ -231,6 +254,8 @@
     htmlLang,
     ogLocale,
     partnerInquiryUrl,
+    partnerInquiryNeedsActivation,
+    partnerInquiryMailto,
     apply
   };
 });

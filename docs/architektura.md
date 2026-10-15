@@ -16,7 +16,7 @@ worker.js        přesměrování aliasů domén
 assets/          logo, fotky, favicon
 ```
 
-Partnerský formulář odešle data přes FormSubmit na `milan@raclette-original.com`. Při prvním odeslání FormSubmit pošle na tuto adresu potvrzovací e-mail — odkaz v něm je potřeba jednou potvrdit, teprve potom začnou poptávky chodit.
+Partnerský formulář odešle data přes FormSubmit na `milan@raclette-original.com`. Při prvním odeslání FormSubmit pošle na tuto adresu potvrzovací e-mail — odkaz v něm je potřeba jednou potvrdit, teprve potom začnou poptávky chodit. Dokud odkaz není otevřený, stránka řekne proč a nabídne stejnou poptávku e-mailem.
 
 ## Sekce
 
