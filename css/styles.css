@@ -682,10 +682,13 @@ p { margin: 0; }
 }
 .shot img { width: 100%; height: 100%; object-fit: cover; }
 .shot figcaption { padding: 0.85rem 1rem 1rem; color: var(--muted); font-size: 0.88rem; }
-.shot-main { grid-row: span 2; }
 .shot-main img { height: 520px; }
-.stack { display: grid; gap: 1rem; }
-.stack .shot img { height: 210px; }
+.media-grid > .quote { margin: 0; display: flex; flex-direction: column; justify-content: center; }
+.raclette-origin { margin-top: 1.5rem; display: grid; grid-template-columns: minmax(0, 1fr) 16.5rem; gap: 1rem 1.15rem; align-items: start; }
+.dairy-shot { margin: 0; max-width: 16.5rem; }
+.dairy-shot img { height: auto; aspect-ratio: 4 / 3; }
+.cheese-row { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.cheese-row .shot img { height: 248px; object-position: center 46%; }
 .quote {
   margin: 1rem 0 0;
   padding: 1.4rem 1.4rem 1.2rem;
@@ -864,7 +867,7 @@ p { margin: 0; }
 #pribeh { background: #fff4df; }
 #nakup { background: #e7f6ee; }
 #eventy { background: #fff1e6; }
-.raclette-quality { margin-top: 1.5rem; max-width: 46rem; }
+.raclette-quality { max-width: 46rem; }
 .raclette-quality h3 { font-size: clamp(1.7rem, 3vw, 2.2rem); margin-bottom: 0.45rem; }
 .raclette-quality p { color: var(--muted); }
 .raclette-quality p + p { margin-top: 0.75rem; }
@@ -1815,7 +1818,7 @@ body.lovers-app {
     gap: 0.8rem;
   }
   .site-nav.is-open { display: flex; }
-  .hero-grid, .media-grid, .story-grid, .shop-grid, .shop-feature, .event-grid, .people, .facts, .footer-grid, .format-grid {
+  .hero-grid, .media-grid, .story-grid, .shop-grid, .shop-feature, .event-grid, .people, .facts, .footer-grid, .format-grid, .raclette-origin {
     grid-template-columns: 1fr;
   }
   .shop-photo { min-height: 0; height: 300px; order: -1; }
@@ -1823,8 +1826,7 @@ body.lovers-app {
   .shop-crest { width: min(200px, 72%); }
   .benefit-grid.cols-3 { grid-template-columns: 1fr; }
   .stat-grid { grid-template-columns: 1fr 1fr; }
-  .shot-main { grid-row: auto; }
-  .shot-main img, .stack .shot img { height: 240px; }
+  .shot-main img, .cheese-row .shot img { height: 220px; }
   .hero-visual { width: min(100%, 380px); margin-inline: auto; margin-top: 0.5rem; }
   .timeline li { grid-template-columns: 5.5rem 1fr; }
 }
@@ -1856,7 +1858,8 @@ body.lovers-app {
   .flag-svg { height: 46px; }
   .benefit-grid,
   .event-offer,
-  .approach-rail { grid-template-columns: 1fr; }
+  .approach-rail,
+  .cheese-row { grid-template-columns: 1fr; }
   .event-photo { height: 112px; }
   .approach-block,
   .gain-block { padding-inline: 1rem; }
