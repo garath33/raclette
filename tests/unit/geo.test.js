@@ -51,7 +51,7 @@ test("mapsDirUrl má jen cíl, hrubý bod v centru Prahy se nestane adresou star
   assert.match(bare, /^https:\/\/www\.google\.com\/maps\/dir\/\?api=1/);
   assert.match(bare, /destination=50\.1466053%2C14\.1026398/);
   assert.match(bare, /travelmode=driving/);
-  assert.match(bare, /dir_action=navigate/);
+  assert.equal(/dir_action=navigate/.test(bare), false);
   assert.equal(/[?&]origin=/.test(bare), false);
   // 50.080804,14.42076 je hrubý bod u Staroměstského náměstí. Maps z něj udělaly pragERLEBNIS.
   const url = geo.mapsDirUrl(point, { lat: 50.080804, lng: 14.42076 });
