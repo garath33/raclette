@@ -506,6 +506,26 @@ test.describe("mobil bez GPS", () => {
     await expect(page.locator("#locator-status")).not.toContainText("Křížový vrch");
   });
 
+  test("instalovaná aplikace bez GPS ukáže oprávnění aplikace, ne prohlížeč", async ({ page, context }) => {
+    await context.grantPermissions([]);
+    await page.addInitScript(() => {
+      const real = window.matchMedia.bind(window);
+      window.matchMedia = (query) => {
+        if (String(query).includes("display-mode: standalone")) {
+          return { matches: true, addListener: () => {}, removeListener: () => {} };
+        }
+        return real(query);
+      };
+      navigator.geolocation.getCurrentPosition = (_ok, err) => {
+        err({ code: 1, message: "denied" });
+      };
+    });
+    await page.goto("/app.html?lang=cs");
+    await page.locator("#locate").click();
+    await expect(page.locator("#locator-status")).toContainText("Informace o aplikaci");
+    await expect(page.locator("#locator-status")).not.toContainText("v prohlížeči");
+  });
+
   test("po odmítnutí GPS otevře vizitka Maps bez falešného Pointu", async ({ page, context }) => {
     await context.grantPermissions([]);
     await page.addInitScript(() => {

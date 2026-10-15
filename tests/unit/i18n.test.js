@@ -157,11 +157,14 @@ test("hlášky k poloze jsou krátké a na telefonu žádají GPS", () => {
   const { TRANSLATIONS } = loadTranslations();
   for (const lang of Object.keys(TRANSLATIONS)) {
     assert.match(TRANSLATIONS[lang]["points.needGps"], /GPS|IP/i);
+    assert.match(TRANSLATIONS[lang]["points.needGpsInstalled"], /GPS/i);
     assert.ok(TRANSLATIONS[lang]["points.found"].length < 80, lang + " found");
     assert.ok(TRANSLATIONS[lang]["points.foundIp"].length < 220, lang + " foundIp");
     assert.ok(TRANSLATIONS[lang]["points.needGps"].length < 280, lang + " needGps");
+    assert.ok(TRANSLATIONS[lang]["points.needGpsInstalled"].length < 280, lang + " needGpsInstalled");
   }
   assert.match(TRANSLATIONS.cs["points.needGps"], /Android/);
+  assert.match(TRANSLATIONS.cs["points.needGpsInstalled"], /Informace o aplikaci/);
   assert.match(TRANSLATIONS.cs["points.timeout"], /GPS se nenačetla včas/);
 });
 

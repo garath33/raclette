@@ -1,4 +1,5 @@
 const POINTS = RaclettePoints.POINTS;
+const G = RacletteGeo;
 
 const MENU = ["menu.classic", "menu.fries", "menu.tenderloin", "menu.panini"];
 const MENU_COLORS = ["#fece52", "#f5811f", "#00a85c", "#007dc5"];
@@ -34,7 +35,7 @@ function formatKm(km) {
 }
 
 function haversine(aLat, aLng, bLat, bLng) {
-  return RacletteGeo.haversine(aLat, aLng, bLat, bLng);
+  return G.haversine(aLat, aLng, bLat, bLng);
 }
 
 function mapSrc(point) {
@@ -43,14 +44,14 @@ function mapSrc(point) {
 }
 
 function routeUrl(point) {
-  return RacletteGeo.mapsDirUrl(point, origin);
+  return G.mapsDirUrl(point, origin);
 }
 
 function setStatus(key, vars) {
   const el = document.getElementById("locator-status");
   if (!el) return;
   el.textContent = t(key, vars);
-  const tone = RacletteGeo.statusTone(key);
+  const tone = G.statusTone(key);
   el.classList.toggle("is-need", tone === "need");
   el.classList.toggle("is-warn", tone === "warn");
 }
@@ -399,7 +400,7 @@ function formatAccuracy(meters) {
 }
 
 function locatedStatus(lat, lng, accuracyMeters, source, staleKm) {
-  const info = RacletteGeo.describeFix(POINTS, {
+  const info = G.describeFix(POINTS, {
     lat,
     lng,
     accuracy: accuracyMeters,
@@ -422,9 +423,9 @@ function locatedStatus(lat, lng, accuracyMeters, source, staleKm) {
 }
 
 function applyLocatedOrigin(fix) {
-  if (!fix || (fix.source === "ip" && RacletteGeo.isMobileDevice())) {
+  if (!fix || (fix.source === "ip" && G.isMobileDevice())) {
     hideNavigateNearest();
-    setStatus("points.needGps");
+    setStatus(G.mobileGpsStatusKey(G.runtimeEnv()));
     return;
   }
   const accuracy = Number(fix.accuracy);
@@ -462,20 +463,25 @@ async function locate() {
   const locateBtn = document.getElementById("locate");
   if (locateBtn) locateBtn.disabled = true;
   try {
-    const result = await RacletteGeo.acquireFix({
+    const env = G.runtimeEnv({
       geolocation: navigator.geolocation,
       fetch,
       networkUrl: new URL("api/where", location.href).href
     });
+    const result = await G.acquireFix(env);
     if (!result.fix) {
       restoreNavigate();
-      setStatus(RacletteGeo.failureStatusKey(result));
+      setStatus(G.failureStatusKey(result, env));
       return;
     }
     applyLocatedOrigin(result.fix);
   } catch (err) {
     restoreNavigate();
-    setStatus(RacletteGeo.isMobileDevice() ? "points.needGps" : "points.denied");
+    setStatus(
+      G.isMobileDevice()
+        ? G.mobileGpsStatusKey(G.runtimeEnv())
+        : "points.denied"
+    );
   } finally {
     locateBusy = false;
     locateAttempted = true;
