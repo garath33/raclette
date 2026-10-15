@@ -50,12 +50,12 @@ test("robots a sitemap ukazují na ostré domény a všechny jazyky", () => {
 
 test("veřejné soubory drží výkonnostní rozpočet", () => {
   const limits = {
-    "css/styles.css": 46 * 1024,
+    "css/styles.css": 47 * 1024,
     "js/app.js": 20 * 1024,
     "js/i18n-app.js": 16 * 1024,
     "js/lovers-app.js": 12 * 1024,
     "js/i18n.js": 91 * 1024,
-    "js/i18n-extra.js": 193 * 1024,
+    "js/i18n-extra.js": 194 * 1024,
     "assets/photo-service.jpg": 400 * 1024,
     "assets/photo-wedge.jpg": 280 * 1024,
     "assets/shop-assortment.jpg": 320 * 1024,

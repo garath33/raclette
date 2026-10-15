@@ -103,5 +103,24 @@
     return host === "raclettelovers.ch" ? "ch" : "cz";
   }
 
-  return { POINTS, PENDING, COUNTRIES, placesFor, branchCount, homeCountry };
+  const FLAGS = {
+    cz: '<svg class="flag-svg" viewBox="0 0 60 40" aria-hidden="true"><rect width="60" height="20" fill="#ffffff"/><rect y="20" width="60" height="20" fill="#d7141a"/><path d="M0 0 L28 20 L0 40 Z" fill="#11457e"/></svg>',
+    ch: '<svg class="flag-svg" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" fill="#da291c"/><rect x="13" y="6" width="6" height="20" fill="#ffffff"/><rect x="6" y="13" width="20" height="6" fill="#ffffff"/></svg>'
+  };
+
+  function flagSvg(countryId) {
+    return FLAGS[countryId] || "";
+  }
+
+  function escAttr(value) {
+    return String(value || "").replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;");
+  }
+
+  function branchFlag(countryId, label) {
+    const svg = flagSvg(countryId);
+    if (!svg) return "";
+    return '<span class="card-flag" role="img" aria-label="' + escAttr(label) + '">' + svg + "</span>";
+  }
+
+  return { POINTS, PENDING, COUNTRIES, placesFor, branchCount, homeCountry, flagSvg, branchFlag };
 });
