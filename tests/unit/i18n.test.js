@@ -162,6 +162,9 @@ test("hlášky k poloze jsou krátké a na telefonu žádají GPS", () => {
     assert.ok(TRANSLATIONS[lang]["points.foundIp"].length < 220, lang + " foundIp");
     assert.ok(TRANSLATIONS[lang]["points.needGps"].length < 280, lang + " needGps");
     assert.ok(TRANSLATIONS[lang]["points.needGpsInstalled"].length < 280, lang + " needGpsInstalled");
+    assert.match(TRANSLATIONS[lang]["points.deniedSite"], /GPS|Chrome|chrome/i);
+    assert.ok(TRANSLATIONS[lang]["points.gpsWarmup"].length < 280, lang + " gpsWarmup");
+    assert.ok(TRANSLATIONS[lang]["points.deniedSite"].length < 280, lang + " deniedSite");
   }
   assert.match(TRANSLATIONS.cs["points.needGps"], /Chrome/);
   assert.match(TRANSLATIONS.cs["points.needGpsInstalled"], /Informace o aplikaci/);

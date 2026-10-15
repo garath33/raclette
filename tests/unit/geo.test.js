@@ -323,6 +323,33 @@ test("telefon bez geolocation API neuhádne Point z IP", async () => {
   assert.equal(geo.failureStatusKey(result), "points.unsupported");
 });
 
+test("po chybném denied z Androidu zkusí ještě hrubší odečet", async () => {
+  let calls = 0;
+  const result = await geo.acquireFix({
+    geolocation: {
+      getCurrentPosition(_ok, err) {
+        calls += 1;
+        if (calls === 1) err({ code: 1, message: "denied" });
+        else {
+          _ok({
+            timestamp: Date.now(),
+            coords: { latitude: 50.0535, longitude: 14.3062, accuracy: 30 }
+          });
+        }
+      },
+      watchPosition() {
+        return 0;
+      },
+      clearWatch() {}
+    },
+    mobile: true,
+    fetch: ipFetch(50.23, 17.22)
+  });
+  assert.equal(calls, 2);
+  assert.equal(result.fix.source, "browser");
+  assert.equal(result.fix.lat, 50.0535);
+});
+
 test("Android WebView s časem 0 vrátí platný fix", async () => {
   const result = await geo.acquireFix({
     geolocation: {

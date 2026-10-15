@@ -258,10 +258,52 @@
     return "points.denied";
   }
 
+  function queryGeoPermission(env) {
+    const nav = (env && env.navigator) || (typeof navigator !== "undefined" ? navigator : null);
+    if (!nav || !nav.permissions || typeof nav.permissions.query !== "function") {
+      return Promise.resolve(null);
+    }
+    return nav.permissions.query({ name: "geolocation" }).then(
+      (status) => (status && status.state) || null,
+      () => null
+    );
+  }
+
+  function delay(ms) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  }
+
+  async function resolveFailureStatusKey(result, env) {
+    if (!result || result.fix) return null;
+    if (result.reason === "unsupported") return "points.unsupported";
+    if (!result.mobile) return "points.denied";
+    if (result.reason === "timeout") return "points.timeout";
+    const perm = await queryGeoPermission(env);
+    if (perm === "denied") {
+      return isStandaloneDisplay(env) ? "points.needGpsInstalled" : "points.deniedSite";
+    }
+    if (perm === "granted") return "points.gpsWarmup";
+    if (perm === "prompt") return "points.needGpsPrompt";
+    return mobileGpsStatusKey(env);
+  }
+
+  async function acquireFixWithRetry(env) {
+    const first = await acquireFix(env);
+    if (first.fix || !isMobileDevice(env)) return first;
+    const perm = await queryGeoPermission(env);
+    if (perm !== "granted") return first;
+    await delay(900);
+    const second = await acquireFix(env);
+    return second.fix ? second : first;
+  }
+
   function statusTone(key) {
     if (
       key === "points.needGps" ||
       key === "points.needGpsInstalled" ||
+      key === "points.needGpsPrompt" ||
+      key === "points.deniedSite" ||
+      key === "points.gpsWarmup" ||
       key === "points.denied" ||
       key === "points.timeout" ||
       key === "points.unsupported"
@@ -312,28 +354,32 @@
 
   async function readBrowser(geo, env) {
     const nav = (env && env.navigator) || (typeof navigator !== "undefined" ? navigator : null);
-    const watchMs = isAndroid(nav) && isStandaloneDisplay(env) ? 15000 : 8000;
+    const mobile = isMobileDevice(env);
+    const watchMs = isAndroid(nav) && mobile ? 15000 : 8000;
+    const attempts = [
+      { enableHighAccuracy: true, timeout: 20000, maximumAge: 0 },
+      { enableHighAccuracy: false, timeout: 12000, maximumAge: 0 }
+    ];
     let pos;
-    try {
-      // Long enough for the permission prompt. maximumAge 0 refuses a cached pin.
-      pos = await readPosition(geo, { enableHighAccuracy: true, timeout: 20000, maximumAge: 0 });
-    } catch (first) {
-      if (first && first.code === 1) throw first;
+    let lastErr;
+    for (const options of attempts) {
       try {
-        pos = await readPosition(geo, { enableHighAccuracy: false, timeout: 12000, maximumAge: 0 });
-      } catch (second) {
-        if (second && second.code === 1) throw second;
-        try {
-          // Android Chrome sometimes times out getCurrentPosition indoors, then
-          // delivers a fix on watchPosition once the fused provider warms up.
-          pos = await readWatch(
-            geo,
-            { enableHighAccuracy: true, maximumAge: 0 },
-            watchMs
-          );
-        } catch (watchErr) {
-          throw second;
-        }
+        pos = await readPosition(geo, options);
+        lastErr = null;
+        break;
+      } catch (err) {
+        lastErr = err;
+        // After toggling system Location, Android can return denied before GPS warms up.
+        if (err && err.code === 1) continue;
+        if (err && err.code !== 3) break;
+      }
+    }
+    if (!pos) {
+      try {
+        pos = await readWatch(geo, { enableHighAccuracy: true, maximumAge: 0 }, watchMs);
+      } catch (watchErr) {
+        if (lastErr && lastErr.code === 1) throw lastErr;
+        throw watchErr || lastErr;
       }
     }
     const fix = browserFix(pos, Date.now(), FRESH_MS);
@@ -425,6 +471,9 @@
     describeFix,
     mapsDirUrl,
     acquireFix,
+    acquireFixWithRetry,
+    queryGeoPermission,
+    resolveFailureStatusKey,
     isMobileDevice,
     isAndroid,
     isIos,

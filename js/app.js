@@ -464,7 +464,7 @@ async function locate() {
     fetch,
     networkUrl: new URL("api/where", location.href).href
   });
-  const pending = G.acquireFix(env);
+  const pending = G.acquireFixWithRetry(env);
   setStatus("points.locating");
   hideNavigateNearest();
   if (locateBtn) locateBtn.disabled = true;
@@ -472,7 +472,7 @@ async function locate() {
     const result = await pending;
     if (!result.fix) {
       restoreNavigate();
-      setStatus(G.failureStatusKey(result, env));
+      setStatus(await G.resolveFailureStatusKey(result, env));
       return;
     }
     applyLocatedOrigin(result.fix);
@@ -517,6 +517,10 @@ function boot() {
       document.getElementById("nav-toggle").setAttribute("aria-expanded", "false");
     }
   });
+
+  if (location.hash === "#points") {
+    history.replaceState(null, "", location.pathname + location.search + "#pointy");
+  }
 
   if (isHomePage()) {
     country = RaclettePoints.homeCountry(location.hostname);

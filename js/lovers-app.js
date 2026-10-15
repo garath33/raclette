@@ -183,7 +183,7 @@ async function locate() {
     fetch,
     networkUrl: new URL("api/where", location.href).href
   });
-  const pending = RacletteGeo.acquireFix(env);
+  const pending = RacletteGeo.acquireFixWithRetry(env);
   setStatus("points.locating");
   hideNavigateNearest();
   if (locateBtn) locateBtn.disabled = true;
@@ -191,7 +191,7 @@ async function locate() {
     const result = await pending;
     if (!result.fix) {
       restoreNavigate();
-      setStatus(RacletteGeo.failureStatusKey(result, env));
+      setStatus(await RacletteGeo.resolveFailureStatusKey(result, env));
       return;
     }
     applyLocatedOrigin(result.fix);
