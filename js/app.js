@@ -1,4 +1,5 @@
 const POINTS = RaclettePoints.POINTS;
+const G = RacletteGeo;
 
 const MENU = ["menu.classic", "menu.fries", "menu.tenderloin", "menu.panini"];
 const MENU_COLORS = ["#fece52", "#f5811f", "#00a85c", "#007dc5"];
@@ -34,7 +35,7 @@ function formatKm(km) {
 }
 
 function haversine(aLat, aLng, bLat, bLng) {
-  return RacletteGeo.haversine(aLat, aLng, bLat, bLng);
+  return G.haversine(aLat, aLng, bLat, bLng);
 }
 
 function mapSrc(point) {
@@ -43,14 +44,14 @@ function mapSrc(point) {
 }
 
 function routeUrl(point) {
-  return RacletteGeo.mapsDirUrl(point, origin);
+  return G.mapsDirUrl(point, origin);
 }
 
 function setStatus(key, vars) {
   const el = document.getElementById("locator-status");
   if (!el) return;
   el.textContent = t(key, vars);
-  const tone = RacletteGeo.statusTone(key);
+  const tone = G.statusTone(key);
   el.classList.toggle("is-need", tone === "need");
   el.classList.toggle("is-warn", tone === "warn");
 }
@@ -293,6 +294,49 @@ function isHomePage() {
   return Boolean(document.getElementById("pointy"));
 }
 
+function pointyScrollBehavior() {
+  return window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth";
+}
+
+/** After #pointy navigation, nudge scroll so the locate button below the wheel stays on screen. */
+function reconcilePointyScroll(behavior) {
+  const locate = document.getElementById("locate");
+  const cheese = document.querySelector("#pointy .cheese-wheel");
+  if (!locate) return;
+  const scrollBehavior = behavior || pointyScrollBehavior();
+  const gap = 16;
+  const header = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--header")) || 0;
+  const minCheeseTop = header + 12;
+
+  const adjust = () => {
+    const vh = window.innerHeight;
+    const locateRect = locate.getBoundingClientRect();
+    const cheeseRect = cheese ? cheese.getBoundingClientRect() : null;
+    let delta = locateRect.bottom > vh - gap ? locateRect.bottom - (vh - gap) : 0;
+    if (delta > 0 && cheeseRect) {
+      const cheeseTopAfter = cheeseRect.top - delta;
+      if (cheeseTopAfter < minCheeseTop) {
+        delta = Math.max(0, cheeseRect.top - minCheeseTop);
+      }
+    }
+    if (delta > 1) {
+      window.scrollBy({ top: delta, left: 0, behavior: scrollBehavior });
+    }
+  };
+
+  requestAnimationFrame(() => requestAnimationFrame(adjust));
+}
+
+function bindPointyScrollReveal() {
+  const reveal = () => reconcilePointyScroll();
+  document.querySelectorAll('a[href="#pointy"]').forEach((link) => {
+    link.addEventListener("click", reveal);
+  });
+  window.addEventListener("hashchange", () => {
+    if (location.hash === "#pointy") reveal();
+  });
+}
+
 function setPartnerStatus(form, status, kind, key) {
   status.hidden = false;
   status.classList.toggle("is-error", kind === "error");
@@ -399,7 +443,7 @@ function formatAccuracy(meters) {
 }
 
 function locatedStatus(lat, lng, accuracyMeters, source, staleKm) {
-  const info = RacletteGeo.describeFix(POINTS, {
+  const info = G.describeFix(POINTS, {
     lat,
     lng,
     accuracy: accuracyMeters,
@@ -422,9 +466,9 @@ function locatedStatus(lat, lng, accuracyMeters, source, staleKm) {
 }
 
 function applyLocatedOrigin(fix) {
-  if (!fix || (fix.source === "ip" && RacletteGeo.isMobileDevice())) {
+  if (!fix || (fix.source === "ip" && G.isMobileDevice())) {
     hideNavigateNearest();
-    setStatus("points.needGps");
+    setStatus(G.mobileGpsStatusKey(G.runtimeEnv()));
     return;
   }
   const accuracy = Number(fix.accuracy);
@@ -457,25 +501,31 @@ function restoreNavigate() {
 async function locate() {
   if (locateBusy) return;
   locateBusy = true;
+  const locateBtn = document.getElementById("locate");
+  const env = G.runtimeEnv({
+    geolocation: navigator.geolocation,
+    fetch,
+    networkUrl: new URL("api/where", location.href).href
+  });
+  const pending = G.acquireFixWithRetry(env);
   setStatus("points.locating");
   hideNavigateNearest();
-  const locateBtn = document.getElementById("locate");
   if (locateBtn) locateBtn.disabled = true;
   try {
-    const result = await RacletteGeo.acquireFix({
-      geolocation: navigator.geolocation,
-      fetch,
-      networkUrl: new URL("api/where", location.href).href
-    });
+    const result = await pending;
     if (!result.fix) {
       restoreNavigate();
-      setStatus(RacletteGeo.failureStatusKey(result));
+      setStatus(await G.resolveFailureStatusKey(result, env));
       return;
     }
     applyLocatedOrigin(result.fix);
   } catch (err) {
     restoreNavigate();
-    setStatus(RacletteGeo.isMobileDevice() ? "points.needGps" : "points.denied");
+    setStatus(
+      G.isMobileDevice()
+        ? G.mobileGpsStatusKey(G.runtimeEnv())
+        : "points.denied"
+    );
   } finally {
     locateBusy = false;
     locateAttempted = true;
@@ -511,6 +561,10 @@ function boot() {
     }
   });
 
+  if (location.hash === "#points") {
+    history.replaceState(null, "", location.pathname + location.search + "#pointy");
+  }
+
   if (isHomePage()) {
     country = RaclettePoints.homeCountry(location.hostname);
     bindNetwork();
@@ -530,8 +584,12 @@ function boot() {
       event.preventDefault();
       locate();
     });
+    bindPointyScrollReveal();
+    if (location.hash === "#pointy") {
+      reconcilePointyScroll("auto");
+    }
     document.getElementById("hero-locate").addEventListener("click", () => {
-      // Keep #locate scroll from the href; still run locate from the same gesture.
+      reconcilePointyScroll();
       locate();
     });
     const links = [...document.querySelectorAll(".site-nav a")];

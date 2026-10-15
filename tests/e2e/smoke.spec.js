@@ -35,7 +35,7 @@ test("stránka se načte, má sekce a testovací pruh", async ({ page }) => {
   await expect(page.locator('#point-cards .card[data-id="mouret"] a[href="https://www.laiterie-du-mouret.ch"]')).toBeVisible();
   await page.locator("#country-flags [data-country='cz']").click();
   await expect(page.locator("#locator-status")).toContainText("Každý Point má vlastní mapu");
-  await expect(page.locator("#hero-locate")).toHaveAttribute("href", "#locate");
+  await expect(page.locator("#hero-locate")).toHaveAttribute("href", "#pointy");
   await expect(page.locator("#site-nav a[href='#pointy']")).toHaveText("Naše raclette pointy");
   await expect(page.locator("#site-nav a[href='pro-partnery.html']")).toHaveText("Pro partnery");
   await expect(page.locator('#uvod a[data-i18n="hero.secondary"]')).toHaveText("Chci se stát raclette pointem");
@@ -221,7 +221,7 @@ test("hero Najít nejbližší Point spustí polohu a nabídne navigaci", async 
   await expect(page.locator("#locator-status")).toContainText("Špindlerův Mlýn");
   await expect(page.locator("#navigate-nearest")).toBeVisible();
   await expect(page.locator("#point-cards .is-nearest h3")).toContainText("Špindlerův Mlýn");
-  await expect(page).toHaveURL(/#locate/);
+  await expect(page).toHaveURL(/#pointy/);
 });
 
 test("bez polohy zůstává trasa jen s cílem a navigace je skrytá", async ({ page, context }) => {
@@ -457,8 +457,8 @@ test.describe("mobil bez GPS", () => {
     }));
     await page.goto("/?lang=cs");
     await page.locator("#locate").click();
-    await expect(page.locator("#locator-status")).toContainText("bez GPS");
-    await expect(page.locator("#locator-status")).toContainText("Android");
+    await expect(page.locator("#locator-status")).toContainText("GPS");
+    await expect(page.locator("#locator-status")).toContainText("Chrome");
     await expect(page.locator("#locator-status")).toHaveClass(/is-need/);
     await expect(page.locator("#navigate-nearest")).toBeHidden();
     await expect(page.locator("#point-cards .is-nearest")).toHaveCount(0);
@@ -506,6 +506,26 @@ test.describe("mobil bez GPS", () => {
     await expect(page.locator("#locator-status")).not.toContainText("Křížový vrch");
   });
 
+  test("instalovaná aplikace bez GPS ukáže oprávnění aplikace, ne prohlížeč", async ({ page, context }) => {
+    await context.grantPermissions([]);
+    await page.addInitScript(() => {
+      const real = window.matchMedia.bind(window);
+      window.matchMedia = (query) => {
+        if (String(query).includes("display-mode: standalone")) {
+          return { matches: true, addListener: () => {}, removeListener: () => {} };
+        }
+        return real(query);
+      };
+      navigator.geolocation.getCurrentPosition = (_ok, err) => {
+        err({ code: 1, message: "denied" });
+      };
+    });
+    await page.goto("/app.html?lang=cs");
+    await page.locator("#locate").click();
+    await expect(page.locator("#locator-status")).toContainText("Informace o aplikaci");
+    await expect(page.locator("#locator-status")).not.toContainText("v prohlížeči");
+  });
+
   test("po odmítnutí GPS otevře vizitka Maps bez falešného Pointu", async ({ page, context }) => {
     await context.grantPermissions([]);
     await page.addInitScript(() => {
@@ -515,7 +535,7 @@ test.describe("mobil bez GPS", () => {
     });
     await page.goto("/?lang=cs");
     await page.locator("#locate").click();
-    await expect(page.locator("#locator-status")).toContainText("bez GPS");
+    await expect(page.locator("#locator-status")).toContainText("GPS");
     const link = page.locator("#point-cards a[data-route]").first();
     await expect(link).toHaveAttribute("href", /google\.com\/maps\/dir/);
     const allowed = await link.evaluate((el) => {
