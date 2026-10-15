@@ -793,9 +793,28 @@ p { margin: 0; }
   letter-spacing: 0.04em;
   color: var(--gold-deep);
   font-size: 0.92rem;
+  white-space: nowrap;
 }
 .timeline h3 { font-size: 1.55rem; margin-bottom: 0.3rem; }
 .timeline p { color: var(--muted); }
+.tl-counts { display: flex; flex-wrap: wrap; gap: 0.55rem; margin-top: 0.75rem; }
+.timeline .tl-count {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin: 0;
+  padding: 0.4rem 0.75rem 0.4rem 0.45rem;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--ink);
+}
+.tl-flag { width: 28px; height: 18px; border-radius: 2px; box-shadow: 0 0 0 1px rgba(26, 28, 29, 0.16); }
+.tl-flag-ch { width: 18px; height: 18px; }
+.tl-count strong { font-family: var(--serif); font-size: 1.85rem; font-weight: 600; line-height: 1; }
+.tl-meta { display: flex; flex-direction: column; line-height: 1.15; }
+.tl-meta em { font-style: normal; font-size: 0.75rem; color: var(--muted); }
+.tl-meta b { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--gold-deep); }
 
 .franchise { background: #fff4df; }
 .franchise .section-head { max-width: 46rem; }

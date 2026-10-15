@@ -122,6 +122,17 @@ test("veřejný text nezmiňuje vyřazenou osobu a IT role existuje", () => {
   assert.match(TRANSLATIONS.cs["celeb.klus.alt"], /Tomáš Klus/);
   assert.match(TRANSLATIONS.en["celeb.fb"], /Follow our news/);
   assert.equal(Object.hasOwn(TRANSLATIONS.cs, "celeb.lead"), false);
+  assert.equal(TRANSLATIONS.cs["tl7t"], "Pobočky Raclette Point Original");
+  assert.match(TRANSLATIONS.cs["tl7d"], /Česku/);
+  assert.match(TRANSLATIONS.cs["tl7d"], /Švýcarsku/);
+  assert.equal(TRANSLATIONS.cs["tl7.czUnit"], "poboček");
+  assert.equal(TRANSLATIONS.cs["tl7.chUnit"], "pobočky");
+  assert.match(TRANSLATIONS.en["tl7t"], /branches/);
+  assert.match(TRANSLATIONS.sk["tl7.czUnit"], /pobočiek/);
+  const story = fs.readFileSync("index.html", "utf8");
+  assert.match(story, /2025–2026/);
+  assert.match(story, /class="tl-count"[\s\S]*?<strong>5<\/strong>/);
+  assert.match(story, /class="tl-count"[\s\S]*?<strong>3<\/strong>/);
   assert.match(TRANSLATIONS.cs["footer.rights"], /Web vyvinul Martin Šimůnek/);
   assert.match(TRANSLATIONS.sk["footer.rights"], /Web vyvinul Martin Šimůnek/);
   assert.match(TRANSLATIONS.en["footer.rights"], /Website developed by Martin Šimůnek/);
