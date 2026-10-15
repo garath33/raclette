@@ -93,8 +93,8 @@ test("Pro partnery je samostatná stránka s nabídkou a formulářem", async ({
   await expect(page.locator("#franchise .aop-note")).toContainText("Appellation d’Origine Protégée");
   await expect(page.locator("#franchise-form .form-invite")).toContainText("+420 777 600 223");
   await expect(page.locator("#franchise-form .form-invite")).toContainText("+41 76 608 39 83");
-  await expect(page.locator("#franchise-form .form-invite")).toContainText("Pavlína");
-  await expect(page.locator("#franchise-form .form-invite")).toContainText("Milan");
+  await expect(page.locator("#franchise-form .form-invite")).toContainText("Pavlína Otýpková");
+  await expect(page.locator("#franchise-form .form-invite")).toContainText("Milan Kolář");
   await expect(page.locator("#franchise-form .form-invite")).not.toContainText("Česko a Slovensko");
   await expect(page.locator('#franchise-form a[href="tel:+420777600223"] .flag-svg')).toHaveCount(2);
   await expect(page.locator('#franchise-form a[href="tel:+41766083983"] .flag-svg')).toHaveCount(1);
