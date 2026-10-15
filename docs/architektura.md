@@ -47,7 +47,7 @@ Mapa poboček v sekci Naše Raclette Pointy je vykreslená v uřízlém půlboch
 
 Souřadnice jsou v `js/points.js`. Křížový vrch má ověřenou adresu Za Pilou 6. Špindlerův Mlýn je střed střediska, protože ulice nebyla dodaná. Food truck Martina Kábrta má základnu v Kladně, zastávka se mění podle akce. Další Pointy mají adresu z webu podniku: Raclett'House Chez Eddy, Laiterie d’Orsières, Laiterie du Mouret, Kavárna U modrého zvonku a Bonté sýry.
 
-Vzdálenost počítá vzorec haversine. Tlačítko polohy vybere nejbližší Point. Odkaz do Google Maps má jen cíl, start si Maps vezme ze své polohy. Když prohlížeč hlásí přesnost horší než 300 m, stránka porovná tu chybu s odstupem druhého Pointu.
+Vzdálenost počítá vzorec haversine. Tlačítko polohy vybere nejbližší Point. Odkaz do Google Maps dostane cíl a čerstvý start: odečet z prohlížeče, nebo aktuální IP z `/api/where`, když je sdílení polohy vypnuté nebo pin nesedí na IP (víc než 8 km, třeba starý Hamerský rybník při nové síti na Zličíně). Bez odečtu se navigace neotevře a stránka řekne, jak na notebooku zapnout sdílení polohy. Když prohlížeč hlásí přesnost horší než 300 m, stránka porovná tu chybu s odstupem druhého Pointu.
 
 ## Vzhled
 

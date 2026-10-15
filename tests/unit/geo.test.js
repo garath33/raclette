@@ -45,14 +45,17 @@ test("švýcarské Pointy mají zemi a z Curychu vychází švýcarský Point", 
   assert.equal(geo.nearest(POINTS, 47.37, 8.54).country, "ch");
 });
 
-test("mapsDirUrl má jen destination, žádný zmražený origin", () => {
+test("mapsDirUrl bez odečtu nemá origin, s čerstvým odečtem ho předá", () => {
   const point = POINTS.find((item) => item.id === "kabrt");
-  const url = geo.mapsDirUrl(point);
-  assert.match(url, /^https:\/\/www\.google\.com\/maps\/dir\/\?api=1/);
+  const bare = geo.mapsDirUrl(point);
+  assert.match(bare, /^https:\/\/www\.google\.com\/maps\/dir\/\?api=1/);
+  assert.match(bare, /destination=50\.1466053%2C14\.1026398/);
+  assert.match(bare, /travelmode=driving/);
+  assert.match(bare, /dir_action=navigate/);
+  assert.equal(/[?&]origin=/.test(bare), false);
+  const url = geo.mapsDirUrl(point, { lat: 50.0535, lng: 14.3062 });
+  assert.match(url, /origin=50\.0535%2C14\.3062/);
   assert.match(url, /destination=50\.1466053%2C14\.1026398/);
-  assert.match(url, /travelmode=driving/);
-  assert.match(url, /dir_action=navigate/);
-  assert.equal(/[?&]origin=/.test(url), false);
 });
 
 test("z Prahy je food truck, ze Špindlu Špindlerův Mlýn", () => {
@@ -96,6 +99,56 @@ test("nové pobočky vyhrávají u svých dveří", () => {
   assert.equal(geo.nearest(POINTS, 46.7450192, 7.1714657).id, "mouret");
   assert.equal(geo.nearest(POINTS, 49.9361636, 17.9036825).id, "minorit");
   assert.equal(geo.nearest(POINTS, 49.9638485, 14.0741966).id, "bonte");
+});
+
+test("Zličín je dál od Hamerského rybníka, než aby šlo o stejné místo", () => {
+  const pond = { lat: 50.0518466, lng: 14.4857067 };
+  const zlicin = { lat: 50.0535, lng: 14.3062 };
+  const gap = geo.haversine(pond.lat, pond.lng, zlicin.lat, zlicin.lng);
+  assert.ok(gap > geo.STALE_KM, gap);
+  assert.equal(geo.nearest(POINTS, zlicin.lat, zlicin.lng).id, "kabrt");
+});
+
+test("starý pin u Hamerského rybníka neporazí aktuální IP na Zličíně", () => {
+  const pond = { lat: 50.0518466, lng: 14.4857067, accuracy: 1500, fresh: true, source: "browser" };
+  const zlicin = { lat: 50.0535, lng: 14.3062, accuracy: 20000, source: "ip" };
+  const chosen = geo.chooseFix(pond, zlicin);
+  assert.equal(chosen.source, "ip");
+  assert.equal(chosen.lat, zlicin.lat);
+  assert.equal(chosen.lng, zlicin.lng);
+  assert.ok(chosen.staleKm > geo.STALE_KM);
+  const info = geo.describeFix(POINTS, chosen);
+  assert.equal(info.key, "points.foundStale");
+  assert.equal(info.nearest.id, "kabrt");
+});
+
+test("odchylka o kilometr v Záběhlicích zůstane, když je IP blízko", () => {
+  const pond = { lat: 50.0518466, lng: 14.4857067, accuracy: 1500, fresh: true };
+  const trencinska = { lat: 50.045505, lng: 14.4731025, accuracy: 20000 };
+  const chosen = geo.chooseFix(pond, trencinska);
+  assert.equal(chosen.source, "browser");
+  assert.equal(chosen.lat, pond.lat);
+});
+
+test("vypnutá poloha bere IP a starý časový pin se nepoužije", () => {
+  const ip = { lat: 50.0535, lng: 14.3062, accuracy: 20000 };
+  assert.equal(geo.chooseFix(null, ip).source, "ip");
+  assert.equal(geo.describeFix(POINTS, geo.chooseFix(null, ip)).key, "points.foundIp");
+  const stale = { lat: 50.0518466, lng: 14.4857067, accuracy: 1500, fresh: false };
+  const chosen = geo.chooseFix(stale, ip);
+  assert.equal(chosen.source, "ip");
+  assert.equal(chosen.lat, ip.lat);
+  assert.equal(geo.chooseFix(stale, null), null);
+  const now = 1700000000000;
+  assert.equal(geo.isFreshTimestamp(now - 30000, now), true);
+  assert.equal(geo.isFreshTimestamp(now - 3 * 60 * 1000, now), false);
+  assert.equal(geo.isFreshTimestamp(undefined, now), false);
+  const fresh = geo.browserFix({
+    timestamp: now,
+    coords: { latitude: 50.0535, longitude: 14.3062, accuracy: 40 }
+  }, now);
+  assert.equal(fresh.fresh, true);
+  assert.equal(fresh.source, "browser");
 });
 
 test("nejistý výběr, když přesnost spolkne odstup druhého Pointu", () => {
