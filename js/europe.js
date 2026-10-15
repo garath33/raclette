@@ -16,11 +16,6 @@
     { country: "at", name: "Vídeň", lat: 48.2082, lng: 16.3738, side: "above" },
     { country: "hu", name: "Budapešť", lat: 47.4979, lng: 19.0402, side: "left" }
   ];
-  const FLAGS = {
-    cz: '<svg class="flag-svg" viewBox="0 0 60 40" aria-hidden="true"><rect width="60" height="20" fill="#ffffff"/><rect y="20" width="60" height="20" fill="#d7141a"/><path d="M0 0 L28 20 L0 40 Z" fill="#11457e"/></svg>',
-    ch: '<svg class="flag-svg" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" fill="#da291c"/><rect x="13" y="6" width="6" height="20" fill="#ffffff"/><rect x="6" y="13" width="20" height="6" fill="#ffffff"/></svg>'
-  };
-
   function project(lat, lng) {
     return {
       x: (lng - VIEW.minLng) / (VIEW.maxLng - VIEW.minLng) * VIEW.width,
@@ -178,7 +173,7 @@
       const count = state.count(id);
       const on = id === country;
       return '<button type="button" class="flag-btn' + (on ? " is-on" : "") + '" data-country="' + id + '" aria-pressed="' + (on ? "true" : "false") + '" aria-label="' + esc(t("map.flag", { name, count: String(count) })) + '">' +
-        '<span class="flag-cloth">' + FLAGS[id] + '</span><span class="flag-name">' + esc(name) + '</span><span class="flag-count">' + count + "</span></button>";
+        '<span class="flag-cloth">' + RaclettePoints.flagSvg(id) + '</span><span class="flag-name">' + esc(name) + '</span><span class="flag-count">' + count + "</span></button>";
     }).join("");
   }
 

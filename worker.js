@@ -47,6 +47,16 @@ export function canonicalFor(hostname, search, pathname) {
   return origin + path + "?lang=" + lang;
 }
 
+export function networkLocation(request) {
+  const cf = (request && request.cf) || {};
+  const lat = Number(cf.latitude);
+  const lng = Number(cf.longitude);
+  if (!Number.isFinite(lat) || !Number.isFinite(lng)) return null;
+  if (Math.abs(lat) > 90 || Math.abs(lng) > 180) return null;
+  const city = typeof cf.city === "string" ? cf.city : "";
+  return { lat, lng, accuracy: 20000, city };
+}
+
 export function prepareHtml(html, hostname, search, pathname) {
   const host = String(hostname || "").toLowerCase().replace(/\.$/, "").replace(/^www\./, "");
   if (!HOST_LANG[host]) return html;
@@ -63,6 +73,15 @@ export default {
     const target = TARGETS[url.hostname];
     if (target) {
       return Response.redirect(target + url.pathname + url.search, 301);
+    }
+    if (url.pathname === "/api/where") {
+      const loc = networkLocation(request);
+      const headers = {
+        "content-type": "application/json; charset=utf-8",
+        "cache-control": "no-store"
+      };
+      if (!loc) return new Response(JSON.stringify({ ok: false }), { status: 404, headers });
+      return new Response(JSON.stringify({ ok: true, lat: loc.lat, lng: loc.lng, accuracy: loc.accuracy, city: loc.city }), { headers });
     }
     const response = await env.ASSETS.fetch(request);
     const type = response.headers.get("content-type") || "";

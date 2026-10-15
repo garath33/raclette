@@ -186,6 +186,7 @@ test("Záběhlice i pin u Hamerského rybníka vyberou food truck", async ({ pag
   const navHref = await page.locator("#navigate-nearest").getAttribute("href");
   expect(navHref).toMatch(/destination=50\.1466053%2C14\.1026398/);
   expect(navHref).not.toMatch(/[?&]origin=/);
+  expect(navHref).not.toMatch(/50\.0518466|50\.080804/);
 });
 
 test("hero Najít nejbližší Point spustí polohu a nabídne navigaci", async ({ page, context }) => {
@@ -225,6 +226,11 @@ test("vlajka vybere zemi a pin zvýrazní kartu", async ({ page }) => {
   await expect(page.locator("#country-flags [data-country='cz']")).toHaveAttribute("aria-pressed", "true");
   await expect(page.locator("#country-flags [data-country='cz'] .flag-count")).toHaveText("5");
   await expect(page.locator("#country-flags [data-country='ch'] .flag-count")).toHaveText("3");
+  const czechCloth = await page.locator("#country-flags [data-country='cz'] .flag-svg").evaluate((el) => el.outerHTML);
+  const swissCloth = await page.locator("#country-flags [data-country='ch'] .flag-svg").evaluate((el) => el.outerHTML);
+  await expect(page.locator("#point-cards .card-flag")).toHaveCount(5);
+  expect(await page.locator("#point-cards .card[data-id='krizovy'] .flag-svg").evaluate((el) => el.outerHTML)).toBe(czechCloth);
+  await expect(page.locator("#point-cards .card[data-id='krizovy'] .card-flag")).toHaveAttribute("aria-label", "Česko");
 
   await page.locator("#country-flags [data-country='ch']").click();
   await expect(page.locator("#point-cards .card")).toHaveCount(3);
@@ -232,6 +238,9 @@ test("vlajka vybere zemi a pin zvýrazní kartu", async ({ page }) => {
   await expect(page.locator("#point-cards")).toContainText("Laiterie d’Orsières");
   await expect(page.locator("#point-cards")).toContainText("Laiterie du Mouret");
   await expect(page.locator("#point-cards iframe")).toHaveCount(3);
+  await expect(page.locator("#point-cards .card-flag")).toHaveCount(3);
+  expect(await page.locator("#point-cards .card[data-id='eddy'] .flag-svg").evaluate((el) => el.outerHTML)).toBe(swissCloth);
+  await expect(page.locator("#point-cards .card[data-id='eddy'] .card-flag")).toHaveAttribute("aria-label", "Švýcarsko");
   await expect(page.locator("#network-map .land-ch")).toHaveClass(/is-on/);
   await expect(page.locator("#network-map")).toHaveClass(/is-country-ch/);
   await expect(page.locator("#network-map .pin")).toHaveCount(8);
@@ -261,6 +270,62 @@ test("vlajka vybere zemi a pin zvýrazní kartu", async ({ page }) => {
   await page.locator("#network-map .pin[data-point='spindl']").click();
   await expect(page.locator('#point-cards .card[data-id="spindl"]')).toHaveClass(/is-picked/);
   await expect(page.locator("#network-map .pin[data-point='spindl']")).toHaveAttribute("aria-current", "true");
+});
+
+test("vypnutá poloha na notebooku navede k zapnutí sdílení a neotevře starý pin", async ({ page, context }) => {
+  await context.grantPermissions([]);
+  await page.addInitScript(() => {
+    navigator.geolocation.getCurrentPosition = (_ok, err) => {
+      err({ code: 1, message: "denied" });
+    };
+  });
+  await page.goto("/?lang=cs");
+  await page.locator("#point-cards a[data-route]").first().click();
+  await expect(page.locator("#locator-status")).toContainText("Polohu se nepodařilo načíst");
+  await expect(page.locator("#locator-status")).toContainText("sdílení polohy");
+  await expect(page.locator("#locator-status")).toContainText("Povolit");
+  await expect(page).toHaveURL(/lang=cs/);
+  await expect(page.locator("#navigate-nearest")).toBeHidden();
+});
+
+test("aktuální IP na Zličíně přebije starý pin u Hamerského rybníka", async ({ page, context }) => {
+  await context.setGeolocation({ latitude: 50.0518466, longitude: 14.4857067, accuracy: 1500 });
+  await page.route("**/api/where", (route) => route.fulfill({
+    status: 200,
+    contentType: "application/json",
+    body: JSON.stringify({ ok: true, lat: 50.0535, lng: 14.3062, accuracy: 20000, city: "Prague" })
+  }));
+  await page.goto("/?lang=cs");
+  await page.locator("#locate").click();
+  await expect(page.locator("#locator-status")).toContainText("aktuální IP");
+  await expect(page.locator("#locator-status")).toContainText("Vaše poloha");
+  const navHref = await page.locator("#navigate-nearest").getAttribute("href");
+  expect(navHref).toMatch(/destination=50\.1466053%2C14\.1026398/);
+  expect(navHref).not.toMatch(/[?&]origin=/);
+  expect(navHref).not.toMatch(/50\.0535|14\.4857067|50\.080804/);
+});
+
+test("bez prohlížečové polohy navigace startuje z aktuální IP", async ({ page, context }) => {
+  await context.grantPermissions([]);
+  await page.addInitScript(() => {
+    navigator.geolocation.getCurrentPosition = (_ok, err) => {
+      err({ code: 1, message: "denied" });
+    };
+  });
+  await page.route("**/api/where", (route) => route.fulfill({
+    status: 200,
+    contentType: "application/json",
+    body: JSON.stringify({ ok: true, lat: 50.0535, lng: 14.3062, accuracy: 20000 })
+  }));
+  await page.goto("/app.html?lang=cs");
+  await page.locator("#locate").click();
+  await expect(page.locator("#locator-status")).toContainText("Sdílení polohy");
+  await expect(page.locator("#locator-status")).toContainText("aktuální IP");
+  await expect(page.locator("#locator-status")).toContainText("Vaší polohy");
+  const navHref = await page.locator("#navigate-nearest").getAttribute("href");
+  expect(navHref).toMatch(/destination=50\.1466053%2C14\.1026398/);
+  expect(navHref).not.toMatch(/[?&]origin=/);
+  expect(navHref).not.toMatch(/50\.0535|50\.080804/);
 });
 
 test("odmítnutá poloha ukáže hlášku a navigaci neschová jako dostupnou", async ({ page, context }) => {
@@ -305,6 +370,11 @@ test("aplikace Raclette Lovers hledá Point až po klepnutí a má čtyři jazyk
   await expect(page.locator("#lang option")).toHaveCount(4);
   await expect(page.locator("#lang option[value='de']")).toHaveCount(0);
   await expect(page.locator("#point-cards .card")).toHaveCount(8);
+  await expect(page.locator("#point-cards .card-flag")).toHaveCount(8);
+  await expect(page.locator("#point-cards .card[data-id='krizovy'] .card-flag")).toHaveAttribute("aria-label", "Česko");
+  await expect(page.locator("#point-cards .card[data-id='eddy'] .card-flag")).toHaveAttribute("aria-label", "Švýcarsko");
+  await expect(page.locator("#point-cards .card[data-id='krizovy'] .flag-svg")).toHaveAttribute("viewBox", "0 0 60 40");
+  await expect(page.locator("#point-cards .card[data-id='mouret'] .flag-svg")).toHaveAttribute("viewBox", "0 0 32 32");
   await expect(page.locator("#point-cards iframe")).toHaveCount(0);
   await expect(page.locator('.lovers-links a[href="index.html"]')).toBeVisible();
   await expect(page.locator('.lovers-links a[href="https://www.instagram.com/racletteoriginal/"]')).toBeVisible();
@@ -318,6 +388,8 @@ test("aplikace Raclette Lovers hledá Point až po klepnutí a má čtyři jazyk
   expect(navHref).not.toMatch(/[?&]origin=/);
   await page.selectOption("#lang", "en");
   await expect(page.locator("h1")).toContainText("Find the nearest Point");
+  await expect(page.locator("#point-cards .card[data-id='eddy'] .card-flag")).toHaveAttribute("aria-label", "Switzerland");
+  await expect(page.locator("#point-cards .card[data-id='krizovy'] .card-flag")).toHaveAttribute("aria-label", "Czechia");
   await expect(page.locator("#navigate-nearest")).toContainText("Martin Kábrt");
   expect(errors).toEqual([]);
 });

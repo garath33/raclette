@@ -104,6 +104,16 @@ Hosté chtějí ikonu Raclette Lovers na ploše telefonu a navigaci k nejbližš
 
 Schválení „Hod na ostrý web“ posílá Pro partnery, telefon nad formulářem, vysvětlení AOP a znění mlékárny Laiterie d’Orsières na `raclettelovers.*` (bez zkušebního pruhu) a na GitHub Pages. Cloudflare Worker potřebuje v `wrangler.jsonc` prázdný blok `previews`, jinak build padá.
 
+## Hrubý bod uprostřed Prahy není adresa startu
+
+Po zapnutí polohy na notebooku Maps ukázaly start „pragERLEBNIS, Staroměstské náměstí“. V odkazu byl bod 50.080804, 14.42076. Notebook bez GPS často nevrátí Zličín, ale jeden bod ve středu města. Google Maps takový bod nepřeloží jako „Vaše poloha“, ale přilepí ho na nejbližší podnik. Cíl (food truck v Kladně) seděl, adresa startu ne. Odkaz proto znovu nemá `origin`. Odečet dál vybírá nejbližší Point a text řekne, že start v Mapách je Vaše poloha, ne adresa vymyšlená z toho bodu. Hláška je ve všech devíti jazycích, proto strop `js/i18n.js` posouvá z 90 kB na 91 kB.
+
+## Navigace nesmí vyrazit ze starého pinu a bez polohy má říct, co zapnout
+
+Na notebooku ve Zličíně Google Maps pořád startoval od Hamerského rybníka, jako před několika dny v Záběhlicích. Odkaz měl jen cíl, takže si Maps doplnil poslední uloženou „Vaši polohu“. Sdílení polohy na notebooku bylo vypnuté, klepnutí na trasu nic neřeklo a neporadilo, kde polohu zapnout.
+
+Čerstvý odečet z prohlížeče (`maximumAge: 0`, starší než dvě minuty se zahodí) jde do Maps jako `origin`. Když ho prohlížeč nedá, nebo je od aktuální IP dál než 8 km, start je IP z Cloudflare (`/api/where`, bez cache). Odchylka kolem kilometru, jako rybník proti Trenčínské, pod tuhle hranici nespadá a prohlížečový pin zůstane. Vypnutá poloha ukáže postup pro Windows (Nastavení, Soukromí a zabezpečení, Poloha) i Mac (Nastavení systému, Soukromí a zabezpečení, Polohové služby) a zámek v adresním řádku. Bez jakéhokoli odečtu se Maps neotevře, aby znovu nevzal starý pin. Hlášky jsou ve všech devíti jazycích, proto strop `js/i18n-extra.js` posouvá ze 188 kB na 193 kB.
+
 ## Každý stát v mapě bochníku je automaticky vycentrovaný výškově i do šířky
 
 Při přepínání vlajek v mapě poboček (`#pointy`) musí být aktivní stát — a každý další stát, který v budoucnu přibude — vždy plně vycentrovaný uprostřed vnitřní plochy půlbochníku sýra jak vodorovně, tak výškově, s dostatečným odstupem od zaoblené kůrky i horní grilované krusty. Místo ručně psaných CSS posunů pro jednotlivé země počítá `RacletteEurope.cameraFor(countryId)` v `js/europe.js` obdélník a vrcholy polygonu daného státu a automaticky nastaví šířku i pozici mapy (`left`, `top`, `width`) tak, aby střed státu ležel uprostřed čisté plochy bochníku a žádný výběžek (například západní a jižní cípy Švýcarska) se nedotýkal okraje.
