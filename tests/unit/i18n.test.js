@@ -105,7 +105,8 @@ test("veřejný text nezmiňuje vyřazenou osobu a IT role existuje", () => {
   assert.match(TRANSLATIONS.en["events.title"], /thousands/);
   assert.match(TRANSLATIONS.cs["events.e2"], /brunch/i);
   assert.match(TRANSLATIONS.cs["events.e3"], /kolaudace/i);
-  assert.match(TRANSLATIONS.cs["events.book"], /Pavlíně Otýpkové/);
+  assert.match(TRANSLATIONS.cs["events.book"], /Zavolejte nám/);
+  assert.equal(/Otýpkov/.test(TRANSLATIONS.cs["events.book"]), false);
   assert.match(TRANSLATIONS.cs["events.book"], /párty/);
   assert.equal(TRANSLATIONS.cs["events.call"], "Zavolat +420 777 600 223");
   assert.equal(TRANSLATIONS.cs["events.galleryTitle"], "Kde se už na švýcarský raklet stála fronta");
