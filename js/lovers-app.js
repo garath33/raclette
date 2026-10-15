@@ -177,17 +177,18 @@ function restoreNavigate() {
 async function locate() {
   if (locateBusy) return;
   locateBusy = true;
+  const locateBtn = document.getElementById("locate");
+  const env = RacletteGeo.runtimeEnv({
+    geolocation: navigator.geolocation,
+    fetch,
+    networkUrl: new URL("api/where", location.href).href
+  });
+  const pending = RacletteGeo.acquireFix(env);
   setStatus("points.locating");
   hideNavigateNearest();
-  const locateBtn = document.getElementById("locate");
   if (locateBtn) locateBtn.disabled = true;
   try {
-    const env = RacletteGeo.runtimeEnv({
-      geolocation: navigator.geolocation,
-      fetch,
-      networkUrl: new URL("api/where", location.href).href
-    });
-    const result = await RacletteGeo.acquireFix(env);
+    const result = await pending;
     if (!result.fix) {
       restoreNavigate();
       setStatus(RacletteGeo.failureStatusKey(result, env));

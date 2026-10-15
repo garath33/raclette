@@ -163,7 +163,7 @@ test("hlášky k poloze jsou krátké a na telefonu žádají GPS", () => {
     assert.ok(TRANSLATIONS[lang]["points.needGps"].length < 280, lang + " needGps");
     assert.ok(TRANSLATIONS[lang]["points.needGpsInstalled"].length < 280, lang + " needGpsInstalled");
   }
-  assert.match(TRANSLATIONS.cs["points.needGps"], /Android/);
+  assert.match(TRANSLATIONS.cs["points.needGps"], /Chrome/);
   assert.match(TRANSLATIONS.cs["points.needGpsInstalled"], /Informace o aplikaci/);
   assert.match(TRANSLATIONS.cs["points.timeout"], /GPS se nenačetla včas/);
 });

@@ -41,7 +41,7 @@ Object.assign(TRANSLATIONS, {
     "points.foundIp": "Odhad z IP: najbližší Point je {name}, asi {km}. Na notebooku to často sedí v strede mesta. Zapnite polohu a klepnite znova.",
     "points.foundStale": "Starý pin v prehliadači nesedí s aktuálnou IP. Odhad: {name}, asi {km}. Zapnite polohu a klepnite znova.",
     "points.denied": "Polohu sa nepodarilo načítať. Na notebooku zapnite Polohu v systéme a v prehliadači pri zámke zvoľte Povoliť, potom klepnite znova.",
-    "points.needGps": "Na telefóne bez GPS najbližší Point neuhádneme. Zapnite Polohu v nastaveniach (Android: Poloha; iPhone: Polohové služby) a v prehliadači zvoľte Povoliť, potom klepnite znova.",
+    "points.needGps": "GPS z telefónu sme nedostali. Zapnite Polohu v nastaveniach, v Chrome ťuknite na zámok pri adrese → Povolenia → Poloha → Povoliť a skúste znova.",
     "points.needGpsInstalled": "Aplikácia Raclette Lovers nemá prístup k GPS. Android: dlhé stlačenie ikony → Informácie o aplikácii → Povolenia → Poloha → Povoliť. iPhone: Nastavenia → Raclette Lovers → Poloha. Potom klepnite znova.",
     "points.timeout": "GPS sa nenačítala včas. Zapnite polohu, choďte k oknu alebo von a klepnite znova.",
     "points.unsupported": "Tento prehliadač nevie zistiť polohu. Mapu a trasu nájdete pri každom Pointe.",

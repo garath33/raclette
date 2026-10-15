@@ -379,8 +379,8 @@
   }
 
   /**
-   * Starts the browser prompt immediately (no await before getCurrentPosition).
-   * Laptops may fall back to the current IP. Phones never do: a carrier IP is
+   * Call from the click handler before any DOM updates; otherwise Android Chrome
+   * may skip the permission prompt. Laptops may fall back to the current IP. Phones
    * too coarse and too often in another region.
    */
   function acquireFix(env) {

@@ -457,8 +457,8 @@ test.describe("mobil bez GPS", () => {
     }));
     await page.goto("/?lang=cs");
     await page.locator("#locate").click();
-    await expect(page.locator("#locator-status")).toContainText("bez GPS");
-    await expect(page.locator("#locator-status")).toContainText("Android");
+    await expect(page.locator("#locator-status")).toContainText("GPS");
+    await expect(page.locator("#locator-status")).toContainText("Chrome");
     await expect(page.locator("#locator-status")).toHaveClass(/is-need/);
     await expect(page.locator("#navigate-nearest")).toBeHidden();
     await expect(page.locator("#point-cards .is-nearest")).toHaveCount(0);
@@ -535,7 +535,7 @@ test.describe("mobil bez GPS", () => {
     });
     await page.goto("/?lang=cs");
     await page.locator("#locate").click();
-    await expect(page.locator("#locator-status")).toContainText("bez GPS");
+    await expect(page.locator("#locator-status")).toContainText("GPS");
     const link = page.locator("#point-cards a[data-route]").first();
     await expect(link).toHaveAttribute("href", /google\.com\/maps\/dir/);
     const allowed = await link.evaluate((el) => {

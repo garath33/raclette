@@ -1937,6 +1937,11 @@ body.lovers-app {
   .pin-name,
   .city text { display: none; }
   .flag-svg { height: 46px; }
+  #pointy .section-head { margin-bottom: 1.35rem; }
+  #pointy .network-caption { margin-top: 0.65rem; font-size: 1rem; line-height: 1.55; }
+  .flag-row { margin-bottom: 1rem; gap: 1.25rem 2rem; }
+  .cheese-wheel { margin-bottom: calc(100% * -.24 / 1.515 + 1rem); }
+  .points .locator { margin-top: 0.35rem; gap: 0.75rem 1rem; }
   .benefit-grid,
   .event-offer,
   .approach-rail { grid-template-columns: 1fr; }

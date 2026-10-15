@@ -458,17 +458,18 @@ function restoreNavigate() {
 async function locate() {
   if (locateBusy) return;
   locateBusy = true;
+  const locateBtn = document.getElementById("locate");
+  const env = G.runtimeEnv({
+    geolocation: navigator.geolocation,
+    fetch,
+    networkUrl: new URL("api/where", location.href).href
+  });
+  const pending = G.acquireFix(env);
   setStatus("points.locating");
   hideNavigateNearest();
-  const locateBtn = document.getElementById("locate");
   if (locateBtn) locateBtn.disabled = true;
   try {
-    const env = G.runtimeEnv({
-      geolocation: navigator.geolocation,
-      fetch,
-      networkUrl: new URL("api/where", location.href).href
-    });
-    const result = await G.acquireFix(env);
+    const result = await pending;
     if (!result.fix) {
       restoreNavigate();
       setStatus(G.failureStatusKey(result, env));
