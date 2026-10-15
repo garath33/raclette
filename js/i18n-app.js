@@ -15,6 +15,7 @@
       "app.how.android": "Android: v Chrome klepněte na Instalovat aplikaci, nebo v nabídce zvolte Přidat na plochu.",
       "app.install": "Na plochu telefonu",
       "app.installed": "Aplikace je na ploše. Otevřete ji ikonou Raclette Lovers.",
+      "app.locate": "Použít mou polohu",
       "app.idle": "Klepněte na Použít mou polohu. Navigaci spustíme až potom."
     },
     en: {
@@ -32,6 +33,7 @@
       "app.how.android": "Android: in Chrome tap Install app, or use the menu and choose Add to Home screen.",
       "app.install": "Add to Home screen",
       "app.installed": "The app is on your home screen. Open it with the Raclette Lovers icon.",
+      "app.locate": "Use my location",
       "app.idle": "Tap Use my location. Navigation starts only after that."
     },
     fr: {
@@ -49,6 +51,7 @@
       "app.how.android": "Android : dans Chrome, touchez Installer l’application, ou le menu puis Ajouter à l’écran d’accueil.",
       "app.install": "Ajouter à l’écran d’accueil",
       "app.installed": "L’application est sur l’écran d’accueil. Ouvrez-la avec l’icône Raclette Lovers.",
+      "app.locate": "Utiliser ma position",
       "app.idle": "Touchez Utiliser ma position. La navigation ne démarre qu’ensuite."
     },
     sk: {
@@ -66,6 +69,7 @@
       "app.how.android": "Android: v Chrome ťuknite na Inštalovať aplikáciu, alebo v ponuke zvoľte Pridať na plochu.",
       "app.install": "Na plochu telefónu",
       "app.installed": "Aplikácia je na ploche. Otvorte ju ikonou Raclette Lovers.",
+      "app.locate": "Použiť moju polohu",
       "app.idle": "Ťuknite na Použiť moju polohu. Navigáciu spustíme až potom."
     },
     it: {
@@ -83,6 +87,7 @@
       "app.how.android": "Android: in Chrome tocca Installa app, oppure dal menu Aggiungi a schermata Home.",
       "app.install": "Aggiungi a Home",
       "app.installed": "L’app è sulla schermata Home. Aprilo con l’icona Raclette Lovers.",
+      "app.locate": "Usa la mia posizione",
       "app.idle": "Tocca Usa la mia posizione. La navigazione parte solo dopo."
     },
     de: {
@@ -100,6 +105,7 @@
       "app.how.android": "Android: in Chrome auf App installieren tippen oder im Menü Zum Startbildschirm hinzufügen.",
       "app.install": "Zum Homescreen",
       "app.installed": "Die App liegt auf dem Homescreen. Öffnen Sie sie mit dem Symbol Raclette Lovers.",
+      "app.locate": "Meinen Standort verwenden",
       "app.idle": "Tippen Sie auf Meinen Standort verwenden. Die Navigation startet erst danach."
     },
     pl: {
@@ -117,6 +123,7 @@
       "app.how.android": "Android: w Chrome stuknij Zainstaluj aplikację albo w menu Dodaj do ekranu głównego.",
       "app.install": "Dodaj do ekranu",
       "app.installed": "Aplikacja jest na ekranie głównym. Otwórz ją ikoną Raclette Lovers.",
+      "app.locate": "Użyj mojej lokalizacji",
       "app.idle": "Stuknij Użyj mojej lokalizacji. Nawigację włączymy dopiero potem."
     },
     es: {
@@ -134,6 +141,7 @@
       "app.how.android": "Android: en Chrome toca Instalar app, o en el menú Añadir a pantalla de inicio.",
       "app.install": "Añadir a inicio",
       "app.installed": "La app está en la pantalla de inicio. Ábrela con el icono Raclette Lovers.",
+      "app.locate": "Usar mi ubicación",
       "app.idle": "Toca Usar mi ubicación. La navegación empieza solo después."
     },
     ru: {
@@ -151,6 +159,7 @@
       "app.how.android": "Android: в Chrome нажмите Установить приложение или в меню Добавить на главный экран.",
       "app.install": "На экран «Домой»",
       "app.installed": "Приложение на домашнем экране. Откройте его значком Raclette Lovers.",
+      "app.locate": "Использовать моё местоположение",
       "app.idle": "Нажмите Использовать моё местоположение. Навигация запустится только после этого."
     }
   };

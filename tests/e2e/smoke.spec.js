@@ -14,23 +14,26 @@ test("stránka se načte, má sekce a testovací pruh", async ({ page }) => {
     await expect(page.locator("#" + id)).toHaveCount(1);
   }
   await expect(page.locator("#franchise")).toHaveCount(0);
-  await expect(page.locator("#point-cards .card")).toHaveCount(8);
+  await expect(page.locator("#point-cards .card")).toHaveCount(5);
   await expect(page.locator("#map-frame")).toHaveCount(0);
-  await expect(page.locator("#point-cards iframe.map-embed")).toHaveCount(8);
+  await expect(page.locator("#point-cards iframe.map-embed")).toHaveCount(5);
   await expect(page.locator('#point-cards .card[data-id="krizovy"] iframe')).toHaveAttribute("src", /50\.2260421,17\.2250049/);
   await expect(page.locator('#point-cards .card[data-id="krizovy"] iframe')).toHaveAttribute("title", "Mapa Pointu Křížový vrch");
   await expect(page.locator('#point-cards .card[data-id="spindl"] iframe')).toHaveAttribute("src", /50\.7256448,15\.6067567/);
   await expect(page.locator('#point-cards .card[data-id="kabrt"] iframe')).toHaveAttribute("src", /50\.1466053,14\.1026398/);
+  await expect(page.locator('#point-cards .card[data-id="minorit"]')).toContainText("Masarykova třída 342/39, 746 01 Opava");
+  await expect(page.locator('#point-cards .card[data-id="minorit"] a[href="https://minorit-opava.cz/kavarna/"]')).toBeVisible();
+  await expect(page.locator('#point-cards .card[data-id="bonte"]')).toContainText("Husovo náměstí 78/6, 266 01 Beroun");
+  await expect(page.locator('#point-cards .card[data-id="bonte"] a[href="https://bontesyry.cz"]')).toBeVisible();
+  await page.locator("#country-flags [data-country='ch']").click();
+  await expect(page.locator("#point-cards .card")).toHaveCount(3);
   await expect(page.locator('#point-cards .card[data-id="eddy"]')).toContainText("Route de Valbord 55, 1934 Bruson");
   await expect(page.locator('#point-cards .card[data-id="eddy"] a[href="https://eddy-baillifard.com"]')).toBeVisible();
   await expect(page.locator('#point-cards .card[data-id="orsieres"]')).toContainText("Route du Grand Saint-Bernard 3, 1937 Orsières");
   await expect(page.locator('#point-cards .card[data-id="orsieres"] a[href="https://laiterie-orsieres.ch"]')).toBeVisible();
   await expect(page.locator('#point-cards .card[data-id="mouret"]')).toContainText("Route de la Gruyère 6, 1724 Ferpicloz");
   await expect(page.locator('#point-cards .card[data-id="mouret"] a[href="https://www.laiterie-du-mouret.ch"]')).toBeVisible();
-  await expect(page.locator('#point-cards .card[data-id="minorit"]')).toContainText("Masarykova třída 342/39, 746 01 Opava");
-  await expect(page.locator('#point-cards .card[data-id="minorit"] a[href="https://minorit-opava.cz/kavarna/"]')).toBeVisible();
-  await expect(page.locator('#point-cards .card[data-id="bonte"]')).toContainText("Husovo náměstí 78/6, 266 01 Beroun");
-  await expect(page.locator('#point-cards .card[data-id="bonte"] a[href="https://bontesyry.cz"]')).toBeVisible();
+  await page.locator("#country-flags [data-country='cz']").click();
   await expect(page.locator("#locator-status")).toContainText("Každý Point má vlastní mapu");
   await expect(page.locator("#hero-locate")).toHaveAttribute("href", "#pointy");
   await expect(page.locator("#site-nav a[href='#pointy']")).toHaveText("Naše raclette pointy");
@@ -52,7 +55,14 @@ test("stránka se načte, má sekce a testovací pruh", async ({ page }) => {
   await expect(page.locator("#nakup")).toContainText("Laiterie");
   await expect(page.locator('a[href*="raclette-original.com"]')).toHaveCount(0);
   await expect(page.locator("body")).not.toContainText("raclette-original.com");
-  await expect(page.locator("#eventy")).toContainText("kolaudace");
+  await expect(page.locator("#eventy")).toContainText(/kolaudace/i);
+  await expect(page.locator("#eventy")).toContainText("tisíci a více lidmi");
+  await expect(page.locator("#eventy .event-offer li")).toHaveCount(12);
+  await expect(page.locator("#eventy .event-photo")).toHaveCount(6);
+  await expect(page.locator("#eventy .event-grid")).toBeVisible();
+  const whenBox = await page.locator("#eventy .events-when").boundingBox();
+  const gridBox = await page.locator("#eventy .event-grid").boundingBox();
+  expect(whenBox.y).toBeLessThan(gridBox.y);
   await expect(page.getByRole("heading", { name: "Eliška Reine" })).toBeVisible();
   await expect(page.getByRole("heading", { name: "Sídlo firmy a fakturační adresa" })).toBeVisible();
   await expect(page.locator("#kontakty")).not.toContainText("Dodací adresa");
@@ -196,6 +206,61 @@ test("bez polohy zůstává trasa jen s cílem a navigace je skrytá", async ({ 
   expect(href).toMatch(/destination=/);
   expect(href).not.toMatch(/[?&]origin=/);
   expect(href).toMatch(/dir_action=navigate/);
+});
+
+test("vlajka vybere zemi a pin zvýrazní kartu", async ({ page }) => {
+  await page.goto("/?lang=cs");
+  await expect(page.locator("#network-map .land-ch")).toHaveCount(1);
+  await expect(page.locator("#network-map .land-cz")).toHaveClass(/is-on/);
+  await expect(page.locator("#network-map .pin")).toHaveCount(8);
+  await expect(page.locator("#network-map")).toContainText("Praha");
+  await expect(page.locator("#network-map")).toContainText("Brno");
+  await expect(page.locator("#network-map")).toContainText("Bern");
+  await expect(page.locator("#network-map")).toContainText("Bratislava");
+  await expect(page.locator("#network-map")).not.toContainText("Curych");
+  await expect(page.locator("#network-map")).not.toContainText("Ostrava");
+  await expect(page.locator("#network-map #cheese-melt")).toHaveCount(1);
+  await expect(page.locator("#locate")).toHaveText("Najdi nejbližší Raclette point.");
+  await expect(page.locator(".network-caption")).toContainText("Zvolte vlajku pro výběr poboček");
+  await expect(page.locator("#country-flags [data-country='cz']")).toHaveAttribute("aria-pressed", "true");
+  await expect(page.locator("#country-flags [data-country='cz'] .flag-count")).toHaveText("5");
+  await expect(page.locator("#country-flags [data-country='ch'] .flag-count")).toHaveText("3");
+
+  await page.locator("#country-flags [data-country='ch']").click();
+  await expect(page.locator("#point-cards .card")).toHaveCount(3);
+  await expect(page.locator("#point-cards")).toContainText("Raclett'House Chez Eddy");
+  await expect(page.locator("#point-cards")).toContainText("Laiterie d’Orsières");
+  await expect(page.locator("#point-cards")).toContainText("Laiterie du Mouret");
+  await expect(page.locator("#point-cards iframe")).toHaveCount(3);
+  await expect(page.locator("#network-map .land-ch")).toHaveClass(/is-on/);
+  await expect(page.locator("#network-map")).toHaveClass(/is-country-ch/);
+  await expect(page.locator("#network-map .pin")).toHaveCount(8);
+  await page.waitForTimeout(650);
+  const chCenter = await page.evaluate(() => {
+    const cheese = document.querySelector(".cheese").getBoundingClientRect();
+    const ch = document.querySelector(".land-ch").getBoundingClientRect();
+    return {
+      midX: ((ch.left + ch.right) / 2 - cheese.left) / cheese.width * 100,
+      midY: ((ch.top + ch.bottom) / 2 - cheese.top) / cheese.height * 100,
+      left: (ch.left - cheese.left) / cheese.width * 100,
+      right: (ch.right - cheese.left) / cheese.width * 100,
+      top: (ch.top - cheese.top) / cheese.height * 100,
+      bottom: (ch.bottom - cheese.top) / cheese.height * 100
+    };
+  });
+  expect(Math.abs(chCenter.midX - 50)).toBeLessThan(1.5);
+  expect(Math.abs(chCenter.midY - 38.5)).toBeLessThan(2);
+  expect(chCenter.left).toBeGreaterThan(26);
+  expect(chCenter.right).toBeLessThan(74);
+  expect(chCenter.bottom).toBeLessThan(60);
+
+  await page.locator("#country-flags [data-country='cz']").click();
+  await expect(page.locator("#point-cards .card")).toHaveCount(5);
+  await expect(page.locator("#point-cards iframe")).toHaveCount(5);
+  await expect(page.locator("#network-map")).toHaveClass(/is-country-cz/);
+  await page.locator("#network-map .pin[data-point='spindl']").click();
+  await expect(page.locator('#point-cards .card[data-id="spindl"]')).toHaveClass(/is-picked/);
+  await expect(page.locator("#network-map .pin[data-point='spindl']")).toHaveAttribute("aria-current", "true");
 });
 
 test("odmítnutá poloha ukáže hlášku a navigaci neschová jako dostupnou", async ({ page, context }) => {

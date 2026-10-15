@@ -5,6 +5,9 @@ const MENU_COLORS = ["#fece52", "#f5811f", "#00a85c", "#007dc5"];
 
 let lang = "cs";
 let origin = null;
+let country = "cz";
+let pickedId = null;
+let networkBound = false;
 
 function t(key, vars) {
   const pack = TRANSLATIONS[lang] || TRANSLATIONS.cs;
@@ -69,16 +72,62 @@ function readPosition(options) {
   });
 }
 
+function bindNetwork() {
+  const root = document.getElementById("network");
+  if (!root || networkBound) return;
+  networkBound = true;
+  root.addEventListener("click", onNetwork);
+  root.addEventListener("keydown", (event) => {
+    if (event.key !== "Enter" && event.key !== " ") return;
+    if (!event.target.closest("path[data-country]")) return;
+    event.preventDefault();
+    onNetwork(event);
+  });
+}
+
+function onNetwork(event) {
+  const pin = event.target.closest("[data-point]");
+  if (pin) {
+    const point = POINTS.find((item) => item.id === pin.dataset.point);
+    if (!point) return;
+    country = point.country;
+    pickedId = point.id;
+    renderNetwork();
+    renderPoints();
+    document.querySelector('#point-cards [data-id="' + point.id + '"]')?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    return;
+  }
+  const choice = event.target.closest("[data-country]");
+  if (!choice) return;
+  const next = choice.dataset.country;
+  if (!RaclettePoints.COUNTRIES.includes(next) || next === country) return;
+  country = next;
+  pickedId = null;
+  renderNetwork();
+  renderPoints();
+}
+
+function renderNetwork() {
+  const stage = document.getElementById("network-map");
+  const flags = document.getElementById("country-flags");
+  if (!stage || !flags || typeof RacletteEurope === "undefined" || !RacletteEurope.mount) return;
+  const order = RaclettePoints.COUNTRIES.slice();
+  if (RaclettePoints.homeCountry(location.hostname) === "ch") order.reverse();
+  RacletteEurope.mount(stage, flags, { country, pickedId, points: POINTS, t, order, count: RaclettePoints.branchCount });
+}
+
 function renderPoints() {
   const host = document.getElementById("point-cards");
-  const ranked = POINTS.map((point) => {
+  if (!host) return;
+  const visible = POINTS.filter((point) => point.country === country);
+  const ranked = visible.map((point) => {
     const distance = origin ? haversine(origin.lat, origin.lng, point.lat, point.lng) : null;
     return { point, distance };
   }).sort((a, b) => {
     if (a.distance == null || b.distance == null) return 0;
     return a.distance - b.distance;
   });
-  const nearestId = origin ? ranked[0].point.id : null;
+  const nearestId = origin && ranked.length ? ranked[0].point.id : null;
 
   host.innerHTML = ranked.map(({ point, distance }) => {
     const name = t("point." + point.id + ".name");
@@ -93,6 +142,7 @@ function renderPoints() {
     const menu = MENU.map((key, i) => '<li style="--c:' + MENU_COLORS[i] + '">' + t(key) + "</li>").join("");
     const classes = ["card"];
     if (point.id === nearestId) classes.push("is-nearest");
+    if (point.id === pickedId) classes.push("is-picked");
     const mapTitle = t("points.mapTitle", { name }).replaceAll('"', "&quot;");
     return (
       '<article class="' + classes.join(" ") + '" data-id="' + point.id + '">' +
@@ -112,6 +162,52 @@ function renderPoints() {
       "</article>"
     );
   }).join("");
+  const pending = RaclettePoints.PENDING.filter((point) => point.country === country).map((point) => (
+    '<article class="card is-pending" data-id="' + point.id + '" data-country="' + point.country + '">' +
+      '<div class="card-head"><p class="kicker">' + t("point." + point.id + ".where") + "</p>" +
+      "<h3>" + t("point." + point.id + ".name") + "</h3>" +
+      '<p class="note">' + t("point." + point.id + ".note") + "</p></div></article>"
+  )).join("");
+  host.innerHTML += pending;
+}
+
+const HERO_KICKER_STEPS = [
+  "#f5811f", "#f5811f",
+  "#f38479", "#f38479",
+  "#cd143e", "#cd143e",
+  "#f38193", "#f38193",
+  "#c3346a", "#c3346a",
+  "#642a7d", "#642a7d",
+  "#00a85c", "#00a85c",
+  "#027935",
+  "#56b7e8", "#56b7e8",
+  "#007dc5", "#007dc5",
+  "#00a5b9",
+  "#00657d"
+];
+
+function paintHeroKicker() {
+  const el = document.querySelector(".hero .kicker");
+  if (!el) return;
+  const text = el.textContent;
+  const letters = [...text].filter((ch) => ch.trim() !== "");
+  if (!letters.length) return;
+  const steps = letters.length === HERO_KICKER_STEPS.length
+    ? HERO_KICKER_STEPS
+    : letters.map((_, index) => HERO_KICKER_STEPS[Math.min(HERO_KICKER_STEPS.length - 1, Math.floor(index * HERO_KICKER_STEPS.length / letters.length))]);
+  el.replaceChildren();
+  let index = 0;
+  for (const ch of text) {
+    if (ch.trim() === "") {
+      el.append(ch);
+      continue;
+    }
+    const span = document.createElement("span");
+    span.style.color = steps[index];
+    span.textContent = ch;
+    el.append(span);
+    index += 1;
+  }
 }
 
 function applyStatic() {
@@ -126,6 +222,7 @@ function applyStatic() {
   document.querySelectorAll("[data-i18n]").forEach((el) => {
     el.textContent = t(el.dataset.i18n);
   });
+  paintHeroKicker();
   document.querySelectorAll("[data-i18n-alt]").forEach((el) => {
     el.alt = t(el.dataset.i18nAlt);
   });
@@ -253,6 +350,7 @@ function setLang(next) {
   history.replaceState(null, "", target.pathname + target.search + target.hash);
   applyStatic();
   if (!isHomePage()) return;
+  renderNetwork();
   renderPoints();
   if (!origin) {
     hideNavigateNearest();
@@ -287,6 +385,9 @@ function applyLocatedOrigin(lat, lng, accuracyMeters) {
   const accuracy = Number(accuracyMeters);
   origin = { lat, lng, accuracy: Number.isFinite(accuracy) ? accuracy : null };
   const status = locatedStatus(lat, lng, origin.accuracy);
+  country = status.nearest.country || country;
+  pickedId = status.nearest.id;
+  renderNetwork();
   renderPoints();
   showNavigateNearest(status.nearest);
   setStatus(status.key, status.vars);
@@ -353,6 +454,9 @@ function boot() {
   });
 
   if (isHomePage()) {
+    country = RaclettePoints.homeCountry(location.hostname);
+    bindNetwork();
+    renderNetwork();
     renderPoints();
     hideNavigateNearest();
     setStatus("points.idle");

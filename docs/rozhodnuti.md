@@ -12,7 +12,9 @@ U Špindlerova Mlýna a food trucku nebyla ulice. Mapa ukazuje střed střediska
 
 ## Test není ostrý web
 
-Testovací adresa je `https://garath33.github.io/raclette/`. Má `noindex` a viditelný pruh. GitHub Pages jde jen z `main`.
+Testovací adresa po sloučení do `main` je `https://garath33.github.io/raclette/`. Má `noindex` a viditelný pruh. GitHub Pages jde jen z `main`.
+
+Větev se zkouší dřív, na náhledu Cloudflare Workers. Adresa je v [pipeline](pipeline.md). U každé úpravy, kterou má autor projet sám, se ten odkaz pošle v odpovědi. Nestačí odkaz na pull request.
 
 Ostrý web je Cloudflare Worker `raclette` na `raclettelovers.cz` / `.sk` / `.ch`. Dřívější workflow Deploy production po testech dělal `exit 1` s textem, že hosting není připojený — to už neplatí a mástilo to při merge. Po sloučení do `main` teď běží Pages (test) i `wrangler deploy` (ostrý Worker), pokud je v Actions secret `CLOUDFLARE_API_TOKEN`.
 
@@ -101,3 +103,7 @@ Hosté chtějí ikonu Raclette Lovers na ploše telefonu a navigaci k nejbližš
 ## Pro partnery na ostrém webu
 
 Schválení „Hod na ostrý web“ posílá Pro partnery, telefon nad formulářem, vysvětlení AOP a znění mlékárny Laiterie d’Orsières na `raclettelovers.*` (bez zkušebního pruhu) a na GitHub Pages. Cloudflare Worker potřebuje v `wrangler.jsonc` prázdný blok `previews`, jinak build padá.
+
+## Každý stát v mapě bochníku je automaticky vycentrovaný výškově i do šířky
+
+Při přepínání vlajek v mapě poboček (`#pointy`) musí být aktivní stát — a každý další stát, který v budoucnu přibude — vždy plně vycentrovaný uprostřed vnitřní plochy půlbochníku sýra jak vodorovně, tak výškově, s dostatečným odstupem od zaoblené kůrky i horní grilované krusty. Místo ručně psaných CSS posunů pro jednotlivé země počítá `RacletteEurope.cameraFor(countryId)` v `js/europe.js` obdélník a vrcholy polygonu daného státu a automaticky nastaví šířku i pozici mapy (`left`, `top`, `width`) tak, aby střed státu ležel uprostřed čisté plochy bochníku a žádný výběžek (například západní a jižní cípy Švýcarska) se nedotýkal okraje.

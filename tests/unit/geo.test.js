@@ -1,7 +1,7 @@
 const test = require("node:test");
 const assert = require("node:assert/strict");
 const geo = require("../../js/geo");
-const { POINTS } = require("../../js/points");
+const { POINTS, PENDING, placesFor, homeCountry, branchCount } = require("../../js/points");
 
 test("vzdálenost na rovníku o jeden stupeň je asi 111 km", () => {
   const km = geo.haversine(0, 0, 0, 1);
@@ -21,6 +21,7 @@ test("body Pointů mají souřadnice a Křížový vrch má web", () => {
   for (const point of POINTS) {
     assert.equal(typeof point.lat, "number");
     assert.equal(typeof point.lng, "number");
+    assert.ok(point.country === "cz" || point.country === "ch");
   }
   assert.equal(POINTS.find((point) => point.id === "krizovy").web, "https://krizovyvrch.cz/cs");
   assert.equal(POINTS.find((point) => point.id === "spindl").web, null);
@@ -29,6 +30,19 @@ test("body Pointů mají souřadnice a Křížový vrch má web", () => {
   assert.equal(POINTS.find((point) => point.id === "mouret").web, "https://www.laiterie-du-mouret.ch");
   assert.equal(POINTS.find((point) => point.id === "minorit").web, "https://minorit-opava.cz/kavarna/");
   assert.equal(POINTS.find((point) => point.id === "bonte").web, "https://bontesyry.cz");
+});
+
+test("švýcarské Pointy mají zemi a z Curychu vychází švýcarský Point", () => {
+  assert.equal(PENDING.length, 0);
+  assert.equal(placesFor("cz").points.length, 5);
+  assert.equal(placesFor("ch").points.length, 3);
+  assert.equal(branchCount("cz"), 5);
+  assert.equal(branchCount("ch"), 3);
+  assert.equal(homeCountry("raclettelovers.ch"), "ch");
+  assert.equal(homeCountry("www.raclettelovers.ch"), "ch");
+  assert.equal(homeCountry("raclettelovers.cz"), "cz");
+  assert.equal(homeCountry("localhost"), "cz");
+  assert.equal(geo.nearest(POINTS, 47.37, 8.54).country, "ch");
 });
 
 test("mapsDirUrl má jen destination, žádný zmražený origin", () => {
