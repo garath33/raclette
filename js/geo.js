@@ -69,11 +69,18 @@
     const lng = Number(position.coords.longitude);
     if (!Number.isFinite(lat) || !Number.isFinite(lng)) return null;
     const accuracy = Number(position.coords.accuracy);
+    const ts = Number(position.timestamp);
+    // Installed Android WebViews sometimes return timestamp 0; with maximumAge 0
+    // the callback is still a live reading and must not be discarded as stale.
+    const fresh =
+      !Number.isFinite(ts) || ts <= 0
+        ? true
+        : isFreshTimestamp(ts, now, maxAgeMs);
     return {
       lat,
       lng,
       accuracy: Number.isFinite(accuracy) ? accuracy : null,
-      fresh: isFreshTimestamp(position.timestamp, now, maxAgeMs),
+      fresh,
       source: "browser"
     };
   }
@@ -214,11 +221,39 @@
     return "unavailable";
   }
 
-  function failureStatusKey(result) {
+  function isStandaloneDisplay(env) {
+    const source = env || {};
+    const mm = source.matchMedia || (typeof matchMedia === "function" ? matchMedia : null);
+    if (typeof mm === "function") {
+      try {
+        if (mm("(display-mode: standalone)").matches) return true;
+        if (mm("(display-mode: fullscreen)").matches) return true;
+      } catch (err) {
+        /* ignore */
+      }
+    }
+    const nav = source.navigator || (typeof navigator !== "undefined" ? navigator : null);
+    return !!(nav && nav.standalone === true);
+  }
+
+  function mobileGpsStatusKey(env) {
+    return isStandaloneDisplay(env) ? "points.needGpsInstalled" : "points.needGps";
+  }
+
+  function runtimeEnv(overrides) {
+    const base = {
+      navigator: typeof navigator !== "undefined" ? navigator : null,
+      matchMedia: typeof matchMedia === "function" ? matchMedia : null
+    };
+    return overrides ? Object.assign(base, overrides) : base;
+  }
+
+  function failureStatusKey(result, env) {
     if (!result || result.fix) return null;
     if (result.reason === "unsupported") return "points.unsupported";
     if (result.mobile) {
-      return result.reason === "timeout" ? "points.timeout" : "points.needGps";
+      if (result.reason === "timeout") return "points.timeout";
+      return mobileGpsStatusKey(env);
     }
     return "points.denied";
   }
@@ -226,6 +261,7 @@
   function statusTone(key) {
     if (
       key === "points.needGps" ||
+      key === "points.needGpsInstalled" ||
       key === "points.denied" ||
       key === "points.timeout" ||
       key === "points.unsupported"
@@ -274,7 +310,9 @@
     });
   }
 
-  async function readBrowser(geo) {
+  async function readBrowser(geo, env) {
+    const nav = (env && env.navigator) || (typeof navigator !== "undefined" ? navigator : null);
+    const watchMs = isAndroid(nav) && isStandaloneDisplay(env) ? 15000 : 8000;
     let pos;
     try {
       // Long enough for the permission prompt. maximumAge 0 refuses a cached pin.
@@ -288,7 +326,11 @@
         try {
           // Android Chrome sometimes times out getCurrentPosition indoors, then
           // delivers a fix on watchPosition once the fused provider warms up.
-          pos = await readWatch(geo, { enableHighAccuracy: true, timeout: 8000, maximumAge: 0 }, 8000);
+          pos = await readWatch(
+            geo,
+            { enableHighAccuracy: true, maximumAge: 0 },
+            watchMs
+          );
         } catch (watchErr) {
           throw second;
         }
@@ -353,7 +395,7 @@
     if (!geo || typeof geo.getCurrentPosition !== "function") {
       browserPromise = Promise.resolve({ browser: null, reason: "unsupported" });
     } else {
-      browserPromise = readBrowser(geo).then(
+      browserPromise = readBrowser(geo, source).then(
         (browser) => ({ browser, reason: null }),
         (err) => ({
           browser: err && err.fix ? err.fix : null,
@@ -386,6 +428,9 @@
     isMobileDevice,
     isAndroid,
     isIos,
+    isStandaloneDisplay,
+    mobileGpsStatusKey,
+    runtimeEnv,
     geoErrorReason,
     failureStatusKey,
     statusTone,

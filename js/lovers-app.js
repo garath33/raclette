@@ -147,7 +147,7 @@ function locatedStatus(lat, lng, accuracyMeters, source, staleKm) {
 function applyLocatedOrigin(fix) {
   if (!fix || (fix.source === "ip" && RacletteGeo.isMobileDevice())) {
     hideNavigateNearest();
-    setStatus("points.needGps");
+    setStatus(RacletteGeo.mobileGpsStatusKey(RacletteGeo.runtimeEnv()));
     return;
   }
   const accuracy = Number(fix.accuracy);
@@ -182,20 +182,25 @@ async function locate() {
   const locateBtn = document.getElementById("locate");
   if (locateBtn) locateBtn.disabled = true;
   try {
-    const result = await RacletteGeo.acquireFix({
+    const env = RacletteGeo.runtimeEnv({
       geolocation: navigator.geolocation,
       fetch,
       networkUrl: new URL("api/where", location.href).href
     });
+    const result = await RacletteGeo.acquireFix(env);
     if (!result.fix) {
       restoreNavigate();
-      setStatus(RacletteGeo.failureStatusKey(result));
+      setStatus(RacletteGeo.failureStatusKey(result, env));
       return;
     }
     applyLocatedOrigin(result.fix);
   } catch (err) {
     restoreNavigate();
-    setStatus(RacletteGeo.isMobileDevice() ? "points.needGps" : "points.denied");
+    setStatus(
+      RacletteGeo.isMobileDevice()
+        ? RacletteGeo.mobileGpsStatusKey(RacletteGeo.runtimeEnv())
+        : "points.denied"
+    );
   } finally {
     locateBusy = false;
     locateAttempted = true;
