@@ -108,8 +108,16 @@
     ch: '<svg class="flag-svg" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" fill="#da291c"/><rect x="13" y="6" width="6" height="20" fill="#ffffff"/><rect x="6" y="13" width="20" height="6" fill="#ffffff"/></svg>'
   };
 
+  const CONTACT_FLAGS = {
+    sk: '<svg class="flag-svg" viewBox="0 0 60 40" aria-hidden="true"><rect width="60" height="13.333" fill="#ffffff"/><rect y="13.333" width="60" height="13.334" fill="#0b4ea2"/><rect y="26.667" width="60" height="13.333" fill="#ee1c25"/><path fill="#ee1c25" d="M5 6.2h11.2v14.2c0 4.8-5.6 7.4-5.6 7.4s-5.6-2.6-5.6-7.4z"/><path fill="#fff" d="M10.1 8.2h1.3v2.2h2.3v1.3h-2.3v1.5h2.3v1.3h-2.3V17h-1.3v-2.5H7.8v-1.3h2.3v-1.5H7.8V10.4h2.3z"/><path fill="#0b4ea2" d="M6.6 22.8c1.6-1.8 2.9-1.4 3.6.4.8-2 2.1-2.1 3.6-.2-.3 1.6-3.4 3-3.4 3s-3.3-1.4-3.8-3.2z"/></svg>'
+  };
+
   function flagSvg(countryId) {
     return FLAGS[countryId] || "";
+  }
+
+  function contactFlag(countryId) {
+    return CONTACT_FLAGS[countryId] || FLAGS[countryId] || "";
   }
 
   function escAttr(value) {
@@ -122,5 +130,5 @@
     return '<span class="card-flag" role="img" aria-label="' + escAttr(label) + '">' + svg + "</span>";
   }
 
-  return { POINTS, PENDING, COUNTRIES, placesFor, branchCount, homeCountry, flagSvg, branchFlag };
+  return { POINTS, PENDING, COUNTRIES, placesFor, branchCount, homeCountry, flagSvg, branchFlag, contactFlag };
 });

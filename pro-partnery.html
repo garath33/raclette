@@ -39,6 +39,25 @@
     "url": "https://www.raclettelovers.com/",
     "email": "info@rakletparty.cz",
     "telephone": "+420777600223",
+    "contactPoint": [
+      {
+        "@type": "ContactPoint",
+        "name": "Pavlína Otýpková",
+        "telephone": "+420777600223",
+        "email": "info@rakletparty.cz",
+        "contactType": "customer support",
+        "areaServed": ["CZ", "SK"],
+        "availableLanguage": ["cs", "sk"]
+      },
+      {
+        "@type": "ContactPoint",
+        "name": "Milan Kolář",
+        "telephone": "+41766083983",
+        "contactType": "customer support",
+        "areaServed": "CH",
+        "availableLanguage": ["fr", "de", "it"]
+      }
+    ],
     "logo": "https://www.raclettelovers.com/assets/logo-point.png",
     "sameAs": [
       "https://www.instagram.com/racletteoriginal/",
@@ -263,8 +282,9 @@
             <p class="franchise-sub" data-i18n="form.sub">Vyplňte všechna pole. Nic nevynechte, ať víme, jak vám připravit nabídku vám na míru.</p>
             <p data-i18n="form.lead">Zanechte kontakt a základní informace o podniku nebo o záměru. Ozveme se vám.</p>
             <div class="form-invite">
-              <p data-i18n="form.invite">Vyplňte formulář níže, nebo zavolejte pro bližší informace.</p>
-              <a class="btn btn-line" href="tel:+420777600223">+420 777 600 223</a>
+              <p data-i18n="form.invite">Vyplňte formulář níže, nebo zavolejte.</p>
+              <a class="phone-call" data-flags="cz sk" href="tel:+420777600223"><span class="phone-who"><span class="phone-name">Pavlína Otýpková</span><span class="phone-num">+420 777 600 223</span></span></a>
+              <a class="phone-call" data-flags="ch" href="tel:+41766083983"><span class="phone-who"><span class="phone-name">Milan Kolář</span><span class="phone-num">+41 76 608 39 83</span></span></a>
             </div>
             <form class="partner-form" id="partner-form" novalidate>
               <label class="form-honey" aria-hidden="true" hidden>
@@ -334,7 +354,7 @@
         <h2>Raclette Point Original.cz s.r.o.</h2>
         <p>Pekařská 162/90a<br>747 05 Opava</p>
         <p>IČ 05340993 · DIČ CZ05340993</p>
-        <p><a href="tel:+420777600223">+420 777 600 223</a><br><a href="mailto:info@rakletparty.cz">info@rakletparty.cz</a></p>
+        <p><a class="phone-call" data-flags="cz sk" href="tel:+420777600223"><span class="phone-num">+420 777 600 223</span></a><br><a class="phone-call" data-flags="ch" href="tel:+41766083983"><span class="phone-num">+41 76 608 39 83</span></a><br><a href="mailto:info@rakletparty.cz">info@rakletparty.cz</a></p>
         <h2 class="social-title" data-i18n="social.title">Sledujte nás</h2>
         <p data-i18n="social.lead">Aktuální dění a novinky najdete na Instagramu a YouTube.</p>
         <div class="social-links">

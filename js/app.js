@@ -207,6 +207,22 @@ function paintHeroKicker() {
   }
 }
 
+function paintPhoneFlags() {
+  document.querySelectorAll("[data-flags]").forEach((el) => {
+    if (el.querySelector(".phone-flags")) return;
+    const flags = document.createElement("span");
+    flags.className = "phone-flags";
+    flags.setAttribute("aria-hidden", "true");
+    el.dataset.flags.split(/\s+/).forEach((id) => {
+      const cloth = document.createElement("span");
+      cloth.className = "flag-cloth";
+      cloth.innerHTML = RaclettePoints.contactFlag(id);
+      flags.append(cloth);
+    });
+    el.prepend(flags);
+  });
+}
+
 function applyStatic() {
   document.documentElement.lang = RacletteSite.htmlLang(lang, location.hostname);
   const partnersPage = Boolean(document.querySelector(".franchise-page"));
@@ -220,6 +236,7 @@ function applyStatic() {
     el.textContent = t(el.dataset.i18n);
   });
   paintHeroKicker();
+  paintPhoneFlags();
   document.querySelectorAll("[data-i18n-alt]").forEach((el) => {
     el.alt = t(el.dataset.i18nAlt);
   });

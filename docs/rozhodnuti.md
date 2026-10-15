@@ -54,7 +54,7 @@ U nabídky pro partnery je edukační odstavec: AOP = chráněné označení pů
 
 ## Telefon nad formulářem
 
-Nad kontaktním formulářem je výzva vyplnit formulář nebo zavolat na +420 777 600 223.
+Nad kontaktním formulářem jsou dvě linky se stejnými látkovými vlajkami jako nad bochníkem. Pavlína má českou a slovenskou, Milan švýcarskou. Názvy zemí ani zkratky CZ, SK a CH u čísla nejsou.
 
 ## raclettelovers.com je první vlastní doména
 
@@ -82,7 +82,7 @@ Trenčínská 2628/10 v Záběhlicích je 50.045505, 14.4731025. Prohlížeč na
 
 ## Texty z letáku o raclette
 
-Leták „Co je raclette“ a „Raclette půjčovna na víkend“ je na webu rozdělený po sekcích, ne vložený jako jedna stránka. Definice, slovo racler, pastviny, podávání, fondue, oblasti výroby a čísla z mléka jsou v sekci Co je raclette. Víkendová půjčovna je odstavec u e-shopu, příležitosti (kolaudace, brunch, banket, promoce) jsou u eventů, partneři TTM, Raclette House a Provins jsou pod nákupem. Martin Kábrt a Eliška Reine přibyli do kontaktů s telefony z letáku.
+Leták „Co je raclette“ a „Raclette půjčovna na víkend“ je na webu rozdělený po sekcích, ne vložený jako jedna stránka. Definice, slovo racler, pastviny, podávání, fondue, oblasti výroby a čísla z mléka jsou v sekci Co je raclette. Víkendová půjčovna je odstavec u e-shopu, příležitosti (kolaudace, brunch, banket, promoce) jsou u eventů, partneři TTM, Raclette House a Provins jsou pod nákupem. Martin Kábrt a Eliška Reine zůstávají v týmu bez veřejného telefonu. Zavolat se dá jen na dvě čísla: Pavlína Otýpková pro Česko a Slovensko, Milan Kolář pro Švýcarsko.
 
 Překlepy se nepřenášejí: brunch, ne branch, kolaudace, ne koloudace, plnotučné, ne pinotučné, Savojsko, ne Savoyen jako jediný tvar v češtině. Věta „náš výrobní závod“ na webu není. Sýr vozíme z mlékárny Laiterie d’Orsières, závod nám nepatří. Roční spotřeba v letáku vychází 2 kg × 9 milionů jako 36 milionů kilogramů. Na webu je 18 milionů kilogramů, protože to z těch dvou čísel plyne. Pavlína zůstává Otýpková, +420 777 600 223 a info@rakletparty.cz. Leták má jiné číslo a jiný e-mail, oficiální kontakt firmy se kvůli tomu nemění. Milan zůstává český král a ambasador, ne švýcarský král.
 
@@ -121,3 +121,7 @@ Na notebooku ve Zličíně Google Maps pořád startoval od Hamerského rybníka
 ## Každý stát v mapě bochníku je automaticky vycentrovaný výškově i do šířky
 
 Při přepínání vlajek v mapě poboček (`#pointy`) musí být aktivní stát — a každý další stát, který v budoucnu přibude — vždy plně vycentrovaný uprostřed vnitřní plochy půlbochníku sýra jak vodorovně, tak výškově, s dostatečným odstupem od zaoblené kůrky i horní grilované krusty. Místo ručně psaných CSS posunů pro jednotlivé země počítá `RacletteEurope.cameraFor(countryId)` v `js/europe.js` obdélník a vrcholy polygonu daného státu a automaticky nastaví šířku i pozici mapy (`left`, `top`, `width`) tak, aby střed státu ležel uprostřed čisté plochy bochníku a žádný výběžek (například západní a jižní cípy Švýcarska) se nedotýkal okraje.
+
+## Oslavu si host domluví telefonem, ne dalším formulářem
+
+Sekce Eventy vypisuje, na co raclette umíme. Kdo si chce objednat oslavu, svatbu nebo párty, nemá vyplňovat další formulář. Hned pod výčtem je výzva „Zavolejte nám“ na +420 777 600 223, stejné číslo jako rychlý kontakt, a vedle něj e-mail info@rakletparty.cz. Výzva mluví za tým. Eliška Reine zůstává v kontaktech jako manažerka eventů pro Prahu a Čechy. Nad fotografiemi z akcí je věta „Kde se už na švýcarský raklet stála fronta“ a doplněk „A kde jste nás mohli ochutnat.“ Texty jsou v devíti jazycích, proto strop `css/styles.css` posouvá ze 47 kB na 48 kB, `js/i18n.js` z 91 kB na 92 kB a `js/i18n-extra.js` ze 194 kB na 196 kB.

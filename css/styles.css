@@ -243,29 +243,24 @@ p { margin: 0; }
   cursor: pointer;
   background: transparent;
   color: var(--ink);
+  transition:.15s ease;
 }
-.btn-solid { background: var(--ink); color: white; }
-.btn-solid:hover { background: var(--gold-deep); }
-.btn-diamond { background: var(--red); color: white; }
-.btn-diamond:hover { background: var(--magenta); }
-.btn-gold {
-  background: var(--yellow);
-  border-color: var(--yellow);
-  color: var(--ink);
-}
-.btn-gold:hover { background: var(--gold); border-color: var(--gold); }
-.btn-gold:before {
-  content: "";
-  width: 8px;
-  height: 8px;
-  margin-right: 0.45rem;
-  background: currentColor;
-  transform: rotate(45deg);
-  flex: 0 0 auto;
-}
-.btn-line { border-color: var(--ink); }
-.btn-line:hover { background: var(--ink); color: white; }
-.btn[aria-disabled="true"] { pointer-events: none; opacity: 0.45; }
+.btn:hover{transform:translateY(-2px)}
+.btn:active{transform:translateY(1px)}
+.btn-solid{background:var(--ink);color:#fff}
+.btn-solid:hover{background:var(--red)}
+.btn-solid:active{background:#8e102c}
+.btn-diamond{background:var(--red);color:#fff}
+.btn-diamond:hover{background:var(--magenta)}
+.btn-diamond:active{background:#6e1c3e}
+.btn-gold{background:var(--yellow);border-color:var(--yellow);color:var(--ink)}
+.btn-gold:hover{background:var(--orange);border-color:var(--orange)}
+.btn-gold:active{background:#a34e0a;border-color:#a34e0a;color:#fff}
+.btn-gold:before{content:"";width:8px;height:8px;margin-right:.45rem;background:currentColor;transform:rotate(45deg);flex:0 0 auto}
+.btn-line{border-color:var(--ink)}
+.btn-line:hover{background:var(--ink);color:#fff}
+.btn-line:active{background:var(--red);border-color:var(--red);color:#fff}
+.btn[aria-disabled="true"]{pointer-events:none;opacity:.45}
 
 .hero-visual {
   position: relative;
@@ -589,13 +584,6 @@ p { margin: 0; }
   text-align: center;
 }
 .points .status { flex-basis: 100%; text-align: center; }
-.locator #navigate-nearest {
-  background: var(--red);
-  color: #fff;
-}
-.locator #navigate-nearest:hover {
-  background: var(--magenta);
-}
 .locator #navigate-nearest[hidden] {
   display: none !important;
 }
@@ -936,6 +924,28 @@ p { margin: 0; }
   background: var(--gold-deep);
   transform: rotate(45deg);
 }
+.event-book {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 0.85rem;
+  margin-top: 1.25rem;
+  padding: 0.95rem 1.05rem;
+  background: white;
+  border-radius: 18px;
+}
+.event-book p {
+  margin: 0;
+  flex: 1 1 16rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+.events-past { margin: 0 0 0.85rem; }
+.events-past h3 {
+  font-size: clamp(1.45rem, 2.6vw, 1.95rem);
+  margin: 0 0 0.2rem;
+}
+.events-past p { margin: 0; max-width: 40rem; color: var(--muted); }
 .partners-line { margin-top: 1.3rem; color: var(--muted); }
 .partners-line strong {
   display: block;
@@ -1167,11 +1177,34 @@ p { margin: 0; }
 }
 .form-invite p {
   margin: 0;
-  flex: 1 1 16rem;
+  flex: 1 1 100%;
   color: var(--ink);
   font-weight: 600;
 }
-.form-invite .btn { flex: 0 0 auto; }
+.phone-call {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  width: fit-content;
+  max-width: 100%;
+  color: inherit;
+  font-weight: 700;
+  text-decoration: none;
+}
+.phone-flags { display: inline-flex; align-items: flex-end; gap: 0.2rem; }
+.phone-call .flag-svg { height: 36px; }
+.phone-flags .flag-cloth + .flag-cloth { transform: rotate(8deg); }
+.phone-call:hover .flag-cloth { transform: translateY(-4px) rotate(-3deg); }
+.phone-call:hover .phone-flags .flag-cloth + .flag-cloth { transform: translateY(-4px) rotate(8deg); }
+.phone-who { display: grid; line-height: 1.15; }
+.phone-name {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gold-deep);
+}
+.phone-num { font-family: var(--sans); font-size: 1.05rem; font-weight: 700; line-height: 1.25; letter-spacing: 0.01em; }
 
 .partner-form .form-honey {
   position: absolute;
@@ -1553,6 +1586,8 @@ p { margin: 0; }
 
 .contact { background: #e7f3fb; }
 .people { list-style: none; margin: 0; padding: 0; }
+.call-lines { grid-template-columns: 1fr 1fr; }
+.team-label { margin-top: 1.6rem; }
 .person strong { font-size: 0.95rem; }
 .person a { color: var(--ink); font-weight: 600; text-decoration: none; }
 .person a:hover { color: var(--gold-deep); }
@@ -1865,6 +1900,7 @@ body.lovers-app {
   .benefit-grid,
   .event-offer,
   .approach-rail { grid-template-columns: 1fr; }
+  .event-book .btn { flex: 1 1 12rem; }
   .event-photo { height: 112px; }
   .approach-block,
   .gain-block { padding-inline: 1rem; }
@@ -1894,5 +1930,7 @@ body.lovers-app {
   .land,
   .land.is-on,
   .flag-cloth,
-  .city { animation: none; transition: none; }
+  .city,
+  .btn { animation: none; transition: none; }
+  .btn:hover, .btn:active { transform: none; }
 }

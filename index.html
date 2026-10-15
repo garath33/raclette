@@ -42,6 +42,25 @@
     "url": "https://www.raclettelovers.com/",
     "email": "info@rakletparty.cz",
     "telephone": "+420777600223",
+    "contactPoint": [
+      {
+        "@type": "ContactPoint",
+        "name": "Pavlína Otýpková",
+        "telephone": "+420777600223",
+        "email": "info@rakletparty.cz",
+        "contactType": "customer support",
+        "areaServed": ["CZ", "SK"],
+        "availableLanguage": ["cs", "sk"]
+      },
+      {
+        "@type": "ContactPoint",
+        "name": "Milan Kolář",
+        "telephone": "+41766083983",
+        "contactType": "customer support",
+        "areaServed": "CH",
+        "availableLanguage": ["fr", "de", "it"]
+      }
+    ],
     "logo": "https://www.raclettelovers.com/assets/logo-point.png",
     "sameAs": [
       "https://www.instagram.com/racletteoriginal/",
@@ -519,6 +538,15 @@
               </ul>
             </article>
           </div>
+          <div class="event-book">
+            <p data-i18n="events.book">Chystáte oslavu, svatbu nebo párty? Zavolejte nám a domluvíme raclette přímo k vám.</p>
+            <a class="btn btn-solid" href="tel:+420777600223" data-i18n="events.call">Zavolat +420 777 600 223</a>
+            <a class="btn btn-line" href="mailto:info@rakletparty.cz">info@rakletparty.cz</a>
+          </div>
+        </div>
+        <div class="events-past">
+          <h3 data-i18n="events.galleryTitle">Kde se už na švýcarský raklet stála fronta</h3>
+          <p data-i18n="events.galleryLead">A kde jste nás mohli ochutnat.</p>
         </div>
         <div class="event-grid">
           <article class="event">
@@ -582,32 +610,33 @@
       <div class="wrap">
         <div class="section-head">
           <p class="kicker" data-i18n="contact.kicker">Kontakty</p>
-          <h2 data-i18n="contact.title">Lidé, kteří raclette drží v chodu</h2>
-          <p class="lead" data-i18n="contact.lead">Tým společnosti Raclette Point Original.cz s.r.o. Autentický švýcarský raclette, sýry nejvyšší kvality, grily i Pointy vedeme z Opavy.</p>
+          <h2 data-i18n="contact.title">Kam zavolat</h2>
+          <p class="lead" data-i18n="contact.lead">Dvě telefonní linky. Autentický švýcarský raclette, sýry nejvyšší kvality, grily i Pointy vedeme z Opavy.</p>
         </div>
-        <ul class="people">
-          <li class="person">
-            <h3>Milan Kolář</h3>
-            <p data-i18n="person.milan.role">Československý král a ambasador Raclette, zakladatel</p>
-            <a href="tel:+41766083983">+41 76 608 39 83</a>
-            <p data-i18n="person.milan.place">Chemin des Grands Praz 81, 1965 Savièse, Švýcarsko</p>
-          </li>
+        <ul class="people call-lines">
           <li class="person">
             <h3>Pavlína Otýpková</h3>
             <p data-i18n="person.pavlina.role">Manažerka projektů, komunikace s klienty</p>
-            <a href="tel:+420777600223">+420 777 600 223</a>
+            <a class="phone-call" data-flags="cz sk" href="tel:+420777600223"><span class="phone-num">+420 777 600 223</span></a>
             <a href="mailto:info@rakletparty.cz">info@rakletparty.cz</a>
           </li>
           <li class="person">
+            <h3>Milan Kolář</h3>
+            <p data-i18n="person.milan.role">Československý král a ambasador Raclette, zakladatel</p>
+            <a class="phone-call" data-flags="ch" href="tel:+41766083983"><span class="phone-num">+41 76 608 39 83</span></a>
+            <p data-i18n="person.milan.place">Chemin des Grands Praz 81, 1965 Savièse, Švýcarsko</p>
+          </li>
+        </ul>
+        <p class="kicker team-label" data-i18n="contact.teamTitle">Lidé, kteří raclette drží v chodu</p>
+        <ul class="people">
+          <li class="person">
             <h3>Martin Kábrt</h3>
             <p data-i18n="person.kabrt.role">Šéf gastronomie a mistr raclette show</p>
-            <a href="tel:+420777891177">+420 777 891 177</a>
             <p data-i18n="person.kabrt.place">Food truck, Kladno</p>
           </li>
           <li class="person">
             <h3>Eliška Reine</h3>
             <p data-i18n="person.eliska.role">Manažerka eventů, Praha a Čechy</p>
-            <a href="tel:+420602402935">+420 602 402 935</a>
           </li>
           <li class="person">
             <h3>Václav Valenta</h3>
@@ -636,7 +665,7 @@
             <h3 data-i18n="contact.bankLabel">Banka</h3>
             <p>Fio banka, a.s.<br>2801055860/2010<br>IBAN CZ29 2010 0000 0028 0105 5860</p>
             <h3 data-i18n="contact.quickLabel">Rychlý kontakt</h3>
-            <p><a href="tel:+420777600223">+420 777 600 223</a><br><a href="mailto:info@rakletparty.cz">info@rakletparty.cz</a></p>
+            <p><a class="phone-call" data-flags="cz sk" href="tel:+420777600223"><span class="phone-num">+420 777 600 223</span></a><br><a class="phone-call" data-flags="ch" href="tel:+41766083983"><span class="phone-num">+41 76 608 39 83</span></a><br><a href="mailto:info@rakletparty.cz">info@rakletparty.cz</a></p>
           </article>
         </div>
       </div>
@@ -658,7 +687,7 @@
         <h2>Raclette Point Original.cz s.r.o.</h2>
         <p>Pekařská 162/90a<br>747 05 Opava</p>
         <p>IČ 05340993 · DIČ CZ05340993</p>
-        <p><a href="tel:+420777600223">+420 777 600 223</a><br><a href="mailto:info@rakletparty.cz">info@rakletparty.cz</a></p>
+        <p><a class="phone-call" data-flags="cz sk" href="tel:+420777600223"><span class="phone-num">+420 777 600 223</span></a><br><a class="phone-call" data-flags="ch" href="tel:+41766083983"><span class="phone-num">+41 76 608 39 83</span></a><br><a href="mailto:info@rakletparty.cz">info@rakletparty.cz</a></p>
         <h2 class="social-title" data-i18n="social.title">Sledujte nás</h2>
         <p data-i18n="social.lead">Aktuální dění a novinky najdete na Instagramu a YouTube.</p>
         <div class="social-links">

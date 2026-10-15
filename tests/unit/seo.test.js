@@ -50,12 +50,12 @@ test("robots a sitemap ukazují na ostré domény a všechny jazyky", () => {
 
 test("veřejné soubory drží výkonnostní rozpočet", () => {
   const limits = {
-    "css/styles.css": 47 * 1024,
+    "css/styles.css": 49 * 1024,
     "js/app.js": 20 * 1024,
     "js/i18n-app.js": 16 * 1024,
     "js/lovers-app.js": 12 * 1024,
-    "js/i18n.js": 91 * 1024,
-    "js/i18n-extra.js": 194 * 1024,
+    "js/i18n.js": 92 * 1024,
+    "js/i18n-extra.js": 196 * 1024,
     "assets/photo-service.jpg": 400 * 1024,
     "assets/photo-wedge.jpg": 280 * 1024,
     "assets/shop-assortment.jpg": 320 * 1024,
@@ -95,9 +95,15 @@ test("kontaktní stránka neuvádí Veroniku a uvádí Martina Šimůnka", () =>
   assert.match(html, /Martin Šimůnek/);
   assert.match(html, /Eliška Reine/);
   assert.match(html, /id="raclette"/);
-  assert.match(html, /tel:\+420777891177/);
-  assert.match(html, /tel:\+420602402935/);
+  assert.equal(/tel:\+420777891177/.test(html), false);
+  assert.equal(/tel:\+420602402935/.test(html), false);
   assert.match(html, /tel:\+420777600223/);
+  assert.match(html, /tel:\+41766083983/);
+  assert.match(html, /data-flags="cz sk"/);
+  assert.match(html, /data-flags="ch"/);
+  assert.equal(/🇨🇿|🇸🇰|🇨🇭/.test(html), false);
+  assert.match(html, /"areaServed": \["CZ", "SK"\]/);
+  assert.match(html, /"areaServed": "CH"/);
   assert.equal(/Ohýbková/.test(html), false);
   assert.equal(/400237/.test(html), false);
   assert.match(html, /id="vyhody"/);
