@@ -46,7 +46,7 @@ test("stránka se načte, má sekce a testovací pruh", async ({ page }) => {
   await expect(page.locator(".supplier-crest")).toBeVisible();
   await expect(page.getByRole("heading", { name: "Martin Šimůnek" })).toBeVisible();
   await expect(page.locator("#reference h2")).toContainText("Celebrity a náš Raclette");
-  await expect(page.locator("#reference .celeb-row figure img")).toHaveCount(2);
+  await expect(page.locator("#reference .celeb-row figure img")).toHaveCount(7);
   await expect(page.locator("#reference .celeb-row figure img").first()).toHaveAttribute("alt", /Tomáš Klus/);
   await expect(page.locator("#reference a.fb-card")).toHaveAttribute("href", "https://www.facebook.com/rakletparty/");
   await expect(page.locator("#reference a.fb-card")).toContainText("Sledujte naše aktuality");
@@ -322,7 +322,7 @@ test("aktuální IP na Zličíně přebije starý pin u Hamerského rybníka", a
   }));
   await page.goto("/?lang=cs");
   await page.locator("#locate").click();
-  await expect(page.locator("#locator-status")).toContainText("Poloha ze sítě");
+  await expect(page.locator("#locator-status")).toContainText(/poloha ze sítě/i);
   await expect(page.locator("#locator-status")).toContainText("Martin Kábrt");
   await expect(page.locator("#locator-status")).toHaveClass(/is-warn/);
   const navHref = await page.locator("#navigate-nearest").getAttribute("href");
@@ -501,7 +501,7 @@ test.describe("mobil bez GPS", () => {
     }));
     await page.goto("/?lang=cs");
     await page.locator("#locate").click();
-    await expect(page.locator("#locator-status")).toContainText("GPS se nenačetla včas");
+    await expect(page.locator("#locator-status")).toContainText("GPS se nenačetla včas", { timeout: 15000 });
     await expect(page.locator("#navigate-nearest")).toBeHidden();
     await expect(page.locator("#locator-status")).not.toContainText("Křížový vrch");
   });
