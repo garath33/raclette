@@ -1,6 +1,9 @@
 name: Apply IG card to Reference
 
 on:
+  push:
+    branches:
+      - feature/ig-card-reference
   workflow_dispatch:
 
 permissions:
