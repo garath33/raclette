@@ -129,3 +129,7 @@ Při přepínání vlajek v mapě poboček (`#pointy`) musí být aktivní stát
 ## Oslavu si host domluví telefonem, ne dalším formulářem
 
 Sekce Eventy vypisuje, na co raclette umíme. Kdo si chce objednat oslavu, svatbu nebo párty, nemá vyplňovat další formulář. Hned pod výčtem je výzva „Zavolejte nám“ na +420 777 600 223, stejné číslo jako rychlý kontakt, a vedle něj e-mail info@rakletparty.cz. Výzva mluví za tým. Eliška Reine zůstává v kontaktech jako manažerka eventů pro Prahu a Čechy. Nad fotografiemi z akcí je věta „Kde se už na švýcarský raklet stála fronta“ a doplněk „A kde jste nás mohli ochutnat.“ Texty jsou v devíti jazycích, proto strop `css/styles.css` posouvá ze 47 kB na 48 kB, `js/i18n.js` z 91 kB na 92 kB a `js/i18n-extra.js` ze 194 kB na 196 kB.
+
+## info@raclettelovers.com až po funkční schránce
+
+Veřejný kontakt zůstává `info@rakletparty.cz`, dokud `info@raclettelovers.com` opravdu přijímá poštu. 15. října 2026 doména `.com` neměla MX ani TXT, jmenné servery byly pořád WebHouse a web jel z GitHub Pages. Návod, který kvůli Cloudflare Email Routing přepíše jmenné servery, by ten web odpojil. Příjem proto jde přes ImprovMX (dva MX u WebHouse) a odesílání z Gmailu přes Brevo. Na web se nová adresa doplní až po zkušební zprávě. Postup a seznam míst ve stránkách jsou v [email.md](email.md). Formulář pro partnery dál míří na `milan@raclette-original.com`.

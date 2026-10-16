@@ -12,7 +12,7 @@ Obsah je jeden. Liší se jen to, kdo ho po DNS dotazu pošle prohlížeči.
 
 `.cz`, `.sk`, `.ch` a starší domény (`raclettepointoriginal.*`, `raclette-lovers.com`, `raclette-point-original.com`) mají jmenné servery Cloudflare. Worker na nich buď web rovnou vrátí, nebo pošle 301 na cílovou doménu. Přesměrované adresy se neindexují, hodnocení přebírá cíl. Indexují se jen čtyři obsahové adresy: `www.raclettelovers.com` (angličtina a jazyky bez vlastní domény), `raclettelovers.cz` (čeština), `raclettelovers.sk` (slovenština) a `raclettelovers.ch` (francouzština).
 
-Nechat `.com` na GitHubu dává smysl, dokud stačí jedna adresa a DNS už tam míří. Nevýhoda je dvojí nasazení: Pages a Worker se aktualizují odděleně. Až bude potřeba mít i `.com` ve stejném Workeru, přepne se DNS z WebHouse na Cloudflare a apex i `www` se přidají k Workeru. Do té doby se záznamy u WebHouse nemění.
+Nechat `.com` na GitHubu dává smysl, dokud stačí jedna adresa a DNS už tam míří. Nevýhoda je dvojí nasazení: Pages a Worker se aktualizují odděleně. Až bude potřeba mít i `.com` ve stejném Workeru, přepne se DNS z WebHouse na Cloudflare a apex i `www` se přidají k Workeru. Do té doby se webové záznamy u WebHouse nemění (A, CNAME, jmenné servery). Poštovní MX a TXT pro `info@raclettelovers.com` jsou výjimka, postup je v [email.md](email.md).
 
 ## raclettelovers.com u WebHouse
 
@@ -29,7 +29,7 @@ V zóně mají být právě tyto čtyři řádky A. Třída zůstává IN, prior
 | raclettelovers.com | A | 185.199.110.153 |
 | raclettelovers.com | A | 185.199.111.153 |
 
-Kdyby se starý řádek s `86.110.243.202` vrátil, smažte ho. Hvězdičkový CNAME nechte. Jmenné servery nepřepisujte.
+Kdyby se starý řádek s `86.110.243.202` vrátil, smažte ho. Hvězdičkový CNAME nechte. Jmenné servery nepřepisujte. MX a TXT pro poštu se přidávají vedle těchto řádků, webové záznamy se kvůli nim nemažou.
 
 ## Kam se sbíhají cesty
 
