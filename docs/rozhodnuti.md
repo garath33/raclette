@@ -129,3 +129,13 @@ Při přepínání vlajek v mapě poboček (`#pointy`) musí být aktivní stát
 ## Oslavu si host domluví telefonem, ne dalším formulářem
 
 Sekce Eventy vypisuje, na co raclette umíme. Kdo si chce objednat oslavu, svatbu nebo párty, nemá vyplňovat další formulář. Hned pod výčtem je výzva „Zavolejte nám“ na +420 777 600 223, stejné číslo jako rychlý kontakt, a vedle něj e-mail info@rakletparty.cz. Výzva mluví za tým. Eliška Reine zůstává v kontaktech jako manažerka eventů pro Prahu a Čechy. Nad fotografiemi z akcí je věta „Kde se už na švýcarský raklet stála fronta“ a doplněk „A kde jste nás mohli ochutnat.“ Texty jsou v devíti jazycích, proto strop `css/styles.css` posouvá ze 47 kB na 48 kB, `js/i18n.js` z 91 kB na 92 kB a `js/i18n-extra.js` ze 194 kB na 196 kB.
+
+## Ikona aplikace Raclette Lovers – kulaté pro Android, čtvercové pro iPhone
+
+Na Androidu (Chrome PWA) vypadala čtvercová ikona se zlatým rámečkem po maskování na kruh špatně. Proto `manifest.webmanifest` teď pro `any` i `maskable` používá původní kulaté černé logo `assets/logo-point.png` (Raclette LOVERS s horami a Point original), které je na webu. Na iPhonu zůstává `apple-touch-icon.png` – stávající čtvercová verze se zaoblenými rohy a zlatým rámečkem. Po aktualizaci aplikace na telefonu (nebo reinstalaci zástupce) se na Androidu zobrazí kulaté logo.
+
+## Po přechodu na bochník musí být vidět tlačítko pod sýrem
+
+Na Androidu i na krátkém okně (televize, velké zvětšení prohlížeče) po klepnutí na „Najít nejbližší Point“ prohlížeč zarovnal horní okraj sekce `#pointy`. Bochník je vyšší než viewport, takže dole zůstala jen horní kůrka a tlačítko „Najdi nejbližší Raclette point.“ bylo pod hranou. Dřívější posun scrollu to nedohnal, protože nesměl sjet horní okraj sýra pod hlavičku.
+
+`revealLocateButton` v `js/app.js` po klepnutí na odkaz `#pointy` (menu i „Najít nejbližší Point“) a po načtení s tímto hashem posune stránku tak, aby bylo tlačítko `#locate` celé ve viewportu. Platí to na mobilu i na desktopu, včetně krátkého okna a zvětšení stránky. Posun je okamžitý a zopakuje se ještě po chvíli, protože plynulý scroll prohlížeče na začátek sekce ho jinak přepíše a dole zůstane jen kůrka. Nad tlačítkem zůstane spodek bochníku. Horní okraj sýra smí odjet. Hero CTA dál ve stejném gestu volá `locate()`.

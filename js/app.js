@@ -464,6 +464,7 @@ async function locate() {
     fetch,
     networkUrl: new URL("api/where", location.href).href
   });
+
   const pending = G.acquireFixWithRetry(env);
   setStatus("points.locating");
   hideNavigateNearest();

@@ -273,12 +273,22 @@
     if (!result || result.fix) return null;
     if (result.reason === "unsupported") return "points.unsupported";
     if (!result.mobile) return "points.denied";
-    if (result.reason === "timeout") return "points.timeout";
+    if (result.reason === "timeout") {
+      // Even on timeout, check if perm was granted — user may have just enabled GPS.
+      const perm = await queryGeoPermission(env);
+      if (perm === "granted") return "points.timeout";
+      if (perm === "denied") return isStandaloneDisplay(env) ? "points.needGpsInstalled" : "points.deniedSite";
+      if (perm === "prompt") return "points.needGpsPrompt";
+      return mobileGpsStatusKey(env);
+    }
     const perm = await queryGeoPermission(env);
     if (perm === "denied") {
       return isStandaloneDisplay(env) ? "points.needGpsInstalled" : "points.deniedSite";
     }
-    if (perm === "granted") return "points.gpsWarmup";
+    if (perm === "granted") {
+      // Permission granted but still no fix — GPS hardware not yet ready.
+      return "points.timeout";
+    }
     if (perm === "prompt") return "points.needGpsPrompt";
     return mobileGpsStatusKey(env);
   }

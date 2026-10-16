@@ -46,10 +46,12 @@ test("stránka se načte, má sekce a testovací pruh", async ({ page }) => {
   await expect(page.locator(".supplier-crest")).toBeVisible();
   await expect(page.getByRole("heading", { name: "Martin Šimůnek" })).toBeVisible();
   await expect(page.locator("#reference h2")).toContainText("Celebrity a náš Raclette");
-  await expect(page.locator("#reference .celeb-row figure img")).toHaveCount(2);
+  await expect(page.locator("#reference .celeb-row figure img")).toHaveCount(7);
   await expect(page.locator("#reference .celeb-row figure img").first()).toHaveAttribute("alt", /Tomáš Klus/);
-  await expect(page.locator("#reference a.fb-card")).toHaveAttribute("href", "https://www.facebook.com/rakletparty/");
-  await expect(page.locator("#reference a.fb-card")).toContainText("Sledujte naše aktuality");
+  await expect(page.locator('#reference a.fb-card[href*="facebook.com"]')).toHaveAttribute("href", "https://www.facebook.com/rakletparty/");
+  await expect(page.locator('#reference a.fb-card[href*="facebook.com"]')).toContainText("Sledujte naše aktuality");
+  await expect(page.locator('#reference a.fb-card[href*="instagram.com"]')).toHaveAttribute("href", "https://www.instagram.com/racletteoriginal/");
+  await expect(page.locator('#reference a.fb-card[href*="instagram.com"]')).toContainText("Sledujte nás na Instagramu");
   await expect(page.locator("#raclette")).toContainText("racler");
   await expect(page.locator("#nakup")).toContainText("raklerem");
   await expect(page.locator("#nakup")).toContainText("Laiterie");
@@ -324,7 +326,7 @@ test("aktuální IP na Zličíně přebije starý pin u Hamerského rybníka", a
   }));
   await page.goto("/?lang=cs");
   await page.locator("#locate").click();
-  await expect(page.locator("#locator-status")).toContainText("aktuální IP");
+  await expect(page.locator("#locator-status")).toContainText(/poloha ze sítě/i);
   await expect(page.locator("#locator-status")).toContainText("Martin Kábrt");
   await expect(page.locator("#locator-status")).toHaveClass(/is-warn/);
   const navHref = await page.locator("#navigate-nearest").getAttribute("href");
