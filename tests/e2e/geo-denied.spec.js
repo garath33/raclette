@@ -55,7 +55,8 @@ test.describe("mobil bez GPS", () => {
 
   test("Android bez polohy nevezme IP u Křížového vrchu", async ({ page, context }) => {
     await context.grantPermissions([]);
-    await mockGeoError(page, 1, "denied");
+    // permState null → needGps (text obsahuje Chrome), ne gpsWarmup
+    await mockGeoError(page, 1, "denied", null);
     await page.route("**/api/where", (route) => route.fulfill({
       status: 200,
       contentType: "application/json",
@@ -80,16 +81,9 @@ test.describe("mobil bez GPS", () => {
         }
         return real(query);
       };
-      const fail = (_ok, err) => {
-        if (typeof err === "function") err({ code: 1, message: "denied" });
-      };
-      navigator.geolocation.getCurrentPosition = fail;
-      navigator.geolocation.watchPosition = (ok, err) => {
-        fail(ok, err);
-        return 0;
-      };
-      navigator.geolocation.clearWatch = () => {};
     });
+    // denied + standalone → needGpsInstalled (Informace o aplikaci)
+    await mockGeoError(page, 1, "denied", "denied");
     await page.goto("/app.html?lang=cs");
     await page.locator("#locate").click();
     await expect(page.locator("#locator-status")).toContainText("Informace o aplikaci");
@@ -98,7 +92,7 @@ test.describe("mobil bez GPS", () => {
 
   test("po odmítnutí GPS otevře vizitka Maps bez falešného Pointu", async ({ page, context }) => {
     await context.grantPermissions([]);
-    await mockGeoError(page, 1, "denied");
+    await mockGeoError(page, 1, "denied", null);
     await page.goto("/?lang=cs");
     await page.locator("#locate").click();
     await expect(page.locator("#locator-status")).toContainText("GPS");
