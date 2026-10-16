@@ -294,6 +294,49 @@ function isHomePage() {
   return Boolean(document.getElementById("pointy"));
 }
 
+function pointyScrollBehavior() {
+  return window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth";
+}
+
+/** After #pointy navigation, nudge scroll so the locate button below the wheel stays on screen. */
+function reconcilePointyScroll(behavior) {
+  const locate = document.getElementById("locate");
+  const cheese = document.querySelector("#pointy .cheese-wheel");
+  if (!locate) return;
+  const scrollBehavior = behavior || pointyScrollBehavior();
+  const gap = 16;
+  const header = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--header")) || 0;
+  const minCheeseTop = header + 12;
+
+  const adjust = () => {
+    const vh = window.innerHeight;
+    const locateRect = locate.getBoundingClientRect();
+    const cheeseRect = cheese ? cheese.getBoundingClientRect() : null;
+    let delta = locateRect.bottom > vh - gap ? locateRect.bottom - (vh - gap) : 0;
+    if (delta > 0 && cheeseRect) {
+      const cheeseTopAfter = cheeseRect.top - delta;
+      if (cheeseTopAfter < minCheeseTop) {
+        delta = Math.max(0, cheeseRect.top - minCheeseTop);
+      }
+    }
+    if (delta > 1) {
+      window.scrollBy({ top: delta, left: 0, behavior: scrollBehavior });
+    }
+  };
+
+  requestAnimationFrame(() => requestAnimationFrame(adjust));
+}
+
+function bindPointyScrollReveal() {
+  const reveal = () => reconcilePointyScroll();
+  document.querySelectorAll('a[href="#pointy"]').forEach((link) => {
+    link.addEventListener("click", reveal);
+  });
+  window.addEventListener("hashchange", () => {
+    if (location.hash === "#pointy") reveal();
+  });
+}
+
 function setPartnerStatus(form, status, kind, key) {
   status.hidden = false;
   status.classList.toggle("is-error", kind === "error");
@@ -541,8 +584,12 @@ function boot() {
       event.preventDefault();
       locate();
     });
+    bindPointyScrollReveal();
+    if (location.hash === "#pointy") {
+      reconcilePointyScroll("auto");
+    }
     document.getElementById("hero-locate").addEventListener("click", () => {
-      // Keep #pointy scroll from the href; still run locate from the same gesture.
+      reconcilePointyScroll();
       locate();
     });
     const links = [...document.querySelectorAll(".site-nav a")];
