@@ -353,42 +353,36 @@
   }
 
   /**
-   * Started inside the tap, so Android can show the location sheet.
-   * The first fix is the coarse one (Wi-Fi / mobile network), same as mapy.cz:
-   * it arrives as soon as location is on. A precise watch runs beside it, but
-   * we do not wait for satellites. If a watch dies while the sheet is open,
-   * another coarse watch starts so the fix is picked up the moment location is on.
+   * One tap. Wi-Fi and mobile network only — enableHighAccuracy opens Android's
+   * "location accuracy" sheet and Chrome then cancels the request, so the page
+   * showed a timeout about a second after Zapnout. A coarse watch stays up, and
+   * every few seconds we ask again until a fix arrives. The user does not tap again.
    */
   function readMobileWatch(geo, env) {
-    const ms = Number(env && env.watchMs) > 0 ? Number(env.watchMs) : 20000;
+    const ms = Number(env && env.watchMs) > 0 ? Number(env.watchMs) : 24000;
+    const pulseMs = Number(env && env.pulseMs) > 0 ? Number(env.pulseMs) : 3000;
+    const coarse = { enableHighAccuracy: false, maximumAge: 10000, timeout: 8000 };
     return new Promise((resolve, reject) => {
       let finished = false;
       const ids = [];
       let polls = null;
-      let retryTimer = null;
+      let pulse = null;
       const finish = (fn, value) => {
         if (finished) return;
         finished = true;
         clearTimeout(timer);
-        if (retryTimer) clearTimeout(retryTimer);
+        if (pulse) clearInterval(pulse);
         if (polls) clearInterval(polls);
         if (typeof geo.clearWatch === "function") ids.forEach((id) => geo.clearWatch(id));
         fn(value);
       };
-      const arm = (high) => {
-        if (finished || typeof geo.watchPosition !== "function") return;
-        const id = geo.watchPosition(
+      const ask = () => {
+        if (finished || typeof geo.getCurrentPosition !== "function") return;
+        geo.getCurrentPosition(
           (pos) => finish(resolve, pos),
-          (err) => {
-            if (finished || (err && err.code === 1) || retryTimer) return;
-            retryTimer = setTimeout(() => {
-              retryTimer = null;
-              arm(false);
-            }, 300);
-          },
-          { enableHighAccuracy: !!high, maximumAge: 0, timeout: 8000 }
+          () => {},
+          coarse
         );
-        ids.push(id);
       };
       const timer = setTimeout(() => {
         const err = new Error("timeout");
@@ -405,16 +399,20 @@
         });
       };
       polls = setInterval(look, 700);
-      if (typeof geo.getCurrentPosition === "function") {
-        geo.getCurrentPosition(
+      if (typeof geo.watchPosition === "function") {
+        const id = geo.watchPosition(
           (pos) => finish(resolve, pos),
           () => {},
-          { enableHighAccuracy: false, maximumAge: 0, timeout: 8000 }
+          coarse
         );
+        ids.push(id);
       }
-      arm(false);
-      arm(true);
-      if (finished && polls) clearInterval(polls);
+      ask();
+      pulse = setInterval(ask, pulseMs);
+      if (finished) {
+        clearInterval(pulse);
+        if (polls) clearInterval(polls);
+      }
     });
   }
 
