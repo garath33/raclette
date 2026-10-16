@@ -322,7 +322,7 @@ test("aktuální IP na Zličíně přebije starý pin u Hamerského rybníka", a
   }));
   await page.goto("/?lang=cs");
   await page.locator("#locate").click();
-  await expect(page.locator("#locator-status")).toContainText("aktuální IP");
+  await expect(page.locator("#locator-status")).toContainText("Poloha ze sítě");
   await expect(page.locator("#locator-status")).toContainText("Martin Kábrt");
   await expect(page.locator("#locator-status")).toHaveClass(/is-warn/);
   const navHref = await page.locator("#navigate-nearest").getAttribute("href");

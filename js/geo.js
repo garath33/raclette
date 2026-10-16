@@ -31,6 +31,11 @@
     return ranked.length ? ranked[0].point : undefined;
   }
 
+  /**
+   * A fix with this accuracy radius cannot change the nearest Point when the
+   * gap to the runner-up is larger than twice the radius: the reading can
+   * move toward the second Point and away from the first at the same time.
+   */
   function nearestIsStable(points, lat, lng, accuracyMeters) {
     const ranked = rank(points, lat, lng);
     if (ranked.length < 2) return true;
@@ -40,6 +45,7 @@
     return gapMeters > accuracy * 2;
   }
 
+  /** precise: trust the fix. coarse: approximate, but the winner holds. uncertain: the error can flip it. */
   function readingKind(points, lat, lng, accuracyMeters) {
     const COARSE_M = 300;
     const accuracy = Number(accuracyMeters);
@@ -94,6 +100,11 @@
     };
   }
 
+  /**
+   * Prefer a fresh browser reading. When it is missing, stale, or more than
+   * STALE_KM from the current IP, navigation starts from the IP instead of
+   * a days-old Wi-Fi pin.
+   */
   function chooseFix(browser, network) {
     const browserOk = !!(browser && browser.fresh !== false && Number.isFinite(browser.lat) && Number.isFinite(browser.lng));
     const networkOk = !!(network && Number.isFinite(network.lat) && Number.isFinite(network.lng));
@@ -142,6 +153,16 @@
     };
   }
 
+  /**
+   * Directions URL with destination only. A laptop fix is often just a dot in
+   * the city centre; putting it in origin makes Maps reverse-geocode it into a
+   * nearby business (pragERLEBNIS on Staroměstské náměstí for 50.080804,14.42076).
+   * Maps then starts from "Your location" instead of that invented address.
+   * dir_action=navigate is omitted on purpose: on Android it opens turn-by-turn
+   * before the blue route is drawn, so a stationary phone shows only the car.
+   * The overview draws the line immediately; the Maps app then has its own Start.
+   * The origin argument is ignored on purpose.
+   */
   function mapsDirUrl(point) {
     const dest = point.lat + "," + point.lng;
     return (
@@ -171,11 +192,17 @@
     return Number(nav && nav.maxTouchPoints) > 0;
   }
 
+  /**
+   * Phones and tablets have GPS. A mobile-carrier IP is often a POP hundreds of
+   * kilometres away (Zličín via CGNAT can look like Jeseník), so the network
+   * fallback is only for laptops, where Wi-Fi IPs are usually city-level.
+   */
   function isMobileDevice(env) {
     const source = env || {};
     if (typeof source.mobile === "boolean") return source.mobile;
     const nav = source.navigator || (typeof navigator !== "undefined" ? navigator : null);
     if (!nav) return false;
+    // UA first: Playwright and "Request desktop site" can disagree with client hints.
     if (isAndroid(nav) || isIos(nav)) return true;
     const ua = String(nav.userAgent || "");
     if (/webOS|BlackBerry|IEMobile|Opera Mini|Mobile/i.test(ua)) return true;
@@ -261,28 +288,17 @@
   }
 
   async function acquireFixWithRetry(env) {
-    const first = await acquireFix(env);
-    if (first.fix || !isMobileDevice(env)) return first;
+    let result = await acquireFix(env);
+    if (result.fix || !isMobileDevice(env)) return result;
     const perm = await queryGeoPermission(env);
-    if (perm !== "granted") return first;
-    // After system Location is toggled on, GPS often needs a few seconds to warm up.
-    // Keep searching (caller shows "locating") and retry automatically instead of
-    // forcing the user to tap again. Later attempts accept a recently cached fix
-    // (maximumAge) so a reading that arrived during the previous try is not wasted.
-    let last = first;
-    const waits = [1000, 2000, 3000, 4000];
-    for (let i = 0; i < waits.length; i++) {
-      await delay(waits[i]);
-      const retryEnv = Object.assign({}, env, {
-        // Accept a fix up to 2 minutes old on retries — GPS may have warmed up
-        // during the previous attempt but the callback arrived after timeout.
-        geoMaximumAge: i === 0 ? 5000 : 120000
-      });
-      const next = await acquireFix(retryEnv);
-      if (next.fix) return next;
-      last = next;
+    if (perm !== "granted") return result;
+    const delays = [1200, 2000, 2500];
+    for (const ms of delays) {
+      await delay(ms);
+      result = await acquireFix(env);
+      if (result.fix) return result;
     }
-    return last;
+    return result;
   }
 
   function statusTone(key) {
@@ -343,24 +359,11 @@
   async function readBrowser(geo, env) {
     const nav = (env && env.navigator) || (typeof navigator !== "undefined" ? navigator : null);
     const mobile = isMobileDevice(env);
-    const android = isAndroid(nav) && mobile;
-    // Caller may pass geoMaximumAge on retries so a fix that arrived during the
-    // previous attempt (after getCurrentPosition timed out) is still usable.
-    const maxAge = Number(env && env.geoMaximumAge);
-    const allowAge = Number.isFinite(maxAge) && maxAge > 0 ? maxAge : 0;
-    // On Android, long getCurrentPosition timeouts block before watchPosition can
-    // run. GPS warmup often delivers on watch after a few seconds; keep the first
-    // high-accuracy probe short and give watch most of the budget.
-    const watchMs = android ? 20000 : 8000;
-    const attempts = android
-      ? [
-          { enableHighAccuracy: true, timeout: 6000, maximumAge: allowAge },
-          { enableHighAccuracy: false, timeout: 8000, maximumAge: allowAge }
-        ]
-      : [
-          { enableHighAccuracy: true, timeout: 20000, maximumAge: allowAge },
-          { enableHighAccuracy: false, timeout: 12000, maximumAge: allowAge }
-        ];
+    const watchMs = isAndroid(nav) && mobile ? 15000 : 8000;
+    const attempts = [
+      { enableHighAccuracy: true, timeout: 20000, maximumAge: 0 },
+      { enableHighAccuracy: false, timeout: 12000, maximumAge: 0 }
+    ];
     let pos;
     let lastErr;
     for (const options of attempts) {
@@ -377,11 +380,7 @@
     }
     if (!pos) {
       try {
-        pos = await readWatch(
-          geo,
-          { enableHighAccuracy: true, maximumAge: allowAge },
-          watchMs
-        );
+        pos = await readWatch(geo, { enableHighAccuracy: true, maximumAge: 0 }, watchMs);
       } catch (watchErr) {
         if (lastErr && lastErr.code === 1) throw lastErr;
         throw watchErr || lastErr;
@@ -429,6 +428,11 @@
     }
   }
 
+  /**
+   * Call from the click handler before any DOM updates; otherwise Android Chrome
+   * may skip the permission prompt. Laptops may fall back to the current IP. Phones
+   * too coarse and too often in another region.
+   */
   function acquireFix(env) {
     const source = env || {};
     const mobile = isMobileDevice(source);
