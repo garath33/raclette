@@ -1,13 +1,150 @@
 <!DOCTYPE html>
 <html lang="cs">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Raclette Point Original — autentický švýcarský raclette v Česku a na Slovensku</title>
-  <meta name="description" content="Autentický originální švýcarský raclette. Sýry nejvyšší a originální kvality a původní švýcarské receptury. Najděte Point, nebo se staňte oficiálním Pointem. Swiss AOP z Valais.">
-  <!-- NOTE: full content is prepared locally; this is a partial to restore structure. Full restore follows. -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flow Změny | Martin & Kristýna</title>
+    <style>
+        :root {
+            --primary: #4a7c7a; 
+            --secondary: #8c6a56; 
+            --bg: #fdfbf7;
+            --text: #333;
+        }
+        * { box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; background: var(--bg); color: var(--text); line-height: 1.6; scroll-behavior: smooth; }
+        
+        nav {
+            position: fixed; top: 0; width: 100%; background: rgba(255, 255, 255, 0.96); 
+            display: flex; justify-content: center; padding: 0.8rem;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.06); z-index: 1000;
+        }
+        nav a { margin: 0 10px; text-decoration: none; color: var(--text); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.5px; transition: color 0.3s; }
+        nav a:hover { color: var(--primary); }
+
+        /* HERO SEKCE */
+        .hero {
+            margin-top: 50px;
+            height: 500px;
+            background-image: url('spolecna.jpg'); 
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center 20%; 
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        .hero::after {
+            content: '';
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.35); 
+            z-index: 1;
+        }
+        .hero-content { position: relative; z-index: 2; color: white; padding: 20px; width: 90%; }
+        .hero-content h1 { 
+            font-family: Georgia, serif; font-size: 3.5rem; margin: 0; 
+            background: linear-gradient(to right, #ffffff, #f0e6d2);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.4));
+        }
+        .hero-content p { font-size: 1.2rem; text-shadow: 0 2px 4px rgba(0,0,0,0.5); margin-top: 10px; }
+
+        section { padding: 4rem 15px; max-width: 1050px; margin: auto; }
+        h2 { color: var(--primary); font-size: 1.8rem; margin-bottom: 1.5rem; position: relative; padding-bottom: 10px; }
+        h2::after { content: ''; display: block; width: 45px; height: 3px; background: var(--secondary); position: absolute; bottom: 0; left: 0; }
+
+        .profiles { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 2rem; }
+        .profile { background: white; padding: 25px; border-radius: 18px; box-shadow: 0 5px 15px rgba(0,0,0,0.03); }
+        .profile img { width: 100%; border-radius: 12px; margin-bottom: 1.4rem; aspect-ratio: 1/1; object-fit: cover; }
+        
+        .profile-links { margin-top: 1rem; border-top: 1px solid #f0f0f0; padding-top: 1rem; }
+        .profile-links a { display: block; color: var(--primary); text-decoration: none; font-weight: bold; margin-bottom: 8px; font-size: 0.9rem; }
+        
+        footer { text-align: center; padding: 3rem 15px; background: #1a1a1a; color: #eee; font-size: 0.85rem; }
+
+        /* MOBILNÍ OPTIMALIZACE */
+        @media (max-width: 768px) {
+            nav a { margin: 0 5px; font-size: 0.65rem; }
+            .hero { 
+                height: 250px; 
+                background-size: contain; 
+                background-position: center; 
+                background-color: #000; 
+            }
+            .hero-content h1 { font-size: 1.8rem; }
+            .hero-content p { font-size: 0.9rem; }
+            .profiles { grid-template-columns: 1fr; }
+            .profile { text-align: center; }
+            h2 { text-align: center; }
+            h2::after { left: 50%; transform: translateX(-50%); }
+        }
+    </style>
 </head>
 <body>
-  <p>Temporary restore - full content being applied.</p>
+
+<nav>
+    <a href="#onas">O nás</a>
+    <a href="#akce">Akce</a>
+    <a href="#tym">Kdo jsme</a>
+    <a href="#contact">Kontakt</a>
+</nav>
+
+<div class="hero">
+    <div class="hero-content">
+        <h1>Flow Změny</h1>
+        <p>Cesta k autenticitě skrze tělo a hlas.</p>
+    </div>
+</div>
+
+<section id="onas">
+    <h2>O nás</h2>
+    <p>Jsme Martin a Kristýna. Věříme, že skutečná změna nastává ve chvíli, kdy dovolíme svému tělu i hlasu volně plynout. Propojujeme hloubku práce s tělem s lehkostí hlasové improvizace, abychom pro vás vytvořili bezpečný prostor k objevování sebe sama. <strong>Na této stránce budeme pravidelně zveřejňovat odkazy na naše chystané akce a workshopy.</strong></p>
+</section>
+
+<section id="akce" style="background: #fdf6f0; max-width: 100%;">
+    <div style="max-width: 1000px; margin: auto;">
+        <h2 style="text-align: center;">Pořádané akce</h2>
+        <div style="background: #fff; padding: 2rem; border-radius: 18px; box-shadow: 0 10px 35px rgba(0,0,0,0.06); text-align: center;">
+            <h3 style="color: var(--secondary); margin-top: 0;">Už nechci být hodná holka / hodný kluk</h3>
+            <p><strong>Kdy:</strong> 20. června 2026 | 9:30 – 18:00</p>
+            <p><strong>Kde:</strong> Atelier Antonie, Praha 1</p>
+            <a href="https://forms.gle/4iUwz4w15zmVuj8m6" target="_blank" style="display: inline-block; background: var(--primary); color: white; padding: 14px 28px; text-decoration: none; border-radius: 50px; font-weight: bold; margin-top: 1rem;">Chci se přihlásit</a>
+        </div>
+    </div>
+</section>
+
+<section id="tym">
+    <h2>Kdo jsme</h2>
+    <div class="profiles">
+        <div class="profile">
+            <img src="martin.jpg" alt="Martin Šimůnek">
+            <h3>Martin Šimůnek</h3>
+            <p>Věřím, že tělo je branou k našim emocím a autentickému já. Ve své praxi propojuji cit pro vědomý dotek s hloubkou odborného pohledu ze studia psychologie a sebezkušenosti.</p>
+            <div class="profile-links">
+                <a href="https://cesta-zmeny.cz" target="_blank">→ cesta-zmeny.cz</a>
+            </div>
+        </div>
+        <div class="profile">
+            <img src="kristy.jpg" alt="Kristýna Poláková">
+            <h3>Kristýna Poláková</h3>
+            <p>Průvodkyně světem flow, seberozvoje a hlasové improvizace. Pomáhám lidem najít jejich vlastní tón a svobodu v projevu.</p>
+            <div class="profile-links">
+                <a href="https://kristyinflow.cz" target="_blank">→ kristyinflow.cz</a>
+                <a href="https://www.instagram.com/kristyinflow/" target="_blank">→ Instagram: @kristyinflow</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer id="contact">
+    <p>Máte dotazy? Napište nám na:</p>
+    <p><strong style="font-size: 1.2rem;">flow.zmeny@gmail.com</strong></p>
+    <div style="margin-top: 1.5rem; font-size: 0.8rem; opacity: 0.6;">
+        &copy; 2026 Flow Změny | Martin Šimůnek & Kristýna Poláková
+    </div>
+</footer>
+
 </body>
 </html>
