@@ -490,9 +490,7 @@ async function locate() {
     geolocation: navigator.geolocation,
     fetch,
     networkUrl: new URL("api/where", location.href).href,
-    onRefine(fix) {
-      if (fix) applyLocatedOrigin(fix);
-    }
+    onRefine: applyLocatedOrigin
   });
 
   const pending = G.acquireFixWithRetry(env);
