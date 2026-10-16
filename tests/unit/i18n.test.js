@@ -9,6 +9,9 @@ function loadTranslations() {
   vm.runInContext(fs.readFileSync("js/i18n.js", "utf8") + "\nglobalThis.TRANSLATIONS = TRANSLATIONS;\nglobalThis.LANGS = LANGS;", context);
   vm.runInContext(fs.readFileSync("js/i18n-extra.js", "utf8"), context);
   vm.runInContext(fs.readFileSync("js/i18n-app.js", "utf8"), context);
+  if (fs.existsSync("js/i18n-ig.js")) {
+    vm.runInContext(fs.readFileSync("js/i18n-ig.js", "utf8"), context);
+  }
   return context;
 }
 
