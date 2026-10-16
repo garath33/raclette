@@ -181,7 +181,10 @@ async function locate() {
   const env = RacletteGeo.runtimeEnv({
     geolocation: navigator.geolocation,
     fetch,
-    networkUrl: new URL("api/where", location.href).href
+    networkUrl: new URL("api/where", location.href).href,
+    onRefine(fix) {
+      if (fix) applyLocatedOrigin(fix);
+    }
   });
   const pending = RacletteGeo.acquireFixWithRetry(env);
   setStatus("points.locating");
