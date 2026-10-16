@@ -1,0 +1,57 @@
+name: Apply IG card to Reference
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: feature/ig-card-reference
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Insert Instagram card next to FB
+        run: |
+          python3 << 'PY'
+          from pathlib import Path
+          path = Path("index.html")
+          text = path.read_text(encoding="utf-8")
+          if "celeb.ig" in text and "instagram-icon.svg" in text:
+              print("Already applied")
+              raise SystemExit(0)
+          old = '''          <a class="fb-card" href="https://www.facebook.com/rakletparty/" target="_blank" rel="noopener noreferrer">
+            <img src="assets/facebook-raklet.png" width="128" height="128" alt="Facebook">
+            <span data-i18n="celeb.fb">Sledujte naše aktuality</span>
+          </a>
+        </div>'''
+          new = '''          <a class="fb-card" href="https://www.facebook.com/rakletparty/" target="_blank" rel="noopener noreferrer">
+            <img src="assets/facebook-raklet.png" width="128" height="128" alt="Facebook">
+            <span data-i18n="celeb.fb">Sledujte naše aktuality</span>
+          </a>
+          <a class="fb-card" href="https://www.instagram.com/racletteoriginal/" target="_blank" rel="noopener noreferrer">
+            <img src="assets/instagram-icon.svg" width="72" height="72" alt="Instagram">
+            <span data-i18n="celeb.ig">Sledujte nás na Instagramu</span>
+          </a>
+        </div>'''
+          if old not in text:
+              raise SystemExit("FB card anchor not found in index.html")
+          path.write_text(text.replace(old, new, 1), encoding="utf-8")
+          print("Patched index.html")
+          PY
+
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          if git diff --cached --quiet; then
+            echo "No changes"
+            exit 0
+          fi
+          git commit -m "Reference: Instagram karta vedle FB miniatury"
+          git push origin feature/ig-card-reference
