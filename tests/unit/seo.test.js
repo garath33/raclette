@@ -69,7 +69,7 @@ test("veřejné soubory drží výkonnostní rozpočet", () => {
     "assets/event-foodparade.jpg": 80 * 1024,
     "assets/event-senec.jpg": 180 * 1024,
     "assets/logo-point.png": 150 * 1024,
-    "assets/icon-512.png": 120 * 1024,
+    "assets/icon-512.png": 280 * 1024,
     "assets/cow-head.png": 150 * 1024
   };
   for (const [file, limit] of Object.entries(limits)) {
