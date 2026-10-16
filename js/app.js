@@ -145,7 +145,7 @@ function renderPoints() {
     const classes = ["card"];
     if (point.id === nearestId) classes.push("is-nearest");
     if (point.id === pickedId) classes.push("is-picked");
-    const mapTitle = t("points.mapTitle", { name }).replaceAll('"', """);
+    const mapTitle = t("points.mapTitle", { name }).replaceAll('"', "\u0026quot;");
     const flag = RaclettePoints.branchFlag(point.country, t("map.country." + point.country));
     return (
       '<article class="' + classes.join(" ") + '" data-id="' + point.id + '">' +
@@ -294,53 +294,25 @@ function isHomePage() {
   return Boolean(document.getElementById("pointy"));
 }
 
-function pointyScrollBehavior() {
-  return window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth";
-}
-
-/** After #pointy navigation, nudge scroll so the locate button below the cheese wheel stays fully on screen on mobile. */
-function reconcilePointyScroll(behavior) {
-  const locate = document.getElementById("locate");
-  const cheese = document.querySelector("#pointy .cheese-wheel");
-  if (!locate) return;
-  const scrollBehavior = behavior || pointyScrollBehavior();
-  const gap = 20;
-  const header = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--header")) || 72;
-
-  const adjust = () => {
-    const vh = window.innerHeight;
-    const locateRect = locate.getBoundingClientRect();
-    const cheeseRect = cheese ? cheese.getBoundingClientRect() : null;
-    // How much we need to scroll down so the bottom of the locate button is above the fold with a gap
-    let delta = locateRect.bottom > vh - gap ? locateRect.bottom - (vh - gap) : 0;
-    if (delta > 0 && cheeseRect) {
-      // Don't scroll so far that the top of the cheese goes under the header
-      const cheeseTopAfter = cheeseRect.top - delta;
-      const minCheeseTop = header + 8;
-      if (cheeseTopAfter < minCheeseTop) {
-        delta = Math.max(0, cheeseRect.top - minCheeseTop);
-      }
-    }
-    if (delta > 2) {
-      window.scrollBy({ top: delta, left: 0, behavior: scrollBehavior });
-    }
-  };
-
-  // Wait for the browser's native hash scroll (and any smooth animation) to settle
-  requestAnimationFrame(() => {
-    requestAnimationFrame(() => {
-      setTimeout(adjust, 60);
-      setTimeout(adjust, 320); // second pass for slow Android smooth-scroll
-    });
+function revealLocateButton() {
+  const btn = document.getElementById("locate");
+  if (!btn) return;
+  const r = btn.getBoundingClientRect();
+  if (r.bottom <= innerHeight - 16 && r.top >= 0) return;
+  btn.scrollIntoView({
+    block: "end",
+    behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth"
   });
 }
 
 function bindPointyScrollReveal() {
   document.querySelectorAll('a[href="#pointy"]').forEach((link) => {
-    link.addEventListener("click", () => reconcilePointyScroll());
-  });
-  window.addEventListener("hashchange", () => {
-    if (location.hash === "#pointy") reconcilePointyScroll();
+    link.addEventListener("click", (event) => {
+      event.preventDefault();
+      history.pushState(null, "", location.pathname + location.search + "#pointy");
+      revealLocateButton();
+      if (link.id === "hero-locate") locate();
+    });
   });
 }
 
@@ -591,14 +563,10 @@ function boot() {
       event.preventDefault();
       locate();
     });
-    document.getElementById("hero-locate").addEventListener("click", () => {
-      // Native #pointy scroll from the href; reconcile so the locate button is visible, then start GPS.
-      reconcilePointyScroll();
-      locate();
-    });
     bindPointyScrollReveal();
     if (location.hash === "#pointy") {
-      reconcilePointyScroll("auto");
+      window.addEventListener("load", () => revealLocateButton(), { once: true });
+      setTimeout(revealLocateButton, 800);
     }
     const links = [...document.querySelectorAll(".site-nav a")];
     const sections = links

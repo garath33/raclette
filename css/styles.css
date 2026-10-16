@@ -583,6 +583,7 @@ p { margin: 0; }
   justify-content: center;
   text-align: center;
 }
+#locate { scroll-margin-bottom: 1.25rem; }
 .points .status { flex-basis: 100%; text-align: center; }
 .locator #navigate-nearest[hidden] {
   display: none !important;
