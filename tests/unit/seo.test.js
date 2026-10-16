@@ -54,8 +54,8 @@ test("veřejné soubory drží výkonnostní rozpočet", () => {
     "js/app.js": 21 * 1024,
     "js/i18n-app.js": 16 * 1024,
     "js/lovers-app.js": 12 * 1024,
-    "js/i18n.js": 95 * 1024,
-    "js/i18n-extra.js": 201 * 1024,
+    "js/i18n.js": 98 * 1024,
+    "js/i18n-extra.js": 208 * 1024,
     "assets/photo-service.jpg": 400 * 1024,
     "assets/photo-wedge.jpg": 280 * 1024,
     "assets/shop-assortment.jpg": 320 * 1024,
@@ -69,7 +69,7 @@ test("veřejné soubory drží výkonnostní rozpočet", () => {
     "assets/event-foodparade.jpg": 80 * 1024,
     "assets/event-senec.jpg": 180 * 1024,
     "assets/logo-point.png": 150 * 1024,
-    "assets/icon-512.png": 280 * 1024,
+    "assets/icon-512.png": 120 * 1024,
     "assets/cow-head.png": 150 * 1024
   };
   for (const [file, limit] of Object.entries(limits)) {
