@@ -353,66 +353,80 @@
   }
 
   /**
-   * One tap. Wi-Fi and mobile network only — enableHighAccuracy opens Android's
-   * "location accuracy" sheet and Chrome then cancels the request, so the page
-   * showed a timeout about a second after Zapnout. A coarse watch stays up, and
-   * every few seconds we ask again until a fix arrives. The user does not tap again.
+   * One tap, two readings. Coarse (Wi-Fi / cell) is shown as soon as it arrives.
+   * Precise (GPS) is requested in the same tap so Android can still show the
+   * location sheet. A later, tighter fix is reported through env.onRefine.
+   * Errors do not cancel the other reading. Coarse is asked again every few
+   * seconds until the first fix, so turning location on does not need another tap.
    */
   function readMobileWatch(geo, env) {
-    const ms = Number(env && env.watchMs) > 0 ? Number(env.watchMs) : 24000;
-    const pulseMs = Number(env && env.pulseMs) > 0 ? Number(env.pulseMs) : 3000;
+    const source = env || {};
+    const ms = Number(source.watchMs) > 0 ? Number(source.watchMs) : 24000;
+    const pulseMs = Number(source.pulseMs) > 0 ? Number(source.pulseMs) : 3000;
     const coarse = { enableHighAccuracy: false, maximumAge: 10000, timeout: 8000 };
+    const precise = { enableHighAccuracy: true, maximumAge: 0, timeout: ms };
     return new Promise((resolve, reject) => {
-      let finished = false;
+      let settled = false;
+      let bestAccuracy = Infinity;
       const ids = [];
       let polls = null;
       let pulse = null;
-      const finish = (fn, value) => {
-        if (finished) return;
-        finished = true;
+      const stop = () => {
         clearTimeout(timer);
         if (pulse) clearInterval(pulse);
         if (polls) clearInterval(polls);
         if (typeof geo.clearWatch === "function") ids.forEach((id) => geo.clearWatch(id));
-        fn(value);
       };
-      const ask = () => {
-        if (finished || typeof geo.getCurrentPosition !== "function") return;
-        geo.getCurrentPosition(
-          (pos) => finish(resolve, pos),
-          () => {},
-          coarse
-        );
+      const loosen = () => {
+        [timer, pulse, polls].forEach((handle) => {
+          if (handle && typeof handle.unref === "function") handle.unref();
+        });
+      };
+      const take = (pos) => {
+        const accuracy = Number(pos && pos.coords && pos.coords.accuracy);
+        const meters = Number.isFinite(accuracy) ? accuracy : 999999;
+        if (!settled) {
+          settled = true;
+          bestAccuracy = meters;
+          if (pulse) clearInterval(pulse);
+          loosen();
+          resolve(pos);
+          return;
+        }
+        if (meters + 30 >= bestAccuracy || typeof source.onRefine !== "function") return;
+        const fix = browserFix(pos, Date.now(), FRESH_MS);
+        if (!fix) return;
+        bestAccuracy = meters;
+        source.onRefine(fix);
       };
       const timer = setTimeout(() => {
+        stop();
+        if (settled) return;
         const err = new Error("timeout");
         err.code = 3;
-        finish(reject, err);
+        reject(err);
       }, ms);
       const look = () => {
-        queryGeoPermission(env).then((perm) => {
-          if (!finished && perm === "denied") {
-            const err = new Error("denied");
-            err.code = 1;
-            finish(reject, err);
-          }
+        queryGeoPermission(source).then((perm) => {
+          if (perm !== "denied") return;
+          stop();
+          if (settled) return;
+          const err = new Error("denied");
+          err.code = 1;
+          reject(err);
         });
       };
       polls = setInterval(look, 700);
       if (typeof geo.watchPosition === "function") {
-        const id = geo.watchPosition(
-          (pos) => finish(resolve, pos),
-          () => {},
-          coarse
-        );
-        ids.push(id);
+        ids.push(geo.watchPosition(take, () => {}, precise));
       }
+      const ask = () => {
+        if (settled || typeof geo.getCurrentPosition !== "function") return;
+        geo.getCurrentPosition(take, () => {}, coarse);
+      };
       ask();
       pulse = setInterval(ask, pulseMs);
-      if (finished) {
-        clearInterval(pulse);
-        if (polls) clearInterval(polls);
-      }
+      if (settled) clearInterval(pulse);
     });
   }
 

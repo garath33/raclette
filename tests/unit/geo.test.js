@@ -355,26 +355,41 @@ test("po zapnutí polohy další odečet za pár sekund přijde sám", async () 
   assert.equal(result.fix.lat, 50.0535);
 });
 
-test("telefon vezme hned síťovou polohu a nečeká na přesnou GPS", async () => {
+test("telefon vezme hned síťovou polohu a přesnější GPS ji pak doplní", async () => {
+  let refined = null;
+  let sawPrecise = false;
   const result = await geo.acquireFix({
     geolocation: {
-      getCurrentPosition() {},
-      watchPosition(ok, _err, options) {
-        if (options && options.enableHighAccuracy) return 2;
+      getCurrentPosition(ok) {
         ok({
           timestamp: Date.now(),
-          coords: { latitude: 50.0535, longitude: 14.3062, accuracy: 80 }
+          coords: { latitude: 50.0535, longitude: 14.3062, accuracy: 2000 }
         });
+      },
+      watchPosition(ok, _err, options) {
+        if (options && options.enableHighAccuracy) sawPrecise = true;
+        setTimeout(() => {
+          ok({
+            timestamp: Date.now(),
+            coords: { latitude: 50.0535, longitude: 14.3062, accuracy: 20 }
+          });
+        }, 40);
         return 1;
       },
       clearWatch() {}
     },
     mobile: true,
-    watchMs: 2000,
+    watchMs: 500,
+    onRefine(fix) {
+      refined = fix;
+    },
     fetch: ipFetch(50.23, 17.22)
   });
-  assert.equal(result.fix.source, "browser");
-  assert.equal(result.fix.lat, 50.0535);
+  assert.equal(sawPrecise, true);
+  assert.equal(result.fix.accuracy, 2000);
+  await new Promise((resolve) => setTimeout(resolve, 80));
+  assert.equal(refined.accuracy, 20);
+  assert.equal(refined.lat, 50.0535);
 });
 
 test("telefon podrží sledování přes chybu dialogu a vezme pozdější fix", async () => {

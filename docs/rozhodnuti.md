@@ -139,3 +139,7 @@ Na Androidu (Chrome PWA) vypadala čtvercová ikona se zlatým rámečkem po mas
 Na Androidu i na krátkém okně (televize, velké zvětšení prohlížeče) po klepnutí na „Najít nejbližší Point“ prohlížeč zarovnal horní okraj sekce `#pointy`. Bochník je vyšší než viewport, takže dole zůstala jen horní kůrka a tlačítko „Najdi nejbližší Raclette point.“ bylo pod hranou. Dřívější posun scrollu to nedohnal, protože nesměl sjet horní okraj sýra pod hlavičku.
 
 `revealLocateButton` v `js/app.js` po klepnutí na odkaz `#pointy` (menu i „Najít nejbližší Point“) a po načtení s tímto hashem posune stránku tak, aby bylo tlačítko `#locate` celé ve viewportu. Platí to na mobilu i na desktopu, včetně krátkého okna a zvětšení stránky. Posun je okamžitý a zopakuje se ještě po chvíli, protože plynulý scroll prohlížeče na začátek sekce ho jinak přepíše a dole zůstane jen kůrka. Nad tlačítkem zůstane spodek bochníku. Horní okraj sýra smí odjet. Hero CTA dál ve stejném gestu volá `locate()`.
+
+## Telefon bere síť hned a GPS nechá zapnutou
+
+Jedno klepnutí spustí oba odečty. Wi-Fi a mobilní síť se ukážou hned, GPS běží ve stejném gestu, takže dialog zapnutí polohy na Androidu zůstává. Přesnější odečet pak sám přepočítá Point. Postup, pořadí a hlášky jsou v [poloze](poloha.md). Jak se k tomu píše dokumentace a proč se sahá na co nejméně souborů, je ve [vedení](vedeni.md).

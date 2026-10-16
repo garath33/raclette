@@ -1,0 +1,6 @@
+---
+description: Minimum souborů, PR s odkazem, poloha podle manuálu
+alwaysApply: true
+---
+
+Sahaj jen na soubory, které úkol mění. Nesouvisející a velké soubory neotvírej. Každou úpravu dej do větve a pull requestu a v odpovědi pošli jeho URL. Do main nestrkej, dokud není řečeno publikovat. Postup polohy je v docs/poloha.md, vedení dokumentace v docs/vedeni.md.
