@@ -1,4 +1,4 @@
-const VERSION = "raclette-lovers-7";
+const VERSION = "raclette-lovers-8";
 const SHELL = [
   "./app.html",
   "./css/styles.css",

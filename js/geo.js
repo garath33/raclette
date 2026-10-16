@@ -353,24 +353,42 @@
   }
 
   /**
-   * One watch, started inside the tap. Chrome on Android fires an error while
-   * the system "turn on location" sheet is open; clearing the watch there drops
-   * the fix that arrives after the user accepts. Only a real site block
-   * (Permissions API "denied") or the deadline ends the watch.
+   * Started inside the tap, so Android can show the location sheet.
+   * The first fix is the coarse one (Wi-Fi / mobile network), same as mapy.cz:
+   * it arrives as soon as location is on. A precise watch runs beside it, but
+   * we do not wait for satellites. If a watch dies while the sheet is open,
+   * another coarse watch starts so the fix is picked up the moment location is on.
    */
   function readMobileWatch(geo, env) {
-    const ms = Number(env && env.watchMs) > 0 ? Number(env.watchMs) : 40000;
+    const ms = Number(env && env.watchMs) > 0 ? Number(env.watchMs) : 20000;
     return new Promise((resolve, reject) => {
       let finished = false;
-      let id = null;
+      const ids = [];
       let polls = null;
+      let retryTimer = null;
       const finish = (fn, value) => {
         if (finished) return;
         finished = true;
         clearTimeout(timer);
+        if (retryTimer) clearTimeout(retryTimer);
         if (polls) clearInterval(polls);
-        if (id != null && typeof geo.clearWatch === "function") geo.clearWatch(id);
+        if (typeof geo.clearWatch === "function") ids.forEach((id) => geo.clearWatch(id));
         fn(value);
+      };
+      const arm = (high) => {
+        if (finished || typeof geo.watchPosition !== "function") return;
+        const id = geo.watchPosition(
+          (pos) => finish(resolve, pos),
+          (err) => {
+            if (finished || (err && err.code === 1) || retryTimer) return;
+            retryTimer = setTimeout(() => {
+              retryTimer = null;
+              arm(false);
+            }, 300);
+          },
+          { enableHighAccuracy: !!high, maximumAge: 0, timeout: 8000 }
+        );
+        ids.push(id);
       };
       const timer = setTimeout(() => {
         const err = new Error("timeout");
@@ -387,12 +405,16 @@
         });
       };
       polls = setInterval(look, 700);
-      id = geo.watchPosition(
-        (pos) => finish(resolve, pos),
-        () => {},
-        { enableHighAccuracy: true, maximumAge: 0, timeout: ms }
-      );
-      if (finished) clearInterval(polls);
+      if (typeof geo.getCurrentPosition === "function") {
+        geo.getCurrentPosition(
+          (pos) => finish(resolve, pos),
+          () => {},
+          { enableHighAccuracy: false, maximumAge: 0, timeout: 8000 }
+        );
+      }
+      arm(false);
+      arm(true);
+      if (finished && polls) clearInterval(polls);
     });
   }
 

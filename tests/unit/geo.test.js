@@ -324,6 +324,28 @@ test("telefon bez geolocation API neuhádne Point z IP", async () => {
   assert.equal(geo.failureStatusKey(result), "points.unsupported");
 });
 
+test("telefon vezme hned síťovou polohu a nečeká na přesnou GPS", async () => {
+  const result = await geo.acquireFix({
+    geolocation: {
+      getCurrentPosition() {},
+      watchPosition(ok, _err, options) {
+        if (options && options.enableHighAccuracy) return 2;
+        ok({
+          timestamp: Date.now(),
+          coords: { latitude: 50.0535, longitude: 14.3062, accuracy: 80 }
+        });
+        return 1;
+      },
+      clearWatch() {}
+    },
+    mobile: true,
+    watchMs: 2000,
+    fetch: ipFetch(50.23, 17.22)
+  });
+  assert.equal(result.fix.source, "browser");
+  assert.equal(result.fix.lat, 50.0535);
+});
+
 test("telefon podrží sledování přes chybu dialogu a vezme pozdější fix", async () => {
   const result = await geo.acquireFix({
     geolocation: {
