@@ -145,7 +145,7 @@ function renderPoints() {
     const classes = ["card"];
     if (point.id === nearestId) classes.push("is-nearest");
     if (point.id === pickedId) classes.push("is-picked");
-    const mapTitle = t("points.mapTitle", { name }).replaceAll('"', "&quot;");
+    const mapTitle = t("points.mapTitle", { name }).replaceAll('"', "\u0026quot;");
     const flag = RaclettePoints.branchFlag(point.country, t("map.country." + point.country));
     return (
       '<article class="' + classes.join(" ") + '" data-id="' + point.id + '">' +
@@ -292,6 +292,35 @@ function partnerPayload(fields) {
 
 function isHomePage() {
   return Boolean(document.getElementById("pointy"));
+}
+
+function revealLocateButton() {
+  const btn = document.getElementById("locate");
+  if (!btn) return;
+  const root = document.documentElement;
+  const place = () => {
+    const delta = btn.getBoundingClientRect().bottom - innerHeight + 16;
+    if (Math.abs(delta) < 2) return;
+    const prev = root.style.scrollBehavior;
+    root.style.scrollBehavior = "auto";
+    scrollBy(0, delta);
+    root.style.scrollBehavior = prev;
+  };
+  place();
+  setTimeout(place, 80);
+  setTimeout(place, 450);
+  setTimeout(place, 1000);
+}
+
+function bindPointyScrollReveal() {
+  document.querySelectorAll('a[href="#pointy"]').forEach((link) => {
+    link.addEventListener("click", (event) => {
+      event.preventDefault();
+      history.pushState(null, "", location.pathname + location.search + "#pointy");
+      revealLocateButton();
+      if (link.id === "hero-locate") locate();
+    });
+  });
 }
 
 function setPartnerStatus(form, status, kind, key) {
@@ -541,10 +570,11 @@ function boot() {
       event.preventDefault();
       locate();
     });
-    document.getElementById("hero-locate").addEventListener("click", () => {
-      // Keep #pointy scroll from the href; still run locate from the same gesture.
-      locate();
-    });
+    bindPointyScrollReveal();
+    if (location.hash === "#pointy") {
+      window.addEventListener("load", () => revealLocateButton(), { once: true });
+      setTimeout(revealLocateButton, 800);
+    }
     const links = [...document.querySelectorAll(".site-nav a")];
     const sections = links
       .map((link) => {

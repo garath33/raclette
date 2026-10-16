@@ -133,3 +133,9 @@ Sekce Eventy vypisuje, na co raclette umíme. Kdo si chce objednat oslavu, svatb
 ## Ikona aplikace Raclette Lovers – kulaté pro Android, čtvercové pro iPhone
 
 Na Androidu (Chrome PWA) vypadala čtvercová ikona se zlatým rámečkem po maskování na kruh špatně. Proto `manifest.webmanifest` teď pro `any` i `maskable` používá původní kulaté černé logo `assets/logo-point.png` (Raclette LOVERS s horami a Point original), které je na webu. Na iPhonu zůstává `apple-touch-icon.png` – stávající čtvercová verze se zaoblenými rohy a zlatým rámečkem. Po aktualizaci aplikace na telefonu (nebo reinstalaci zástupce) se na Androidu zobrazí kulaté logo.
+
+## Po přechodu na bochník musí být vidět tlačítko pod sýrem
+
+Na Androidu i na krátkém okně (televize, velké zvětšení prohlížeče) po klepnutí na „Najít nejbližší Point“ prohlížeč zarovnal horní okraj sekce `#pointy`. Bochník je vyšší než viewport, takže dole zůstala jen horní kůrka a tlačítko „Najdi nejbližší Raclette point.“ bylo pod hranou. Dřívější posun scrollu to nedohnal, protože nesměl sjet horní okraj sýra pod hlavičku.
+
+`revealLocateButton` v `js/app.js` po klepnutí na odkaz `#pointy` (menu i „Najít nejbližší Point“) a po načtení s tímto hashem posune stránku tak, aby bylo tlačítko `#locate` celé ve viewportu. Platí to na mobilu i na desktopu, včetně krátkého okna a zvětšení stránky. Posun je okamžitý a zopakuje se ještě po chvíli, protože plynulý scroll prohlížeče na začátek sekce ho jinak přepíše a dole zůstane jen kůrka. Nad tlačítkem zůstane spodek bochníku. Horní okraj sýra smí odjet. Hero CTA dál ve stejném gestu volá `locate()`.
