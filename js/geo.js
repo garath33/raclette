@@ -64,6 +64,8 @@
     if (!Number.isFinite(lat) || !Number.isFinite(lng)) return null;
     const accuracy = Number(position.coords.accuracy);
     const ts = Number(position.timestamp);
+    // Installed Android WebViews sometimes return timestamp 0; with maximumAge 0
+    // the callback is still a live reading and must not be discarded as stale.
     const fresh =
       !Number.isFinite(ts) || ts <= 0
         ? true
@@ -265,12 +267,18 @@
     if (perm !== "granted") return first;
     // After system Location is toggled on, GPS often needs a few seconds to warm up.
     // Keep searching (caller shows "locating") and retry automatically instead of
-    // forcing the user to tap again after a single 900 ms attempt.
+    // forcing the user to tap again. Later attempts accept a recently cached fix
+    // (maximumAge) so a reading that arrived during the previous try is not wasted.
     let last = first;
-    const waits = [1500, 2500, 2500];
-    for (const ms of waits) {
-      await delay(ms);
-      const next = await acquireFix(env);
+    const waits = [1000, 2000, 3000, 4000];
+    for (let i = 0; i < waits.length; i++) {
+      await delay(waits[i]);
+      const retryEnv = Object.assign({}, env, {
+        // Accept a fix up to 2 minutes old on retries — GPS may have warmed up
+        // during the previous attempt but the callback arrived after timeout.
+        geoMaximumAge: i === 0 ? 5000 : 120000
+      });
+      const next = await acquireFix(retryEnv);
       if (next.fix) return next;
       last = next;
     }
@@ -335,11 +343,24 @@
   async function readBrowser(geo, env) {
     const nav = (env && env.navigator) || (typeof navigator !== "undefined" ? navigator : null);
     const mobile = isMobileDevice(env);
-    const watchMs = isAndroid(nav) && mobile ? 15000 : 8000;
-    const attempts = [
-      { enableHighAccuracy: true, timeout: 20000, maximumAge: 0 },
-      { enableHighAccuracy: false, timeout: 12000, maximumAge: 0 }
-    ];
+    const android = isAndroid(nav) && mobile;
+    // Caller may pass geoMaximumAge on retries so a fix that arrived during the
+    // previous attempt (after getCurrentPosition timed out) is still usable.
+    const maxAge = Number(env && env.geoMaximumAge);
+    const allowAge = Number.isFinite(maxAge) && maxAge > 0 ? maxAge : 0;
+    // On Android, long getCurrentPosition timeouts block before watchPosition can
+    // run. GPS warmup often delivers on watch after a few seconds; keep the first
+    // high-accuracy probe short and give watch most of the budget.
+    const watchMs = android ? 20000 : 8000;
+    const attempts = android
+      ? [
+          { enableHighAccuracy: true, timeout: 6000, maximumAge: allowAge },
+          { enableHighAccuracy: false, timeout: 8000, maximumAge: allowAge }
+        ]
+      : [
+          { enableHighAccuracy: true, timeout: 20000, maximumAge: allowAge },
+          { enableHighAccuracy: false, timeout: 12000, maximumAge: allowAge }
+        ];
     let pos;
     let lastErr;
     for (const options of attempts) {
@@ -349,13 +370,18 @@
         break;
       } catch (err) {
         lastErr = err;
+        // After toggling system Location, Android can return denied before GPS warms up.
         if (err && err.code === 1) continue;
         if (err && err.code !== 3) break;
       }
     }
     if (!pos) {
       try {
-        pos = await readWatch(geo, { enableHighAccuracy: true, maximumAge: 0 }, watchMs);
+        pos = await readWatch(
+          geo,
+          { enableHighAccuracy: true, maximumAge: allowAge },
+          watchMs
+        );
       } catch (watchErr) {
         if (lastErr && lastErr.code === 1) throw lastErr;
         throw watchErr || lastErr;
