@@ -88,7 +88,20 @@ test("na mobilu je po přechodu na pointy vidět tlačítko pod bochníkem", asy
   await page.goto("/?lang=cs");
   await page.locator("#hero-locate").click();
   await expect(page).toHaveURL(/#pointy/);
+  await expect(page.locator("#cheese")).toBeInViewport();
   await expect(page.locator("#locate")).toBeInViewport();
+  const box = await page.locator("#locate").boundingBox();
+  expect(box.y).toBeGreaterThanOrEqual(0);
+  expect(box.y + box.height).toBeLessThanOrEqual(844);
+
+  await page.evaluate(() => window.scrollTo(0, 0));
+  await page.locator("#nav-toggle").click();
+  await page.locator("#site-nav a[href='#pointy']").click();
+  await expect(page.locator("#cheese")).toBeInViewport();
+  await expect(page.locator("#locate")).toBeInViewport();
+  const fromNav = await page.locator("#locate").boundingBox();
+  expect(fromNav.y).toBeGreaterThanOrEqual(0);
+  expect(fromNav.y + fromNav.height).toBeLessThanOrEqual(844);
 });
 
 test("tlačítko pod sýrem je celé vidět na desktopu i v krátkém okně", async ({ page }) => {
@@ -99,10 +112,10 @@ test("tlačítko pod sýrem je celé vidět na desktopu i v krátkém okně", as
   ]) {
     await page.setViewportSize(size);
     await page.goto("/?lang=cs#pointy");
-    await page.locator("#locate").scrollIntoViewIfNeeded();
+    await expect(page.locator("#cheese")).toBeInViewport();
     await expect(page.locator("#locate")).toBeInViewport();
     const box = await page.locator("#locate").boundingBox();
-    expect(box.y).toBeGreaterThanOrEqual(0);
-    expect(box.y + box.height).toBeLessThanOrEqual(size.height);
+    expect(box.y, JSON.stringify(size)).toBeGreaterThanOrEqual(0);
+    expect(box.y + box.height, JSON.stringify(size)).toBeLessThanOrEqual(size.height);
   }
 });

@@ -294,6 +294,33 @@ function isHomePage() {
   return Boolean(document.getElementById("pointy"));
 }
 
+function revealLocateButton() {
+  const btn = document.getElementById("locate");
+  if (!btn) return;
+  const root = document.documentElement;
+  const place = () => {
+    const delta = btn.getBoundingClientRect().bottom - innerHeight + 16;
+    if (Math.abs(delta) < 2) return;
+    const prev = root.style.scrollBehavior;
+    root.style.scrollBehavior = "auto";
+    scrollBy(0, delta);
+    root.style.scrollBehavior = prev;
+  };
+  place();
+  [80, 450, 1000].forEach((ms) => setTimeout(place, ms));
+}
+
+function bindPointyScrollReveal() {
+  document.querySelectorAll('a[href="#pointy"]').forEach((link) => {
+    link.addEventListener("click", (event) => {
+      event.preventDefault();
+      history.pushState(null, "", location.pathname + location.search + "#pointy");
+      revealLocateButton();
+      if (link.id === "hero-locate") locate();
+    });
+  });
+}
+
 function setPartnerStatus(form, status, kind, key) {
   status.hidden = false;
   status.classList.toggle("is-error", kind === "error");
@@ -542,6 +569,11 @@ function boot() {
       event.preventDefault();
       locate();
     });
+    bindPointyScrollReveal();
+    if (location.hash === "#pointy") {
+      window.addEventListener("load", () => revealLocateButton(), { once: true });
+      setTimeout(revealLocateButton, 800);
+    }
     const links = [...document.querySelectorAll(".site-nav a")];
     const sections = links
       .map((link) => {
