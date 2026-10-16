@@ -1,0 +1,12 @@
+# Agent tyto cesty neindexuje. Seznam z návodu plus místní odpad tohoto repozitáře.
+node_modules/
+.next/
+dist/
+build/
+package-lock.json
+test-results/
+playwright-report/
+blob-report/
+playwright/.cache/
+.wrangler/
+_site/

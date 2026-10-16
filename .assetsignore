@@ -17,8 +17,11 @@ CNAME
 wrangler.jsonc
 .gitignore
 .assetsignore
+.cursor
+.cursorignore
+.clineignore
+.clinerules
 worker.js
 _redirects
 navrhy.html
 navrhy
-

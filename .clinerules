@@ -1,0 +1,23 @@
+# Indexování
+
+Nečti tyto cesty a nenavrhuj v nich změny, dokud to úkol výslovně neřekne:
+
+node_modules/
+.next/
+dist/
+build/
+package-lock.json
+test-results/
+playwright-report/
+blob-report/
+.wrangler/
+
+Stejný seznam je v .cursorignore a .clineignore, aby ho nástroj vůbec neindexoval.
+
+# Pravidlo pro každý úkol
+
+- Čti jen soubor, který úkol jmenuje, a v něm jen dotčenou část.
+- Slovníky js/i18n.js, js/i18n-extra.js a js/i18n-app.js nepřepisuj. Přidej jeden klíč.
+- Výstup je diff, ne celý soubor.
+- Jeden úkol = jedna stránka nebo jedna funkce.
+- js/europe.js, js/geo.js a worker.js neotvírej, dokud úkol není o poloze nebo doméně.
