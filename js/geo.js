@@ -31,11 +31,6 @@
     return ranked.length ? ranked[0].point : undefined;
   }
 
-  /**
-   * A fix with this accuracy radius cannot change the nearest Point when the
-   * gap to the runner-up is larger than twice the radius: the reading can
-   * move toward the second Point and away from the first at the same time.
-   */
   function nearestIsStable(points, lat, lng, accuracyMeters) {
     const ranked = rank(points, lat, lng);
     if (ranked.length < 2) return true;
@@ -45,7 +40,6 @@
     return gapMeters > accuracy * 2;
   }
 
-  /** precise: trust the fix. coarse: approximate, but the winner holds. uncertain: the error can flip it. */
   function readingKind(points, lat, lng, accuracyMeters) {
     const COARSE_M = 300;
     const accuracy = Number(accuracyMeters);
@@ -70,8 +64,6 @@
     if (!Number.isFinite(lat) || !Number.isFinite(lng)) return null;
     const accuracy = Number(position.coords.accuracy);
     const ts = Number(position.timestamp);
-    // Installed Android WebViews sometimes return timestamp 0; with maximumAge 0
-    // the callback is still a live reading and must not be discarded as stale.
     const fresh =
       !Number.isFinite(ts) || ts <= 0
         ? true
@@ -100,11 +92,6 @@
     };
   }
 
-  /**
-   * Prefer a fresh browser reading. When it is missing, stale, or more than
-   * STALE_KM from the current IP, navigation starts from the IP instead of
-   * a days-old Wi-Fi pin.
-   */
   function chooseFix(browser, network) {
     const browserOk = !!(browser && browser.fresh !== false && Number.isFinite(browser.lat) && Number.isFinite(browser.lng));
     const networkOk = !!(network && Number.isFinite(network.lat) && Number.isFinite(network.lng));
@@ -153,16 +140,6 @@
     };
   }
 
-  /**
-   * Directions URL with destination only. A laptop fix is often just a dot in
-   * the city centre; putting it in origin makes Maps reverse-geocode it into a
-   * nearby business (pragERLEBNIS on Staroměstské náměstí for 50.080804,14.42076).
-   * Maps then starts from "Your location" instead of that invented address.
-   * dir_action=navigate is omitted on purpose: on Android it opens turn-by-turn
-   * before the blue route is drawn, so a stationary phone shows only the car.
-   * The overview draws the line immediately; the Maps app then has its own Start.
-   * The origin argument is ignored on purpose.
-   */
   function mapsDirUrl(point) {
     const dest = point.lat + "," + point.lng;
     return (
@@ -192,17 +169,11 @@
     return Number(nav && nav.maxTouchPoints) > 0;
   }
 
-  /**
-   * Phones and tablets have GPS. A mobile-carrier IP is often a POP hundreds of
-   * kilometres away (Zličín via CGNAT can look like Jeseník), so the network
-   * fallback is only for laptops, where Wi-Fi IPs are usually city-level.
-   */
   function isMobileDevice(env) {
     const source = env || {};
     if (typeof source.mobile === "boolean") return source.mobile;
     const nav = source.navigator || (typeof navigator !== "undefined" ? navigator : null);
     if (!nav) return false;
-    // UA first: Playwright and "Request desktop site" can disagree with client hints.
     if (isAndroid(nav) || isIos(nav)) return true;
     const ua = String(nav.userAgent || "");
     if (/webOS|BlackBerry|IEMobile|Opera Mini|Mobile/i.test(ua)) return true;
@@ -292,9 +263,18 @@
     if (first.fix || !isMobileDevice(env)) return first;
     const perm = await queryGeoPermission(env);
     if (perm !== "granted") return first;
-    await delay(900);
-    const second = await acquireFix(env);
-    return second.fix ? second : first;
+    // After system Location is toggled on, GPS often needs a few seconds to warm up.
+    // Keep searching (caller shows "locating") and retry automatically instead of
+    // forcing the user to tap again after a single 900 ms attempt.
+    let last = first;
+    const waits = [1500, 2500, 2500];
+    for (const ms of waits) {
+      await delay(ms);
+      const next = await acquireFix(env);
+      if (next.fix) return next;
+      last = next;
+    }
+    return last;
   }
 
   function statusTone(key) {
@@ -369,7 +349,6 @@
         break;
       } catch (err) {
         lastErr = err;
-        // After toggling system Location, Android can return denied before GPS warms up.
         if (err && err.code === 1) continue;
         if (err && err.code !== 3) break;
       }
@@ -424,11 +403,6 @@
     }
   }
 
-  /**
-   * Call from the click handler before any DOM updates; otherwise Android Chrome
-   * may skip the permission prompt. Laptops may fall back to the current IP. Phones
-   * too coarse and too often in another region.
-   */
   function acquireFix(env) {
     const source = env || {};
     const mobile = isMobileDevice(source);
