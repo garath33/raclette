@@ -90,3 +90,18 @@ test("na mobilu je po přechodu na pointy vidět tlačítko pod bochníkem", asy
   await expect(page).toHaveURL(/#pointy/);
   await expect(page.locator("#locate")).toBeInViewport();
 });
+
+test("tlačítko pod sýrem je celé vidět na desktopu i v krátkém okně", async ({ page }) => {
+  for (const size of [
+    { width: 1280, height: 800 },
+    { width: 1440, height: 900 },
+    { width: 1920, height: 640 }
+  ]) {
+    await page.setViewportSize(size);
+    await page.goto("/?lang=cs#pointy");
+    await expect(page.locator("#locate")).toBeInViewport();
+    const box = await page.locator("#locate").boundingBox();
+    expect(box.y).toBeGreaterThanOrEqual(0);
+    expect(box.y + box.height).toBeLessThanOrEqual(size.height);
+  }
+});

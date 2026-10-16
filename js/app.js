@@ -297,12 +297,19 @@ function isHomePage() {
 function revealLocateButton() {
   const btn = document.getElementById("locate");
   if (!btn) return;
-  const r = btn.getBoundingClientRect();
-  if (r.bottom <= innerHeight - 16 && r.top >= 0) return;
-  btn.scrollIntoView({
-    block: "end",
-    behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth"
-  });
+  const root = document.documentElement;
+  const place = () => {
+    const delta = btn.getBoundingClientRect().bottom - innerHeight + 16;
+    if (Math.abs(delta) < 2) return;
+    const prev = root.style.scrollBehavior;
+    root.style.scrollBehavior = "auto";
+    scrollBy(0, delta);
+    root.style.scrollBehavior = prev;
+  };
+  place();
+  setTimeout(place, 80);
+  setTimeout(place, 450);
+  setTimeout(place, 1000);
 }
 
 function bindPointyScrollReveal() {
