@@ -541,10 +541,6 @@ function boot() {
       event.preventDefault();
       locate();
     });
-    document.getElementById("hero-locate").addEventListener("click", () => {
-      // Keep #pointy scroll from the href; still run locate from the same gesture.
-      locate();
-    });
     const links = [...document.querySelectorAll(".site-nav a")];
     const sections = links
       .map((link) => {

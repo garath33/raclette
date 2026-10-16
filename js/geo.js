@@ -269,10 +269,6 @@
     );
   }
 
-  function delay(ms) {
-    return new Promise((resolve) => setTimeout(resolve, ms));
-  }
-
   async function resolveFailureStatusKey(result, env) {
     if (!result || result.fix) return null;
     if (result.reason === "unsupported") return "points.unsupported";
@@ -287,14 +283,8 @@
     return mobileGpsStatusKey(env);
   }
 
-  async function acquireFixWithRetry(env) {
-    const first = await acquireFix(env);
-    if (first.fix || !isMobileDevice(env)) return first;
-    const perm = await queryGeoPermission(env);
-    if (perm !== "granted") return first;
-    await delay(900);
-    const second = await acquireFix(env);
-    return second.fix ? second : first;
+  function acquireFixWithRetry(env) {
+    return acquireFix(env);
   }
 
   function statusTone(key) {
@@ -352,36 +342,71 @@
     });
   }
 
-  async function readBrowser(geo, env) {
-    const nav = (env && env.navigator) || (typeof navigator !== "undefined" ? navigator : null);
-    const mobile = isMobileDevice(env);
-    const watchMs = isAndroid(nav) && mobile ? 15000 : 8000;
-    const attempts = [
-      { enableHighAccuracy: true, timeout: 20000, maximumAge: 0 },
-      { enableHighAccuracy: false, timeout: 12000, maximumAge: 0 }
-    ];
+  /**
+   * One watch, started inside the tap. Chrome on Android fires an error while
+   * the system "turn on location" sheet is open; clearing the watch there drops
+   * the fix that arrives after the user accepts. Only a real site block
+   * (Permissions API "denied") or the deadline ends the watch.
+   */
+  function readMobileWatch(geo, env) {
+    const ms = Number(env && env.watchMs) > 0 ? Number(env.watchMs) : 40000;
+    return new Promise((resolve, reject) => {
+      let finished = false;
+      let id = null;
+      let polls = null;
+      const finish = (fn, value) => {
+        if (finished) return;
+        finished = true;
+        clearTimeout(timer);
+        if (polls) clearInterval(polls);
+        if (id != null && typeof geo.clearWatch === "function") geo.clearWatch(id);
+        fn(value);
+      };
+      const timer = setTimeout(() => {
+        const err = new Error("timeout");
+        err.code = 3;
+        finish(reject, err);
+      }, ms);
+      const look = () => {
+        queryGeoPermission(env).then((perm) => {
+          if (!finished && perm === "denied") {
+            const err = new Error("denied");
+            err.code = 1;
+            finish(reject, err);
+          }
+        });
+      };
+      polls = setInterval(look, 700);
+      id = geo.watchPosition(
+        (pos) => finish(resolve, pos),
+        () => {},
+        { enableHighAccuracy: true, maximumAge: 0, timeout: ms }
+      );
+      if (finished) clearInterval(polls);
+    });
+  }
+
+  async function readLaptop(geo) {
     let pos;
-    let lastErr;
-    for (const options of attempts) {
+    try {
+      pos = await readPosition(geo, { enableHighAccuracy: true, timeout: 20000, maximumAge: 0 });
+    } catch (first) {
+      if (first && first.code === 1) throw first;
       try {
-        pos = await readPosition(geo, options);
-        lastErr = null;
-        break;
-      } catch (err) {
-        lastErr = err;
-        // After toggling system Location, Android can return denied before GPS warms up.
-        if (err && err.code === 1) continue;
-        if (err && err.code !== 3) break;
+        pos = await readPosition(geo, { enableHighAccuracy: false, timeout: 12000, maximumAge: 0 });
+      } catch (second) {
+        if (second && second.code === 1) throw second;
+        pos = await readWatch(geo, { enableHighAccuracy: true, maximumAge: 0 }, 8000);
       }
     }
-    if (!pos) {
-      try {
-        pos = await readWatch(geo, { enableHighAccuracy: true, maximumAge: 0 }, watchMs);
-      } catch (watchErr) {
-        if (lastErr && lastErr.code === 1) throw lastErr;
-        throw watchErr || lastErr;
-      }
-    }
+    return pos;
+  }
+
+  async function readBrowser(geo, env) {
+    const pos =
+      isMobileDevice(env) && geo && typeof geo.watchPosition === "function"
+        ? await readMobileWatch(geo, env)
+        : await readLaptop(geo);
     const fix = browserFix(pos, Date.now(), FRESH_MS);
     if (!fix) {
       const err = new Error("invalid");
@@ -438,7 +463,10 @@
       ? Promise.resolve(null)
       : withTimeout(readNetwork(fetchImpl, source.networkUrl), 4000);
     let browserPromise;
-    if (!geo || typeof geo.getCurrentPosition !== "function") {
+    const canRead =
+      geo &&
+      (typeof geo.watchPosition === "function" || typeof geo.getCurrentPosition === "function");
+    if (!canRead) {
       browserPromise = Promise.resolve({ browser: null, reason: "unsupported" });
     } else {
       browserPromise = readBrowser(geo, source).then(

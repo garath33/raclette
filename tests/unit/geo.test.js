@@ -282,6 +282,7 @@ test("timeout na telefonu nespustí IP odhad", async () => {
       clearWatch() {}
     },
     mobile: true,
+    watchMs: 40,
     fetch: ipFetch(50.23, 17.22)
   });
   assert.equal(result.fix, null);
@@ -323,31 +324,54 @@ test("telefon bez geolocation API neuhádne Point z IP", async () => {
   assert.equal(geo.failureStatusKey(result), "points.unsupported");
 });
 
-test("po chybném denied z Androidu zkusí ještě hrubší odečet", async () => {
-  let calls = 0;
+test("telefon podrží sledování přes chybu dialogu a vezme pozdější fix", async () => {
   const result = await geo.acquireFix({
     geolocation: {
-      getCurrentPosition(_ok, err) {
-        calls += 1;
-        if (calls === 1) err({ code: 1, message: "denied" });
-        else {
-          _ok({
+      watchPosition(ok, err) {
+        err({ code: 2, message: "unavailable" });
+        setTimeout(() => {
+          ok({
             timestamp: Date.now(),
-            coords: { latitude: 50.0535, longitude: 14.3062, accuracy: 30 }
+            coords: { latitude: 50.7256, longitude: 15.6068, accuracy: 40 }
           });
-        }
-      },
-      watchPosition() {
-        return 0;
+        }, 30);
+        return 4;
       },
       clearWatch() {}
     },
     mobile: true,
+    watchMs: 2000,
+    navigator: {
+      permissions: { query: async () => ({ state: "granted" }) }
+    },
     fetch: ipFetch(50.23, 17.22)
   });
-  assert.equal(calls, 2);
   assert.equal(result.fix.source, "browser");
-  assert.equal(result.fix.lat, 50.0535);
+  assert.equal(geo.describeFix(POINTS, result.fix).nearest.id, "spindl");
+});
+
+test("skutečný zákaz stránky sledování ukončí", async () => {
+  let cleared = false;
+  const result = await geo.acquireFix({
+    geolocation: {
+      watchPosition(_ok, err) {
+        err({ code: 1, message: "denied" });
+        return 3;
+      },
+      clearWatch() {
+        cleared = true;
+      }
+    },
+    mobile: true,
+    watchMs: 2000,
+    navigator: {
+      permissions: { query: async () => ({ state: "denied" }) }
+    },
+    fetch: ipFetch(50.23, 17.22)
+  });
+  assert.equal(result.fix, null);
+  assert.equal(result.reason, "denied");
+  assert.equal(cleared, true);
 });
 
 test("Android WebView s časem 0 vrátí platný fix", async () => {

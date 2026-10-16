@@ -214,10 +214,12 @@ test("Záběhlice i pin u Hamerského rybníka vyberou food truck", async ({ pag
   expect(navHref).not.toMatch(/50\.0518466|50\.080804/);
 });
 
-test("hero Najít nejbližší Point spustí polohu a nabídne navigaci", async ({ page, context }) => {
+test("hero Najít nejbližší Point scrolluje k bochníku a poloha běží z tlačítka", async ({ page, context }) => {
   await context.setGeolocation({ latitude: 50.7256, longitude: 15.6068 });
   await page.goto("/?lang=cs");
   await page.locator("#hero-locate").click();
+  await expect(page).toHaveURL(/#pointy/);
+  await page.locator("#locate").click();
   await expect(page.locator("#locator-status")).toContainText("Špindlerův Mlýn");
   await expect(page.locator("#navigate-nearest")).toBeVisible();
   await expect(page.locator("#point-cards .is-nearest h3")).toContainText("Špindlerův Mlýn");
@@ -446,6 +448,16 @@ test.describe("mobil bez GPS", () => {
   test("Android bez polohy nevezme IP u Křížového vrchu", async ({ page, context }) => {
     await context.grantPermissions([]);
     await page.addInitScript(() => {
+      navigator.permissions.query = (desc) => Promise.resolve({
+        state: desc && desc.name === "geolocation" ? "denied" : "prompt",
+        addEventListener() {},
+        removeEventListener() {}
+      });
+      navigator.geolocation.watchPosition = (_ok, err) => {
+        err({ code: 1, message: "denied" });
+        return 1;
+      };
+      navigator.geolocation.clearWatch = () => {};
       navigator.geolocation.getCurrentPosition = (_ok, err) => {
         err({ code: 1, message: "denied" });
       };
@@ -457,7 +469,7 @@ test.describe("mobil bez GPS", () => {
     }));
     await page.goto("/?lang=cs");
     await page.locator("#locate").click();
-    await expect(page.locator("#locator-status")).toContainText("GPS");
+    await expect(page.locator("#locator-status")).toContainText("blokuje");
     await expect(page.locator("#locator-status")).toContainText("Chrome");
     await expect(page.locator("#locator-status")).toHaveClass(/is-need/);
     await expect(page.locator("#navigate-nearest")).toBeHidden();
@@ -484,8 +496,14 @@ test.describe("mobil bez GPS", () => {
   });
 
   test("timeout na Androidu žádá GPS a neschová odhad z IP", async ({ page, context }) => {
+    test.setTimeout(50000);
     await context.grantPermissions([]);
     await page.addInitScript(() => {
+      navigator.permissions.query = () => Promise.resolve({
+        state: "granted",
+        addEventListener() {},
+        removeEventListener() {}
+      });
       navigator.geolocation.getCurrentPosition = (_ok, err) => {
         err({ code: 3, message: "timeout" });
       };
@@ -493,6 +511,7 @@ test.describe("mobil bez GPS", () => {
         err({ code: 3, message: "timeout" });
         return 0;
       };
+      navigator.geolocation.clearWatch = () => {};
     });
     await page.route("**/api/where", (route) => route.fulfill({
       status: 200,
@@ -501,7 +520,7 @@ test.describe("mobil bez GPS", () => {
     }));
     await page.goto("/?lang=cs");
     await page.locator("#locate").click();
-    await expect(page.locator("#locator-status")).toContainText("GPS se nenačetla včas");
+    await expect(page.locator("#locator-status")).toContainText("GPS se nenačetla včas", { timeout: 45000 });
     await expect(page.locator("#navigate-nearest")).toBeHidden();
     await expect(page.locator("#locator-status")).not.toContainText("Křížový vrch");
   });
@@ -509,6 +528,16 @@ test.describe("mobil bez GPS", () => {
   test("instalovaná aplikace bez GPS ukáže oprávnění aplikace, ne prohlížeč", async ({ page, context }) => {
     await context.grantPermissions([]);
     await page.addInitScript(() => {
+      navigator.permissions.query = () => Promise.resolve({
+        state: "denied",
+        addEventListener() {},
+        removeEventListener() {}
+      });
+      navigator.geolocation.watchPosition = (_ok, err) => {
+        err({ code: 1, message: "denied" });
+        return 1;
+      };
+      navigator.geolocation.clearWatch = () => {};
       const real = window.matchMedia.bind(window);
       window.matchMedia = (query) => {
         if (String(query).includes("display-mode: standalone")) {
@@ -529,13 +558,23 @@ test.describe("mobil bez GPS", () => {
   test("po odmítnutí GPS otevře vizitka Maps bez falešného Pointu", async ({ page, context }) => {
     await context.grantPermissions([]);
     await page.addInitScript(() => {
+      navigator.permissions.query = () => Promise.resolve({
+        state: "denied",
+        addEventListener() {},
+        removeEventListener() {}
+      });
+      navigator.geolocation.watchPosition = (_ok, err) => {
+        err({ code: 1, message: "denied" });
+        return 1;
+      };
+      navigator.geolocation.clearWatch = () => {};
       navigator.geolocation.getCurrentPosition = (_ok, err) => {
         err({ code: 1, message: "denied" });
       };
     });
     await page.goto("/?lang=cs");
     await page.locator("#locate").click();
-    await expect(page.locator("#locator-status")).toContainText("GPS");
+    await expect(page.locator("#locator-status")).toContainText("blokuje");
     const link = page.locator("#point-cards a[data-route]").first();
     await expect(link).toHaveAttribute("href", /google\.com\/maps\/dir/);
     const allowed = await link.evaluate((el) => {
