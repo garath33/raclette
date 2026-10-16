@@ -48,8 +48,10 @@ test("stránka se načte, má sekce a testovací pruh", async ({ page }) => {
   await expect(page.locator("#reference h2")).toContainText("Celebrity a náš Raclette");
   await expect(page.locator("#reference .celeb-row figure img")).toHaveCount(7);
   await expect(page.locator("#reference .celeb-row figure img").first()).toHaveAttribute("alt", /Tomáš Klus/);
-  await expect(page.locator("#reference a.fb-card")).toHaveAttribute("href", "https://www.facebook.com/rakletparty/");
-  await expect(page.locator("#reference a.fb-card")).toContainText("Sledujte naše aktuality");
+  await expect(page.locator('#reference a.fb-card[href*="facebook.com"]')).toHaveAttribute("href", "https://www.facebook.com/rakletparty/");
+  await expect(page.locator('#reference a.fb-card[href*="facebook.com"]')).toContainText("Sledujte naše aktuality");
+  await expect(page.locator('#reference a.fb-card[href*="instagram.com"]')).toHaveAttribute("href", "https://www.instagram.com/racletteoriginal/");
+  await expect(page.locator('#reference a.fb-card[href*="instagram.com"]')).toContainText("Sledujte nás na Instagramu");
   await expect(page.locator("#raclette")).toContainText("racler");
   await expect(page.locator("#nakup")).toContainText("raklerem");
   await expect(page.locator("#nakup")).toContainText("Laiterie");
