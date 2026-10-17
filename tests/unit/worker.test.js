@@ -98,6 +98,11 @@ test("holá adresa domény skočí na jazyk té domény a odpověď už je v tom
   assert.match(french, /<html lang="fr-CH">/);
   assert.match(french, /Pour les partenaires/);
   assert.match(french, /"inLanguage": "fr-CH"/);
+
+  const preview = prepareHtml(html, "cursor-seo-search-9b75-raclette.simunek-m.workers.dev", "?lang=cs", "/", packs, points);
+  assert.match(preview, /noindex, follow/);
+  assert.match(preview, />Pro partnery</);
+  assert.match(preview, /href="https:\/\/raclettelovers\.cz\/\?lang=cs"/);
 });
 
 test("alias se přesměruje a obsahová doména se přepíše", async () => {

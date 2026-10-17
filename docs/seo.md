@@ -19,7 +19,7 @@ Cloudflare Worker na `.cz`, `.sk` a `.ch` jazyk zapíše rovnou do HTML: `lang`,
 
 `sitemap.xml` uvádí každou jazykovou verzi jako vlastní `<loc>`. Úvod a partneři mají devět jazyků, aplikace jen cs, en, fr a sk. `robots.txt` na doméně Workeru ukazuje sitemap téže domény.
 
-JavaScript na ostré doméně nechá `index, follow` a kanonickou adresu drží na doméně daného jazyka. Na `github.io`, `localhost` a `127.0.0.1` nastaví `noindex, follow` a zkušební pruh. `github.io` se navíc přesměrovává na `www.raclettelovers.com`.
+JavaScript na ostré doméně nechá `index, follow` a kanonickou adresu drží na doméně daného jazyka. Na `github.io`, `localhost` a `127.0.0.1` nastaví `noindex, follow` a zkušební pruh. `github.io` se navíc přesměrovává na `www.raclettelovers.com`. Náhled na `*.workers.dev` má v HTML `noindex` a s `?lang=` ukáže text toho jazyka.
 
 Po změně anglického znění se výchozí HTML a sitemap srovnají znovu:
 
