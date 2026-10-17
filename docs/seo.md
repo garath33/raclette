@@ -15,7 +15,7 @@ Ostré domény se indexují. Zkušební adresy ne.
 
 Výchozí HTML je anglicky a má `index, follow`. Angličtina je jazyk `www.raclettelovers.com`, které servíruje GitHub Pages a Worker ho nevidí. Kanonická adresa angličtiny a jazyků bez vlastní domény je `https://www.raclettelovers.com/?lang=en`. Čeština je `https://raclettelovers.cz/?lang=cs`, slovenština `https://raclettelovers.sk/?lang=sk`, francouzština `https://raclettelovers.ch/?lang=fr`.
 
-Cloudflare Worker na `.cz`, `.sk` a `.ch` jazyk zapíše rovnou do HTML: `lang`, titulek, popis, Open Graph, texty `data-i18n` a seznam Pointů v JSON-LD. Robot bez JavaScriptu tedy na české doméně čte češtinu, ne anglický zdroj. Holá adresa (`/`, `/pro-partnery`, `/app`) se přesměruje 301 na stejnou cestu s `?lang=` jazyka domény a s příponou `.html`, která je v kanonické adrese. Odkazy mezi stránkami si `?lang=` nesou, aby proklik z české stránky neskončil na adrese bez jazyka.
+Cloudflare Worker na `.cz`, `.sk` a `.ch` jazyk zapíše rovnou do HTML: `lang`, titulek, popis, Open Graph, texty `data-i18n` a seznam Pointů v JSON-LD. Robot bez JavaScriptu tedy na české doméně čte češtinu, ne anglický zdroj. Holá adresa (`/`, `/pro-partnery`, `/app`) se přesměruje 301 na stejnou cestu s `?lang=` jazyka domény. Přípona `.html` se v přesměrování nepřidává: Cloudflare ji z adresy zase sundá a obě pravidla by se zacyklila. Kanonická značka dál ukazuje na soubor s `.html`. Odkazy mezi stránkami si `?lang=` nesou, aby proklik z české stránky neskončil na adrese bez jazyka.
 
 `sitemap.xml` uvádí každou jazykovou verzi jako vlastní `<loc>`. Úvod a partneři mají devět jazyků, aplikace jen cs, en, fr a sk. `robots.txt` na doméně Workeru ukazuje sitemap téže domény.
 

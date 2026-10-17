@@ -71,13 +71,17 @@ test("holá adresa domény skočí na jazyk té domény a odpověď už je v tom
     ASSETS: { async fetch() { throw new Error("soubor se nemá číst"); } }
   });
   assert.equal(partners.status, 301);
-  assert.equal(partners.headers.get("location"), "https://raclettelovers.sk/pro-partnery.html?lang=sk");
+  assert.equal(partners.headers.get("location"), "https://raclettelovers.sk/pro-partnery?lang=sk");
 
   const apex = await worker.fetch(new Request("https://raclettelovers.com/app"), {
     ASSETS: { async fetch() { throw new Error("soubor se nemá číst"); } }
   });
   assert.equal(apex.status, 301);
-  assert.equal(apex.headers.get("location"), "https://www.raclettelovers.com/app.html?lang=en");
+  assert.equal(apex.headers.get("location"), "https://www.raclettelovers.com/app?lang=en");
+  const { indexRedirect } = await workerPromise;
+  assert.equal(indexRedirect("raclettelovers.cz", "/pro-partnery.html", "?lang=cs"), null);
+  assert.equal(indexRedirect("raclettelovers.cz", "/pro-partnery", "?lang=cs"), null);
+  assert.equal(indexRedirect("raclettelovers.cz", "/app.html", "?lang=cs"), null);
 
   let packs = {};
   for (const file of ["js/i18n.js", "js/i18n-extra.js", "js/i18n-app.js", "js/i18n-ig.js"]) {
