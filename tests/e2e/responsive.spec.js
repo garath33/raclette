@@ -73,6 +73,9 @@ test("na mobilu se otevře menu a na desktopu je navigace vidět rovnou", async 
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/?lang=cs");
   await expect(page.locator("#nav-toggle")).toBeVisible();
+  await page.setViewportSize({ width: 768, height: 1024 });
+  await expect(page.locator("#nav-toggle")).toBeVisible();
+  await page.setViewportSize({ width: 390, height: 844 });
   await page.locator("#nav-toggle").click();
   await expect(page.locator("#site-nav")).toBeVisible();
   await page.locator("#site-nav a[href='#kontakty']").click();
@@ -112,10 +115,13 @@ test("tlačítko pod sýrem je celé vidět na desktopu i v krátkém okně", as
   ]) {
     await page.setViewportSize(size);
     await page.goto("/?lang=cs#pointy");
-    await expect(page.locator("#cheese")).toBeInViewport();
-    await expect(page.locator("#locate")).toBeInViewport();
+    await expect.poll(async () => {
+      const box = await page.locator("#locate").boundingBox();
+      return box ? Math.ceil(box.y + box.height) : size.height + 1;
+    }).toBeLessThanOrEqual(size.height);
     const box = await page.locator("#locate").boundingBox();
     expect(box.y, JSON.stringify(size)).toBeGreaterThanOrEqual(0);
-    expect(box.y + box.height, JSON.stringify(size)).toBeLessThanOrEqual(size.height);
+    await expect(page.locator("#cheese")).toBeInViewport();
+    await expect(page.locator("#locate")).toBeInViewport();
   }
 });

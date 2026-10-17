@@ -7,8 +7,8 @@
     "deploy": "wrangler deploy",
     "test": "npm run test:unit && npm run test:e2e",
     "test:unit": "node --test tests/unit/*.test.js",
-    "test:e2e": "playwright test tests/e2e/geo-denied.spec.js tests/e2e/responsive.spec.js tests/e2e/performance.spec.js && playwright test tests/e2e/smoke.spec.js --grep-invert \"vypnutá poloha na notebooku|bez prohlížečové polohy navigace|odmítnutá poloha ukáže|Android bez polohy nevezme|instalovaná aplikace bez GPS|po odmítnutí GPS otevře\"",
-    "test:smoke": "playwright test tests/e2e/smoke.spec.js --grep-invert \"vypnutá poloha na notebooku|bez prohlížečové polohy navigace|odmítnutá poloha ukáže|Android bez polohy nevezme|instalovaná aplikace bez GPS|po odmítnutí GPS otevře\" && playwright test tests/e2e/geo-denied.spec.js",
+    "test:e2e": "playwright test",
+    "test:smoke": "playwright test tests/e2e/smoke.spec.js tests/e2e/geo-denied.spec.js",
     "test:responsive": "playwright test tests/e2e/responsive.spec.js",
     "test:performance": "playwright test tests/e2e/performance.spec.js"
   },

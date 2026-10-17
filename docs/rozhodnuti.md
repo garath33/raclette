@@ -140,6 +140,10 @@ Na Androidu i na krátkém okně (televize, velké zvětšení prohlížeče) po
 
 `revealLocateButton` v `js/app.js` po klepnutí na odkaz `#pointy` (menu i „Najít nejbližší Point“) a po načtení s tímto hashem posune stránku tak, aby bylo tlačítko `#locate` celé ve viewportu. Platí to na mobilu i na desktopu, včetně krátkého okna a zvětšení stránky. Posun je okamžitý a zopakuje se ještě po chvíli, protože plynulý scroll prohlížeče na začátek sekce ho jinak přepíše a dole zůstane jen kůrka. Nad tlačítkem zůstane spodek bochníku. Horní okraj sýra smí odjet. Hero CTA dál ve stejném gestu volá `locate()`.
 
+## Testy se neopakují
+
+Stejná odmítnutá poloha ležela ve smoke i v `geo-denied.spec.js` a `npm test` tu kopii ve smoke přeskakoval. Zůstává jeden běh. Text, adresa a výpočet vzdálenosti jsou v jednotkách. Prohlížeč hlídá, že se stránka rozběhne a poloha se propíše do vizitky. Čekání 24 sekund a opakování po 3 sekundách je konstanta v `js/geo.js`, ne minuta v Playwrighti. Formulář spolupráce skládá `js/app.js`. Soubor `lib/partner-inquiry.mjs` stránka nenačítá, proto na něj test není.
+
 ## Telefon bere síť hned a GPS nechá zapnutou
 
 Jedno klepnutí spustí oba odečty. Wi-Fi a mobilní síť se ukážou hned, GPS běží ve stejném gestu, takže dialog zapnutí polohy na Androidu zůstává. Přesnější odečet pak sám přepočítá Point. Postup, pořadí a hlášky jsou v [poloze](poloha.md). Jak se k tomu píše dokumentace a proč se sahá na co nejméně souborů, je ve [vedení](vedeni.md).

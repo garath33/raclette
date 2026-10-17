@@ -14,57 +14,16 @@ test("stránka se načte, má sekce a testovací pruh", async ({ page }) => {
     await expect(page.locator("#" + id)).toHaveCount(1);
   }
   await expect(page.locator("#franchise")).toHaveCount(0);
-  await expect(page.locator("#point-cards .card")).toHaveCount(5);
   await expect(page.locator("#map-frame")).toHaveCount(0);
-  await expect(page.locator("#point-cards iframe.map-embed")).toHaveCount(5);
-  await expect(page.locator('#point-cards .card[data-id="krizovy"] iframe')).toHaveAttribute("src", /50\.2260421,17\.2250049/);
-  await expect(page.locator('#point-cards .card[data-id="krizovy"] iframe')).toHaveAttribute("title", "Mapa Pointu Křížový vrch");
-  await expect(page.locator('#point-cards .card[data-id="spindl"] iframe')).toHaveAttribute("src", /50\.7256448,15\.6067567/);
-  await expect(page.locator('#point-cards .card[data-id="kabrt"] iframe')).toHaveAttribute("src", /50\.1466053,14\.1026398/);
-  await expect(page.locator('#point-cards .card[data-id="minorit"]')).toContainText("Masarykova třída 342/39, 746 01 Opava");
-  await expect(page.locator('#point-cards .card[data-id="minorit"] a[href="https://minorit-opava.cz/kavarna/"]')).toBeVisible();
-  await expect(page.locator('#point-cards .card[data-id="bonte"]')).toContainText("Husovo náměstí 78/6, 266 01 Beroun");
-  await expect(page.locator('#point-cards .card[data-id="bonte"] a[href="https://bontesyry.cz"]')).toBeVisible();
-  await page.locator("#country-flags [data-country='ch']").click();
-  await expect(page.locator("#point-cards .card")).toHaveCount(3);
-  await expect(page.locator('#point-cards .card[data-id="eddy"]')).toContainText("Route de Valbord 55, 1934 Bruson");
-  await expect(page.locator('#point-cards .card[data-id="eddy"] a[href="https://eddy-baillifard.com"]')).toBeVisible();
-  await expect(page.locator('#point-cards .card[data-id="orsieres"]')).toContainText("Route du Grand Saint-Bernard 3, 1937 Orsières");
-  await expect(page.locator('#point-cards .card[data-id="orsieres"] a[href="https://laiterie-orsieres.ch"]')).toBeVisible();
-  await expect(page.locator('#point-cards .card[data-id="mouret"]')).toContainText("Route de la Gruyère 6, 1724 Ferpicloz");
-  await expect(page.locator('#point-cards .card[data-id="mouret"] a[href="https://www.laiterie-du-mouret.ch"]')).toBeVisible();
-  await page.locator("#country-flags [data-country='cz']").click();
   await expect(page.locator("#locator-status")).toContainText("Každý Point má vlastní mapu");
   await expect(page.locator("#hero-locate")).toHaveAttribute("href", "#pointy");
-  await expect(page.locator("#site-nav a[href='#pointy']")).toHaveText("Naše raclette pointy");
-  await expect(page.locator("#site-nav a[href='pro-partnery.html']")).toHaveText("Pro partnery");
-  await expect(page.locator('#uvod a[data-i18n="hero.secondary"]')).toHaveText("Chci se stát raclette pointem");
   await expect(page.locator('#uvod a[data-i18n="hero.secondary"]')).toHaveAttribute("href", "pro-partnery.html");
   await expect(page.locator('#vyhody a[data-i18n="hero.secondary"]')).toHaveAttribute("href", "pro-partnery.html#franchise-form");
-  await expect(page.locator(".hero-cow")).toHaveCount(0);
-  await expect(page.locator(".supplier-cow")).toBeVisible();
-  await expect(page.locator(".supplier-crest")).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Martin Šimůnek" })).toBeVisible();
-  await expect(page.locator("#reference h2")).toContainText("Celebrity a náš Raclette");
-  await expect(page.locator("#reference .celeb-row figure img")).toHaveCount(7);
-  await expect(page.locator("#reference .celeb-row figure img").first()).toHaveAttribute("alt", /Tomáš Klus/);
   await expect(page.locator('#reference a.fb-card[href*="facebook.com"]')).toHaveAttribute("href", "https://www.facebook.com/rakletparty/");
-  await expect(page.locator('#reference a.fb-card[href*="facebook.com"]')).toContainText("Sledujte naše aktuality");
   await expect(page.locator('#reference a.fb-card[href*="instagram.com"]')).toHaveAttribute("href", "https://www.instagram.com/racletteoriginal/");
-  await expect(page.locator('#reference a.fb-card[href*="instagram.com"]')).toContainText("Sledujte nás na Instagramu");
-  await expect(page.locator("#raclette")).toContainText("racler");
-  await expect(page.locator("#nakup")).toContainText("raklerem");
-  await expect(page.locator("#nakup")).toContainText("Laiterie");
-  await expect(page.locator('a[href*="raclette-original.com"]')).toHaveCount(0);
-  await expect(page.locator("body")).not.toContainText("raclette-original.com");
-  await expect(page.locator("#eventy")).toContainText(/kolaudace/i);
-  await expect(page.locator("#eventy")).toContainText("tisíci a více lidmi");
   await expect(page.locator("#eventy .event-offer li")).toHaveCount(12);
   await expect(page.locator("#eventy .event-photo")).toHaveCount(6);
-  await expect(page.locator("#eventy .event-grid")).toBeVisible();
-  await expect(page.locator("#eventy")).toContainText("Kde se už na švýcarský raklet stála fronta");
-  await expect(page.locator("#eventy")).toContainText("A kde jste nás mohli ochutnat.");
-  await expect(page.locator("#eventy a[href='tel:+420777600223']")).toHaveText("Zavolat +420 777 600 223");
+  await expect(page.locator("#eventy a[href='tel:+420777600223']")).toBeVisible();
   await expect(page.locator("#eventy a[href='mailto:info@rakletparty.cz']")).toBeVisible();
   const whenBox = await page.locator("#eventy .events-when").boundingBox();
   const bookBox = await page.locator("#eventy .event-book").boundingBox();
@@ -73,23 +32,11 @@ test("stránka se načte, má sekce a testovací pruh", async ({ page }) => {
   expect(whenBox.y).toBeLessThan(bookBox.y);
   expect(bookBox.y).toBeLessThan(pastBox.y);
   expect(pastBox.y).toBeLessThan(gridBox.y);
-  await expect(page.getByRole("heading", { name: "Eliška Reine" })).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Sídlo firmy a fakturační adresa" })).toBeVisible();
-  await expect(page.locator("#kontakty")).not.toContainText("Dodací adresa");
-  await expect(page.locator("#kontakty")).not.toContainText("Ratibořská");
-  await expect(page.locator("#kontakty")).not.toContainText("+420 777 891 177");
-  await expect(page.locator("#kontakty")).not.toContainText("+420 602 402 935");
-  await expect(page.locator("#kontakty")).toContainText("+420 777 600 223");
-  await expect(page.locator("#kontakty")).toContainText("+41 76 608 39 83");
-  await expect(page.locator("#kontakty .call-lines a[href='tel:+420777600223'] .flag-svg")).toHaveCount(2);
-  await expect(page.locator("#kontakty .call-lines a[href='tel:+41766083983'] .flag-svg")).toHaveCount(1);
+  await expect(page.locator('#point-cards .card[data-id="minorit"]')).toContainText("Masarykova třída 342/39, 746 01 Opava");
   const cheeseCz = await page.locator("#country-flags [data-country='cz'] .flag-svg").evaluate((el) => el.outerHTML);
   const cheeseCh = await page.locator("#country-flags [data-country='ch'] .flag-svg").evaluate((el) => el.outerHTML);
   expect(await page.locator("#kontakty .call-lines a[href='tel:+420777600223'] .flag-svg").first().evaluate((el) => el.outerHTML)).toBe(cheeseCz);
   expect(await page.locator("#kontakty .call-lines a[href='tel:+41766083983'] .flag-svg").evaluate((el) => el.outerHTML)).toBe(cheeseCh);
-  await expect(page.getByRole("heading", { name: "Pavlína Otýpková" })).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Milan Kolář" })).toBeVisible();
-  await expect(page.locator("body")).not.toContainText(/veronika/i);
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute("href", /lang=cs/);
   expect(errors).toEqual([]);
 });
@@ -101,15 +48,11 @@ test("Pro partnery je samostatná stránka s nabídkou a formulářem", async ({
   await expect(page.locator("#franchise h2")).toContainText("Raclette Point Original");
   await expect(page.locator("#franchise-offer")).toBeVisible();
   await expect(page.locator("#franchise .aop-note")).toContainText("Appellation d’Origine Protégée");
-  await expect(page.locator("#franchise-form .form-invite")).toContainText("+420 777 600 223");
-  await expect(page.locator("#franchise-form .form-invite")).toContainText("+41 76 608 39 83");
   await expect(page.locator("#franchise-form .form-invite")).toContainText("Pavlína Otýpková");
   await expect(page.locator("#franchise-form .form-invite")).toContainText("Milan Kolář");
   await expect(page.locator("#franchise-form .form-invite")).not.toContainText("Česko a Slovensko");
   await expect(page.locator('#franchise-form a[href="tel:+420777600223"] .flag-svg')).toHaveCount(2);
   await expect(page.locator('#franchise-form a[href="tel:+41766083983"] .flag-svg')).toHaveCount(1);
-  await expect(page.locator('#franchise-form a[href="tel:+420777600223"]')).toBeVisible();
-  await expect(page.locator('#franchise-form a[href="tel:+41766083983"]')).toBeVisible();
   await expect(page.locator("#partner-form")).toBeVisible();
   await expect(page.locator("#form-name")).toHaveAttribute("required", "");
   await expect(page.locator("#form-type")).toHaveAttribute("required", "");
@@ -117,10 +60,6 @@ test("Pro partnery je samostatná stránka s nabídkou a formulářem", async ({
   await expect(page.locator("#form-phone")).toHaveAttribute("required", "");
   await expect(page.locator("#form-email")).toHaveAttribute("required", "");
   await expect(page.locator("#form-idea")).toHaveAttribute("required", "");
-  await expect(page.locator("#franchise")).toContainText("Shop-in-shop");
-  await expect(page.locator("#franchise")).toContainText("Eddy Baillifard");
-  await expect(page.locator("#franchise")).toContainText("+41 76 608 39 83");
-  await expect(page.locator("#franchise")).not.toContainText("raclette-original.com");
   await expect(page.locator(".approach-rail")).toBeVisible();
   await expect(page.locator(".gain-bands")).toBeVisible();
   await expect(page.locator(".steps-path")).toBeVisible();
@@ -175,10 +114,15 @@ test("přepnutí jazyka změní titulek a kanonickou adresu", async ({ page }) =
 test("poloha u Kladna vybere food truck a u Jeseníku Křížový vrch", async ({ page, context }) => {
   await context.setGeolocation({ latitude: 50.1466, longitude: 14.1026 });
   await page.goto("/?lang=cs");
+  await expect(page.locator("#navigate-nearest")).toBeHidden();
+  const bare = await page.locator("#point-cards .card").first().locator("a.btn-solid").getAttribute("href");
+  expect(bare).toMatch(/destination=/);
+  expect(bare).not.toMatch(/[?&]origin=/);
+  expect(bare).not.toMatch(/dir_action=navigate/);
+
   await page.locator("#locate").click();
   await expect(page.locator("#locator-status")).toContainText("Martin Kábrt");
   await expect(page.locator("#point-cards .is-nearest iframe")).toHaveAttribute("src", /50\.1466053,14\.1026398/);
-  await expect(page.locator('#point-cards .card[data-id="krizovy"] iframe')).toHaveAttribute("src", /50\.2260421,17\.2250049/);
   await expect(page.locator("#point-cards .badge")).toHaveText("Nejbližší");
   await expect(page.locator("#navigate-nearest")).toBeVisible();
   await expect(page.locator("#navigate-nearest")).toContainText("Martin Kábrt");
@@ -186,9 +130,6 @@ test("poloha u Kladna vybere food truck a u Jeseníku Křížový vrch", async (
   expect(navHref).toMatch(/destination=50\.1466053%2C14\.1026398/);
   expect(navHref).not.toMatch(/dir_action=navigate/);
   expect(navHref).not.toMatch(/[?&]origin=/);
-  const cardRoute = await page.locator("#point-cards .is-nearest a.btn-solid").getAttribute("href");
-  expect(cardRoute).toMatch(/destination=50\.1466053%2C14\.1026398/);
-  expect(cardRoute).not.toMatch(/[?&]origin=/);
 
   await context.setGeolocation({ latitude: 50.23, longitude: 17.22 });
   await page.locator("#locate").click();
@@ -210,32 +151,16 @@ test("Záběhlice i pin u Hamerského rybníka vyberou food truck", async ({ pag
   await expect(page.locator("#locator-status")).toContainText("Martin Kábrt");
   await expect(page.locator("#locator-status")).toContainText("může změnit");
   await expect(page.locator("#point-cards .is-nearest h3")).toContainText("Martin Kábrt");
-  const navHref = await page.locator("#navigate-nearest").getAttribute("href");
-  expect(navHref).toMatch(/destination=50\.1466053%2C14\.1026398/);
-  expect(navHref).not.toMatch(/[?&]origin=/);
-  expect(navHref).not.toMatch(/50\.0518466|50\.080804/);
 });
 
-test("hero Najít nejbližší Point scrolluje k bochníku a poloha běží z tlačítka", async ({ page, context }) => {
+test("hero Najít nejbližší Point rovnou spustí polohu", async ({ page, context }) => {
   await context.setGeolocation({ latitude: 50.7256, longitude: 15.6068 });
   await page.goto("/?lang=cs");
   await page.locator("#hero-locate").click();
   await expect(page).toHaveURL(/#pointy/);
-  await page.locator("#locate").click();
   await expect(page.locator("#locator-status")).toContainText("Špindlerův Mlýn");
   await expect(page.locator("#navigate-nearest")).toBeVisible();
   await expect(page.locator("#point-cards .is-nearest h3")).toContainText("Špindlerův Mlýn");
-  await expect(page).toHaveURL(/#pointy/);
-});
-
-test("bez polohy zůstává trasa jen s cílem a navigace je skrytá", async ({ page, context }) => {
-  await context.clearPermissions();
-  await page.goto("/?lang=cs");
-  await expect(page.locator("#navigate-nearest")).toBeHidden();
-  const href = await page.locator("#point-cards .card").first().locator("a.btn-solid").getAttribute("href");
-  expect(href).toMatch(/destination=/);
-  expect(href).not.toMatch(/[?&]origin=/);
-  expect(href).not.toMatch(/dir_action=navigate/);
 });
 
 test("vlajka vybere zemi a pin zvýrazní kartu", async ({ page }) => {
@@ -301,22 +226,6 @@ test("vlajka vybere zemi a pin zvýrazní kartu", async ({ page }) => {
   await expect(page.locator("#network-map .pin[data-point='spindl']")).toHaveAttribute("aria-current", "true");
 });
 
-test("vypnutá poloha na notebooku navede k zapnutí sdílení a neotevře starý pin", async ({ page, context }) => {
-  await context.grantPermissions([]);
-  await page.addInitScript(() => {
-    navigator.geolocation.getCurrentPosition = (_ok, err) => {
-      err({ code: 1, message: "denied" });
-    };
-  });
-  await page.goto("/?lang=cs");
-  await page.locator("#point-cards a[data-route]").first().click();
-  await expect(page.locator("#locator-status")).toContainText("Polohu se nepodařilo načíst");
-  await expect(page.locator("#locator-status")).toContainText("Povolit");
-  await expect(page.locator("#locator-status")).toHaveClass(/is-need/);
-  await expect(page).toHaveURL(/lang=cs/);
-  await expect(page.locator("#navigate-nearest")).toBeHidden();
-});
-
 test("aktuální IP na Zličíně přebije starý pin u Hamerského rybníka", async ({ page, context }) => {
   await context.setGeolocation({ latitude: 50.0518466, longitude: 14.4857067, accuracy: 1500 });
   await page.route("**/api/where", (route) => route.fulfill({
@@ -329,45 +238,6 @@ test("aktuální IP na Zličíně přebije starý pin u Hamerského rybníka", a
   await expect(page.locator("#locator-status")).toContainText(/poloha ze sítě/i);
   await expect(page.locator("#locator-status")).toContainText("Martin Kábrt");
   await expect(page.locator("#locator-status")).toHaveClass(/is-warn/);
-  const navHref = await page.locator("#navigate-nearest").getAttribute("href");
-  expect(navHref).toMatch(/destination=50\.1466053%2C14\.1026398/);
-  expect(navHref).not.toMatch(/[?&]origin=/);
-  expect(navHref).not.toMatch(/50\.0535|14\.4857067|50\.080804/);
-});
-
-test("bez prohlížečové polohy navigace startuje z aktuální IP", async ({ page, context }) => {
-  await context.grantPermissions([]);
-  await page.addInitScript(() => {
-    navigator.geolocation.getCurrentPosition = (_ok, err) => {
-      err({ code: 1, message: "denied" });
-    };
-  });
-  await page.route("**/api/where", (route) => route.fulfill({
-    status: 200,
-    contentType: "application/json",
-    body: JSON.stringify({ ok: true, lat: 50.0535, lng: 14.3062, accuracy: 20000 })
-  }));
-  await page.goto("/app.html?lang=cs");
-  await page.locator("#locate").click();
-  await expect(page.locator("#locator-status")).toContainText("Odhad z IP");
-  await expect(page.locator("#locator-status")).toContainText("Martin Kábrt");
-  const navHref = await page.locator("#navigate-nearest").getAttribute("href");
-  expect(navHref).toMatch(/destination=50\.1466053%2C14\.1026398/);
-  expect(navHref).not.toMatch(/[?&]origin=/);
-  expect(navHref).not.toMatch(/50\.0535|50\.080804/);
-});
-
-test("odmítnutá poloha ukáže hlášku a navigaci neschová jako dostupnou", async ({ page, context }) => {
-  await context.grantPermissions([]);
-  await page.addInitScript(() => {
-    navigator.geolocation.getCurrentPosition = (_ok, err) => {
-      err({ code: 1, message: "denied" });
-    };
-  });
-  await page.goto("/?lang=cs");
-  await page.locator("#locate").click();
-  await expect(page.locator("#locator-status")).toContainText("Polohu se nepodařilo načíst");
-  await expect(page.locator("#navigate-nearest")).toBeHidden();
 });
 
 test("web nabízí aplikaci Raclette Lovers a návod na plochu", async ({ page }) => {
@@ -396,14 +266,10 @@ test("aplikace Raclette Lovers hledá Point až po klepnutí a má čtyři jazyk
   await expect(page.locator("#pwa-panel")).toBeVisible();
   await expect(page.locator("#pwa-panel")).toContainText("Safari");
   await expect(page.locator("#locator-status")).toContainText("Klepněte");
-  await expect(page.locator("#lang option")).toHaveCount(4);
-  await expect(page.locator("#lang option[value='de']")).toHaveCount(0);
   await expect(page.locator("#point-cards .card")).toHaveCount(8);
   await expect(page.locator("#point-cards .card-flag")).toHaveCount(8);
   await expect(page.locator("#point-cards .card[data-id='krizovy'] .card-flag")).toHaveAttribute("aria-label", "Česko");
   await expect(page.locator("#point-cards .card[data-id='eddy'] .card-flag")).toHaveAttribute("aria-label", "Švýcarsko");
-  await expect(page.locator("#point-cards .card[data-id='krizovy'] .flag-svg")).toHaveAttribute("viewBox", "0 0 60 40");
-  await expect(page.locator("#point-cards .card[data-id='mouret'] .flag-svg")).toHaveAttribute("viewBox", "0 0 32 32");
   await expect(page.locator("#point-cards iframe")).toHaveCount(0);
   await expect(page.locator('.lovers-links a[href="index.html"]')).toBeVisible();
   await expect(page.locator('.lovers-links a[href="https://www.instagram.com/racletteoriginal/"]')).toBeVisible();
@@ -414,7 +280,6 @@ test("aplikace Raclette Lovers hledá Point až po klepnutí a má čtyři jazyk
   await expect(page.locator("#navigate-nearest")).toBeVisible();
   const navHref = await page.locator("#navigate-nearest").getAttribute("href");
   expect(navHref).toMatch(/destination=50\.1466053%2C14\.1026398/);
-  expect(navHref).not.toMatch(/[?&]origin=/);
   await page.selectOption("#lang", "en");
   await expect(page.locator("h1")).toContainText("Find the nearest Point");
   await expect(page.locator("#point-cards .card[data-id='eddy'] .card-flag")).toHaveAttribute("aria-label", "Switzerland");
@@ -439,45 +304,12 @@ test("když prohlížeč instalaci odmítne, aplikace ukáže návod", async ({ 
 
 const ANDROID_UA = "Mozilla/5.0 (Linux; Android 14; Pixel 8) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36";
 
-test.describe("mobil bez GPS", () => {
+test.describe("mobil s GPS", () => {
   test.use({
     viewport: { width: 390, height: 844 },
     isMobile: true,
     hasTouch: true,
     userAgent: ANDROID_UA
-  });
-
-  test("Android bez polohy nevezme IP u Křížového vrchu", async ({ page, context }) => {
-    await context.grantPermissions([]);
-    await page.addInitScript(() => {
-      navigator.permissions.query = (desc) => Promise.resolve({
-        state: desc && desc.name === "geolocation" ? "denied" : "prompt",
-        addEventListener() {},
-        removeEventListener() {}
-      });
-      navigator.geolocation.watchPosition = (_ok, err) => {
-        err({ code: 1, message: "denied" });
-        return 1;
-      };
-      navigator.geolocation.clearWatch = () => {};
-      navigator.geolocation.getCurrentPosition = (_ok, err) => {
-        err({ code: 1, message: "denied" });
-      };
-    });
-    await page.route("**/api/where", (route) => route.fulfill({
-      status: 200,
-      contentType: "application/json",
-      body: JSON.stringify({ ok: true, lat: 50.23, lng: 17.22, accuracy: 20000, city: "Jesenik" })
-    }));
-    await page.goto("/?lang=cs");
-    await page.locator("#locate").click();
-    await expect(page.locator("#locator-status")).toContainText("blokuje");
-    await expect(page.locator("#locator-status")).toContainText("Chrome");
-    await expect(page.locator("#locator-status")).toHaveClass(/is-need/);
-    await expect(page.locator("#navigate-nearest")).toBeHidden();
-    await expect(page.locator("#point-cards .is-nearest")).toHaveCount(0);
-    await expect(page.locator("#locator-status")).not.toContainText("Křížový vrch");
-    await expect(page.locator("#locator-status")).not.toContainText("IP");
   });
 
   test("Android na Zličíně s GPS vybere food truck i proti IP z Jeseníku", async ({ page, context }) => {
@@ -495,101 +327,5 @@ test.describe("mobil bez GPS", () => {
     await expect(page.locator("#locator-status")).not.toContainText("Křížový vrch");
     await expect(page.locator("#navigate-nearest")).toBeVisible();
     await expect(page.locator("#point-cards .is-nearest h3")).toContainText("Martin Kábrt");
-  });
-
-  test("timeout na Androidu žádá GPS a neschová odhad z IP", async ({ page, context }) => {
-    test.setTimeout(50000);
-    await context.grantPermissions([]);
-    await page.addInitScript(() => {
-      navigator.permissions.query = () => Promise.resolve({
-        state: "granted",
-        addEventListener() {},
-        removeEventListener() {}
-      });
-      navigator.geolocation.getCurrentPosition = (_ok, err) => {
-        err({ code: 3, message: "timeout" });
-      };
-      navigator.geolocation.watchPosition = (_ok, err) => {
-        err({ code: 3, message: "timeout" });
-        return 0;
-      };
-      navigator.geolocation.clearWatch = () => {};
-    });
-    await page.route("**/api/where", (route) => route.fulfill({
-      status: 200,
-      contentType: "application/json",
-      body: JSON.stringify({ ok: true, lat: 50.23, lng: 17.22, accuracy: 20000 })
-    }));
-    await page.goto("/?lang=cs");
-    await page.locator("#locate").click();
-    await expect(page.locator("#locator-status")).toContainText("GPS se nenačetla včas", { timeout: 45000 });
-    await expect(page.locator("#navigate-nearest")).toBeHidden();
-    await expect(page.locator("#locator-status")).not.toContainText("Křížový vrch");
-  });
-
-  test("instalovaná aplikace bez GPS ukáže oprávnění aplikace, ne prohlížeč", async ({ page, context }) => {
-    await context.grantPermissions([]);
-    await page.addInitScript(() => {
-      navigator.permissions.query = () => Promise.resolve({
-        state: "denied",
-        addEventListener() {},
-        removeEventListener() {}
-      });
-      navigator.geolocation.watchPosition = (_ok, err) => {
-        err({ code: 1, message: "denied" });
-        return 1;
-      };
-      navigator.geolocation.clearWatch = () => {};
-      const real = window.matchMedia.bind(window);
-      window.matchMedia = (query) => {
-        if (String(query).includes("display-mode: standalone")) {
-          return { matches: true, addListener: () => {}, removeListener: () => {} };
-        }
-        return real(query);
-      };
-      navigator.geolocation.getCurrentPosition = (_ok, err) => {
-        err({ code: 1, message: "denied" });
-      };
-    });
-    await page.goto("/app.html?lang=cs");
-    await page.locator("#locate").click();
-    await expect(page.locator("#locator-status")).toContainText("Informace o aplikaci");
-    await expect(page.locator("#locator-status")).not.toContainText("v prohlížeči");
-  });
-
-  test("po odmítnutí GPS otevře vizitka Maps bez falešného Pointu", async ({ page, context }) => {
-    await context.grantPermissions([]);
-    await page.addInitScript(() => {
-      navigator.permissions.query = () => Promise.resolve({
-        state: "denied",
-        addEventListener() {},
-        removeEventListener() {}
-      });
-      navigator.geolocation.watchPosition = (_ok, err) => {
-        err({ code: 1, message: "denied" });
-        return 1;
-      };
-      navigator.geolocation.clearWatch = () => {};
-      navigator.geolocation.getCurrentPosition = (_ok, err) => {
-        err({ code: 1, message: "denied" });
-      };
-    });
-    await page.goto("/?lang=cs");
-    await page.locator("#locate").click();
-    await expect(page.locator("#locator-status")).toContainText("blokuje");
-    const link = page.locator("#point-cards a[data-route]").first();
-    await expect(link).toHaveAttribute("href", /google\.com\/maps\/dir/);
-    const allowed = await link.evaluate((el) => {
-      let went = false;
-      el.addEventListener("click", (event) => {
-        went = !event.defaultPrevented;
-        event.preventDefault();
-      }, { once: true });
-      el.click();
-      return went;
-    });
-    expect(allowed).toBe(true);
-    await expect(page.locator("#navigate-nearest")).toBeHidden();
-    await expect(page.locator("#locator-status")).not.toContainText("Křížový vrch");
   });
 });

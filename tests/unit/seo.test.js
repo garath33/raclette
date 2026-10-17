@@ -99,6 +99,10 @@ test("kontaktní stránka neuvádí Veroniku a uvádí Martina Šimůnka", () =>
   assert.match(html, /id="raclette"/);
   assert.equal(/tel:\+420777891177/.test(html), false);
   assert.equal(/tel:\+420602402935/.test(html), false);
+  assert.equal(/777 891 177/.test(html), false);
+  assert.equal(/602 402 935/.test(html), false);
+  assert.equal(/Ratibořská/.test(html), false);
+  assert.equal(/Dodací adresa/.test(html), false);
   assert.match(html, /tel:\+420777600223/);
   assert.match(html, /tel:\+41766083983/);
   assert.match(html, /data-flags="cz sk"/);

@@ -17,7 +17,7 @@ js/i18n-app.js   texty aplikace a návodu na plochu
 js/app.js        vykreslení vizitek, mapa, přepínač jazyka, odeslání partnerského formuláře
 js/lovers-app.js stránka aplikace: poloha až po klepnutí, jazyky cs/sk/en/fr
 js/pwa.js        instalace zástupce a service worker
-lib/partner-inquiry.mjs  sestavení a validace poptávky (FormSubmit → milan@raclette-original.com)
+lib/partner-inquiry.mjs  stejná pravidla poptávky, stránka je nenačítá (skládá je js/app.js)
 worker.js        přesměrování aliasů domén
 assets/          logo, ikony aplikace, fotky, favicon
 ```
