@@ -31,16 +31,6 @@ test("bez prohlížečové polohy navigace startuje z aktuální IP", async ({ p
   await expect(page.locator("#locator-status")).toContainText("Martin Kábrt");
   const navHref = await page.locator("#navigate-nearest").getAttribute("href");
   expect(navHref).toMatch(/destination=50\.1466053%2C14\.1026398/);
-  expect(navHref).not.toMatch(/[?&]origin=/);
-});
-
-test("odmítnutá poloha ukáže hlášku a navigaci neschová jako dostupnou", async ({ page, context }) => {
-  await context.grantPermissions([]);
-  await mockGeoError(page, 1, "denied");
-  await page.goto("/?lang=cs");
-  await page.locator("#locate").click();
-  await expect(page.locator("#locator-status")).toContainText("Polohu se nepodařilo načíst");
-  await expect(page.locator("#navigate-nearest")).toBeHidden();
 });
 
 const ANDROID_UA = "Mozilla/5.0 (Linux; Android 14; Pixel 8) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36";

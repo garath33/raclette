@@ -144,6 +144,10 @@ Na Androidu i na krátkém okně (televize, velké zvětšení prohlížeče) po
 
 Zdrojové stránky byly česky a kanonická adresa anglicky. Na `.sk` a `.ch` Worker přepsal jen kanonickou adresu, text zůstal český, dokud neběžel JavaScript. Výchozí HTML je proto anglicky, což sedí na `www.raclettelovers.com` u GitHub Pages. Worker na `.cz`, `.sk` a `.ch` přepíše titulek, popis i texty `data-i18n` podle `?lang=` nebo podle koncovky a holou adresu pošle 301 na adresu s jazykem. Odkazy mezi stránkami si `?lang=` nechají. Sitemap má každý jazyk jako vlastní adresu. `.com` na Cloudflare zatím nejde bez výměny jmenných serverů u WebHouse, záznamy A se nemění. Stránka Pro partnery má jeden nadpis `h1`. Strop `js/app.js` je 22 kB, protože odkazy doplňuje `decorateLinks`.
 
+## Testy se neopakují
+
+Stejná odmítnutá poloha ležela ve smoke i v `geo-denied.spec.js` a `npm test` tu kopii ve smoke přeskakoval. Zůstává jeden běh. Text, adresa a výpočet vzdálenosti jsou v jednotkách. Prohlížeč hlídá, že se stránka rozběhne a poloha se propíše do vizitky. Čekání 24 sekund a opakování po 3 sekundách je konstanta v `js/geo.js`, ne minuta v Playwrighti. Formulář spolupráce skládá `js/app.js`. Soubor `lib/partner-inquiry.mjs` stránka nenačítá, proto na něj test není.
+
 ## Telefon bere síť hned a GPS nechá zapnutou
 
 Jedno klepnutí spustí oba odečty. Wi-Fi a mobilní síť se ukážou hned, GPS běží ve stejném gestu, takže dialog zapnutí polohy na Androidu zůstává. Přesnější odečet pak sám přepočítá Point. Postup, pořadí a hlášky jsou v [poloze](poloha.md). Jak se k tomu píše dokumentace a proč se sahá na co nejméně souborů, je ve [vedení](vedeni.md).

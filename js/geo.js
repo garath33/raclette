@@ -7,6 +7,8 @@
   // the pin is a leftover (Hamerský rybník days later) and must not start navigation.
   const STALE_KM = 8;
   const FRESH_MS = 120000;
+  const WATCH_MS = 24000;
+  const PULSE_MS = 3000;
 
   function haversine(aLat, aLng, bLat, bLng) {
     const R = 6371;
@@ -361,8 +363,8 @@
    */
   function readMobileWatch(geo, env) {
     const source = env || {};
-    const ms = Number(source.watchMs) > 0 ? Number(source.watchMs) : 24000;
-    const pulseMs = Number(source.pulseMs) > 0 ? Number(source.pulseMs) : 3000;
+    const ms = Number(source.watchMs) > 0 ? Number(source.watchMs) : WATCH_MS;
+    const pulseMs = Number(source.pulseMs) > 0 ? Number(source.pulseMs) : PULSE_MS;
     const coarse = { enableHighAccuracy: false, maximumAge: 10000, timeout: 8000 };
     const precise = { enableHighAccuracy: true, maximumAge: 0, timeout: ms };
     return new Promise((resolve, reject) => {
@@ -556,6 +558,8 @@
     failureStatusKey,
     statusTone,
     STALE_KM,
-    FRESH_MS
+    FRESH_MS,
+    WATCH_MS,
+    PULSE_MS
   };
 });
