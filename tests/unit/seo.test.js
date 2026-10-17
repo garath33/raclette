@@ -29,6 +29,46 @@ test("soubor CNAME drží raclettelovers.com a zdrojové HTML se smí indexovat"
   assert.match(fs.readFileSync("index.html", "utf8"), /https:\/\/raclettelovers\.cz\/\?lang=cs/);
 });
 
+test("výchozí HTML je anglicky a sitemap uvádí každý jazyk jako vlastní adresu", async () => {
+  const { extractPacks, extractPoints, localizeHtml, mergePacks, sitemapXml } = await import("../../lib/seo-html.mjs");
+  const fs = require("node:fs");
+  const files = ["js/i18n.js", "js/i18n-extra.js", "js/i18n-app.js", "js/i18n-ig.js"];
+  let packs = {};
+  for (const file of files) packs = mergePacks(packs, extractPacks(fs.readFileSync(file, "utf8")));
+  const points = extractPoints(fs.readFileSync("js/points.js", "utf8"));
+  assert.equal(points.length, 8);
+  assert.equal(points[0].id, "krizovy");
+  assert.equal(points[0].lat, 50.2260421);
+  const vm = require("node:vm");
+  const context = {};
+  vm.createContext(context);
+  vm.runInContext(fs.readFileSync("js/i18n.js", "utf8") + "\nglobalThis.TRANSLATIONS = TRANSLATIONS;", context);
+  vm.runInContext(fs.readFileSync("js/i18n-extra.js", "utf8"), context);
+  vm.runInContext(fs.readFileSync("js/i18n-app.js", "utf8"), context);
+  vm.runInContext(fs.readFileSync("js/i18n-ig.js", "utf8"), context);
+  for (const lang of Object.keys(context.TRANSLATIONS)) {
+    assert.deepEqual(Object.keys(packs[lang]).sort(), Object.keys(context.TRANSLATIONS[lang]).sort(), lang);
+  }
+  const pages = [
+    ["index.html", "/", "www.raclettelovers.com"],
+    ["pro-partnery.html", "/pro-partnery.html", "www.raclettelovers.com"],
+    ["app.html", "/app.html", "www.raclettelovers.com"]
+  ];
+  for (const [file, path, host] of pages) {
+    const html = fs.readFileSync(file, "utf8");
+    assert.match(html, /<html lang="en">/);
+    assert.equal(localizeHtml(html, "en", packs, host, path, points), html, file + " se rozchází s anglickým zněním");
+  }
+  assert.match(fs.readFileSync("pro-partnery.html", "utf8"), /<h1[^>]*data-i18n="franchise.title"/);
+  assert.equal(fs.readFileSync("sitemap.xml", "utf8"), sitemapXml());
+  const sitemap = fs.readFileSync("sitemap.xml", "utf8");
+  for (const lang of ["de", "it", "pl", "es", "ru"]) {
+    assert.match(sitemap, new RegExp("<loc>https://www\\.raclettelovers\\.com/\\?lang=" + lang + "</loc>"));
+    assert.match(sitemap, new RegExp("<loc>https://www\\.raclettelovers\\.com/pro-partnery\\.html\\?lang=" + lang + "</loc>"));
+  }
+  assert.equal(sitemap.includes("app.html?lang=de"), false);
+});
+
 test("robots a sitemap ukazují na ostré domény a všechny jazyky", () => {
   const robots = fs.readFileSync("robots.txt", "utf8");
   const sitemap = fs.readFileSync("sitemap.xml", "utf8");
@@ -51,7 +91,7 @@ test("robots a sitemap ukazují na ostré domény a všechny jazyky", () => {
 test("veřejné soubory drží výkonnostní rozpočet", () => {
   const limits = {
     "css/styles.css": 50 * 1024,
-    "js/app.js": 21 * 1024,
+    "js/app.js": 22 * 1024,
     "js/i18n-app.js": 16 * 1024,
     "js/lovers-app.js": 12 * 1024,
     "js/i18n.js": 98 * 1024,

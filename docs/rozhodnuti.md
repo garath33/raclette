@@ -140,6 +140,10 @@ Na Androidu i na krátkém okně (televize, velké zvětšení prohlížeče) po
 
 `revealLocateButton` v `js/app.js` po klepnutí na odkaz `#pointy` (menu i „Najít nejbližší Point“) a po načtení s tímto hashem posune stránku tak, aby bylo tlačítko `#locate` celé ve viewportu. Platí to na mobilu i na desktopu, včetně krátkého okna a zvětšení stránky. Posun je okamžitý a zopakuje se ještě po chvíli, protože plynulý scroll prohlížeče na začátek sekce ho jinak přepíše a dole zůstane jen kůrka. Nad tlačítkem zůstane spodek bochníku. Horní okraj sýra smí odjet. Hero CTA dál ve stejném gestu volá `locate()`.
 
+## Vyhledávač dostane jazyk domény už v HTML
+
+Zdrojové stránky byly česky a kanonická adresa anglicky. Na `.sk` a `.ch` Worker přepsal jen kanonickou adresu, text zůstal český, dokud neběžel JavaScript. Výchozí HTML je proto anglicky, což sedí na `www.raclettelovers.com` u GitHub Pages. Worker na `.cz`, `.sk` a `.ch` přepíše titulek, popis i texty `data-i18n` podle `?lang=` nebo podle koncovky a holou adresu pošle 301 na adresu s jazykem. Odkazy mezi stránkami si `?lang=` nechají. Sitemap má každý jazyk jako vlastní adresu. `.com` na Cloudflare zatím nejde bez výměny jmenných serverů u WebHouse, záznamy A se nemění. Stránka Pro partnery má jeden nadpis `h1`. Strop `js/app.js` je 22 kB, protože odkazy doplňuje `decorateLinks`.
+
 ## Telefon bere síť hned a GPS nechá zapnutou
 
 Jedno klepnutí spustí oba odečty. Wi-Fi a mobilní síť se ukážou hned, GPS běží ve stejném gestu, takže dialog zapnutí polohy na Androidu zůstává. Přesnější odečet pak sám přepočítá Point. Postup, pořadí a hlášky jsou v [poloze](poloha.md). Jak se k tomu píše dokumentace a proč se sahá na co nejméně souborů, je ve [vedení](vedeni.md).

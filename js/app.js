@@ -253,6 +253,7 @@ function applyStatic() {
   const open = document.getElementById("site-nav").classList.contains("is-open");
   toggle.setAttribute("aria-label", t(open ? "nav.close" : "nav.open"));
   document.getElementById("lang").value = lang;
+  RacletteSite.decorateLinks(document, lang);
 }
 
 function typeLabel(value) {

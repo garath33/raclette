@@ -109,6 +109,16 @@ test("ostrá kanonická adresa sedí na doménu jazyka, zkušební web zůstáv�
   );
 });
 
+test("odkazy mezi stránkami si nesou lang, aby robot zůstal u stejné verze", () => {
+  assert.equal(site.withLang("pro-partnery.html", "cs"), "pro-partnery.html?lang=cs");
+  assert.equal(site.withLang("pro-partnery.html?lang=en", "sk"), "pro-partnery.html?lang=sk");
+  assert.equal(site.withLang("pro-partnery.html#franchise-form", "fr"), "pro-partnery.html?lang=fr#franchise-form");
+  assert.equal(site.withLang("index.html#pointy", "de"), "index.html?lang=de#pointy");
+  assert.equal(site.withLang("#pointy", "cs"), "#pointy");
+  assert.equal(site.withLang("https://raclettelovers.cz/?lang=cs", "en"), "https://raclettelovers.cz/?lang=cs");
+  assert.equal(site.withLang("mailto:info@rakletparty.cz", "cs"), "mailto:info@rakletparty.cz");
+});
+
 test("švýcarský hostitel značí de/fr/it jako CH variantu", () => {
   assert.equal(site.htmlLang("de", "raclettelovers.ch"), "de-CH");
   assert.equal(site.htmlLang("fr", "www.raclettelovers.ch"), "fr-CH");

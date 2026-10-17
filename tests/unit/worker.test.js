@@ -1,5 +1,6 @@
 const test = require("node:test");
 const assert = require("node:assert/strict");
+const fs = require("node:fs");
 
 const workerPromise = import("../../worker.js");
 
@@ -55,6 +56,48 @@ test("aktuální IP vrátí souřadnice z Cloudflare a bez nich mlčí", async (
   assert.equal(found.status, 200);
   assert.equal(found.headers.get("cache-control"), "no-store");
   assert.deepEqual(await found.json(), { ok: true, lat: 50.0535, lng: 14.3062, accuracy: 20000, city: "Prague" });
+});
+
+test("holá adresa domény skočí na jazyk té domény a odpověď už je v tom jazyce", async () => {
+  const { default: worker, prepareHtml } = await workerPromise;
+  const { extractPacks, extractPoints, mergePacks } = await import("../../lib/seo-html.mjs");
+  const home = await worker.fetch(new Request("https://raclettelovers.cz/"), {
+    ASSETS: { async fetch() { throw new Error("soubor se nemá číst"); } }
+  });
+  assert.equal(home.status, 301);
+  assert.equal(home.headers.get("location"), "https://raclettelovers.cz/?lang=cs");
+
+  const partners = await worker.fetch(new Request("https://www.raclettelovers.sk/pro-partnery"), {
+    ASSETS: { async fetch() { throw new Error("soubor se nemá číst"); } }
+  });
+  assert.equal(partners.status, 301);
+  assert.equal(partners.headers.get("location"), "https://raclettelovers.sk/pro-partnery.html?lang=sk");
+
+  const apex = await worker.fetch(new Request("https://raclettelovers.com/app"), {
+    ASSETS: { async fetch() { throw new Error("soubor se nemá číst"); } }
+  });
+  assert.equal(apex.status, 301);
+  assert.equal(apex.headers.get("location"), "https://www.raclettelovers.com/app.html?lang=en");
+
+  let packs = {};
+  for (const file of ["js/i18n.js", "js/i18n-extra.js", "js/i18n-app.js", "js/i18n-ig.js"]) {
+    packs = mergePacks(packs, extractPacks(fs.readFileSync(file, "utf8")));
+  }
+  const points = extractPoints(fs.readFileSync("js/points.js", "utf8"));
+  const html = fs.readFileSync("index.html", "utf8");
+  const slovak = prepareHtml(html, "raclettelovers.sk", "?lang=sk", "/", packs, points);
+  assert.match(slovak, /<html lang="sk">/);
+  assert.match(slovak, /<title>[^<]*[Ss]lovensk/);
+  assert.match(slovak, />Pre partnerov</);
+  assert.match(slovak, /href="https:\/\/raclettelovers\.sk\/\?lang=sk"/);
+  assert.match(slovak, /href="pro-partnery\.html\?lang=sk"/);
+  assert.match(slovak, /FoodEstablishment/);
+  assert.match(slovak, /Křížový vrch/);
+
+  const french = prepareHtml(html, "raclettelovers.ch", "", "/", packs, points);
+  assert.match(french, /<html lang="fr-CH">/);
+  assert.match(french, /Pour les partenaires/);
+  assert.match(french, /"inLanguage": "fr-CH"/);
 });
 
 test("alias se přesměruje a obsahová doména se přepíše", async () => {

@@ -113,6 +113,7 @@ function applyStatic() {
     el.alt = t(el.dataset.i18nAlt);
   });
   document.getElementById("lang").value = lang;
+  RacletteSite.decorateLinks(document, lang);
 }
 
 function formatAccuracy(meters) {

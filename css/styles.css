@@ -333,6 +333,7 @@ p { margin: 0; }
 
 .section { padding: 5rem 0; scroll-margin-top: calc(var(--header) + 12px); }
 #uvod { scroll-margin-top: calc(var(--header) + 12px); }
+.section h1,
 .section h2 {
   font-size: clamp(2.6rem, 5vw, 4.2rem);
   max-width: 16ch;
