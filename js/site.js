@@ -192,6 +192,27 @@
     return origin + path + "?lang=" + code;
   }
 
+  function withLang(href, lang) {
+    const raw = String(href || "");
+    if (!raw || /^(https?:|mailto:|tel:|#)/i.test(raw.trim())) return raw;
+    const hashAt = raw.indexOf("#");
+    const hash = hashAt >= 0 ? raw.slice(hashAt) : "";
+    const before = hashAt >= 0 ? raw.slice(0, hashAt) : raw;
+    const path = before.split("?")[0];
+    const leaf = path.split("/").filter(Boolean).pop() || "";
+    if (leaf !== "index.html" && leaf !== "pro-partnery.html" && leaf !== "app.html" && leaf !== "pro-partnery" && leaf !== "app") return raw;
+    return path + "?lang=" + lang + hash;
+  }
+
+  function decorateLinks(doc, lang) {
+    if (!doc || !doc.querySelectorAll) return;
+    doc.querySelectorAll("a[href]").forEach((link) => {
+      const href = link.getAttribute("href");
+      const next = withLang(href, lang);
+      if (next !== href) link.setAttribute("href", next);
+    });
+  }
+
   function partnerInquiryUrl() {
     return "https://formsubmit.co/ajax/milan@raclette-original.com";
   }
@@ -242,6 +263,8 @@
     appLanguage,
     languageUrl,
     indexedUrl,
+    withLang,
+    decorateLinks,
     htmlLang,
     ogLocale,
     partnerInquiryUrl,

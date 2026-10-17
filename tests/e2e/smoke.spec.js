@@ -17,8 +17,8 @@ test("stránka se načte, má sekce a testovací pruh", async ({ page }) => {
   await expect(page.locator("#map-frame")).toHaveCount(0);
   await expect(page.locator("#locator-status")).toContainText("Každý Point má vlastní mapu");
   await expect(page.locator("#hero-locate")).toHaveAttribute("href", "#pointy");
-  await expect(page.locator('#uvod a[data-i18n="hero.secondary"]')).toHaveAttribute("href", "pro-partnery.html");
-  await expect(page.locator('#vyhody a[data-i18n="hero.secondary"]')).toHaveAttribute("href", "pro-partnery.html#franchise-form");
+  await expect(page.locator('#uvod a[data-i18n="hero.secondary"]')).toHaveAttribute("href", "pro-partnery.html?lang=cs");
+  await expect(page.locator('#vyhody a[data-i18n="hero.secondary"]')).toHaveAttribute("href", "pro-partnery.html?lang=cs#franchise-form");
   await expect(page.locator('#reference a.fb-card[href*="facebook.com"]')).toHaveAttribute("href", "https://www.facebook.com/rakletparty/");
   await expect(page.locator('#reference a.fb-card[href*="instagram.com"]')).toHaveAttribute("href", "https://www.instagram.com/racletteoriginal/");
   await expect(page.locator("#eventy .event-offer li")).toHaveCount(12);
@@ -45,7 +45,7 @@ test("Pro partnery je samostatná stránka s nabídkou a formulářem", async ({
   const errors = [];
   page.on("pageerror", (error) => errors.push(String(error)));
   await page.goto("/pro-partnery.html?lang=cs");
-  await expect(page.locator("#franchise h2")).toContainText("Raclette Point Original");
+  await expect(page.locator("#franchise h1")).toContainText("Raclette Point Original");
   await expect(page.locator("#franchise-offer")).toBeVisible();
   await expect(page.locator("#franchise .aop-note")).toContainText("Appellation d’Origine Protégée");
   await expect(page.locator("#franchise-form .form-invite")).toContainText("Pavlína Otýpková");
@@ -63,7 +63,7 @@ test("Pro partnery je samostatná stránka s nabídkou a formulářem", async ({
   await expect(page.locator(".approach-rail")).toBeVisible();
   await expect(page.locator(".gain-bands")).toBeVisible();
   await expect(page.locator(".steps-path")).toBeVisible();
-  await expect(page.locator("#site-nav a[href='pro-partnery.html']")).toHaveClass(/is-active/);
+  await expect(page.locator("#site-nav a[href^='pro-partnery.html']")).toHaveClass(/is-active/);
   expect(errors).toEqual([]);
 });
 
@@ -248,7 +248,7 @@ test("web nabízí aplikaci Raclette Lovers a návod na plochu", async ({ page }
   await expect(page.locator("#aplikace")).toBeInViewport();
   await expect(page.locator("#aplikace")).toContainText("Safari");
   await expect(page.locator("#aplikace")).toContainText("Chrome");
-  await expect(page.locator('#aplikace a[href="app.html#na-plochu"]')).toBeVisible();
+  await expect(page.locator('#aplikace a[href="app.html?lang=cs#na-plochu"]')).toBeVisible();
   await expect(page.locator('link[rel="manifest"]')).toHaveAttribute("href", "manifest.webmanifest");
 });
 
@@ -271,7 +271,7 @@ test("aplikace Raclette Lovers hledá Point až po klepnutí a má čtyři jazyk
   await expect(page.locator("#point-cards .card[data-id='krizovy'] .card-flag")).toHaveAttribute("aria-label", "Česko");
   await expect(page.locator("#point-cards .card[data-id='eddy'] .card-flag")).toHaveAttribute("aria-label", "Švýcarsko");
   await expect(page.locator("#point-cards iframe")).toHaveCount(0);
-  await expect(page.locator('.lovers-links a[href="index.html"]')).toBeVisible();
+  await expect(page.locator('.lovers-links a[href^="index.html"]')).toBeVisible();
   await expect(page.locator('.lovers-links a[href="https://www.instagram.com/racletteoriginal/"]')).toBeVisible();
   await expect(page.locator('.lovers-links a[href="https://www.youtube.com/@RacletteOriginal"]')).toBeVisible();
   await expect(page.locator('.lovers-links a[href="https://www.facebook.com/rakletparty/"]')).toBeVisible();

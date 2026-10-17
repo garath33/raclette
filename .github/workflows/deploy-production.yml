@@ -64,7 +64,7 @@ jobs:
           sleep 8
           for base in https://raclettelovers.cz https://raclettelovers.sk https://raclettelovers.ch; do
             echo "Kontrola $base/"
-            code=$(curl -sS -o /tmp/home.html -w "%{http_code}" "$base/")
+            code=$(curl -sS -L -o /tmp/home.html -w "%{http_code}" "$base/")
             test "$code" = "200"
             grep -q "pro-partnery" /tmp/home.html
             test "$(grep -c 'partner-form' /tmp/home.html || true)" = "0"

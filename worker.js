@@ -1,15 +1,16 @@
-const LANGS = ["cs", "en", "fr", "sk", "it", "de", "pl", "es", "ru"];
-const HOME = {
-  cs: "https://raclettelovers.cz",
-  sk: "https://raclettelovers.sk",
-  fr: "https://raclettelovers.ch",
-};
-const HOST_LANG = {
-  "raclettelovers.cz": "cs",
-  "raclettelovers.sk": "sk",
-  "raclettelovers.ch": "fr",
-  "raclettelovers.com": "en",
-};
+import {
+  canonicalFor,
+  extractPacks,
+  extractPoints,
+  htmlLang,
+  indexRedirect,
+  mergePacks,
+  prepareHtml as localizePage
+} from "./lib/seo-html.mjs";
+
+export { canonicalFor, indexRedirect };
+
+const COPY = ["js/i18n.js", "js/i18n-extra.js", "js/i18n-app.js", "js/i18n-ig.js"];
 
 const TARGETS = {
   "www.raclettelovers.cz": "https://raclettelovers.cz",
@@ -27,24 +28,24 @@ const TARGETS = {
   "www.raclettepointoriginal.sk": "https://raclettelovers.sk",
   "raclettepointoriginal.ch": "https://raclettelovers.ch",
   "www.raclettepointoriginal.ch": "https://raclettelovers.ch",
+  "raclettelovers.com": "https://www.raclettelovers.com",
 };
 
-export function pagePath(pathname) {
-  const leaf = String(pathname || "").split("/").filter(Boolean).pop() || "";
-  if (leaf === "pro-partnery.html" || leaf === "pro-partnery") return "/pro-partnery.html";
-  if (leaf === "app.html" || leaf === "app") return "/app.html";
-  return "/";
-}
+let copyCache = null;
 
-export function canonicalFor(hostname, search, pathname) {
-  const host = String(hostname || "").toLowerCase().replace(/\.$/, "").replace(/^www\./, "");
-  const params = new URLSearchParams(search || "");
-  let lang = params.get("lang");
-  if (LANGS.indexOf(lang) === -1) lang = HOST_LANG[host] || "en";
-  const origin = HOME[lang] || "https://www.raclettelovers.com";
-  const path = pagePath(pathname);
-  if (path === "/") return origin + "/?lang=" + lang;
-  return origin + path + "?lang=" + lang;
+export async function loadCopy(env, request) {
+  if (copyCache) return copyCache;
+  let packs = {};
+  for (const file of COPY) {
+    const asset = await env.ASSETS.fetch(new Request(new URL("/" + file, request.url)));
+    if (!asset.ok) return null;
+    packs = mergePacks(packs, extractPacks(await asset.text()));
+  }
+  const pointsFile = await env.ASSETS.fetch(new Request(new URL("/js/points.js", request.url)));
+  const points = pointsFile.ok ? extractPoints(await pointsFile.text()) : [];
+  const ready = packs.cs && packs.cs["meta.title"] && packs.en && packs.en["meta.title"] && points.length >= 8;
+  if (ready) copyCache = { packs, points };
+  return { packs, points };
 }
 
 export function networkLocation(request) {
@@ -57,14 +58,8 @@ export function networkLocation(request) {
   return { lat, lng, accuracy: 20000, city };
 }
 
-export function prepareHtml(html, hostname, search, pathname) {
-  const host = String(hostname || "").toLowerCase().replace(/\.$/, "").replace(/^www\./, "");
-  if (!HOST_LANG[host]) return html;
-  const canonical = canonicalFor(hostname, search, pathname);
-  return html
-    .replace(/<meta name="robots" content="[^"]*">/, '<meta name="robots" content="index, follow">')
-    .replace(/<link rel="canonical" href="[^"]*">/, '<link rel="canonical" href="' + canonical + '">')
-    .replace(/<meta property="og:url" content="[^"]*">/, '<meta property="og:url" content="' + canonical + '">');
+export function prepareHtml(html, hostname, search, pathname, packs, points) {
+  return localizePage(html, hostname, search, pathname, packs, points);
 }
 
 export default {
@@ -72,7 +67,9 @@ export default {
     const url = new URL(request.url);
     const target = TARGETS[url.hostname];
     if (target) {
-      return Response.redirect(target + url.pathname + url.search, 301);
+      const dest = new URL(target + url.pathname + url.search);
+      const hop = indexRedirect(dest.hostname, dest.pathname, dest.search);
+      return Response.redirect(hop || dest.toString(), 301);
     }
     if (url.pathname === "/api/where") {
       const loc = networkLocation(request);
@@ -83,12 +80,35 @@ export default {
       if (!loc) return new Response(JSON.stringify({ ok: false }), { status: 404, headers });
       return new Response(JSON.stringify({ ok: true, lat: loc.lat, lng: loc.lng, accuracy: loc.accuracy, city: loc.city }), { headers });
     }
+    if (request.method === "GET" || request.method === "HEAD") {
+      const hop = indexRedirect(url.hostname, url.pathname, url.search);
+      if (hop) return Response.redirect(hop, 301);
+    }
+    if (url.pathname === "/robots.txt") {
+      const file = await env.ASSETS.fetch(request);
+      const host = url.hostname.toLowerCase().replace(/\.$/, "").replace(/^www\./, "");
+      const origin = host === "raclettelovers.com" ? "https://www.raclettelovers.com" : "https://" + host;
+      const known = host === "raclettelovers.cz" || host === "raclettelovers.sk" || host === "raclettelovers.ch" || host === "raclettelovers.com";
+      if (!known) return file;
+      const text = (await file.text()).replace(/Sitemap:\s*\S+/, "Sitemap: " + origin + "/sitemap.xml");
+      return new Response(text, { status: file.status, headers: { "content-type": "text/plain; charset=utf-8" } });
+    }
     const response = await env.ASSETS.fetch(request);
     const type = response.headers.get("content-type") || "";
-    if (!type.includes("text/html")) return response;
-    const html = prepareHtml(await response.text(), url.hostname, url.search, url.pathname);
+    if (!type.includes("text/html") || response.status !== 200) return response;
+    const copy = await loadCopy(env, request);
+    const html = prepareHtml(
+      await response.text(),
+      url.hostname,
+      url.search,
+      url.pathname,
+      copy && copy.packs,
+      copy && copy.points
+    );
     const headers = new Headers(response.headers);
     headers.delete("content-length");
+    const lang = new URLSearchParams(url.search).get("lang");
+    if (lang) headers.set("content-language", htmlLang(lang, url.hostname));
     return new Response(html, { status: response.status, statusText: response.statusText, headers });
   },
 };

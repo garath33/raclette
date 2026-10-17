@@ -12,7 +12,7 @@ Obsah je jeden. Liší se jen to, kdo ho po DNS dotazu pošle prohlížeči.
 
 `.cz`, `.sk`, `.ch` a starší domény (`raclettepointoriginal.*`, `raclette-lovers.com`, `raclette-point-original.com`) mají jmenné servery Cloudflare. Worker na nich buď web rovnou vrátí, nebo pošle 301 na cílovou doménu. Přesměrované adresy se neindexují, hodnocení přebírá cíl. Indexují se jen čtyři obsahové adresy: `www.raclettelovers.com` (angličtina a jazyky bez vlastní domény), `raclettelovers.cz` (čeština), `raclettelovers.sk` (slovenština) a `raclettelovers.ch` (francouzština).
 
-Nechat `.com` na GitHubu dává smysl, dokud stačí jedna adresa a DNS už tam míří. Nevýhoda je dvojí nasazení: Pages a Worker se aktualizují odděleně. Až bude potřeba mít i `.com` ve stejném Workeru, přepne se DNS z WebHouse na Cloudflare a apex i `www` se přidají k Workeru. Do té doby se záznamy u WebHouse nemění.
+Nechat `.com` na GitHubu dává smysl, dokud stačí jedna adresa a DNS už tam míří. Nevýhoda je dvojí nasazení: Pages a Worker se aktualizují odděleně. Přesun `.com` na stejný Worker by sjednotil jazyk v HTML i pro němčinu, italštinu, polštinu, španělštinu a ruštinu, které vlastní doménu nemají. K tomu je potřeba přepnout jmenné servery z WebHouse na Cloudflare a apex i `www` přidat k Workeru. Před stávající záznamy A nepatří oranžová proxy, GitHub by za ní nevydal certifikát. Dokud zóna zůstane u WebHouse, záznamy se nemění. Až požadavek na `.com` dorazí do Workeru, apex `raclettelovers.com` už v kódu vrací 301 na `https://www.raclettelovers.com/`.
 
 ## raclettelovers.com u WebHouse
 
