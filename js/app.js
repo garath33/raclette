@@ -308,7 +308,8 @@ function revealLocateButton() {
     root.style.scrollBehavior = prev;
   };
   place();
-  [80, 450, 1000].forEach((ms) => setTimeout(place, ms));
+  [80, 450, 1000, 1800, 2800].forEach((ms) => setTimeout(place, ms));
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(place);
 }
 
 function bindPointyScrollReveal() {
@@ -573,8 +574,8 @@ function boot() {
     });
     bindPointyScrollReveal();
     if (location.hash === "#pointy") {
+      revealLocateButton();
       window.addEventListener("load", () => revealLocateButton(), { once: true });
-      setTimeout(revealLocateButton, 800);
     }
     const links = [...document.querySelectorAll(".site-nav a")];
     const sections = links
