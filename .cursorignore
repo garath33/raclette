@@ -9,3 +9,5 @@ blob-report/
 playwright/.cache/
 _site/
 .wrangler/
+*.log
+.git/

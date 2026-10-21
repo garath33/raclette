@@ -26,11 +26,13 @@ blob-report/
 playwright/.cache/
 _site/
 .wrangler/
+*.log
+.git/
 ```
 
-První blok je povinný základ (závislosti, sestavené výstupy, zámek balíčků). Zbytek jsou vygenerované složky tohodle repozitáře, které v gitu stejně nejsou. Nová těžká složka, kterou úkol nepotřebuje, patří sem, ne do čtení agenta.
+První blok je povinný základ (závislosti, sestavené výstupy, zámek balíčků). Zbytek jsou vygenerované složky tohodle repozitáře, které v gitu stejně nejsou, plus logy a celá historie v `.git/`. Nová těžká složka, kterou úkol nepotřebuje, patří sem, ne do čtení agenta.
 
-Stejné pravidlo má agent pořád v `.cursor/rules/prace.mdc`. Tahle stránka je jeho čitelná podoba.
+Krátké pravidlo má agent pořád v `.cursor/rules/prace.mdc`. Delší znění (kontext, kód, dokumentace) je v kořenovém `.cursorrules`. Tahle stránka je jejich čitelná podoba.
 
 ## Pull request
 
