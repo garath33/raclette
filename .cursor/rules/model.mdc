@@ -1,0 +1,12 @@
+---
+description: Před větším úkolem nebo novou feature zhodnotit zvolený model
+alwaysApply: true
+---
+
+Před spuštěním každého většího úkolu nebo nové feature nejdřív v odpovědi zhodnoť, jestli na něj stačí aktuálně zvolený model. Drobná oprava, úprava dokumentace a postup podle hotového návodu tu otázku nepotřebují.
+
+Dosadíš název feature a odpovíš na tuto otázku:
+
+Než začneme, zhodnoť, zda je tento úkol (implementace [název feature]) adekvátní pro aktuálně zvolený model v Cursoru, nebo zda by pro komplexní architekturu / psaní kódu / refaktoring byl vhodnější jiný model (např. přechod na silnější model pro návrh architektury a lehčí model pro drobné úpravy). Navrhni optimální rozdělení.
+
+V tom samém tahu navrhni rozdělení a teprve pak začni. Na jiný model sám nepřecházej. Postup je v docs/model.md.
