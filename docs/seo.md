@@ -50,7 +50,7 @@ Analytický skript se do stránek nevkládá, dokud není účet.
 
 ## Google Search Console
 
-Stav: registrace sitemap není potvrzená. Po sloučení do `main` a ostrém nasazení to v odpovědi zopakuj, dokud sem nepřibude datum potvrzení.
+Stav: potvrzeno 21. 10. 2026. Sitemap je v Google Search Console přijatá. Připomínku už neopakuj.
 
 1. Otevři [Google Search Console](https://search.google.com/search-console) a přihlas se účtem, který má web spravovat.
 2. Přidej vlastnost typu Doména pro `raclettelovers.cz`, `raclettelovers.sk`, `raclettelovers.ch` a `raclettelovers.com`. Ověření je TXT záznam v DNS. U Cloudflare ho vlož do zóny té domény.
