@@ -5,7 +5,8 @@ import {
   htmlLang,
   indexRedirect,
   mergePacks,
-  prepareHtml as localizePage
+  prepareHtml as localizePage,
+  sitemapXml
 } from "./lib/seo-html.mjs";
 
 export { canonicalFor, indexRedirect };
@@ -125,6 +126,14 @@ export default {
     if (request.method === "GET" || request.method === "HEAD") {
       const hop = indexRedirect(url.hostname, url.pathname, url.search);
       if (hop) return redirectTo(hop);
+    }
+    if (url.pathname === "/sitemap.xml") {
+      const host = url.hostname.toLowerCase().replace(/\.$/, "").replace(/^www\./, "");
+      const known = host === "raclettelovers.cz" || host === "raclettelovers.sk" || host === "raclettelovers.ch" || host === "raclettelovers.com";
+      if (!known) return withSecurity(await env.ASSETS.fetch(request));
+      return new Response(sitemapXml(host), {
+        headers: securityHeaders({ "content-type": "application/xml; charset=utf-8" })
+      });
     }
     if (url.pathname === "/robots.txt") {
       const file = await env.ASSETS.fetch(request);

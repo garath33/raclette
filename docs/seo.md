@@ -17,7 +17,7 @@ Výchozí HTML je anglicky a má `index, follow`. Angličtina je jazyk `www.racl
 
 Cloudflare Worker na `.cz`, `.sk` a `.ch` jazyk zapíše rovnou do HTML: `lang`, titulek, popis, Open Graph, texty `data-i18n` a seznam Pointů v JSON-LD. Robot bez JavaScriptu tedy na české doméně čte češtinu, ne anglický zdroj. Holá adresa (`/`, `/pro-partnery`, `/app`) se přesměruje 301 na stejnou cestu s `?lang=` jazyka domény. Přípona `.html` se v přesměrování nepřidává: Cloudflare ji z adresy zase sundá a obě pravidla by se zacyklila. Kanonická značka dál ukazuje na soubor s `.html`. Odkazy mezi stránkami si `?lang=` nesou, aby proklik z české stránky neskončil na adrese bez jazyka.
 
-`sitemap.xml` uvádí každou jazykovou verzi jako vlastní `<loc>`. Úvod a partneři mají devět jazyků, aplikace jen cs, en, fr a sk. `robots.txt` na doméně Workeru ukazuje sitemap téže domény.
+`sitemap.xml` na každé doméně uvádí jako `<loc>` jen adresy té domény. Ostatní jazyky jsou v ní dál jako `hreflang`. Úvod a partneři mají devět jazyků, aplikace jen cs, en, fr a sk. Soubor v gitu je verze pro `www.raclettelovers.com`. Worker na `.cz`, `.sk` a `.ch` pošle sitemap té domény. `robots.txt` na doméně Workeru ukazuje sitemap téže domény.
 
 JavaScript na ostré doméně nechá `index, follow` a kanonickou adresu drží na doméně daného jazyka. Na `github.io`, `localhost` a `127.0.0.1` nastaví `noindex, follow` a zkušební pruh. `github.io` se navíc přesměrovává na `www.raclettelovers.com`. Náhled na `*.workers.dev` má v HTML `noindex` a s `?lang=` ukáže text toho jazyka.
 
@@ -55,5 +55,5 @@ Stav: registrace sitemap není potvrzená. Po sloučení do `main` a ostrém nas
 1. Otevři [Google Search Console](https://search.google.com/search-console) a přihlas se účtem, který má web spravovat.
 2. Přidej vlastnost typu Doména pro `raclettelovers.cz`, `raclettelovers.sk`, `raclettelovers.ch` a `raclettelovers.com`. Ověření je TXT záznam v DNS. U Cloudflare ho vlož do zóny té domény.
 3. V každé vlastnosti otevři Soubory sitemap a odešli `sitemap.xml`. Adresa je `https://<doména>/sitemap.xml`. Na `.com` je to `https://www.raclettelovers.com/sitemap.xml`.
-4. Soubor obsahuje adresy všech jazyků. Řádky z jiné domény konzole přeskočí. Každá vlastnost si vezme svoje.
+4. V souboru jsou jen adresy té domény. Odkazy `hreflang` na ostatní jazyky tam zůstat mohou. Hláška „Adresa URL není povolena“ znamená, že v `<loc>` je cizí doména. To se po nasazení téhle úpravy ztratí. Sitemap pak v konzoli odeber a přidej znovu, ať ji Google přečte hned.
 5. Za pár dní otevři stránku Stránky a zkontroluj, že se adresy začaly indexovat. Když ověření nebo sitemap selže, pošli chybu zpět. Opravuje se soubor na webu, ne účet v konzoli.
