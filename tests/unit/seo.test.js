@@ -60,8 +60,8 @@ test("výchozí HTML je anglicky a sitemap uvádí každý jazyk jako vlastní a
     assert.equal(localizeHtml(html, "en", packs, host, path, points), html, file + " se rozchází s anglickým zněním");
   }
   assert.match(fs.readFileSync("pro-partnery.html", "utf8"), /<h1[^>]*data-i18n="franchise.title"/);
-  assert.equal(fs.readFileSync("sitemap.xml", "utf8"), sitemapXml());
-  const sitemap = fs.readFileSync("sitemap.xml", "utf8");
+  assert.equal(fs.readFileSync("sitemap.xml", "utf8"), sitemapXml("www.raclettelovers.com"));
+  const sitemap = sitemapXml();
   for (const lang of ["de", "it", "pl", "es", "ru"]) {
     assert.match(sitemap, new RegExp("<loc>https://www\\.raclettelovers\\.com/\\?lang=" + lang + "</loc>"));
     assert.match(sitemap, new RegExp("<loc>https://www\\.raclettelovers\\.com/pro-partnery\\.html\\?lang=" + lang + "</loc>"));
@@ -69,7 +69,8 @@ test("výchozí HTML je anglicky a sitemap uvádí každý jazyk jako vlastní a
   assert.equal(sitemap.includes("app.html?lang=de"), false);
 });
 
-test("robots a sitemap ukazují na ostré domény a všechny jazyky", () => {
+test("robots a sitemap ukazují na ostré domény a všechny jazyky", async () => {
+  const { sitemapXml } = await import("../../lib/seo-html.mjs");
   const robots = fs.readFileSync("robots.txt", "utf8");
   const sitemap = fs.readFileSync("sitemap.xml", "utf8");
   assert.match(robots, /Sitemap: https:\/\/www\.raclettelovers\.com\/sitemap\.xml/);
@@ -86,6 +87,17 @@ test("robots a sitemap ukazují na ostré domény a všechny jazyky", () => {
   }
   assert.match(sitemap, /hreflang="x-default"/);
   assert.equal(sitemap.includes(HOST), true);
+  const file = fs.readFileSync("sitemap.xml", "utf8");
+  assert.equal(file.includes("<loc>https://raclettelovers.cz/"), false);
+  assert.equal(file.includes("<loc>https://raclettelovers.sk/"), false);
+  assert.equal(file.includes("<loc>https://raclettelovers.ch/"), false);
+  assert.match(file, /hreflang="cs" href="https:\/\/raclettelovers\.cz\/\?lang=cs"/);
+  const czech = sitemapXml("raclettelovers.cz");
+  assert.match(czech, /<loc>https:\/\/raclettelovers\.cz\/\?lang=cs<\/loc>/);
+  assert.match(czech, /<loc>https:\/\/raclettelovers\.cz\/pro-partnery\.html\?lang=cs<\/loc>/);
+  assert.match(czech, /<loc>https:\/\/raclettelovers\.cz\/app\.html\?lang=cs<\/loc>/);
+  assert.equal(czech.includes("<loc>https://www.raclettelovers.com/"), false);
+  assert.match(czech, /hreflang="en" href="https:\/\/www\.raclettelovers\.com\/\?lang=en"/);
 });
 
 test("veřejné soubory drží výkonnostní rozpočet", () => {

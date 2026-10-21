@@ -133,6 +133,20 @@ test("alias se přesměruje a obsahová doména se přepíše", async () => {
   assert.match(page.headers.get("content-security-policy"), /upgrade-insecure-requests/);
 });
 
+test("sitemap na české doméně uvádí jen české adresy", async () => {
+  const { default: worker } = await workerPromise;
+  const sitemap = await worker.fetch(new Request("https://raclettelovers.cz/sitemap.xml"), {
+    ASSETS: { async fetch() { throw new Error("soubor se nemá číst"); } }
+  });
+  const xml = await sitemap.text();
+  assert.equal(sitemap.status, 200);
+  assert.match(sitemap.headers.get("content-type"), /application\/xml/);
+  assert.match(xml, /<loc>https:\/\/raclettelovers\.cz\/\?lang=cs<\/loc>/);
+  assert.equal(xml.includes("<loc>https://www.raclettelovers.com/"), false);
+  assert.equal(xml.includes("<loc>https://raclettelovers.sk/"), false);
+  assert.match(xml, /hreflang="sk" href="https:\/\/raclettelovers\.sk\/\?lang=sk"/);
+});
+
 test("http skočí na https a soubor dostane hlavičky", async () => {
   const { default: worker } = await workerPromise;
   const http = await worker.fetch(new Request("http://raclettelovers.cz/pro-partnery?lang=cs"), {});

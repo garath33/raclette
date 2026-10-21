@@ -17,7 +17,7 @@ Výchozí HTML je anglicky a má `index, follow`. Angličtina je jazyk `www.racl
 
 Cloudflare Worker na `.cz`, `.sk` a `.ch` jazyk zapíše rovnou do HTML: `lang`, titulek, popis, Open Graph, texty `data-i18n` a seznam Pointů v JSON-LD. Robot bez JavaScriptu tedy na české doméně čte češtinu, ne anglický zdroj. Holá adresa (`/`, `/pro-partnery`, `/app`) se přesměruje 301 na stejnou cestu s `?lang=` jazyka domény. Přípona `.html` se v přesměrování nepřidává: Cloudflare ji z adresy zase sundá a obě pravidla by se zacyklila. Kanonická značka dál ukazuje na soubor s `.html`. Odkazy mezi stránkami si `?lang=` nesou, aby proklik z české stránky neskončil na adrese bez jazyka.
 
-`sitemap.xml` uvádí každou jazykovou verzi jako vlastní `<loc>`. Úvod a partneři mají devět jazyků, aplikace jen cs, en, fr a sk. `robots.txt` na doméně Workeru ukazuje sitemap téže domény.
+`sitemap.xml` na každé doméně uvádí jako `<loc>` jen adresy té domény. Ostatní jazyky jsou v ní dál jako `hreflang`. Úvod a partneři mají devět jazyků, aplikace jen cs, en, fr a sk. Soubor v gitu je verze pro `www.raclettelovers.com`. Worker na `.cz`, `.sk` a `.ch` pošle sitemap té domény. `robots.txt` na doméně Workeru ukazuje sitemap téže domény.
 
 JavaScript na ostré doméně nechá `index, follow` a kanonickou adresu drží na doméně daného jazyka. Na `github.io`, `localhost` a `127.0.0.1` nastaví `noindex, follow` a zkušební pruh. `github.io` se navíc přesměrovává na `www.raclettelovers.com`. Náhled na `*.workers.dev` má v HTML `noindex` a s `?lang=` ukáže text toho jazyka.
 
@@ -43,17 +43,18 @@ Fotky na úvodu mají vedle JPEG i WebP a AVIF. Prohlížeč vezme první formá
 
 ## Měření bez cookies
 
-Analytický skript se do stránek nevkládá, dokud není účet.
+Návštěvnost měří Cloudflare Web Analytics. Je zdarma a bez cookies. Plausible ani Umami se nepoužívají.
 
-- Plausible.io je placená a po zapnutí se o ni dál nestaráš. Do tří veřejných HTML přijde jeden skript s doménou webu.
-- Umami je open-source a zdarma. Na GitHub Pages nejde spustit, protože chce Node.js a databázi. Hostuje se zvlášť, třeba na Vercelu s databází Supabase nebo Neon, a do statického webu se vloží jen skript.
+Cloudflare přijme měřicí kód jen na doméně, pro kterou byl vydaný, a na jejích subdoménách. `.cz`, `.sk` a `.ch` jedou přes Cloudflare a mají automatické vložení. Snippet u nich v přehledu není, stránka ho proto do `ANALYTICS_TOKEN` nepíše. `www.raclettelovers.com` na Cloudflare neběží, kód `b1532d904c754677a4f8dd6c8a22384b` vkládá `js/site.js` na úvodu, u partnerů i v aplikaci. Localhost, `github.io` a náhled `workers.dev` se neměří.
+
+Počty v Web Analytics jsou zobrazení stránek v prohlížeči. Graf Requests u zóny je jiný údaj: každý požadavek, přesměrování i soubor.
 
 ## Google Search Console
 
-Stav: registrace sitemap není potvrzená. Po sloučení do `main` a ostrém nasazení to v odpovědi zopakuj, dokud sem nepřibude datum potvrzení.
+Stav: potvrzeno 21. 10. 2026. Sitemap je v Google Search Console přijatá. Připomínku už neopakuj.
 
 1. Otevři [Google Search Console](https://search.google.com/search-console) a přihlas se účtem, který má web spravovat.
 2. Přidej vlastnost typu Doména pro `raclettelovers.cz`, `raclettelovers.sk`, `raclettelovers.ch` a `raclettelovers.com`. Ověření je TXT záznam v DNS. U Cloudflare ho vlož do zóny té domény.
 3. V každé vlastnosti otevři Soubory sitemap a odešli `sitemap.xml`. Adresa je `https://<doména>/sitemap.xml`. Na `.com` je to `https://www.raclettelovers.com/sitemap.xml`.
-4. Soubor obsahuje adresy všech jazyků. Řádky z jiné domény konzole přeskočí. Každá vlastnost si vezme svoje.
+4. V souboru jsou jen adresy té domény. Odkazy `hreflang` na ostatní jazyky tam zůstat mohou. Hláška „Adresa URL není povolena“ znamená, že v `<loc>` je cizí doména. To se po nasazení téhle úpravy ztratí. Sitemap pak v konzoli odeber a přidej znovu, ať ji Google přečte hned.
 5. Za pár dní otevři stránku Stránky a zkontroluj, že se adresy začaly indexovat. Když ověření nebo sitemap selže, pošli chybu zpět. Opravuje se soubor na webu, ne účet v konzoli.

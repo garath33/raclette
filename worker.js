@@ -5,7 +5,8 @@ import {
   htmlLang,
   indexRedirect,
   mergePacks,
-  prepareHtml as localizePage
+  prepareHtml as localizePage,
+  sitemapXml
 } from "./lib/seo-html.mjs";
 
 export { canonicalFor, indexRedirect };
@@ -14,11 +15,11 @@ export const CONTENT_SECURITY_POLICY = [
   "default-src 'self'",
   "base-uri 'self'",
   "object-src 'none'",
-  "script-src 'self'",
+  "script-src 'self' https://static.cloudflareinsights.com",
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data:",
   "font-src 'self'",
-  "connect-src 'self' https://formsubmit.co",
+  "connect-src 'self' https://formsubmit.co https://cloudflareinsights.com",
   "frame-src https://www.youtube.com https://www.youtube-nocookie.com https://maps.google.com https://www.google.com",
   "worker-src 'self'",
   "manifest-src 'self'",
@@ -125,6 +126,14 @@ export default {
     if (request.method === "GET" || request.method === "HEAD") {
       const hop = indexRedirect(url.hostname, url.pathname, url.search);
       if (hop) return redirectTo(hop);
+    }
+    if (url.pathname === "/sitemap.xml") {
+      const host = url.hostname.toLowerCase().replace(/\.$/, "").replace(/^www\./, "");
+      const known = host === "raclettelovers.cz" || host === "raclettelovers.sk" || host === "raclettelovers.ch" || host === "raclettelovers.com";
+      if (!known) return withSecurity(await env.ASSETS.fetch(request));
+      return new Response(sitemapXml(host), {
+        headers: securityHeaders({ "content-type": "application/xml; charset=utf-8" })
+      });
     }
     if (url.pathname === "/robots.txt") {
       const file = await env.ASSETS.fetch(request);

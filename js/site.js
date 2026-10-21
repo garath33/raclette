@@ -23,6 +23,12 @@
     "raclettelovers.sk": { lang: "sk" },
     "raclettelovers.ch": { lang: "fr" }
   };
+  const ANALYTICS_TOKEN = {
+    "raclettelovers.com": "b1532d904c754677a4f8dd6c8a22384b",
+    "raclettelovers.cz": "",
+    "raclettelovers.sk": "",
+    "raclettelovers.ch": ""
+  };
   const COUNTRY_LANG = {
     CZ: "cs",
     SK: "sk",
@@ -217,6 +223,22 @@
     return "https://formsubmit.co/ajax/milan@raclette-original.com";
   }
 
+  function analyticsToken(hostname) {
+    if (!isLoversHost(hostname)) return "";
+    return ANALYTICS_TOKEN[apexHost(hostname)] || "";
+  }
+
+  function installAnalytics(doc, hostname) {
+    const token = analyticsToken(hostname);
+    if (!token || !doc || !doc.head || !doc.createElement || !doc.querySelector) return;
+    if (doc.querySelector("script[data-cf-beacon]")) return;
+    const script = doc.createElement("script");
+    script.defer = true;
+    script.src = "https://static.cloudflareinsights.com/beacon.min.js";
+    script.setAttribute("data-cf-beacon", JSON.stringify({ token: token }));
+    doc.head.appendChild(script);
+  }
+
   function apply(lang, translate, loc) {
     loc = loc || (typeof location !== "undefined" ? location : { hostname: "", origin: "", pathname: "/", hash: "" });
     const title = translate("meta.title");
@@ -238,6 +260,7 @@
     });
     const staging = isStagingHost(loc.hostname);
     setMeta("robots", staging ? "noindex, follow" : "index, follow");
+    installAnalytics(typeof document !== "undefined" ? document : null, loc.hostname);
     const banner = document.getElementById("env-banner");
     if (banner) {
       banner.hidden = !staging;
@@ -268,6 +291,9 @@
     htmlLang,
     ogLocale,
     partnerInquiryUrl,
+    ANALYTICS_TOKEN,
+    analyticsToken,
+    installAnalytics,
     apply
   };
 });
