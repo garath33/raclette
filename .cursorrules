@@ -1,0 +1,29 @@
+# .cursorrules - Pravidla pro Cursor AI
+
+## 1. Princip minimalizace kontextu a tokenů
+
+- Vždy respektuj pravidla z .cursorignore. Nečti ani neindexuj vynechané složky a soubory.
+
+- Nečti ani neupravuj soubory, které nejsou explicitně potřeba pro aktuální úkol.
+
+- Pokud upravuješ konkrétní komponentu nebo stránku (např. `index.html` nebo `styles.css`), pracuj pouze s tímto souborem a jeho bezprostředními závislostmi.
+
+- Nikdy nenačítaj do kontextu celou historii gitu ani velké binární soubory.
+
+- Při vícejazyčných webech vyvíjej a testuj strukturu výhradně na originálním jazyku. Překlady odděluj do lokalizačních souborů (JSON) a mutace ověřuj až hromadně před finálním vydáním.
+
+- Kontrolu nefunkčních odkazů (broken links / 404) přenechej automatickému CI/CD pipeline (GitHub Actions - např. Lychee nebo htmlproofer).
+
+- Před mergem do `main` vždy připrav PR, odkaž na preview prostředí, proveď závěrečnou kontrolu celé finální verze a vyžádej si schválení uživatele. Kde je to možné, přilož vizuální screenshoty.
+
+## 2. Architektura a kódové standardy
+
+- Piš čistý, srozumitelný a modulární kód.
+
+- Pro stylování preferuj Tailwind CSS (nebo čisté CSS proměnné podle typu projektu).
+
+- Dbej na sémantický HTML5 kód (`<header>`, `<main>`, `<section>`, `<article>`, `<footer>`).
+
+## 3. Dokumentace
+
+- Každá nová feature musí být zaznamenána v `docs/ROADMAP.md` a `docs/CHANGELOG.md`.
