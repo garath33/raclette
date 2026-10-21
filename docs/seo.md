@@ -43,10 +43,11 @@ Fotky na úvodu mají vedle JPEG i WebP a AVIF. Prohlížeč vezme první formá
 
 ## Měření bez cookies
 
-Analytický skript se do stránek nevkládá, dokud není účet.
+Návštěvnost měří Cloudflare Web Analytics. Je zdarma a bez cookies. Plausible ani Umami se nepoužívají.
 
-- Plausible.io je placená a po zapnutí se o ni dál nestaráš. Do tří veřejných HTML přijde jeden skript s doménou webu.
-- Umami je open-source a zdarma. Na GitHub Pages nejde spustit, protože chce Node.js a databázi. Hostuje se zvlášť, třeba na Vercelu s databází Supabase nebo Neon, a do statického webu se vloží jen skript.
+Cloudflare přijme měřicí kód jen na doméně, pro kterou byl vydaný, a na jejích subdoménách. `.cz`, `.sk`, `.ch` a `.com` jsou čtyři různé koncovky, proto má každá vlastní kód v `js/site.js`. Stránka ho vloží na úvodu, na partnerech i v aplikaci, ale jen když je návštěvník na ostré doméně. Localhost, `github.io` a náhled `workers.dev` se neměří.
+
+Kódy v `ANALYTICS_TOKEN` jsou zatím prázdné. Token nasazení Workeru nemá oprávnění Account Settings Write, kterým se měření v Cloudflare zakládá. Jakmile v objektu kód je, stejná stránka ho načte všude, kde ta doména běží.
 
 ## Google Search Console
 

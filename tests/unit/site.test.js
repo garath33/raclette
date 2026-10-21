@@ -9,6 +9,25 @@ const loc = (hostname, extra) => Object.assign({
   hash: ""
 }, extra);
 
+test("měření Cloudflare běží jen na ostrých doménách a jen s kódem", () => {
+  assert.deepEqual(
+    Object.keys(site.ANALYTICS_TOKEN).sort(),
+    ["raclettelovers.ch", "raclettelovers.com", "raclettelovers.cz", "raclettelovers.sk"]
+  );
+  assert.equal(site.analyticsToken("localhost"), "");
+  assert.equal(site.analyticsToken("garath33.github.io"), "");
+  assert.equal(site.analyticsToken("cursor-seo.workers.dev"), "");
+  assert.equal(site.analyticsToken("www.raclettelovers.com"), site.ANALYTICS_TOKEN["raclettelovers.com"]);
+  const added = [];
+  const doc = {
+    head: { appendChild(node) { added.push(node); } },
+    createElement() { return {}; },
+    querySelector() { return null; }
+  };
+  site.installAnalytics(doc, "raclettelovers.cz");
+  assert.equal(added.length, 0);
+});
+
 test("partnerInquiryUrl míří na FormSubmit pro Milana", () => {
   assert.equal(
     site.partnerInquiryUrl(),
