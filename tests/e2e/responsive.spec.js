@@ -1,17 +1,19 @@
 const { test, expect } = require("@playwright/test");
 
+const widths = [
+  { width: 320, height: 844 },
+  { width: 768, height: 1024 },
+  { width: 1024, height: 800 },
+  { width: 1440, height: 900 }
+];
+
 async function overflow(page) {
   return page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
 }
 
 test("mobil, tablet a desktop nemají vodorovný přetok", async ({ page }) => {
   await page.goto("/?lang=cs");
-  for (const size of [
-    { width: 390, height: 844 },
-    { width: 768, height: 1024 },
-    { width: 1280, height: 800 },
-    { width: 1440, height: 900 }
-  ]) {
+  for (const size of widths) {
     await page.setViewportSize(size);
     await page.evaluate(() => window.scrollTo(0, 0));
     expect(await overflow(page), JSON.stringify(size)).toBeLessThanOrEqual(1);
@@ -22,11 +24,7 @@ test("mobil, tablet a desktop nemají vodorovný přetok", async ({ page }) => {
 
 test("loga mlékárny drží poměr stran a layout nepřetéká", async ({ page }) => {
   await page.goto("/?lang=cs");
-  for (const size of [
-    { width: 390, height: 844 },
-    { width: 768, height: 1024 },
-    { width: 1280, height: 800 }
-  ]) {
+  for (const size of widths) {
     await page.setViewportSize(size);
     const cow = await page.locator(".supplier-cow").boundingBox();
     const crest = await page.locator(".supplier-crest").boundingBox();
@@ -49,7 +47,7 @@ test("loga mlékárny drží poměr stran a layout nepřetéká", async ({ page 
   }
 
   await page.goto("/pro-partnery.html?lang=cs");
-  await page.setViewportSize({ width: 1280, height: 800 });
+  await page.setViewportSize({ width: 1440, height: 900 });
   const partnersDairy = await page.locator("footer img.dairy").boundingBox();
   const partnersAspect = partnersDairy.width / partnersDairy.height;
   expect(partnersAspect).toBeGreaterThan(774 / 351 - 0.12);
@@ -59,35 +57,33 @@ test("loga mlékárny drží poměr stran a layout nepřetéká", async ({ page 
 
 test("aplikace Raclette Lovers na mobilu nepřetéká", async ({ page }) => {
   await page.goto("/app.html?lang=cs");
-  for (const size of [
-    { width: 390, height: 844 },
-    { width: 768, height: 1024 },
-    { width: 1280, height: 800 }
-  ]) {
+  for (const size of widths) {
     await page.setViewportSize(size);
     expect(await overflow(page), JSON.stringify(size)).toBeLessThanOrEqual(1);
   }
 });
 
 test("na mobilu se otevře menu a na desktopu je navigace vidět rovnou", async ({ page }) => {
-  await page.setViewportSize({ width: 390, height: 844 });
+  await page.setViewportSize({ width: 320, height: 844 });
   await page.goto("/?lang=cs");
   await expect(page.locator("#nav-toggle")).toBeVisible();
   await page.setViewportSize({ width: 768, height: 1024 });
   await expect(page.locator("#nav-toggle")).toBeVisible();
-  await page.setViewportSize({ width: 390, height: 844 });
+  await page.setViewportSize({ width: 1024, height: 800 });
+  await expect(page.locator("#nav-toggle")).toBeVisible();
+  await page.setViewportSize({ width: 320, height: 844 });
   await page.locator("#nav-toggle").click();
   await expect(page.locator("#site-nav")).toBeVisible();
   await page.locator("#site-nav a[href='#kontakty']").click();
   await expect(page.locator("#kontakty")).toBeInViewport();
 
-  await page.setViewportSize({ width: 1280, height: 800 });
+  await page.setViewportSize({ width: 1440, height: 900 });
   await expect(page.locator("#nav-toggle")).toBeHidden();
   await expect(page.locator("#site-nav a[href='#pointy']")).toBeVisible();
 });
 
 test("na mobilu je po přechodu na pointy vidět tlačítko pod bochníkem", async ({ page }) => {
-  await page.setViewportSize({ width: 390, height: 844 });
+  await page.setViewportSize({ width: 320, height: 844 });
   await page.goto("/?lang=cs");
   await page.locator("#hero-locate").click();
   await expect(page).toHaveURL(/#pointy/);
@@ -109,7 +105,6 @@ test("na mobilu je po přechodu na pointy vidět tlačítko pod bochníkem", asy
 
 test("tlačítko pod sýrem je celé vidět na desktopu i v krátkém okně", async ({ page }) => {
   for (const size of [
-    { width: 1280, height: 800 },
     { width: 1440, height: 900 },
     { width: 1920, height: 640 }
   ]) {
