@@ -25,7 +25,30 @@ jobs:
       - name: Install Playwright with browsers
         run: npx playwright install --with-deps chromium
 
-      # Run the full test suite (unit + e2e)
+      # Run the full test suite (unit + e2e). Jazykové mutace sem nepatří.
       - run: npm test
         env:
           CI: true
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: visual-cs
+          path: test-results/visual/
+          if-no-files-found: ignore
+
+  links:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: lycheeverse/lychee-action@v2
+        with:
+          fail: true
+          args: >-
+            index.html
+            pro-partnery.html
+            app.html
+            css/styles.css
+            js/points.js
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

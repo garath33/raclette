@@ -6,7 +6,7 @@ Tahle složka je mapa projektu. Nový postup, který se má příště zopakovat
 
 Česky, krátce, jako ostatní soubory tady. Žádný marketing. Každý nový dokument dostane řádek v tabulce [README](README.md), jinak se ztratí.
 
-Postup polohy je v [poloze](poloha.md). Větve, testy a ostrý web jsou v [pipeline](pipeline.md).
+Postup polohy je v [poloze](poloha.md). Větve, testy a ostrý web jsou v [pipeline](pipeline.md). Jak se testuje, je v [testování](testovani.md).
 
 ## Málo souborů
 
