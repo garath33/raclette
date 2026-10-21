@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://formsubmit.co; frame-src https://www.youtube.com https://www.youtube-nocookie.com https://maps.google.com https://www.google.com; worker-src 'self'; manifest-src 'self'; form-action 'self' https://formsubmit.co; upgrade-insecure-requests">
   <title>Raclette Point Original — authentic Swiss raclette in Czechia and Slovakia</title>
   <meta name="description" content="Authentic original Swiss raclette. Cheeses of the highest original quality and original Swiss recipes. Find a Point, or become an official Point. Swiss AOP from Valais.">
   <meta name="robots" content="index, follow">
@@ -76,9 +77,8 @@
     }
   }
   </script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="preload" as="image" href="assets/photo-service.avif" type="image/avif" fetchpriority="high">
+  <link rel="stylesheet" href="css/fonts.css">
   <link rel="stylesheet" href="css/styles.css">
   <meta property="og:image:alt" content="Half a wheel of raclette on the grill, with baked potatoes and pickles">
   <script type="application/ld+json" id="webpage-ld">
@@ -302,7 +302,7 @@
           </div>
         </div>
         <div class="hero-visual">
-          <img class="hero-photo" src="assets/photo-service.jpg" width="1200" height="1200" fetchpriority="high" alt="Half a wheel of raclette on the grill, with baked potatoes and pickles" data-i18n-alt="hero.photoAlt">
+          <picture><source type="image/avif" srcset="assets/photo-service.avif"><source type="image/webp" srcset="assets/photo-service.webp"><img class="hero-photo" src="assets/photo-service.jpg" width="1200" height="1200" alt="Half a wheel of raclette on the grill, with baked potatoes and pickles" data-i18n-alt="hero.photoAlt"></picture>
         </div>
       </div>
       <div class="diamonds" aria-hidden="true">
@@ -418,7 +418,7 @@
               <g filter="url(#grill-crust-drop)">
                 <g mask="url(#grill-organic-mask)" filter="url(#grill-warmth)">
                   <g transform="translate(-142, -226) rotate(3.5, 600, 260)">
-                    <image href="assets/photo-service.jpg" width="1200" height="1200"/>
+                    <image href="assets/photo-service.webp" width="1200" height="1200"/>
                   </g>
                 </g>
               </g>
@@ -462,25 +462,25 @@
         </div>
         <div class="celeb-row">
           <figure>
-            <img src="assets/celeb-klus.jpg" width="960" height="480" loading="lazy" alt="Tomáš Klus, Mirka and Milan Kolář after the summer festival concert in Kladno" data-i18n-alt="celeb.klus.alt">
+            <picture><source type="image/avif" srcset="assets/celeb-klus.avif"><source type="image/webp" srcset="assets/celeb-klus.webp"><img src="assets/celeb-klus.jpg" width="960" height="480" loading="lazy" alt="Tomáš Klus, Mirka and Milan Kolář after the summer festival concert in Kladno" data-i18n-alt="celeb.klus.alt"></picture>
           </figure>
           <figure>
-            <img src="assets/celeb-stan.jpg" width="960" height="480" loading="lazy" alt="Guests with a plate of raclette at the Raclette Original stall, beside Milan Kolář" data-i18n-alt="celeb.stan.alt">
+            <picture><source type="image/avif" srcset="assets/celeb-stan.avif"><source type="image/webp" srcset="assets/celeb-stan.webp"><img src="assets/celeb-stan.jpg" width="960" height="480" loading="lazy" alt="Guests with a plate of raclette at the Raclette Original stall, beside Milan Kolář" data-i18n-alt="celeb.stan.alt"></picture>
           </figure>
           <figure>
-            <img src="assets/celeb-incognito.jpg" width="960" height="619" loading="lazy" alt="Milan Kolář with a TV host in a studio next to a raclette wheel on the Incognito show" data-i18n-alt="celeb.incognito.alt" style="object-position: 55% 35%">
+            <picture><source type="image/avif" srcset="assets/celeb-incognito.avif"><source type="image/webp" srcset="assets/celeb-incognito.webp"><img src="assets/celeb-incognito.jpg" width="960" height="619" loading="lazy" alt="Milan Kolář with a TV host in a studio next to a raclette wheel on the Incognito show" data-i18n-alt="celeb.incognito.alt" style="object-position: 55% 35%"></picture>
           </figure>
           <figure>
-            <img src="assets/celeb-group.jpg" width="960" height="772" loading="lazy" alt="Group with Milan Kolář and guests with raclette plates and burgers outdoors" data-i18n-alt="celeb.group.alt" style="object-position: 50% 30%">
+            <picture><source type="image/avif" srcset="assets/celeb-group.avif"><source type="image/webp" srcset="assets/celeb-group.webp"><img src="assets/celeb-group.jpg" width="960" height="772" loading="lazy" alt="Group with Milan Kolář and guests with raclette plates and burgers outdoors" data-i18n-alt="celeb.group.alt" style="object-position: 50% 30%"></picture>
           </figure>
           <figure>
-            <img src="assets/celeb-studio-plate.jpg" width="960" height="920" loading="lazy" alt="A plate of raclette with a Swiss flag in a TV studio" data-i18n-alt="celeb.studioPlate.alt" style="object-position: 50% 60%">
+            <picture><source type="image/avif" srcset="assets/celeb-studio-plate.avif"><source type="image/webp" srcset="assets/celeb-studio-plate.webp"><img src="assets/celeb-studio-plate.jpg" width="960" height="920" loading="lazy" alt="A plate of raclette with a Swiss flag in a TV studio" data-i18n-alt="celeb.studioPlate.alt" style="object-position: 50% 60%"></picture>
           </figure>
           <figure>
-            <img src="assets/celeb-snutek.jpg" width="960" height="604" loading="lazy" alt="Milan Kolář with a friend in Snutek T-shirts" data-i18n-alt="celeb.snutek.alt" style="object-position: 50% 35%">
+            <picture><source type="image/avif" srcset="assets/celeb-snutek.avif"><source type="image/webp" srcset="assets/celeb-snutek.webp"><img src="assets/celeb-snutek.jpg" width="960" height="604" loading="lazy" alt="Milan Kolář with a friend in Snutek T-shirts" data-i18n-alt="celeb.snutek.alt" style="object-position: 50% 35%"></picture>
           </figure>
           <figure>
-            <img src="assets/celeb-lovers.jpg" width="960" height="844" loading="lazy" alt="Milan Kolář with a friend and Raclette Lovers stickers at a festival" data-i18n-alt="celeb.lovers.alt" style="object-position: 50% 35%">
+            <picture><source type="image/avif" srcset="assets/celeb-lovers.avif"><source type="image/webp" srcset="assets/celeb-lovers.webp"><img src="assets/celeb-lovers.jpg" width="960" height="844" loading="lazy" alt="Milan Kolář with a friend and Raclette Lovers stickers at a festival" data-i18n-alt="celeb.lovers.alt" style="object-position: 50% 35%"></picture>
           </figure>
           <a class="fb-card" href="https://www.facebook.com/rakletparty/" target="_blank" rel="noopener noreferrer">
             <img src="assets/facebook-raklet.png" width="128" height="128" alt="Facebook">
@@ -504,7 +504,7 @@
             <p class="lead" data-i18n="raclette.lead">Raclette, pronounced raklet, is both a cheese and the traditional dish made from it to original Swiss recipes. Together with fondue it counts as a national dish of Switzerland. We offer authentic, original Swiss raclette.</p>
           </div>
           <figure class="shot dairy-shot">
-            <img src="assets/photo-cellar.jpg" width="900" height="601" loading="lazy" alt="Ageing racks of wheels at the Laiterie d’Orsières dairy" data-i18n-alt="raclette.altCellar">
+            <picture><source type="image/avif" srcset="assets/photo-cellar.avif"><source type="image/webp" srcset="assets/photo-cellar.webp"><img src="assets/photo-cellar.jpg" width="900" height="601" loading="lazy" alt="Ageing racks of wheels at the Laiterie d’Orsières dairy" data-i18n-alt="raclette.altCellar"></picture>
             <figcaption data-i18n="raclette.capCellar">Ageing at Laiterie d’Orsières. The wheels we use for raclette.</figcaption>
           </figure>
         </div>
@@ -529,7 +529,7 @@
             <p data-i18n="raclette.cellar">The round wheels are made from unpasteurised mountain milk and age for at least three months. Full-fat milk and cellar ageing give a creamy-smooth texture, an intense taste and an aroma that depends on how long, and in which season, the cheese ages.</p>
           </div>
           <figure class="shot dairy-shot">
-            <img src="assets/photo-laiterie.jpg" width="580" height="435" loading="lazy" alt="The Laiterie d’Orsières dairy building in the canton of Valais" data-i18n-alt="raclette.altDairy">
+            <picture><source type="image/avif" srcset="assets/photo-laiterie.avif"><source type="image/webp" srcset="assets/photo-laiterie.webp"><img src="assets/photo-laiterie.jpg" width="580" height="435" loading="lazy" alt="The Laiterie d’Orsières dairy building in the canton of Valais" data-i18n-alt="raclette.altDairy"></picture>
             <figcaption data-i18n="raclette.capDairy">Laiterie d’Orsières. The dairy in the heart of the Pays des Reines, where the cheeses we distribute are made.</figcaption>
           </figure>
         </div>
@@ -659,7 +659,7 @@
             <a class="btn btn-solid" href="https://www.rakletparty.cz/" target="_blank" rel="noopener noreferrer" data-i18n="shop.party.cta">Open the shop</a>
           </div>
           <figure class="shop-photo">
-            <img src="assets/shop-assortment.jpg" width="864" height="1152" loading="lazy" alt="Shop assortment: raclette cheese on a grill, spices, wine, fondue and wooden pieces" data-i18n-alt="shop.photoAlt">
+            <picture><source type="image/avif" srcset="assets/shop-assortment.avif"><source type="image/webp" srcset="assets/shop-assortment.webp"><img src="assets/shop-assortment.jpg" width="864" height="1152" loading="lazy" alt="Shop assortment: raclette cheese on a grill, spices, wine, fondue and wooden pieces" data-i18n-alt="shop.photoAlt"></picture>
           </figure>
         </article>
         <article class="shop-dairy">
@@ -724,37 +724,37 @@
         </div>
         <div class="event-grid">
           <article class="event">
-            <img class="event-photo" src="assets/event-open-raklet.jpg" width="1200" height="750" loading="lazy" alt="Open Raklet Festival v hotelu Katharein, servírování raclette pod stanem">
+            <picture><source type="image/avif" srcset="assets/event-open-raklet.avif"><source type="image/webp" srcset="assets/event-open-raklet.webp"><img class="event-photo" src="assets/event-open-raklet.jpg" width="1200" height="750" loading="lazy" alt="Open Raklet Festival v hotelu Katharein, servírování raclette pod stanem"></picture>
             <time>2013</time>
             <h3>Open Raklet Festival</h3>
             <p data-i18n="ev1d">Hotel Katharein. The evening authentic Swiss raclette in Czechia stopped being a secret. More than three hundred guests.</p>
           </article>
           <article class="event">
-            <img class="event-photo" src="assets/event-colours.jpg" width="1200" height="750" loading="lazy" alt="Colours of Ostrava 2014, Dolní Vítkovice">
+            <picture><source type="image/avif" srcset="assets/event-colours.avif"><source type="image/webp" srcset="assets/event-colours.webp"><img class="event-photo" src="assets/event-colours.jpg" width="1200" height="750" loading="lazy" alt="Colours of Ostrava 2014, Dolní Vítkovice"></picture>
             <time>2014–2015</time>
             <h3>Colours of Ostrava</h3>
             <p data-i18n="ev2d">A music festival in Ostrava. The grill between the stages and a queue for melted cheese.</p>
           </article>
           <article class="event">
-            <img class="event-photo" src="assets/event-beats.jpg" width="1200" height="750" loading="lazy" alt="Beats for Love 2014, Dolní Vítkovice Ostrava">
+            <picture><source type="image/avif" srcset="assets/event-beats.avif"><source type="image/webp" srcset="assets/event-beats.webp"><img class="event-photo" src="assets/event-beats.jpg" width="1200" height="750" loading="lazy" alt="Beats for Love 2014, Dolní Vítkovice Ostrava"></picture>
             <time>2014–2015</time>
             <h3>Beats for Love</h3>
             <p data-i18n="ev3d">Summer in Ostrava, again. Raclette as a dish that belongs in a festival day.</p>
           </article>
           <article class="event">
-            <img class="event-photo" src="assets/event-apetit.jpg" width="840" height="560" loading="lazy" alt="Raclette s bramborami a okurkou na Apetit festivalu">
+            <picture><source type="image/avif" srcset="assets/event-apetit.avif"><source type="image/webp" srcset="assets/event-apetit.webp"><img class="event-photo" src="assets/event-apetit.jpg" width="840" height="560" loading="lazy" alt="Raclette s bramborami a okurkou na Apetit festivalu"></picture>
             <time>2014–2015</time>
             <h3>Apetit festival</h3>
             <p data-i18n="ev4d">A food festival in Plzeň and Pardubice. Potatoes, gherkin and a full plate.</p>
           </article>
           <article class="event">
-            <img class="event-photo" src="assets/event-foodparade.jpg" width="1200" height="750" loading="lazy" alt="Foodparade Praha 2014, Zámek Troja">
+            <picture><source type="image/avif" srcset="assets/event-foodparade.avif"><source type="image/webp" srcset="assets/event-foodparade.webp"><img class="event-photo" src="assets/event-foodparade.jpg" width="1200" height="750" loading="lazy" alt="Foodparade Praha 2014, Zámek Troja"></picture>
             <time>2014–2015</time>
             <h3>Foodparade Praha</h3>
             <p data-i18n="ev5d">Street food in Prague. Raclette outside, straight from the wheel.</p>
           </article>
           <article class="event">
-            <img class="event-photo" src="assets/event-senec.jpg" width="1200" height="750" loading="lazy" alt="Food truck Raclette Republic na Streetfood Senec">
+            <picture><source type="image/avif" srcset="assets/event-senec.avif"><source type="image/webp" srcset="assets/event-senec.webp"><img class="event-photo" src="assets/event-senec.jpg" width="1200" height="750" loading="lazy" alt="Food truck Raclette Republic na Streetfood Senec"></picture>
             <time>2019</time>
             <h3>Streetfood Senec</h3>
             <p data-i18n="ev6d">The Raclette Republic food truck and the first big outing of the Point idea. Raclette on the road.</p>

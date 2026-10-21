@@ -34,6 +34,6 @@ Dva rozpočty:
 - soubory na disku, aby do repozitáře nevlezla zbytečně velká fotka
 - přenos v prohlížeči, žádný vlastní soubor nad 500 kB
 
-Písma z Google Fonts se do limitu vlastních souborů nepočítají. Hero fotka má `fetchpriority="high"`, galerie pod ohybem má `loading="lazy"`. Hláška prohlížeče `compute-pressure` přichází z vložené mapy a test ji nepočítá jako chybu stránky.
+Písma jsou místní soubory ve `fonts/` a do limitu 500 kB na odpověď se počítají. Hero fotka se přednačítá jako AVIF, galerie pod ohybem má `loading="lazy"`. Hláška prohlížeče `compute-pressure` přichází z vložené mapy a test ji nepočítá jako chybu stránky.
 
 Nový test přidávej, když se objeví chyba, která už jednou utekla, a ve vrstvě, která ji umí chytit bez druhé kopie. Příklad: po záměně souřadnic přibyl jednotkový test „z Kladna je nejbližší food truck“.

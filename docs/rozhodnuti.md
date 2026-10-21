@@ -24,7 +24,7 @@ Budoucí domény `raclettelovers.*` se do SEO značek nedávají, dokud neodpov�
 
 ## Písmo z charty
 
-Charta předepisuje Luthier a Open Sans. Open Sans je na webu. Luthier v podkladech jako soubor písma není, proto jsou nadpisy v Cormorant Garamond. Písmo se nestahuje z cizího úložiště.
+Charta předepisuje Luthier a Open Sans. Open Sans je na webu. Luthier v podkladech jako soubor písma není, proto jsou nadpisy v Cormorant Garamond. Písmo se nestahuje z cizího úložiště. Veřejné stránky ho mají ve `fonts/` a `css/fonts.css`. Odkaz na Google Fonts na nich není.
 
 ## Chyba, která dostala test
 

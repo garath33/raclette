@@ -30,6 +30,7 @@
 }
 
 * { box-sizing: border-box; }
+picture { display: contents; }
 html { scroll-behavior: smooth; }
 .env-banner {
   margin: 0;
