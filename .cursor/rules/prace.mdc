@@ -3,4 +3,4 @@ description: Minimum souborů, PR s odkazem, poloha podle manuálu
 alwaysApply: true
 ---
 
-Sahaj jen na soubory, které úkol mění. Nesouvisející a velké soubory neotvírej. Složky z .cursorignore nečti a neindexuj. Každou úpravu dej do větve a pull requestu a v odpovědi pošli jeho URL. Do main nestrkej, dokud není řečeno publikovat. Postup polohy je v docs/poloha.md, vedení dokumentace v docs/vedeni.md. Testy a jazyky jsou v docs/testovani.md: průběžně jen čeština, odkazy kontroluje CI, ne agent.
+Sahaj jen na soubory, které úkol mění. Nesouvisející a velké soubory neotvírej. Složky z .cursorignore nečti a neindexuj. Každou úpravu dej do větve a pull requestu a v odpovědi pošli jeho URL. Do main nestrkej, dokud není řečeno publikovat. Postup polohy je v docs/poloha.md, vedení dokumentace v docs/vedeni.md. Testy a jazyky jsou v docs/testovani.md: průběžně jen čeština, odkazy kontroluje CI, ne agent. Po sloučení do main a ostrém nasazení v odpovědi zopakuj registraci sitemap v Google Search Console z docs/seo.md, dokud v tom dokumentu není datum potvrzení.

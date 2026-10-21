@@ -49,6 +49,7 @@ jobs:
             pro-partnery.html
             app.html
             css/styles.css
+            css/fonts.css
             js/points.js
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

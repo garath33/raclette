@@ -114,6 +114,8 @@ test("alias se přesměruje a obsahová doména se přepíše", async () => {
   const redirect = await worker.fetch(new Request("https://raclettepointoriginal.cz/akce?lang=cs"), {});
   assert.equal(redirect.status, 301);
   assert.equal(redirect.headers.get("location"), "https://raclettelovers.cz/akce?lang=cs");
+  assert.equal(redirect.headers.get("x-content-type-options"), "nosniff");
+  assert.match(redirect.headers.get("content-security-policy"), /frame-ancestors 'self'/);
 
   const page = await worker.fetch(new Request("https://raclettelovers.sk/?lang=de"), {
     ASSETS: {
@@ -126,4 +128,25 @@ test("alias se přesměruje a obsahová doména se přepíše", async () => {
   assert.equal(page.status, 200);
   assert.match(body, /https:\/\/www\.raclettelovers\.com\/\?lang=de/);
   assert.match(body, /index, follow/);
+  assert.equal(page.headers.get("x-content-type-options"), "nosniff");
+  assert.equal(page.headers.get("strict-transport-security"), "max-age=15552000");
+  assert.match(page.headers.get("content-security-policy"), /upgrade-insecure-requests/);
+});
+
+test("http skočí na https a soubor dostane hlavičky", async () => {
+  const { default: worker } = await workerPromise;
+  const http = await worker.fetch(new Request("http://raclettelovers.cz/pro-partnery?lang=cs"), {});
+  assert.equal(http.status, 301);
+  assert.equal(http.headers.get("location"), "https://raclettelovers.cz/pro-partnery?lang=cs");
+  const css = await worker.fetch(new Request("https://raclettelovers.cz/css/styles.css"), {
+    ASSETS: {
+      async fetch() {
+        return new Response("body{}", { headers: { "content-type": "text/css" } });
+      }
+    }
+  });
+  assert.equal(css.status, 200);
+  assert.equal(await css.text(), "body{}");
+  assert.equal(css.headers.get("x-content-type-options"), "nosniff");
+  assert.match(css.headers.get("content-security-policy"), /font-src 'self'/);
 });

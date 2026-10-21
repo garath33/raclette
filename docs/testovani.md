@@ -18,7 +18,7 @@ U každé změny se rozhodne, jestli sada potřebuje úpravu. Test, který hlíd
 
 ## Smoke
 
-Rychlá kontrola sestavení je v jednotkách: existuje `index.html`, stránky odkazují na `css/styles.css`, místní `href` a `src` míří na soubor a kotvu, která v cíli je. Prohlížeč v smoke ověří, že odpověď je 200 a že se styl opravdu aplikoval (pozadí stránky).
+Rychlá kontrola sestavení je v jednotkách: existuje `index.html`, stránky odkazují na `css/fonts.css` a `css/styles.css`, místní `href`, `src` a `srcset` míří na soubor a kotvu, která v cíli je. Prohlížeč v smoke ověří, že odpověď je 200 a že se styl opravdu aplikoval (pozadí stránky).
 
 Smoke dál ověří, že se stránka rozběhne: nadpis, sekce, testovací pruh, pět českých vizitek, přepnutí vlajky na tři švýcarské a přepnutí do němčiny. Hero „Najít nejbližší Point“ ve stejném klepnutí spustí polohu. Aplikace `app.html` má osm karet bez mapy a polohu spouští až po klepnutí.
 
@@ -48,11 +48,11 @@ Vizuální kontrola mutací je jednou před vydáním: `npm run test:languages`.
 
 ## Snímky
 
-`tests/e2e/visual.spec.js` uloží úvod a sekci pointů v češtině na šířkách z responsivity do `test-results/visual/`. Workflow CI je přiloží k běhu jako artefakt `visual-cs`. Pixelové diffy se neukládají, písma z Google Fonts by je rozbila.
+`tests/e2e/visual.spec.js` uloží úvod a sekci pointů v češtině na šířkách z responsivity do `test-results/visual/`. Workflow CI je přiloží k běhu jako artefakt `visual-cs`. Pixelové diffy se neukládají.
 
 ## Odkazy
 
-Nefunkční odkazy (404) hledá v pull requestu job **links** ve workflow CI, nástroj [Lychee](https://github.com/lycheeverse/lychee). Projde `index.html`, `pro-partnery.html`, `app.html`, `css/styles.css` a `js/points.js`. Agent v Cursoru odkazy neproklikává. Nastavení je v `.lychee.toml`.
+Nefunkční odkazy (404) hledá v pull requestu job **links** ve workflow CI, nástroj [Lychee](https://github.com/lycheeverse/lychee). Projde `index.html`, `pro-partnery.html`, `app.html`, `css/styles.css`, `css/fonts.css` a `js/points.js`. Agent v Cursoru odkazy neproklikává. Nastavení je v `.lychee.toml`.
 
 ## Výkon
 
@@ -61,6 +61,6 @@ Dva rozpočty:
 - soubory na disku, aby do repozitáře nevlezla zbytečně velká fotka
 - přenos v prohlížeči, žádný vlastní soubor nad 500 kB
 
-Písma z Google Fonts se do limitu vlastních souborů nepočítají. Hero fotka má `fetchpriority="high"`, galerie pod ohybem má `loading="lazy"`. Hláška prohlížeče `compute-pressure` přichází z vložené mapy a test ji nepočítá jako chybu stránky.
+Písma jsou místní soubory ve `fonts/` a do limitu 500 kB na odpověď se počítají. Hero fotka se přednačítá jako AVIF, galerie pod ohybem má `loading="lazy"`. Hláška prohlížeče `compute-pressure` přichází z vložené mapy a test ji nepočítá jako chybu stránky.
 
 Příklad z údržby: po záměně souřadnic přibyl jednotkový test „z Kladna je nejbližší food truck“.

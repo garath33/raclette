@@ -69,6 +69,10 @@ npm start
 
 Stránka je na `http://127.0.0.1:4173`.
 
+## Po ostrém nasazení
+
+Po sloučení do `main` a nasazení na ostré domény se v odpovědi zopakuje registrace `sitemap.xml` v Google Search Console. Kroky a stav jsou v [SEO](seo.md). Připomínka končí, až je v tom dokumentu datum potvrzení.
+
 ## Co se na hosting nekopíruje
 
 Testy, `node_modules`, dokumentace a konfigurace zůstávají v gitu. Worker bere veřejné soubory podle `wrangler.jsonc` a `.assetsignore`.
