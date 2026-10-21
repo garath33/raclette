@@ -7,7 +7,7 @@ Web Raclette Point Original. Tahle složka je mapa projektu, ne marketingová st
 | [Architektura](architektura.md) | Z čeho se web skládá a jak se stránka chová |
 | [Pipeline](pipeline.md) | Větve, testy, testovací adresa a ostré nasazení |
 | [Testování](testovani.md) | Smoke, regrese, responsivita, výkon |
-| [SEO](seo.md) | Titulky, jazyky, sitemap a proč je testovací web noindex |
+| [SEO](seo.md) | Titulky, jazyky, sitemap, hlavičky, písma a Search Console |
 | [Domény](domeny.md) | Budoucí adresy a přesměrování |
 | [Rozhodnutí](rozhodnuti.md) | Proč je něco udělané právě tak, včetně oprav chyb |
 | [Poloha](poloha.md) | Pořadí sítě a GPS, dialog zapnutí polohy, hlášky |

@@ -28,3 +28,32 @@ node lib/bake-seo.mjs
 ```
 
 Aliasové domény (`raclettepointoriginal.*`, `raclette-lovers.com`, `raclette-point-original.com` a jejich `www`) vrací 301. Samostatnou stránku k indexování nemají.
+
+Každá veřejná stránka má právě jeden `h1`. Sekce mají `h2` a `h3`. U obrázku je `alt`. U čistě ozdobné linky je `alt` prázdný. Složité ARIA se nepřidává.
+
+## Bezpečnost
+
+HTTPS vynucuje hosting. Worker navíc přesměruje `http` na `https` a posílá `Strict-Transport-Security`. U GitHub Pages pro `www.raclettelovers.com` má být v nastavení zapnuté Enforce HTTPS.
+
+Každá odpověď Workeru nese `X-Content-Type-Options: nosniff` a `Content-Security-Policy`. Stejná politika bez `frame-ancestors` je v HTML jako meta značka, protože tuhle hlavičku GitHub Pages z repozitáře nenastaví. Povolené je vlastní písmo a skript, odeslání poptávky na formsubmit.co, vložené YouTube a mapa Google.
+
+## Výkon
+
+Fotky na úvodu mají vedle JPEG i WebP a AVIF. Prohlížeč vezme první formát, který umí. Hero AVIF se přednačítá, ostatní fotky mají `loading="lazy"`. Open Sans a Cormorant Garamond leží ve `fonts/` (latin, latin-ext, cyrillic) a připojí je `css/fonts.css`. Veřejné stránky z Google Fonts nic nenačítají. `navrhy.html` se na hosting nekopíruje.
+
+## Měření bez cookies
+
+Analytický skript se do stránek nevkládá, dokud není účet.
+
+- Plausible.io je placená a po zapnutí se o ni dál nestaráš. Do tří veřejných HTML přijde jeden skript s doménou webu.
+- Umami je open-source a zdarma. Na GitHub Pages nejde spustit, protože chce Node.js a databázi. Hostuje se zvlášť, třeba na Vercelu s databází Supabase nebo Neon, a do statického webu se vloží jen skript.
+
+## Google Search Console
+
+Stav: registrace sitemap není potvrzená. Po sloučení do `main` a ostrém nasazení to v odpovědi zopakuj, dokud sem nepřibude datum potvrzení.
+
+1. Otevři [Google Search Console](https://search.google.com/search-console) a přihlas se účtem, který má web spravovat.
+2. Přidej vlastnost typu Doména pro `raclettelovers.cz`, `raclettelovers.sk`, `raclettelovers.ch` a `raclettelovers.com`. Ověření je TXT záznam v DNS. U Cloudflare ho vlož do zóny té domény.
+3. V každé vlastnosti otevři Soubory sitemap a odešli `sitemap.xml`. Adresa je `https://<doména>/sitemap.xml`. Na `.com` je to `https://www.raclettelovers.com/sitemap.xml`.
+4. Soubor obsahuje adresy všech jazyků. Řádky z jiné domény konzole přeskočí. Každá vlastnost si vezme svoje.
+5. Za pár dní otevři stránku Stránky a zkontroluj, že se adresy začaly indexovat. Když ověření nebo sitemap selže, pošli chybu zpět. Opravuje se soubor na webu, ne účet v konzoli.

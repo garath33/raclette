@@ -172,6 +172,41 @@ test("kontaktní stránka neuvádí Veroniku a uvádí Martina Šimůnka", () =>
   assert.match(partners, /pro-partnery\.html\?lang=/);
 });
 
+test("veřejné stránky mají jeden nadpis, alt, lokální písmo a bezpečnostní značku", async () => {
+  const { CONTENT_SECURITY_POLICY } = await import("../../worker.js");
+  const escaped = CONTENT_SECURITY_POLICY.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  for (const file of ["index.html", "pro-partnery.html", "app.html"]) {
+    const html = fs.readFileSync(file, "utf8");
+    assert.equal((html.match(/<h1[\s>]/g) || []).length, 1, file);
+    assert.equal(html.includes("fonts.googleapis.com"), false, file);
+    assert.match(html, /href="css\/fonts.css"/);
+    assert.match(html, new RegExp('http-equiv="Content-Security-Policy" content="' + escaped + '"'));
+    for (const img of html.match(/<img\b[^>]*>/g) || []) {
+      assert.match(img, /\salt="/, file + " " + img);
+    }
+  }
+  const home = fs.readFileSync("index.html", "utf8");
+  const photos = [...home.matchAll(/src="(assets\/[^"]+\.jpg)"/g)].map((match) => match[1]);
+  assert.ok(photos.length >= 10);
+  for (const file of photos) {
+    const base = file.replace(/\.jpg$/, "");
+    assert.ok(fs.statSync(base + ".webp").size < fs.statSync(file).size, base);
+    assert.ok(fs.statSync(base + ".avif").size < fs.statSync(file).size, base);
+    assert.match(home, new RegExp('<source type="image/avif" srcset="' + base + '\\.avif">'));
+    assert.match(home, new RegExp('<source type="image/webp" srcset="' + base + '\\.webp">'));
+  }
+  for (const tag of home.match(/<img\b[^>]*\.jpg[^>]*>/g)) {
+    if (tag.includes("hero-photo")) assert.equal(tag.includes('loading="lazy"'), false);
+    else assert.match(tag, /loading="lazy"/);
+  }
+  assert.match(home, /rel="preload" as="image" href="assets\/photo-service\.avif"/);
+  assert.ok(fs.statSync("css/fonts.css").size < 8 * 1024);
+  for (const font of fs.readdirSync("fonts")) {
+    if (!font.endsWith(".woff2")) continue;
+    assert.ok(fs.statSync("fonts/" + font).size < 80 * 1024, font);
+  }
+});
+
 test("PWA Raclette Lovers má manifest, ikony a stránku aplikace", () => {
   const manifest = JSON.parse(fs.readFileSync("manifest.webmanifest", "utf8"));
   assert.equal(manifest.name, "Raclette Lovers");
