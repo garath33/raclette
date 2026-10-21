@@ -21,11 +21,19 @@ test("měření Cloudflare běží jen na ostrých doménách a jen s kódem", (
   const added = [];
   const doc = {
     head: { appendChild(node) { added.push(node); } },
-    createElement() { return {}; },
+    createElement() {
+      const node = {};
+      node.setAttribute = (name, value) => { node[name] = value; };
+      return node;
+    },
     querySelector() { return null; }
   };
   site.installAnalytics(doc, "raclettelovers.cz");
   assert.equal(added.length, 0);
+  site.installAnalytics(doc, "www.raclettelovers.com");
+  assert.equal(added.length, 1);
+  assert.equal(added[0].src, "https://static.cloudflareinsights.com/beacon.min.js");
+  assert.match(added[0]["data-cf-beacon"], /b1532d904c754677a4f8dd6c8a22384b/);
 });
 
 test("partnerInquiryUrl míří na FormSubmit pro Milana", () => {

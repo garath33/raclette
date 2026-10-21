@@ -45,9 +45,9 @@ Fotky na úvodu mají vedle JPEG i WebP a AVIF. Prohlížeč vezme první formá
 
 Návštěvnost měří Cloudflare Web Analytics. Je zdarma a bez cookies. Plausible ani Umami se nepoužívají.
 
-Cloudflare přijme měřicí kód jen na doméně, pro kterou byl vydaný, a na jejích subdoménách. `.cz`, `.sk`, `.ch` a `.com` jsou čtyři různé koncovky, proto má každá vlastní kód v `js/site.js`. Stránka ho vloží na úvodu, na partnerech i v aplikaci, ale jen když je návštěvník na ostré doméně. Localhost, `github.io` a náhled `workers.dev` se neměří.
+Cloudflare přijme měřicí kód jen na doméně, pro kterou byl vydaný, a na jejích subdoménách. `.cz`, `.sk` a `.ch` jedou přes Cloudflare a mají automatické vložení. Snippet u nich v přehledu není, stránka ho proto do `ANALYTICS_TOKEN` nepíše. `www.raclettelovers.com` na Cloudflare neběží, kód `b1532d904c754677a4f8dd6c8a22384b` vkládá `js/site.js` na úvodu, u partnerů i v aplikaci. Localhost, `github.io` a náhled `workers.dev` se neměří.
 
-Kódy v `ANALYTICS_TOKEN` jsou zatím prázdné. Token nasazení Workeru nemá oprávnění Account Settings Write, kterým se měření v Cloudflare zakládá. Jakmile v objektu kód je, stejná stránka ho načte všude, kde ta doména běží.
+Počty v Web Analytics jsou zobrazení stránek v prohlížeči. Graf Requests u zóny je jiný údaj: každý požadavek, přesměrování i soubor.
 
 ## Google Search Console
 

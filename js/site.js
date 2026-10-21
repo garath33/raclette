@@ -24,7 +24,7 @@
     "raclettelovers.ch": { lang: "fr" }
   };
   const ANALYTICS_TOKEN = {
-    "raclettelovers.com": "",
+    "raclettelovers.com": "b1532d904c754677a4f8dd6c8a22384b",
     "raclettelovers.cz": "",
     "raclettelovers.sk": "",
     "raclettelovers.ch": ""
