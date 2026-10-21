@@ -6,7 +6,7 @@ Tahle složka je mapa projektu. Nový postup, který se má příště zopakovat
 
 Česky, krátce, jako ostatní soubory tady. Žádný marketing. Každý nový dokument dostane řádek v tabulce [README](README.md), jinak se ztratí.
 
-Postup polohy je v [poloze](poloha.md). Větve, testy a ostrý web jsou v [pipeline](pipeline.md). Jak se testuje, je v [testování](testovani.md).
+Postup polohy je v [poloze](poloha.md). Větve, testy a ostrý web jsou v [pipeline](pipeline.md). Jak se testuje, je v [testování](testovani.md). Ověření modelu před větším úkolem je v [modelu](model.md).
 
 ## Málo souborů
 
@@ -26,11 +26,13 @@ blob-report/
 playwright/.cache/
 _site/
 .wrangler/
+*.log
+.git/
 ```
 
-První blok je povinný základ (závislosti, sestavené výstupy, zámek balíčků). Zbytek jsou vygenerované složky tohodle repozitáře, které v gitu stejně nejsou. Nová těžká složka, kterou úkol nepotřebuje, patří sem, ne do čtení agenta.
+První blok je povinný základ (závislosti, sestavené výstupy, zámek balíčků). Zbytek jsou vygenerované složky tohodle repozitáře, které v gitu stejně nejsou, plus logy a celá historie v `.git/`. Nová těžká složka, kterou úkol nepotřebuje, patří sem, ne do čtení agenta.
 
-Stejné pravidlo má agent pořád v `.cursor/rules/prace.mdc`. Tahle stránka je jeho čitelná podoba.
+Krátké pravidlo má agent pořád v `.cursor/rules/prace.mdc`. Delší znění (kontext, kód, dokumentace) je v kořenovém `.cursorrules`. Tahle stránka je jejich čitelná podoba.
 
 ## Pull request
 
