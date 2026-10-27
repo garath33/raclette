@@ -56,6 +56,8 @@ test("veřejný text nezmiňuje vyřazenou osobu a IT role existuje", () => {
   }
   const pages = fs.readFileSync("index.html", "utf8") + fs.readFileSync("pro-partnery.html", "utf8");
   assert.equal(/raclette-original\.com/i.test(pages), false);
+  assert.equal(/info@rakletparty\.cz/i.test(pages), false);
+  assert.match(pages, /mailto:info@raclettelovers\.com/);
   assert.match(TRANSLATIONS.cs["form.invite"], /formulář|zavolejte/);
   assert.match(TRANSLATIONS.cs["nav.franchise"], /Pro partnery/);
   assert.match(TRANSLATIONS.cs["app.cta"], /Raclette Lovers/);

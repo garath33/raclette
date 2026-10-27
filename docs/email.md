@@ -1,6 +1,6 @@
 # Schránka info@raclettelovers.com
 
-Příjem jde přes Cloudflare Email Routing do osobního Gmailu. Odesílání z toho Gmailu jde přes bezplatný SMTP relay Brevo. Web se při tom stěhuje jen v DNS: GitHub Pages dál servíruje `www.raclettelovers.com`. Worker `raclette` se na `.com` nepřidává.
+Příjem jde přes Cloudflare Email Routing do stávající schránky. Její adresa se doplní, až ji majitel řekne. Odesílání z ní jde přes bezplatný SMTP relay Brevo, odesílatel zůstává `info@raclettelovers.com`. Postup níže počítá s Gmailem a funkcí „Odesílat poštu jako“. Placený e-mail u WebHouse se nepoužívá. Web se při tom stěhuje jen v DNS: GitHub Pages dál servíruje `www.raclettelovers.com`. Worker `raclette` se na `.com` nepřidává.
 
 Stav zóny 27. října 2026: jmenné servery `ns1.webhouse.sk`, `ns2.webhouse.sk`, `ns3.webhouse.sk`. Apex má čtyři záznamy A na GitHub Pages, `www` je CNAME na `garath33.github.io`. MX, SPF, DKIM ani DMARC v zóně nejsou. Na apexu je ověření Google Search Console.
 
@@ -10,14 +10,13 @@ Statický web. Soubor `.env` v repozitáři není a pošta se z aplikace neodes�
 
 | Místo | Kam to míří |
 | --- | --- |
-| Veřejný kontakt a `mailto:` | `info@rakletparty.cz` |
-| JSON-LD v `index.html` a `pro-partnery.html` | `info@rakletparty.cz` |
+| Eventy, kontakty Pavlíny, rychlý kontakt, patička, JSON-LD | `info@raclettelovers.com` |
 | Formulář `#partner-form` na `pro-partnery.html` | `js/app.js` pošle JSON na adresu z `partnerInquiryUrl()` v `js/site.js` |
 | Příjemce formuláře | `https://formsubmit.co/ajax/milan@raclette-original.com` |
 
-FormSubmit pošle poptávku sám. První odeslání čeká na potvrzovací odkaz v schránce `milan@raclette-original.com`. Content-Security-Policy v `index.html`, `pro-partnery.html`, `app.html` a `worker.js` už `https://formsubmit.co` povoluje.
+`info@rakletparty.cz` na webu není. E-shop `https://www.rakletparty.cz/` a Facebook `facebook.com/rakletparty` zůstávají, to nejsou schránky. FormSubmit pošle poptávku sám. První odeslání čeká na potvrzovací odkaz v schránce `milan@raclette-original.com`. Content-Security-Policy v `index.html`, `pro-partnery.html`, `app.html` a `worker.js` už `https://formsubmit.co` povoluje.
 
-Schránka `info@raclettelovers.com` kvůli tomu úpravu kódu nepotřebuje. Veřejný kontakt na webu zůstává `info@rakletparty.cz`.
+Příjem a odesílání z `info@raclettelovers.com` neběží přes placený e-mail u WebHouse. Příjem přesměruje Cloudflare Email Routing do stávající schránky. Její adresa se doplní, až ji majitel řekne. Odesílání jde z Gmailu přes Brevo, odesílatel je pořád `info@raclettelovers.com`.
 
 ## Pořadí
 
@@ -114,8 +113,8 @@ Klíč do zóny neopisuj z tohoto dokumentu. Selektor `cf2024-1._domainkey` neob
 
 V Email Routing:
 
-1. Destination addresses → přidej osobní Gmail a klepni na odkaz v dopise, který přijde přímo do něj.
-2. Routing rules → Custom address → `info` → cíl je ten ověřený Gmail.
+1. Destination addresses → přidej stávající schránku, kterou majitel doplní, a klepni na odkaz v dopise, který přijde přímo do ní.
+2. Routing rules → Custom address → `info` → cíl je ta ověřená schránka.
 3. Catch-all nech vypnutý.
 
 Zkouška: z jiné schránky pošli dopis na `info@raclettelovers.com`. Dorazí do Gmailu.
