@@ -4,3 +4,4 @@
 
 - Návod na schránku `info@raclettelovers.com`: jmenné servery, MX, jeden SPF pro Cloudflare a Brevo, DKIM, DMARC, SMTP do Gmailu. Web poštu neodesílá, `.env` se nemění.
 - Veřejná adresa na webu je `info@raclettelovers.com`. `info@rakletparty.cz` ze stránek zmizel. E-shop a Facebook na rakletparty zůstávají.
+- Příjem `info@raclettelovers.com` míří do `raclettepointoriginal@gmail.com`. Odesílání z toho Gmailu jde přes Brevo. Schránka u WebHouse se nezakládá.
