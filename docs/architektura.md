@@ -22,7 +22,7 @@ worker.js        přesměrování aliasů domén
 assets/          logo, ikony aplikace, fotky, favicon
 ```
 
-Partnerský formulář odešle data přes FormSubmit na `milan@raclette-original.com`. Při prvním odeslání FormSubmit pošle na tuto adresu potvrzovací e-mail — odkaz v něm je potřeba jednou potvrdit, teprve potom začnou poptávky chodit.
+Partnerský formulář odešle data přes FormSubmit na `milan@raclette-original.com`. Při prvním odeslání FormSubmit pošle na tuto adresu potvrzovací e-mail — odkaz v něm je potřeba jednou potvrdit, teprve potom začnou poptávky chodit. Web z kódu poštu neposílá a soubor `.env` nemá. Schránka `info@raclettelovers.com` se staví v DNS, viz [e-mail](email.md).
 
 ## Sekce
 

@@ -152,6 +152,10 @@ Zdrojové stránky byly česky a kanonická adresa anglicky. Na `.sk` a `.ch` Wo
 
 Stejná odmítnutá poloha ležela ve smoke i v `geo-denied.spec.js` a `npm test` tu kopii ve smoke přeskakoval. Zůstává jeden běh. Text, adresa a výpočet vzdálenosti jsou v jednotkách. Prohlížeč hlídá, že se stránka rozběhne a poloha se propíše do vizitky. Čekání 24 sekund a opakování po 3 sekundách je konstanta v `js/geo.js`, ne minuta v Playwrighti. Formulář spolupráce skládá `js/app.js`. Soubor `lib/partner-inquiry.mjs` stránka nenačítá, proto na něj test není.
 
+## Schránka info@ nemění kontakt na webu
+
+`raclettelovers.com` 27. října 2026 neměla MX. Veřejný e-mail zůstává `info@rakletparty.cz`, partnerský formulář jde přes FormSubmit na `milan@raclette-original.com`. Schránka `info@raclettelovers.com` se staví mimo kód: příjem Cloudflare Email Routing, odesílání z osobního Gmailu přes Brevo. Jmenné servery se kvůli tomu přepnou z WebHouse na Cloudflare až poté, co v nové zóně leží stejné čtyři záznamy A a CNAME `www` bez proxy. Oranžový mrak by GitHub Pages přestal pouštět k certifikátu. Postup je v [e-mailu](email.md).
+
 ## Telefon bere síť hned a GPS nechá zapnutou
 
 Jedno klepnutí spustí oba odečty. Wi-Fi a mobilní síť se ukážou hned, GPS běží ve stejném gestu, takže dialog zapnutí polohy na Androidu zůstává. Přesnější odečet pak sám přepočítá Point. Postup, pořadí a hlášky jsou v [poloze](poloha.md). Jak se k tomu píše dokumentace a proč se sahá na co nejméně souborů, je ve [vedení](vedeni.md).
