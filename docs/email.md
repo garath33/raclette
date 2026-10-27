@@ -1,6 +1,6 @@
 # Schránka info@raclettelovers.com
 
-Příjem jde přes Cloudflare Email Routing do stávající schránky. Její adresa se doplní, až ji majitel řekne. Odesílání z ní jde přes bezplatný SMTP relay Brevo, odesílatel zůstává `info@raclettelovers.com`. Postup níže počítá s Gmailem a funkcí „Odesílat poštu jako“. Placený e-mail u WebHouse se nepoužívá. Web se při tom stěhuje jen v DNS: GitHub Pages dál servíruje `www.raclettelovers.com`. Worker `raclette` se na `.com` nepřidává.
+Příjem jde přes Cloudflare Email Routing do `raclettepointoriginal@gmail.com`. Odesílání z toho samého Gmailu jde přes bezplatný SMTP relay Brevo, odesílatel zůstává `info@raclettelovers.com`. Schránka u WebHouse se nezakládá. Web se při tom stěhuje jen v DNS: GitHub Pages dál servíruje `www.raclettelovers.com`. Worker `raclette` se na `.com` nepřidává.
 
 Stav zóny 27. října 2026: jmenné servery `ns1.webhouse.sk`, `ns2.webhouse.sk`, `ns3.webhouse.sk`. Apex má čtyři záznamy A na GitHub Pages, `www` je CNAME na `garath33.github.io`. MX, SPF, DKIM ani DMARC v zóně nejsou. Na apexu je ověření Google Search Console.
 
@@ -16,7 +16,7 @@ Statický web. Soubor `.env` v repozitáři není a pošta se z aplikace neodes�
 
 `info@rakletparty.cz` na webu není. E-shop `https://www.rakletparty.cz/` a Facebook `facebook.com/rakletparty` zůstávají, to nejsou schránky. FormSubmit pošle poptávku sám. První odeslání čeká na potvrzovací odkaz v schránce `milan@raclette-original.com`. Content-Security-Policy v `index.html`, `pro-partnery.html`, `app.html` a `worker.js` už `https://formsubmit.co` povoluje.
 
-Příjem a odesílání z `info@raclettelovers.com` neběží přes placený e-mail u WebHouse. Příjem přesměruje Cloudflare Email Routing do stávající schránky. Její adresa se doplní, až ji majitel řekne. Odesílání jde z Gmailu přes Brevo, odesílatel je pořád `info@raclettelovers.com`.
+Příjem i odesílání spravuje Gmail `raclettepointoriginal@gmail.com`. WebHouse schránku `info@` nehostuje. Cloudflare jen předá příchozí dopis do toho Gmailu. Brevo ho z toho Gmailu odešle, příjemce vidí `info@raclettelovers.com`.
 
 ## Pořadí
 
@@ -113,8 +113,8 @@ Klíč do zóny neopisuj z tohoto dokumentu. Selektor `cf2024-1._domainkey` neob
 
 V Email Routing:
 
-1. Destination addresses → přidej stávající schránku, kterou majitel doplní, a klepni na odkaz v dopise, který přijde přímo do ní.
-2. Routing rules → Custom address → `info` → cíl je ta ověřená schránka.
+1. Destination addresses → přidej `raclettepointoriginal@gmail.com` a klepni na odkaz v dopise, který přijde přímo do toho Gmailu.
+2. Routing rules → Custom address → `info` → cíl je `raclettepointoriginal@gmail.com`.
 3. Catch-all nech vypnutý.
 
 Zkouška: z jiné schránky pošli dopis na `info@raclettelovers.com`. Dorazí do Gmailu.
@@ -223,7 +223,7 @@ Senders → Add a sender → `info@raclettelovers.com`. Potvrzovací dopis přij
 
 ## 7. Gmail „Odesílat poštu jako“
 
-V osobním Gmailu, kam chodí přesměrovaná pošta: Nastavení → Zobrazit všechna nastavení → Účty a import → Odesílat poštu jako → Přidat další e-mailovou adresu.
+Přihlas se do Gmailu `raclettepointoriginal@gmail.com`. Nastavení → Zobrazit všechna nastavení → Účty a import → Odesílat poštu jako → Přidat další e-mailovou adresu.
 
 | Pole | Hodnota |
 | --- | --- |

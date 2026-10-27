@@ -154,7 +154,7 @@ Stejná odmítnutá poloha ležela ve smoke i v `geo-denied.spec.js` a `npm test
 
 ## Schránka info@ nemění kontakt na webu
 
-`raclettelovers.com` 27. října 2026 neměla MX. Veřejný e-mail na webu je `info@raclettelovers.com`. `info@rakletparty.cz` na stránkách není. Partnerský formulář dál jde přes FormSubmit na `milan@raclette-original.com`. Schránka se neplatí u WebHouse: příjem je Cloudflare Email Routing do stávající schránky, kterou majitel teprve doplní, odesílání z Gmailu jde přes Brevo. Jmenné servery se přepnou z WebHouse na Cloudflare až poté, co v nové zóně leží stejné čtyři záznamy A a CNAME `www` bez proxy. Oranžový mrak by GitHub Pages přestal pouštět k certifikátu. Postup je v [e-mailu](email.md).
+`raclettelovers.com` 27. října 2026 neměla MX. Veřejný e-mail na webu je `info@raclettelovers.com`. `info@rakletparty.cz` na stránkách není. Partnerský formulář dál jde přes FormSubmit na `milan@raclette-original.com`. Schránka se neplatí u WebHouse: příjem je Cloudflare Email Routing do `raclettepointoriginal@gmail.com`, odesílání z toho Gmailu jde přes Brevo. Jmenné servery se přepnou z WebHouse na Cloudflare až poté, co v nové zóně leží stejné čtyři záznamy A a CNAME `www` bez proxy. Oranžový mrak by GitHub Pages přestal pouštět k certifikátu. Postup je v [e-mailu](email.md).
 
 ## Telefon bere síť hned a GPS nechá zapnutou
 
