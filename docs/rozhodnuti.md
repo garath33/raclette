@@ -84,7 +84,7 @@ Trenčínská 2628/10 v Záběhlicích je 50.045505, 14.4731025. Prohlížeč na
 
 Leták „Co je raclette“ a „Raclette půjčovna na víkend“ je na webu rozdělený po sekcích, ne vložený jako jedna stránka. Definice, slovo racler, pastviny, podávání, fondue, oblasti výroby a čísla z mléka jsou v sekci Co je raclette. Víkendová půjčovna je odstavec u e-shopu, příležitosti (kolaudace, brunch, banket, promoce) jsou u eventů, partneři TTM, Raclette House a Provins jsou pod nákupem. Martin Kábrt a Eliška Reine zůstávají v týmu bez veřejného telefonu. Zavolat se dá jen na dvě čísla: Pavlína Otýpková pro Česko a Slovensko, Milan Kolář pro Švýcarsko.
 
-Překlepy se nepřenášejí: brunch, ne branch, kolaudace, ne koloudace, plnotučné, ne pinotučné, Savojsko, ne Savoyen jako jediný tvar v češtině. Věta „náš výrobní závod“ na webu není. Sýr vozíme z mlékárny Laiterie d’Orsières, závod nám nepatří. Roční spotřeba v letáku vychází 2 kg × 9 milionů jako 36 milionů kilogramů. Na webu je 18 milionů kilogramů, protože to z těch dvou čísel plyne. Pavlína zůstává Otýpková, +420 777 600 223 a info@rakletparty.cz. Leták má jiné číslo a jiný e-mail, oficiální kontakt firmy se kvůli tomu nemění. Milan zůstává český král a ambasador, ne švýcarský král.
+Překlepy se nepřenášejí: brunch, ne branch, kolaudace, ne koloudace, plnotučné, ne pinotučné, Savojsko, ne Savoyen jako jediný tvar v češtině. Věta „náš výrobní závod“ na webu není. Sýr vozíme z mlékárny Laiterie d’Orsières, závod nám nepatří. Roční spotřeba v letáku vychází 2 kg × 9 milionů jako 36 milionů kilogramů. Na webu je 18 milionů kilogramů, protože to z těch dvou čísel plyne. Pavlína zůstává Otýpková a +420 777 600 223. Leták má jiné číslo a jiný e-mail. Veřejná adresa na webu je info@raclettelovers.com. Milan zůstává český král a ambasador, ne švýcarský král.
 
 ## E-shop Raklet Party prodává sortiment, ne jen odkaz
 
@@ -128,7 +128,7 @@ Při přepínání vlajek v mapě poboček (`#pointy`) musí být aktivní stát
 
 ## Oslavu si host domluví telefonem, ne dalším formulářem
 
-Sekce Eventy vypisuje, na co raclette umíme. Kdo si chce objednat oslavu, svatbu nebo párty, nemá vyplňovat další formulář. Hned pod výčtem je výzva „Zavolejte nám“ na +420 777 600 223, stejné číslo jako rychlý kontakt, a vedle něj e-mail info@rakletparty.cz. Výzva mluví za tým. Eliška Reine zůstává v kontaktech jako manažerka eventů pro Prahu a Čechy. Nad fotografiemi z akcí je věta „Kde se už na švýcarský raklet stála fronta“ a doplněk „A kde jste nás mohli ochutnat.“ Texty jsou v devíti jazycích, proto strop `css/styles.css` posouvá ze 47 kB na 48 kB, `js/i18n.js` z 91 kB na 92 kB a `js/i18n-extra.js` ze 194 kB na 196 kB.
+Sekce Eventy vypisuje, na co raclette umíme. Kdo si chce objednat oslavu, svatbu nebo párty, nemá vyplňovat další formulář. Hned pod výčtem je výzva „Zavolejte nám“ na +420 777 600 223, stejné číslo jako rychlý kontakt, a vedle něj e-mail info@raclettelovers.com. Výzva mluví za tým. Eliška Reine zůstává v kontaktech jako manažerka eventů pro Prahu a Čechy. Nad fotografiemi z akcí je věta „Kde se už na švýcarský raklet stála fronta“ a doplněk „A kde jste nás mohli ochutnat.“ Texty jsou v devíti jazycích, proto strop `css/styles.css` posouvá ze 47 kB na 48 kB, `js/i18n.js` z 91 kB na 92 kB a `js/i18n-extra.js` ze 194 kB na 196 kB.
 
 ## Ikona aplikace Raclette Lovers – kulaté pro Android, čtvercové pro iPhone
 
@@ -151,6 +151,10 @@ Zdrojové stránky byly česky a kanonická adresa anglicky. Na `.sk` a `.ch` Wo
 ## Testy se neopakují
 
 Stejná odmítnutá poloha ležela ve smoke i v `geo-denied.spec.js` a `npm test` tu kopii ve smoke přeskakoval. Zůstává jeden běh. Text, adresa a výpočet vzdálenosti jsou v jednotkách. Prohlížeč hlídá, že se stránka rozběhne a poloha se propíše do vizitky. Čekání 24 sekund a opakování po 3 sekundách je konstanta v `js/geo.js`, ne minuta v Playwrighti. Formulář spolupráce skládá `js/app.js`. Soubor `lib/partner-inquiry.mjs` stránka nenačítá, proto na něj test není.
+
+## Schránka info@ nemění kontakt na webu
+
+`raclettelovers.com` 27. října 2026 neměla MX. Veřejný e-mail na webu je `info@raclettelovers.com`. `info@rakletparty.cz` na stránkách není. Partnerský formulář dál jde přes FormSubmit na `milan@raclette-original.com`. Schránka se neplatí u WebHouse: příjem je Cloudflare Email Routing do `raclettepointoriginal@gmail.com`, odesílání z toho Gmailu jde přes Brevo. Jmenné servery se přepnou z WebHouse na Cloudflare až poté, co v nové zóně leží stejné čtyři záznamy A a CNAME `www` bez proxy. Oranžový mrak by GitHub Pages přestal pouštět k certifikátu. Postup je v [e-mailu](email.md).
 
 ## Telefon bere síť hned a GPS nechá zapnutou
 

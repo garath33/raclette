@@ -24,7 +24,10 @@ test("stránka se načte, má sekce a testovací pruh", async ({ page }) => {
   await expect(page.locator("#eventy .event-offer li")).toHaveCount(12);
   await expect(page.locator("#eventy .event-photo")).toHaveCount(6);
   await expect(page.locator("#eventy a[href='tel:+420777600223']")).toBeVisible();
-  await expect(page.locator("#eventy a[href='mailto:info@rakletparty.cz']")).toBeVisible();
+  await expect(page.locator("#eventy a[href='mailto:info@raclettelovers.com']")).toBeVisible();
+  await expect(page.locator("#kontakty a[href='mailto:info@raclettelovers.com']")).toHaveCount(2);
+  await expect(page.locator("footer a[href='mailto:info@raclettelovers.com']")).toBeVisible();
+  await expect(page.locator("body")).not.toContainText("info@rakletparty.cz");
   const whenBox = await page.locator("#eventy .events-when").boundingBox();
   const bookBox = await page.locator("#eventy .event-book").boundingBox();
   const pastBox = await page.locator("#eventy .events-past").boundingBox();
@@ -53,6 +56,8 @@ test("Pro partnery je samostatná stránka s nabídkou a formulářem", async ({
   await expect(page.locator("#franchise-form .form-invite")).not.toContainText("Česko a Slovensko");
   await expect(page.locator('#franchise-form a[href="tel:+420777600223"] .flag-svg')).toHaveCount(2);
   await expect(page.locator('#franchise-form a[href="tel:+41766083983"] .flag-svg')).toHaveCount(1);
+  await expect(page.locator("footer a[href='mailto:info@raclettelovers.com']")).toBeVisible();
+  await expect(page.locator("body")).not.toContainText("info@rakletparty.cz");
   await expect(page.locator("#partner-form")).toBeVisible();
   await expect(page.locator("#form-name")).toHaveAttribute("required", "");
   await expect(page.locator("#form-type")).toHaveAttribute("required", "");

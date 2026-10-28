@@ -143,7 +143,7 @@ test("odkazy mezi stránkami si nesou lang, aby robot zůstal u stejné verze", 
   assert.equal(site.withLang("index.html#pointy", "de"), "index.html?lang=de#pointy");
   assert.equal(site.withLang("#pointy", "cs"), "#pointy");
   assert.equal(site.withLang("https://raclettelovers.cz/?lang=cs", "en"), "https://raclettelovers.cz/?lang=cs");
-  assert.equal(site.withLang("mailto:info@rakletparty.cz", "cs"), "mailto:info@rakletparty.cz");
+  assert.equal(site.withLang("mailto:info@raclettelovers.com", "cs"), "mailto:info@raclettelovers.com");
 });
 
 test("švýcarský hostitel značí de/fr/it jako CH variantu", () => {

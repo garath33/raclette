@@ -12,11 +12,13 @@ Obsah je jeden. Liší se jen to, kdo ho po DNS dotazu pošle prohlížeči.
 
 `.cz`, `.sk`, `.ch` a starší domény (`raclettepointoriginal.*`, `raclette-lovers.com`, `raclette-point-original.com`) mají jmenné servery Cloudflare. Worker na nich buď web rovnou vrátí, nebo pošle 301 na cílovou doménu. Přesměrované adresy se neindexují, hodnocení přebírá cíl. Indexují se jen čtyři obsahové adresy: `www.raclettelovers.com` (angličtina a jazyky bez vlastní domény), `raclettelovers.cz` (čeština), `raclettelovers.sk` (slovenština) a `raclettelovers.ch` (francouzština).
 
-Nechat `.com` na GitHubu dává smysl, dokud stačí jedna adresa a DNS už tam míří. Nevýhoda je dvojí nasazení: Pages a Worker se aktualizují odděleně. Přesun `.com` na stejný Worker by sjednotil jazyk v HTML i pro němčinu, italštinu, polštinu, španělštinu a ruštinu, které vlastní doménu nemají. K tomu je potřeba přepnout jmenné servery z WebHouse na Cloudflare a apex i `www` přidat k Workeru. Před stávající záznamy A nepatří oranžová proxy, GitHub by za ní nevydal certifikát. Dokud zóna zůstane u WebHouse, záznamy se nemění. Až požadavek na `.com` dorazí do Workeru, apex `raclettelovers.com` už v kódu vrací 301 na `https://www.raclettelovers.com/`.
+Nechat `.com` na GitHubu dává smysl, dokud stačí jedna adresa a DNS už tam míří. Nevýhoda je dvojí nasazení: Pages a Worker se aktualizují odděleně. Přesun `.com` na stejný Worker by sjednotil jazyk v HTML i pro němčinu, italštinu, polštinu, španělštinu a ruštinu, které vlastní doménu nemají. K tomu je potřeba přepnout jmenné servery z WebHouse na Cloudflare a apex i `www` přidat k Workeru. Před stávající záznamy A nepatří oranžová proxy, GitHub by za ní nevydal certifikát. Schránka `info@` jmenné servery přepne dřív a webové záznamy A i CNAME `www` při tom zůstávají, viz [e-mail](email.md). Až požadavek na `.com` dorazí do Workeru, apex `raclettelovers.com` už v kódu vrací 301 na `https://www.raclettelovers.com/`.
 
 ## raclettelovers.com u WebHouse
 
-Doména má jmenné servery `ns1.webhouse.sk`, `ns2.webhouse.sk` a `ns3.webhouse.sk`. Ty neměňte. Apex má čtyři záznamy A na GitHub Pages. `www` je CNAME na `garath33.github.io`, proto Pages umí `www` i přesměrování apexu na `www`.
+Veřejný web dál servíruje GitHub Pages. Apex má čtyři záznamy A. `www` je CNAME na `garath33.github.io`, proto Pages umí `www` i přesměrování apexu na `www`.
+
+Jmenné servery jsou `ns1.webhouse.sk`, `ns2.webhouse.sk` a `ns3.webhouse.sk`. Schránka `info@raclettelovers.com` je přepne na dvojici, kterou ukáže Cloudflare. Pořadí a záznamy, které musí v nové zóně ležet před tou výměnou, jsou v [e-mailu](email.md). Worker `raclette` se na `.com` při tom nepřidává.
 
 Stránka se na `.com` otevírá anglicky, pokud návštěvník nemá uložený jazyk. Od 8. října 2026 je `index, follow`. Zkušební pruh se na téhle doméně nezobrazuje. `github.io` a localhost pruh a `noindex` mají dál.
 
@@ -29,7 +31,7 @@ V zóně mají být právě tyto čtyři řádky A. Třída zůstává IN, prior
 | raclettelovers.com | A | 185.199.110.153 |
 | raclettelovers.com | A | 185.199.111.153 |
 
-Kdyby se starý řádek s `86.110.243.202` vrátil, smažte ho. Hvězdičkový CNAME nechte. Jmenné servery nepřepisujte.
+Kdyby se starý řádek s `86.110.243.202` vrátil, smažte ho. Hvězdičkový CNAME v živé zóně není, nepřidávejte ho. Jmenné servery se mění jen podle [e-mailu](email.md).
 
 ## Kam se sbíhají cesty
 

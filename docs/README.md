@@ -9,6 +9,9 @@ Web Raclette Point Original. Tahle složka je mapa projektu, ne marketingová st
 | [Testování](testovani.md) | Smoke, regrese, responsivita, výkon |
 | [SEO](seo.md) | Titulky, jazyky, sitemap, hlavičky, písma a Search Console |
 | [Domény](domeny.md) | Budoucí adresy a přesměrování |
+| [E-mail](email.md) | Schránka info@raclettelovers.com: DNS, Cloudflare, Brevo, Gmail |
+| [Plán](ROADMAP.md) | Co je hotové v repozitáři a co čeká mimo kód |
+| [Změny](CHANGELOG.md) | Krátký záznam úprav dokumentace a webu |
 | [Rozhodnutí](rozhodnuti.md) | Proč je něco udělané právě tak, včetně oprav chyb |
 | [Poloha](poloha.md) | Pořadí sítě a GPS, dialog zapnutí polohy, hlášky |
 | [Vedení dokumentace](vedeni.md) | Kdy psát, málo souborů, pull request s odkazem |
