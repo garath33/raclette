@@ -2,7 +2,31 @@
 
 Příjem jde přes Cloudflare Email Routing do `raclettepointoriginal@gmail.com`. Odesílání z toho samého Gmailu jde přes bezplatný SMTP relay Brevo, odesílatel zůstává `info@raclettelovers.com`. Schránka u WebHouse se nezakládá. Web se při tom stěhuje jen v DNS: GitHub Pages dál servíruje `www.raclettelovers.com`. Worker `raclette` se na `.com` nepřidává.
 
-Stav zóny 27. října 2026: jmenné servery `ns1.webhouse.sk`, `ns2.webhouse.sk`, `ns3.webhouse.sk`. Apex má čtyři záznamy A na GitHub Pages, `www` je CNAME na `garath33.github.io`. MX, SPF, DKIM ani DMARC v zóně nejsou. Na apexu je ověření Google Search Console.
+Doména se píše `raclettelovers` (jedno t). `rackettelovers.com` a `rackettelovers.cz` v DNS nejsou.
+
+## Ověřený stav 28. října 2026
+
+Veřejný DNS a HTTP. Doručení na `info@` a odeslání z Gmailu jako `info@` ověřil ručně majitel schránky. SMTP klíč Breva v tomhle ověření není a do repozitáře nepatří.
+
+Jmenné servery jsou `teresa.ns.cloudflare.com` a `tim.ns.cloudflare.com`. Zónu WebHouse už nedrží, registrátor domény zůstává WebHouse. Apex má čtyři A na GitHub Pages (`185.199.108.153` až `185.199.111.153`), `www` je CNAME na `garath33.github.io`. Odpověď nejsou adresy proxy Cloudflare, oranžový mrak před Pages tedy není. Certifikát Let's Encrypt pro apex i `www` platí do 3. ledna 2027 (Praha).
+
+| K čemu | Veřejný záznam |
+| --- | --- |
+| Příjem | MX `route1.mx.cloudflare.net`, `route2.mx.cloudflare.net`, `route3.mx.cloudflare.net` |
+| DKIM přeposílání | TXT `cf2024-1._domainkey` je v zóně |
+| Ověření Breva | TXT `brevo-code:e965cb6ad0e134b281d843299b29d45d` |
+| DKIM odesílání | CNAME `brevo1._domainkey` → `b1.raclettelovers-com.dkim.brevo.com`, CNAME `brevo2._domainkey` → `b2.raclettelovers-com.dkim.brevo.com` |
+| SPF | jeden TXT: `v=spf1 include:_spf.mx.cloudflare.net ~all` |
+| DMARC | `v=DMARC1; p=none; rua=mailto:rua@dmarc.brevo.com` |
+| Search Console | TXT `google-site-verification=nYeH1HRgXRKuQs_KmDkYUvbeIylJGkXuQk_bzM-wnA0` |
+
+Cíl pravidla `info@` je `raclettepointoriginal@gmail.com`. Z veřejného DNS ten cíl nejde přečíst. Ruční zkouška 28. října 2026 ukázala, že dopis na `info@raclettelovers.com` do toho Gmailu dojde a že se z něj dá odeslat jako `info@`.
+
+SPF Brevo neobsahuje. Návod v kroku 4 počítá s jedním řádkem, který má i `include:spf.brevo.com`. Druhý SPF se nezakládá. Bezplatný Brevo skládá DMARC z DKIM a obálku nechává na své doméně, proto odeslání projde i s tímhle řádkem. `include:spf.brevo.com` se doplní jen úpravou odemčeného TXT.
+
+DMARC je pořád `p=none` a hlášení jdou jen na `rua@dmarc.brevo.com`. Řádek z kroku 5 s `mailto:info@` a pozdější `p=quarantine` v zóně nejsou. Utažení na `p=quarantine` až po kontrole, že vlastní pošta má `dkim=pass`.
+
+Postup pod tímhle nadpisem je mapa, jak se zóna skládala. Odškrtnuté je to, co 28. října 2026 sedí s veřejným DNS nebo s ruční zkouškou.
 
 ## Co dělá kód webu
 
@@ -24,14 +48,14 @@ Nejdřív se do Cloudflare překreslí webové záznamy. Pak se u WebHouse vymě
 
 Zapíná se Email Routing. Email Sending (záznamy na `cf-bounce`) se nezapíná: odesílá Brevo.
 
-- [ ] 1. Webové DNS ve Cloudflare, šedý mrak
-- [ ] 2. Jmenné servery ve WebHouse
-- [ ] 3. Cloudflare Email Routing pro `info@`
-- [ ] 4. Jeden SPF záznam
-- [ ] 5. Brevo: kód, DKIM, DMARC
-- [ ] 6. Odesílatel a SMTP klíč v Brevu
-- [ ] 7. Gmail „Odesílat poštu jako“
-- [ ] 8. Zkouška hlaviček, pak DMARC `p=quarantine`
+- [x] 1. Webové DNS ve Cloudflare, šedý mrak
+- [x] 2. Jmenné servery ve WebHouse (`teresa.ns.cloudflare.com`, `tim.ns.cloudflare.com`)
+- [x] 3. Cloudflare Email Routing pro `info@` (MX a ruční doručení do Gmailu)
+- [ ] 4. Jeden SPF záznam včetně Breva (veřejný řádek má jen Cloudflare)
+- [x] 5. Brevo: kód a oba DKIM CNAME. DMARC je `p=none` jen s `rua@dmarc.brevo.com`
+- [x] 6. Odesílatel a SMTP v Brevu (ruční odeslání, klíč v repozitáři není)
+- [x] 7. Gmail „Odesílat poštu jako“ (ručně ověřené)
+- [ ] 8. Zkouška hlaviček z tohoto ověření nešla zopakovat. DMARC `p=quarantine` v zóně není
 
 ## 1. Webové DNS ve Cloudflare
 
