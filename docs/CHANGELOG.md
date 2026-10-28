@@ -3,6 +3,7 @@
 ## 2026-10-28
 
 - Ověření domén a pošty z veřejného DNS a HTTP. Dokumentace `.com` drží jmenné servery Cloudflare `teresa` a `tim`, ne WebHouse. SPF bez Breva a DMARC `p=none` jsou zapsané tak, jak je zóna má. Ruční doručení na `info@` do `raclettepointoriginal@gmail.com` zůstává platné.
+- Pošta další zásah nepotřebuje. SPF s Brevem je volitelný přepis jednoho TXT. Rozdíl domén je `l` místo `k`, ne počet t.
 
 ## 2026-10-27
 

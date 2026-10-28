@@ -6,4 +6,4 @@ Návod a ověřený stav jsou v [e-mailu](email.md). Na webu je `info@raclettelo
 
 K 28. říjnu 2026 jmenné servery `.com` jsou Cloudflare, webové A a CNAME `www` míří na GitHub Pages a MX Email Routingu běží. Cíl `info@` je `raclettepointoriginal@gmail.com`, doručení i odeslání z Gmailu jsou ověřené ručně. Placený e-mail u WebHouse se nepoužívá. Worker `raclette` se na `.com` nepřidává.
 
-Veřejný SPF má jen Cloudflare, `include:spf.brevo.com` v něm není. DMARC je `p=none` s hlášením na `rua@dmarc.brevo.com`. Obojí je popsané v e-mailu. Druhý SPF se nezakládá a `p=quarantine` se nezapíná, dokud vlastní pošta neukáže `dkim=pass`.
+Veřejný SPF má jen Cloudflare. Pošta kvůli tomu chodí dál. Volitelný přepis toho jednoho TXT o `include:spf.brevo.com` je v [e-mailu](email.md). DMARC nech na `p=none`, dokud originál odeslaného dopisu neukáže `dkim=pass`.

@@ -2,7 +2,7 @@
 
 Příjem jde přes Cloudflare Email Routing do `raclettepointoriginal@gmail.com`. Odesílání z toho samého Gmailu jde přes bezplatný SMTP relay Brevo, odesílatel zůstává `info@raclettelovers.com`. Schránka u WebHouse se nezakládá. Web se při tom stěhuje jen v DNS: GitHub Pages dál servíruje `www.raclettelovers.com`. Worker `raclette` se na `.com` nepřidává.
 
-Doména se píše `raclettelovers` (jedno t). `rackettelovers.com` a `rackettelovers.cz` v DNS nejsou.
+Doména je `raclettelovers`: raclette a lovers, písmena `r-a-c-l-e-t-t-e`, bez `k`. Tvar `rackettelovers` (s `k` a bez `l`) v DNS není. Tvar `racklettelovers` (s `k` i s `l`) v DNS taky není. Ostrá adresa je jen `raclettelovers`.
 
 ## Ověřený stav 28. října 2026
 
@@ -22,9 +22,27 @@ Jmenné servery jsou `teresa.ns.cloudflare.com` a `tim.ns.cloudflare.com`. Zónu
 
 Cíl pravidla `info@` je `raclettepointoriginal@gmail.com`. Z veřejného DNS ten cíl nejde přečíst. Ruční zkouška 28. října 2026 ukázala, že dopis na `info@raclettelovers.com` do toho Gmailu dojde a že se z něj dá odeslat jako `info@`.
 
-SPF Brevo neobsahuje. Návod v kroku 4 počítá s jedním řádkem, který má i `include:spf.brevo.com`. Druhý SPF se nezakládá. Bezplatný Brevo skládá DMARC z DKIM a obálku nechává na své doméně, proto odeslání projde i s tímhle řádkem. `include:spf.brevo.com` se doplní jen úpravou odemčeného TXT.
+SPF Brevo neobsahuje. Návod v kroku 4 počítá s jedním řádkem, který má i `include:spf.brevo.com`. Druhý SPF se nezakládá. Bezplatný Brevo skládá DMARC z DKIM a obálku nechává na své doméně, proto odeslání projde i s tímhle řádkem.
 
-DMARC je pořád `p=none` a hlášení jdou jen na `rua@dmarc.brevo.com`. Řádek z kroku 5 s `mailto:info@` a pozdější `p=quarantine` v zóně nejsou. Utažení na `p=quarantine` až po kontrole, že vlastní pošta má `dkim=pass`.
+DMARC je pořád `p=none` a hlášení jdou jen na `rua@dmarc.brevo.com`. Řádek z kroku 5 s `mailto:info@` a pozdější `p=quarantine` v zóně nejsou.
+
+## Ještě něco měnit?
+
+Pošta i web fungují bez další úpravy. MX, DKIM, A, CNAME `www`, `brevo-code` a Gmail se nesahej.
+
+Volitelně se přepíše jen ten jeden TXT, který začíná `v=spf1`, ať v něm je i Brevo. Není to podmínka doručení.
+
+1. [dash.cloudflare.com](https://dash.cloudflare.com) → doména `raclettelovers.com` → DNS → Records.
+2. Když řádek nejde upravit, Email → Email Routing → `raclettelovers.com` → Settings → u SPF Unlock.
+3. Hodnotu toho jediného TXT na názvu `@` nahraď:
+
+```text
+v=spf1 include:_spf.mx.cloudflare.net include:spf.brevo.com ~all
+```
+
+4. Ulož. Druhý TXT s `v=spf1` nepřidávej.
+
+DMARC nech na `p=none`. `p=quarantine` až potom, co v Gmailu u dopisu odeslaného jako `info@raclettelovers.com` otevřeš originál a vidíš `dkim=pass` a `header.d=raclettelovers.com`. Pak teprve přepiš TXT `_dmarc` podle kroku 5. Když `dkim=pass` chybí, DMARC neutahuj.
 
 Postup pod tímhle nadpisem je mapa, jak se zóna skládala. Odškrtnuté je to, co 28. října 2026 sedí s veřejným DNS nebo s ruční zkouškou.
 
