@@ -2,6 +2,8 @@
 
 ## Schránka info@raclettelovers.com
 
-Návod je v [e-mailu](email.md). Na webu už je `info@raclettelovers.com`. `.env` se nemění, příjemce formuláře zůstává `milan@raclette-original.com`.
+Návod a ověřený stav jsou v [e-mailu](email.md). Na webu je `info@raclettelovers.com`. `.env` se nemění, příjemce formuláře zůstává `milan@raclette-original.com`.
 
-Zbývá nastavení u WebHouse, Cloudflare, Breva a Gmailu: nejdřív přenést záznamy webu bez proxy, pak vyměnit jmenné servery, zapnout Email Routing na `info@` a odesílání přes Brevo. Cíl přesměrování je `raclettepointoriginal@gmail.com`. Placený e-mail u WebHouse se nepoužívá. Worker `raclette` se na `.com` nepřidává.
+K 28. říjnu 2026 jmenné servery `.com` jsou Cloudflare, webové A a CNAME `www` míří na GitHub Pages a MX Email Routingu běží. Cíl `info@` je `raclettepointoriginal@gmail.com`, doručení i odeslání z Gmailu jsou ověřené ručně. Placený e-mail u WebHouse se nepoužívá. Worker `raclette` se na `.com` nepřidává.
+
+Veřejný SPF má jen Cloudflare, `include:spf.brevo.com` v něm není. DMARC je `p=none` s hlášením na `rua@dmarc.brevo.com`. Obojí je popsané v e-mailu. Druhý SPF se nezakládá a `p=quarantine` se nezapíná, dokud vlastní pošta neukáže `dkim=pass`.
