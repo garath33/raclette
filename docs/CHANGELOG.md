@@ -1,5 +1,10 @@
 # Změny
 
+## 2026-10-31
+
+- Návod pro agenta: než host uvidí novou věc na webu, nejdřív náhled a schválení. Pravidlo je v `.cursor/rules/nahled.mdc` a ve vedení dokumentace.
+- Náhled nápovědy na plochu podle telefonu je na `nahled/plocha.html`. Do ostrých stránek se nezapojí, dokud není schválený.
+
 ## 2026-10-28
 
 - Ověření domén a pošty z veřejného DNS a HTTP. Dokumentace `.com` drží jmenné servery Cloudflare `teresa` a `tim`, ne WebHouse. SPF bez Breva a DMARC `p=none` jsou zapsané tak, jak je zóna má. Ruční doručení na `info@` do `raclettepointoriginal@gmail.com` zůstává platné.
