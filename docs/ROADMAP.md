@@ -1,5 +1,9 @@
 # Plán
 
+## Nápověda na plochu podle telefonu
+
+Čeká na schválení náhledu `nahled/plocha.html`. iPhone v Safari uvidí tři kroky a české video, iPhone mimo Safari nejdřív výzvu otevřít Safari, Android systémovou instalaci Chromu, počítač dvě věty. Sekce uprostřed hlavní stránky v návrhu není. Po souhlasu se náhledová stránka smaže a návod se zapojí do tlačítka Na plochu telefonu.
+
 ## Schránka info@raclettelovers.com
 
 Návod a ověřený stav jsou v [e-mailu](email.md). Na webu je `info@raclettelovers.com`. `.env` se nemění, příjemce formuláře zůstává `milan@raclette-original.com`.

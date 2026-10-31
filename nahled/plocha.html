@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>Náhled · Na plochu telefonu</title>
+  <script>
+    (function () {
+      var stav = new URLSearchParams(location.search).get("stav") || "iphone";
+      var ok = { iphone: 1, mimo: 1, android: 1, pocitac: 1, hotovo: 1 };
+      if (!ok[stav]) stav = "iphone";
+      document.documentElement.dataset.stav = stav;
+    })();
+  </script>
+  <style>
+    :root {
+      --ink: #1a1c1d;
+      --muted: #5e6366;
+      --line: #e7e4de;
+      --paper: #f6f5f2;
+      --yellow: #fece52;
+      --gold: #d8a848;
+      --gold-deep: #8a6420;
+      --red: #cd143e;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: #ebe8e2;
+      color: var(--ink);
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    }
+    .banner {
+      background: var(--ink);
+      color: #fff;
+      padding: 14px 18px 16px;
+    }
+    .banner p { margin: 0 0 10px; font-size: 14px; letter-spacing: 0.01em; }
+    .banner strong { font-weight: 700; }
+    nav { display: flex; flex-wrap: wrap; gap: 8px; }
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      border: 1px solid rgba(255,255,255,.35);
+      border-radius: 999px;
+      padding: 7px 12px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+    html[data-stav="iphone"] a[href*="stav=iphone"],
+    html[data-stav="mimo"] a[href*="stav=mimo"],
+    html[data-stav="android"] a[href*="stav=android"],
+    html[data-stav="pocitac"] a[href*="stav=pocitac"],
+    html[data-stav="hotovo"] a[href*="stav=hotovo"] {
+      background: var(--yellow);
+      color: var(--ink);
+      border-color: var(--yellow);
+    }
+    main { width: min(920px, calc(100% - 28px)); margin: 0 auto; padding: 22px 0 40px; }
+    h1 {
+      font-family: Palatino, "Palatino Linotype", "Times New Roman", serif;
+      font-weight: 500;
+      font-size: 32px;
+      letter-spacing: -0.02em;
+      margin: 0 0 6px;
+    }
+    .lead { margin: 0 0 18px; color: var(--muted); font-size: 15px; max-width: 38rem; }
+    .scene { display: none; }
+    html[data-stav="iphone"] .scene-iphone,
+    html[data-stav="mimo"] .scene-mimo,
+    html[data-stav="android"] .scene-android,
+    html[data-stav="pocitac"] .scene-pocitac,
+    html[data-stav="hotovo"] .scene-hotovo { display: block; }
+
+    .phone {
+      width: min(390px, 100%);
+      height: 760px;
+      margin: 0 auto;
+      background: var(--paper);
+      border: 1px solid #d9d4cc;
+      border-radius: 28px;
+      overflow: hidden;
+      position: relative;
+    }
+    .safari-bar, .chrome-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 12px;
+      background: #fff;
+      border-bottom: 1px solid var(--line);
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .dots { margin-left: auto; letter-spacing: 2px; font-weight: 700; color: var(--ink); }
+    .url {
+      flex: 1;
+      background: var(--paper);
+      border-radius: 999px;
+      padding: 6px 10px;
+      color: var(--ink);
+    }
+    .hero { padding: 22px 18px 0; }
+    .kicker {
+      margin: 0;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gold-deep);
+    }
+    .hero h2 {
+      font-family: Palatino, "Palatino Linotype", "Times New Roman", serif;
+      font-weight: 500;
+      font-size: 34px;
+      line-height: 1.02;
+      letter-spacing: -0.02em;
+      margin: 8px 0 0;
+    }
+    .actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      min-height: 44px;
+      padding: 0 14px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      font: inherit;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      cursor: pointer;
+    }
+    .btn-solid { background: var(--ink); color: #fff; }
+    .btn-gold { background: var(--yellow); color: var(--ink); }
+    .btn-gold:before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      margin-right: 8px;
+      background: currentColor;
+      transform: rotate(45deg);
+    }
+    .dim {
+      position: absolute;
+      inset: 0;
+      background: rgba(26, 28, 29, 0.28);
+    }
+    .sheet {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: #fff;
+      border-radius: 22px 22px 0 0;
+      padding: 10px 18px 20px;
+    }
+    .grab {
+      width: 36px;
+      height: 4px;
+      border-radius: 4px;
+      background: var(--line);
+      margin: 0 auto 10px;
+    }
+    .sheet-head { display: flex; align-items: flex-start; gap: 10px; }
+    .sheet h3 {
+      font-family: Palatino, "Palatino Linotype", "Times New Roman", serif;
+      font-size: 28px;
+      font-weight: 500;
+      margin: 0;
+      letter-spacing: -0.02em;
+    }
+    .x {
+      margin-left: auto;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 1px solid var(--line);
+      background: #fff;
+      font-size: 18px;
+      line-height: 1;
+      cursor: pointer;
+    }
+    .sheet p { margin: 8px 0 0; color: var(--muted); font-size: 14px; }
+    ol { margin: 12px 0 0; padding-left: 1.2rem; display: grid; gap: 6px; font-size: 15px; }
+    .video {
+      margin-top: 12px;
+      position: relative;
+      border-radius: 14px;
+      overflow: hidden;
+      background: var(--ink);
+    }
+    .video img { display: block; width: 100%; height: 168px; object-fit: cover; object-position: center 30%; }
+    .play {
+      position: absolute;
+      left: 12px;
+      bottom: 12px;
+      background: var(--yellow);
+      color: var(--ink);
+      font-size: 13px;
+      font-weight: 700;
+      border-radius: 999px;
+      padding: 6px 10px;
+    }
+    .dialog {
+      position: absolute;
+      left: 18px;
+      right: 18px;
+      top: 250px;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 16px;
+    }
+    .dialog strong { display: block; font-size: 16px; }
+    .dialog p { margin: 6px 0 14px; color: var(--muted); font-size: 14px; }
+    .dialog .row { display: flex; justify-content: flex-end; gap: 8px; }
+    .dialog button {
+      font: inherit;
+      font-size: 14px;
+      font-weight: 700;
+      border-radius: 999px;
+      min-height: 40px;
+      padding: 0 14px;
+      cursor: pointer;
+    }
+    .ghost { background: #fff; border: 1px solid var(--line); }
+    .install { background: var(--ink); color: #fff; border: 0; }
+    .fallback {
+      margin: 14px 18px 0;
+      padding: 12px 14px;
+      background: #fff;
+      border: 1px solid var(--gold);
+      border-radius: 14px;
+      font-size: 14px;
+    }
+    .desk {
+      background: var(--paper);
+      border: 1px solid #d9d4cc;
+      border-radius: 20px;
+      padding: 28px 28px 32px;
+    }
+    .desk h2 { font-size: 48px; max-width: 16ch; }
+    .panel {
+      margin-top: 16px;
+      max-width: 36rem;
+      background: #fff;
+      border: 1px solid var(--gold);
+      border-radius: 16px;
+      padding: 14px 16px;
+      font-size: 16px;
+    }
+    .note {
+      margin: 16px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+      max-width: 40rem;
+    }
+    .gone { color: var(--gold-deep); font-weight: 700; }
+  </style>
+</head>
+<body>
+  <header class="banner">
+    <p><strong>Náhled.</strong> Na ostrém webu to ještě není. Přepněte, kdo na web přišel.</p>
+    <nav>
+      <a href="?stav=iphone">iPhone v Safari</a>
+      <a href="?stav=mimo">iPhone ve WhatsAppu</a>
+      <a href="?stav=android">Android</a>
+      <a href="?stav=pocitac">Počítač</a>
+      <a href="?stav=hotovo">Ikona už je na ploše</a>
+    </nav>
+  </header>
+  <main>
+    <section class="scene scene-iphone">
+      <h1>iPhone v Safari</h1>
+      <p class="lead">Po klepnutí na žluté tlačítko vyjede panel. Video se spustí až dalším klepnutím.</p>
+      <div class="phone">
+        <div class="safari-bar"><span class="url">raclettelovers.ch</span><span class="dots">···</span></div>
+        <div class="hero">
+          <p class="kicker">Raclette Point Original</p>
+          <h2>Originální švýcarský raclette na dosah.</h2>
+          <div class="actions">
+            <button class="btn btn-solid" type="button">Najít nejbližší Point</button>
+            <button class="btn btn-gold" type="button">Na plochu telefonu</button>
+          </div>
+        </div>
+        <div class="dim"></div>
+        <div class="sheet">
+          <div class="grab"></div>
+          <div class="sheet-head">
+            <h3>Na plochu iPhonu</h3>
+            <button class="x" type="button" aria-label="Zavřít">×</button>
+          </div>
+          <ol>
+            <li>Dole v Safari klepněte na tři tečky.</li>
+            <li>Zvolte Přidat na plochu.</li>
+            <li>Potvrďte Přidat.</li>
+          </ol>
+          <div class="video">
+            <img src="krok-sdilet.jpg" alt="Záznam: v Safari je otevřené menu Přidat na plochu">
+            <span class="play">Přehrát video · 30 s · česky</span>
+          </div>
+        </div>
+      </div>
+      <p class="note">Sekce uprostřed hlavní stránky se neukáže. Návod žije jen v tomhle panelu, na webu i ve stránce aplikace.</p>
+    </section>
+
+    <section class="scene scene-mimo">
+      <h1>iPhone ve WhatsAppu, Instagramu nebo Chromu</h1>
+      <p class="lead">Tady tlačítko Přidat na plochu není. Nejdřív se řekne, ať stránku otevřou v Safari.</p>
+      <div class="phone">
+        <div class="safari-bar"><span class="url">WhatsApp</span><span class="dots">···</span></div>
+        <div class="hero">
+          <p class="kicker">Raclette Point Original</p>
+          <h2>Originální švýcarský raclette na dosah.</h2>
+          <div class="actions">
+            <button class="btn btn-solid" type="button">Najít nejbližší Point</button>
+            <button class="btn btn-gold" type="button">Na plochu telefonu</button>
+          </div>
+        </div>
+        <div class="dim"></div>
+        <div class="sheet">
+          <div class="grab"></div>
+          <div class="sheet-head">
+            <h3>Nejdřív Safari</h3>
+            <button class="x" type="button" aria-label="Zavřít">×</button>
+          </div>
+          <p>Ve WhatsAppu, Instagramu nebo v Chromu ikonu přidat nejde. V menu prohlížeče zvolte Otevřít v Safari.</p>
+          <ol>
+            <li>Dole v Safari klepněte na tři tečky.</li>
+            <li>Zvolte Přidat na plochu.</li>
+            <li>Potvrďte Přidat.</li>
+          </ol>
+        </div>
+      </div>
+      <p class="note">Video se ukáže až v Safari, spolu s těmi třemi kroky. Tady by se stáhlo zbytečně.</p>
+    </section>
+
+    <section class="scene scene-android">
+      <h1>Android</h1>
+      <p class="lead">Chrome otevře vlastní okno instalace. Náš web k tomu nepřidává video ani postup pro iPhone.</p>
+      <div class="phone">
+        <div class="chrome-bar"><span class="url">raclettelovers.cz</span><span class="dots">⋮</span></div>
+        <div class="hero">
+          <p class="kicker">Raclette Point Original</p>
+          <h2>Originální švýcarský raclette na dosah.</h2>
+          <div class="actions">
+            <button class="btn btn-solid" type="button">Najít nejbližší Point</button>
+            <button class="btn btn-gold" type="button">Na plochu telefonu</button>
+          </div>
+        </div>
+        <div class="dim"></div>
+        <div class="dialog">
+          <strong>Instalovat Raclette Lovers?</strong>
+          <p>Aplikace se přidá na plochu telefonu.</p>
+          <div class="row">
+            <button class="ghost" type="button">Zrušit</button>
+            <button class="install" type="button">Instalovat</button>
+          </div>
+        </div>
+      </div>
+      <p class="note">Okno kreslí Chrome, ne náš web. Když ho zavřou, pod tlačítkem zůstane jen věta: V nabídce Chrome zvolte Instalovat aplikaci.</p>
+    </section>
+
+    <section class="scene scene-pocitac">
+      <h1>Počítač</h1>
+      <p class="lead">Dvě věty. Bez videa a bez posunu na sekci uprostřed stránky.</p>
+      <div class="desk">
+        <p class="kicker">Raclette Point Original</p>
+        <h2>Originální švýcarský raclette na dosah.</h2>
+        <div class="actions">
+          <button class="btn btn-solid" type="button">Najít nejbližší Point</button>
+          <button class="btn btn-gold" type="button">Na plochu telefonu</button>
+        </div>
+        <div class="panel">Na iPhonu otevřete web v Safari a zvolte Přidat na plochu. Na Androidu v Chrome klepněte na Instalovat aplikaci.</div>
+      </div>
+      <p class="note">Žluté tlačítko na počítači zůstane, ať je cestu vidět i od stolu. Video se nestáhne.</p>
+    </section>
+
+    <section class="scene scene-hotovo">
+      <h1>Ikona už je na ploše</h1>
+      <p class="lead">Ať přišli z iPhonu, Androidu nebo počítače, žluté tlačítko zmizí.</p>
+      <div class="phone">
+        <div class="safari-bar"><span class="url">Raclette Lovers</span></div>
+        <div class="hero">
+          <p class="kicker">Raclette Lovers</p>
+          <h2>Najít nejbližší Point</h2>
+          <div class="actions">
+            <button class="btn btn-solid" type="button">Použít mou polohu</button>
+          </div>
+          <p class="gone">Aplikace je na ploše. Otevřete ji ikonou Raclette Lovers.</p>
+        </div>
+      </div>
+      <p class="note">Stejné tlačítko se schová i na hlavní stránce, když si web otevřou z ikony.</p>
+    </section>
+  </main>
+</body>
+</html>
