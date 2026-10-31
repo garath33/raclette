@@ -1,0 +1,6 @@
+---
+description: Náhled před schválením toho, co uvidí host
+alwaysApply: true
+---
+
+Než uživatel schválí věc, kterou na webu uvidí host (rozložení, nová sekce, tlačítko, návod, text v stránce), nejdřív ukaž náhled. Náhled je obrázek nebo stránka ve vzhledu webu, v češtině, a u více stavů (telefon, počítač, jiný systém) každý stav zvlášť. Do ostré stránky to zapiš až po výslovném schválení. Drobná oprava, dokumentace a postup podle hotového návodu náhled nepotřebují. Čitelné znění je v docs/vedeni.md.

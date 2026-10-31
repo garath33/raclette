@@ -37,3 +37,7 @@ Krátké pravidlo má agent pořád v `.cursor/rules/prace.mdc`. Delší znění
 ## Pull request
 
 Každá úprava jde do vlastní větve a pull requestu. V odpovědi je odkaz na ten request, aby se dal projet. Do `main` se nestrká, dokud není řečeno, že to má jít na ostrý web. Náhled větve je v [pipeline](pipeline.md).
+
+## Náhled před schválením
+
+Než se schválí něco, co host na webu uvidí, agent nejdřív ukáže náhled. Obrázek nebo samostatná stránka ve vzhledu webu, česky. Když se výsledek liší podle telefonu nebo počítače, je v náhledu každý stav. Do `index.html`, `app.html` a ostatních ostrých stránek se to zapíše až po výslovném souhlasu. Drobná oprava, dokumentace a postup podle hotového návodu náhled nepotřebují. Krátké pravidlo je v `.cursor/rules/nahled.mdc`.

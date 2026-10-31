@@ -19,7 +19,8 @@ concurrency:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    # Stejně jako v CI: Playwright 1.55 na ubuntu-latest (26.04) prohlížeč nenainstaluje.
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
