@@ -2,6 +2,7 @@
 
 ## 2026-10-31
 
+- Testy v GitHub Actions běží na `ubuntu-24.04`. Na `ubuntu-latest` (26.04) Playwright 1.55 prohlížeč nenainstaluje a `npm test` se nespustí.
 - Návod pro agenta: než host uvidí novou věc na webu, nejdřív náhled a schválení. Pravidlo je v `.cursor/rules/nahled.mdc` a ve vedení dokumentace.
 - Náhled nápovědy na plochu podle telefonu je na `nahled/plocha.html`. Do ostrých stránek se nezapojí, dokud není schválený.
 
