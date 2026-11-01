@@ -7,7 +7,10 @@ test.beforeEach(async ({ context }) => {
 test("stránka se načte, má sekce a testovací pruh", async ({ page }) => {
   const errors = [];
   page.on("pageerror", (error) => errors.push(String(error)));
-  await page.goto("/?lang=cs");
+  const response = await page.goto("/?lang=cs");
+  expect(response.status()).toBe(200);
+  await expect(page.locator("body")).toHaveCSS("background-color", "rgb(246, 243, 236)");
+  await expect(page.locator('link[rel="stylesheet"][href="css/styles.css"]')).toHaveCount(1);
   await expect(page.locator("h1")).toContainText("Originální švýcarský raclette");
   await expect(page.locator("#env-banner")).toBeVisible();
   for (const id of ["vyhody", "pointy", "aplikace", "reference", "raclette", "pribeh", "nakup", "eventy", "kontakty"]) {
@@ -131,6 +134,8 @@ test("poloha u Kladna vybere food truck a u Jeseníku Křížový vrch", async (
   await expect(page.locator("#point-cards .badge")).toHaveText("Nejbližší");
   await expect(page.locator("#navigate-nearest")).toBeVisible();
   await expect(page.locator("#navigate-nearest")).toContainText("Martin Kábrt");
+  await expect(page.locator("#navigate-nearest")).toHaveAttribute("target", "_blank");
+  await expect(page.locator("#navigate-nearest")).toHaveAttribute("rel", "noopener noreferrer");
   const navHref = await page.locator("#navigate-nearest").getAttribute("href");
   expect(navHref).toMatch(/destination=50\.1466053%2C14\.1026398/);
   expect(navHref).not.toMatch(/dir_action=navigate/);
@@ -283,6 +288,8 @@ test("aplikace Raclette Lovers hledá Point až po klepnutí a má čtyři jazyk
   await page.locator("#locate").click();
   await expect(page.locator("#locator-status")).toContainText("Martin Kábrt");
   await expect(page.locator("#navigate-nearest")).toBeVisible();
+  await expect(page.locator("#navigate-nearest")).toHaveAttribute("target", "_blank");
+  await expect(page.locator("#navigate-nearest")).toHaveAttribute("rel", "noopener noreferrer");
   const navHref = await page.locator("#navigate-nearest").getAttribute("href");
   expect(navHref).toMatch(/destination=50\.1466053%2C14\.1026398/);
   await page.selectOption("#lang", "en");
