@@ -1,5 +1,9 @@
 # Změny
 
+## 2026-11-01
+
+- Náhled věty, že instalace v anonymním okně nefunguje, je na `nahled/anonym.html`. Do ostrých stránek se nezapojí, dokud není schválený.
+
 ## 2026-10-31
 
 - Testy v GitHub Actions běží na `ubuntu-24.04`. Na `ubuntu-latest` (26.04) Playwright 1.55 prohlížeč nenainstaluje a `npm test` se nespustí.
