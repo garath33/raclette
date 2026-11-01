@@ -8,7 +8,7 @@
   <script>
     (function () {
       var stav = new URLSearchParams(location.search).get("stav") || "telefon";
-      var ok = { telefon: 1, pocitac: 1, android: 1, hotovo: 1 };
+      var ok = { telefon: 1, bezne: 1, pocitac: 1, android: 1, hotovo: 1 };
       if (!ok[stav]) stav = "telefon";
       document.documentElement.dataset.stav = stav;
     })();
@@ -48,6 +48,7 @@
       font-weight: 700;
     }
     html[data-stav="telefon"] a[href*="stav=telefon"],
+    html[data-stav="bezne"] a[href*="stav=bezne"],
     html[data-stav="pocitac"] a[href*="stav=pocitac"],
     html[data-stav="android"] a[href*="stav=android"],
     html[data-stav="hotovo"] a[href*="stav=hotovo"] {
@@ -66,6 +67,7 @@
     .lead { margin: 0 0 18px; color: var(--muted); font-size: 15px; max-width: 40rem; }
     .scene { display: none; }
     html[data-stav="telefon"] .scene-telefon,
+    html[data-stav="bezne"] .scene-bezne,
     html[data-stav="pocitac"] .scene-pocitac,
     html[data-stav="android"] .scene-android,
     html[data-stav="hotovo"] .scene-hotovo { display: block; }
@@ -207,9 +209,10 @@
 </head>
 <body>
   <header class="banner">
-    <p><strong>Náhled.</strong> Na ostrém webu to ještě není. Věta zní: „Instalace v anonymním okně nefunguje. Otevřete stránku v běžném okně.“ Stojí jako první řádek návodu, který se otevře po klepnutí na Na plochu telefonu.</p>
+    <p><strong>Náhled.</strong> Na ostrém webu to ještě není. Věta zní: „Instalace v anonymním okně nefunguje. Otevřete stránku v běžném okně.“ Uvidí ji každý, kdo otevře návod k instalaci, v anonymním i v běžném okně. Prohlížeč režim okna stránce nehlásí. Přihlášení na webu není. Věta zmizí, až je ikona na ploše.</p>
     <nav>
-      <a href="?stav=telefon">Telefon</a>
+      <a href="?stav=telefon">Anonymní okno</a>
+      <a href="?stav=bezne">Běžné okno</a>
       <a href="?stav=pocitac">Počítač</a>
       <a href="?stav=android">Android, okno Chromu</a>
       <a href="?stav=hotovo">Ikona už je na ploše</a>
@@ -217,8 +220,8 @@
   </header>
   <main>
     <section class="scene scene-telefon">
-      <h1>Stránka aplikace na telefonu</h1>
-      <p class="lead">Panel pod žlutým tlačítkem. Věta je v něm první, nad postupem pro iPhone.</p>
+      <h1>Anonymní okno</h1>
+      <p class="lead">Stejný panel jako v běžném okně. Věta je v něm první, nad postupem pro iPhone.</p>
       <p class="where">app.html · panel #pwa-panel</p>
       <div class="phone">
         <div class="bar"><span class="url">raclettelovers.ch/app</span></div>
@@ -240,6 +243,32 @@
         </div>
       </div>
       <p class="note">Stejný první řádek bude v panelu i na hlavní stránce, až návod z náhledu Na plochu telefonu nahradí sekci uprostřed stránky. Do té doby je věta i v té sekci, hned pod úvodní větou.</p>
+    </section>
+
+    <section class="scene scene-bezne">
+      <h1>Běžné okno</h1>
+      <p class="lead">Člověk je v obyčejném okně prohlížeče a na webu není přihlášený. Účty hostů web nemá. Věta v návodu zůstává.</p>
+      <p class="where">app.html · panel #pwa-panel</p>
+      <div class="phone">
+        <div class="bar"><span class="url">raclettelovers.ch/app</span></div>
+        <div class="screen">
+          <p class="kicker">Raclette Lovers</p>
+          <h2>Najít nejbližší Point</h2>
+          <div class="actions">
+            <button class="btn btn-solid" type="button">Použít mou polohu</button>
+            <button class="btn btn-gold" type="button">Na plochu telefonu</button>
+          </div>
+          <div class="panel">
+            <p class="warn">Instalace v anonymním okně nefunguje. Otevřete stránku v běžném okně.</p>
+            <p class="copy">Zástupce Raclette Lovers otevře hledání nejbližšího Pointu. Na polohu se zeptáme až po klepnutí.</p>
+            <ol>
+              <li class="on">iPhone: otevřete aplikaci v Safari, klepněte na Sdílet a pak na Přidat na plochu.</li>
+              <li>Android: v Chromu klepněte na Instalovat aplikaci, nebo v nabídce zvolte Přidat na plochu.</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+      <p class="note">Věta se schová až ve chvíli, kdy je ikona na ploše. Režim okna na tom nic nemění.</p>
     </section>
 
     <section class="scene scene-pocitac">

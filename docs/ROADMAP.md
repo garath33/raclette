@@ -2,7 +2,7 @@
 
 ## Instalace mimo anonymní okno
 
-Čeká na schválení náhledu `nahled/anonym.html`. Věta zní: „Instalace v anonymním okně nefunguje. Otevřete stránku v běžném okně.“ Je první řádek návodu po klepnutí na Na plochu telefonu: na stránce aplikace v `#pwa-panel`, na hlavní stránce v sekci `#aplikace` hned pod úvodní větou. Do okna, které kreslí Chrome, se nevkládá. Po instalaci ikony zmizí spolu s návodem. Do úvodu vedle tří tlačítek nepatří.
+Čeká na schválení náhledu `nahled/anonym.html`. Věta zní: „Instalace v anonymním okně nefunguje. Otevřete stránku v běžném okně.“ Uvidí ji každý, kdo návod otevře, v anonymním i v běžném okně. Prohlížeč režim okna stránce nehlásí, přihlášení na webu není. Věta je první řádek návodu po klepnutí na Na plochu telefonu: na stránce aplikace v `#pwa-panel`, na hlavní stránce v sekci `#aplikace` hned pod úvodní větou. Do okna, které kreslí Chrome, se nevkládá. Po instalaci ikony zmizí spolu s návodem. Do úvodu vedle tří tlačítek nepatří.
 
 ## Nápověda na plochu podle telefonu
 

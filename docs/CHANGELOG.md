@@ -2,7 +2,7 @@
 
 ## 2026-11-01
 
-- Náhled věty, že instalace v anonymním okně nefunguje, je na `nahled/anonym.html`. Do ostrých stránek se nezapojí, dokud není schválený.
+- Náhled věty, že instalace v anonymním okně nefunguje, je na `nahled/anonym.html`. Uvidí ji každý, kdo otevře návod, v anonymním i v běžném okně. Do ostrých stránek se nezapojí, dokud není schválený.
 
 ## 2026-10-31
 
