@@ -61,6 +61,8 @@ function hideNavigateNearest() {
   if (!link) return;
   link.hidden = true;
   link.removeAttribute("href");
+  link.removeAttribute("target");
+  link.removeAttribute("rel");
 }
 
 function showNavigateNearest(point) {
@@ -68,6 +70,8 @@ function showNavigateNearest(point) {
   if (!link) return;
   link.hidden = false;
   link.href = routeUrl(point);
+  link.target = "_blank";
+  link.rel = "noopener noreferrer";
   link.textContent = t("points.navigate", { name: t("point." + point.id + ".name") });
 }
 
