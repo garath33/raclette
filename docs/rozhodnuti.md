@@ -2,6 +2,10 @@
 
 Krátký záznam, aby se stejná chyba neopakovala.
 
+## Aplikace nabízí stejné jazyky jako web
+
+Přepínač v aplikaci ukazoval jen češtinu, slovenštinu, angličtinu a francouzštinu, na telefonu i na počítači. Překlady italštiny, němčiny, polštiny, španělštiny a ruštiny v `js/i18n-app.js` už byly. Nabídku držel kratší seznam `APP_LANGUAGES` v `js/site.js`, stejný seznam v `lib/seo-html.mjs` a čtyři položky v `app.html`. Když měl host na webu němčinu, aplikace ji zahodila a otevřela angličtinu. Úvod a stránka pro partnery měly devět jazyků pořád. `APP_LANGUAGES` je teď totéž pole jako `LANGUAGES`. Test selže, když se nabídka nebo `hreflang` na úvodu, u partnerů nebo v aplikaci zase zkrátí.
+
 ## Veřejný text neříká, koho jsme vyřadili
 
 V první verzi kontaktů bylo napsané, že Veronika v seznamu není. To na web nepatří. Veřejná stránka uvádí jen lidi, kteří v týmu jsou. Regresní test teď prohledá HTML i všechny překlady a selže, když se jméno Veronika objeví znovu.
@@ -98,7 +102,7 @@ Bonté v Berouně je ze Záběhlic jen asi o 1,2 km dál než food truck v Kladn
 
 ## Aplikace je zástupce, ne App Store
 
-Hosté chtějí ikonu Raclette Lovers na ploše telefonu a navigaci k nejbližšímu Pointu. To už web umí, proto není nativní appka v App Store ani Google Play. Stránka `app.html` je PWA: manifest, ikona z loga, zástupce ze Safari i Chrome. Polohu se zeptá až po klepnutí. Jazyky v aplikaci jsou jen cs, sk, en a fr. Instagram, YouTube, Facebook a odkaz na web jsou dole. Žluté tlačítko „Na plochu telefonu“ je nahoře vedle hledání Pointu. Když prohlížeč umí instalaci, nabídne ji. Jinak se otevře návod pro iPhone a Android.
+Hosté chtějí ikonu Raclette Lovers na ploše telefonu a navigaci k nejbližšímu Pointu. To už web umí, proto není nativní appka v App Store ani Google Play. Stránka `app.html` je PWA: manifest, ikona z loga, zástupce ze Safari i Chrome. Polohu se zeptá až po klepnutí. Instagram, YouTube, Facebook a odkaz na web jsou dole. Žluté tlačítko „Na plochu telefonu“ je nahoře vedle hledání Pointu. Když prohlížeč umí instalaci, nabídne ji. Jinak se otevře návod pro iPhone a Android.
 
 ## Pro partnery na ostrém webu
 

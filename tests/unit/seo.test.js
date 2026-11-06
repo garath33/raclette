@@ -65,8 +65,8 @@ test("výchozí HTML je anglicky a sitemap uvádí každý jazyk jako vlastní a
   for (const lang of ["de", "it", "pl", "es", "ru"]) {
     assert.match(sitemap, new RegExp("<loc>https://www\\.raclettelovers\\.com/\\?lang=" + lang + "</loc>"));
     assert.match(sitemap, new RegExp("<loc>https://www\\.raclettelovers\\.com/pro-partnery\\.html\\?lang=" + lang + "</loc>"));
+    assert.match(sitemap, new RegExp("<loc>https://www\\.raclettelovers\\.com/app\\.html\\?lang=" + lang + "</loc>"));
   }
-  assert.equal(sitemap.includes("app.html?lang=de"), false);
 });
 
 test("robots a sitemap ukazují na ostré domény a všechny jazyky", async () => {
@@ -230,11 +230,26 @@ test("PWA Raclette Lovers má manifest, ikony a stránku aplikace", () => {
   assert.match(app, /apple-touch-icon/);
   assert.match(app, /apple-mobile-web-app-capable/);
   assert.match(app, /id="locate"/);
-  assert.match(app, /option value="cs"/);
-  assert.match(app, /option value="sk"/);
-  assert.match(app, /option value="en"/);
-  assert.match(app, /option value="fr"/);
-  assert.equal(/option value="de"/.test(app), false);
+  const names = {
+    cs: "Čeština",
+    en: "English",
+    fr: "Français",
+    sk: "Slovenčina",
+    it: "Italiano",
+    de: "Deutsch",
+    pl: "Polski",
+    es: "Español",
+    ru: "Русский"
+  };
+  for (const file of ["index.html", "pro-partnery.html", "app.html"]) {
+    const html = fs.readFileSync(file, "utf8");
+    const options = [...html.matchAll(/<option value="([a-z]{2})"[^>]*>([^<]*)<\/option>/g)].filter((match) => LANGS.includes(match[1]));
+    assert.deepEqual(options.map((match) => match[1]), LANGS, file);
+    for (const lang of LANGS) {
+      assert.equal(options.find((match) => match[1] === lang)[2], names[lang], file + " " + lang);
+      assert.match(html, new RegExp('hreflang="' + lang + '"'));
+    }
+  }
   assert.match(app, /https:\/\/www\.facebook\.com\/rakletparty\//);
   assert.ok(fs.existsSync("assets/icon-192.png"));
   assert.ok(fs.existsSync("assets/icon-512.png"));

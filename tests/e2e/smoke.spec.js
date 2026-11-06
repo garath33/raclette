@@ -257,11 +257,36 @@ test("web nabízí aplikaci Raclette Lovers a návod na plochu", async ({ page }
   await expect(page.locator('link[rel="manifest"]')).toHaveAttribute("href", "manifest.webmanifest");
 });
 
-test("aplikace Raclette Lovers hledá Point až po klepnutí a má čtyři jazyky", async ({ page, context }) => {
+test("přepínač na úvodu, u partnerů i v aplikaci má na telefonu i na počítači devět jazyků", async ({ page }) => {
+  const names = ["Čeština", "English", "Français", "Slovenčina", "Italiano", "Deutsch", "Polski", "Español", "Русский"];
+  for (const path of ["/?lang=fr", "/pro-partnery.html?lang=fr", "/app.html?lang=fr"]) {
+    await page.goto(path);
+    for (const size of [{ width: 390, height: 844 }, { width: 1280, height: 800 }]) {
+      await page.setViewportSize(size);
+      const select = page.locator("#lang");
+      await expect(select).toBeVisible();
+      await expect(select.locator("option")).toHaveText(names);
+      await expect(select).toHaveValue("fr");
+    }
+  }
+});
+
+test("aplikace Raclette Lovers hledá Point až po klepnutí a má všech devět jazyků", async ({ page, context }) => {
   const errors = [];
   page.on("pageerror", (error) => errors.push(String(error)));
   await context.setGeolocation({ latitude: 50.1466, longitude: 14.1026 });
   await page.goto("/app.html?lang=cs");
+  await expect(page.locator("#lang option")).toHaveText([
+    "Čeština",
+    "English",
+    "Français",
+    "Slovenčina",
+    "Italiano",
+    "Deutsch",
+    "Polski",
+    "Español",
+    "Русский"
+  ]);
   await expect(page.locator("h1")).toContainText("Najít nejbližší Point");
   await expect(page.locator("#navigate-nearest")).toBeHidden();
   await expect(page.locator("#pwa-install")).toBeVisible();
@@ -285,6 +310,9 @@ test("aplikace Raclette Lovers hledá Point až po klepnutí a má čtyři jazyk
   await expect(page.locator("#navigate-nearest")).toBeVisible();
   const navHref = await page.locator("#navigate-nearest").getAttribute("href");
   expect(navHref).toMatch(/destination=50\.1466053%2C14\.1026398/);
+  await page.selectOption("#lang", "de");
+  await expect(page.locator("h1")).toContainText("Den nächsten Point finden");
+  await expect(page.locator("#lang")).toHaveValue("de");
   await page.selectOption("#lang", "en");
   await expect(page.locator("h1")).toContainText("Find the nearest Point");
   await expect(page.locator("#point-cards .card[data-id='eddy'] .card-flag")).toHaveAttribute("aria-label", "Switzerland");

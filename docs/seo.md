@@ -9,7 +9,7 @@ Ostré domény se indexují. Zkušební adresy ne.
 - `hreflang` pro cs, en, fr, sk, it, de, pl, es, ru a `x-default` na angličtinu
 - Open Graph a Twitter karta, obrázek je fotka servisu
 - JSON-LD `Organization` pro Raclette Point Original.cz s.r.o. a na úvodu seznam Pointů
-- stránka aplikace `app.html` s vlastním title, hreflang jen cs/en/fr/sk a `manifest.webmanifest`
+- stránka aplikace `app.html` s vlastním title, stejným `hreflang` jako zbytek webu a `manifest.webmanifest`
 - `sitemap.xml` a `robots.txt`
 - textové alternativy obrázků a jedna úroveň nadpisů v sekcích
 
@@ -17,7 +17,7 @@ Výchozí HTML je anglicky a má `index, follow`. Angličtina je jazyk `www.racl
 
 Cloudflare Worker na `.cz`, `.sk` a `.ch` jazyk zapíše rovnou do HTML: `lang`, titulek, popis, Open Graph, texty `data-i18n` a seznam Pointů v JSON-LD. Robot bez JavaScriptu tedy na české doméně čte češtinu, ne anglický zdroj. Holá adresa (`/`, `/pro-partnery`, `/app`) se přesměruje 301 na stejnou cestu s `?lang=` jazyka domény. Přípona `.html` se v přesměrování nepřidává: Cloudflare ji z adresy zase sundá a obě pravidla by se zacyklila. Kanonická značka dál ukazuje na soubor s `.html`. Odkazy mezi stránkami si `?lang=` nesou, aby proklik z české stránky neskončil na adrese bez jazyka.
 
-`sitemap.xml` na každé doméně uvádí jako `<loc>` jen adresy té domény. Ostatní jazyky jsou v ní dál jako `hreflang`. Úvod a partneři mají devět jazyků, aplikace jen cs, en, fr a sk. Soubor v gitu je verze pro `www.raclettelovers.com`. Worker na `.cz`, `.sk` a `.ch` pošle sitemap té domény. `robots.txt` na doméně Workeru ukazuje sitemap téže domény.
+`sitemap.xml` na každé doméně uvádí jako `<loc>` jen adresy té domény. Ostatní jazyky jsou v ní dál jako `hreflang`. Úvod, partneři i aplikace mají devět jazyků. Soubor v gitu je verze pro `www.raclettelovers.com`. Worker na `.cz`, `.sk` a `.ch` pošle sitemap té domény. `robots.txt` na doméně Workeru ukazuje sitemap téže domény.
 
 JavaScript na ostré doméně nechá `index, follow` a kanonickou adresu drží na doméně daného jazyka. Na `github.io`, `localhost` a `127.0.0.1` nastaví `noindex, follow` a zkušební pruh. `github.io` se navíc přesměrovává na `www.raclettelovers.com`. Náhled na `*.workers.dev` má v HTML `noindex` a s `?lang=` ukáže text toho jazyka.
 
