@@ -101,14 +101,17 @@ test("přepínač jazyka zůstane na stejné doméně a nabídne všechny jazyky
   assert.equal(site.isNativeLanguage("raclettelovers.ch", "pl"), true);
 });
 
-test("aplikace Raclette Lovers drží jen cs, sk, en, fr", () => {
-  assert.deepEqual(site.APP_LANGUAGES, ["cs", "en", "fr", "sk"]);
+test("aplikace Raclette Lovers nabízí stejné jazyky jako web", () => {
+  assert.equal(site.APP_LANGUAGES, site.LANGUAGES);
+  assert.deepEqual(site.APP_LANGUAGES, ["cs", "en", "fr", "sk", "it", "de", "pl", "es", "ru"]);
   assert.equal(site.appLanguage("raclettelovers.cz", ["cs-CZ"], null), "cs");
   assert.equal(site.appLanguage("raclettelovers.com", ["en-GB"], "sk"), "sk");
-  assert.equal(site.appLanguage("raclettelovers.cz", ["de-DE"], "de"), "en");
-  assert.equal(site.appLanguage("raclettelovers.cz", ["de-DE"], null), "cs");
+  assert.equal(site.appLanguage("raclettelovers.cz", ["de-DE"], "de"), "de");
+  assert.equal(site.appLanguage("raclettelovers.cz", ["de-DE"], null), "de");
   assert.equal(site.appLanguage("raclettelovers.ch", ["ja-JP"], null), "fr");
-  assert.equal(site.appLanguage("raclettelovers.sk", ["pl-PL"], "it"), "en");
+  assert.equal(site.appLanguage("raclettelovers.sk", ["pl-PL"], "it"), "it");
+  assert.equal(site.appLanguage("raclettelovers.com", ["es-MX"], null), "es");
+  assert.equal(site.appLanguage("raclettelovers.com", ["ru-RU"], "pl"), "pl");
 });
 
 test("ostrá kanonická adresa sedí na doménu jazyka, zkušební web zůstává na místě", () => {

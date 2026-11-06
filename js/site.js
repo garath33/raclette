@@ -5,7 +5,9 @@
 })(typeof self !== "undefined" ? self : this, function () {
   const STAGING_BASE = "https://garath33.github.io/raclette/";
   const LANGUAGES = ["cs", "en", "fr", "sk", "it", "de", "pl", "es", "ru"];
-  const APP_LANGUAGES = ["cs", "en", "fr", "sk"];
+  // Aplikace nabízí totéž co web. Kratší seznam nechával v menu jen cs/en/fr/sk,
+  // i když překlady it/de/pl/es/ru už byly v i18n-app.js.
+  const APP_LANGUAGES = LANGUAGES;
   const OG_LOCALE = {
     cs: "cs_CZ",
     en: "en_GB",
@@ -118,12 +120,11 @@
   }
 
   function appLanguage(hostname, locales, stored) {
-    if (APP_LANGUAGES.indexOf(stored) !== -1) return stored;
+    if (LANGUAGES.indexOf(stored) !== -1) return stored;
     const fromNav = languageFromLocales(locales);
-    if (APP_LANGUAGES.indexOf(fromNav) !== -1) return fromNav;
-    if (stored && LANGUAGES.indexOf(stored) !== -1) return "en";
+    if (LANGUAGES.indexOf(fromNav) !== -1) return fromNav;
     const domain = defaultLanguage(hostname);
-    if (APP_LANGUAGES.indexOf(domain) !== -1) return domain;
+    if (LANGUAGES.indexOf(domain) !== -1) return domain;
     return "en";
   }
 

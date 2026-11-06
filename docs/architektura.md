@@ -15,7 +15,7 @@ js/i18n.js       čeština, angličtina, francouzština
 js/i18n-extra.js slovenština, italština, němčina, polština, španělština, ruština
 js/i18n-app.js   texty aplikace a návodu na plochu
 js/app.js        vykreslení vizitek, mapa, přepínač jazyka, odeslání partnerského formuláře
-js/lovers-app.js stránka aplikace: poloha až po klepnutí, jazyky cs/sk/en/fr
+js/lovers-app.js stránka aplikace: poloha až po klepnutí, stejných devět jazyků jako web
 js/pwa.js        instalace zástupce a service worker
 lib/partner-inquiry.mjs  stejná pravidla poptávky, stránka je nenačítá (skládá je js/app.js)
 worker.js        přesměrování aliasů domén
@@ -39,7 +39,7 @@ Partnerský formulář odešle data přes FormSubmit na `milan@raclette-original
 
 ## Jazyk
 
-Výchozí jazyk testovacího webu je čeština. Volba se ukládá do `localStorage` a do adresy jako `?lang=cs`. Na budoucích doménách se výchozí jazyk bude řídit doménou, viz [Domény](domeny.md). Aplikace Raclette Lovers nabízí jen češtinu, slovenštinu, angličtinu a francouzštinu.
+Výchozí jazyk testovacího webu je čeština. Volba se ukládá do `localStorage` a do adresy jako `?lang=cs`. Na budoucích doménách se výchozí jazyk bude řídit doménou, viz [Domény](domeny.md). Úvod, partneři i aplikace Raclette Lovers nabízejí stejných devět jazyků. `APP_LANGUAGES` je totéž pole jako `LANGUAGES`.
 
 ## Mapa
 

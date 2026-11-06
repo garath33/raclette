@@ -1,5 +1,9 @@
 # Změny
 
+## 2026-11-06
+
+- Aplikace Raclette Lovers nabízí stejných devět jazyků jako web. Kratší seznam nechával v menu jen češtinu, slovenštinu, angličtinu a francouzštinu, i když ostatní překlady už byly hotové.
+
 ## 2026-11-01
 
 - Náhled věty, že instalace v anonymním okně nefunguje, je na `nahled/anonym.html`. Uvidí ji každý, kdo otevře návod, v anonymním i v běžném okně. Do ostrých stránek se nezapojí, dokud není schválený.
