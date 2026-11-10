@@ -17,7 +17,7 @@ test("vypnutá poloha na notebooku navede k zapnutí sdílení a neotevře star�
   await expect(page.locator("#navigate-nearest")).toBeHidden();
 });
 
-test("bez prohlížečové polohy navigace startuje z aktuální IP", async ({ page, context }) => {
+test("bez prohlížečové polohy síťový odhad nejede navigaci", async ({ page, context }) => {
   await context.grantPermissions([]);
   await mockGeoError(page, 1, "denied");
   await page.route("**/api/where", (route) => route.fulfill({
@@ -29,8 +29,7 @@ test("bez prohlížečové polohy navigace startuje z aktuální IP", async ({ p
   await page.locator("#locate").click();
   await expect(page.locator("#locator-status")).toContainText("Odhad z IP");
   await expect(page.locator("#locator-status")).toContainText("Martin Kábrt");
-  const navHref = await page.locator("#navigate-nearest").getAttribute("href");
-  expect(navHref).toMatch(/destination=50\.1466053%2C14\.1026398/);
+  await expect(page.locator("#navigate-nearest")).toBeHidden();
 });
 
 const ANDROID_UA = "Mozilla/5.0 (Linux; Android 14; Pixel 8) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36";

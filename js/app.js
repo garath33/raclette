@@ -417,7 +417,7 @@ function setLang(next) {
     setStatus("points.idle");
   } else {
     const status = locatedStatus(origin.lat, origin.lng, origin.accuracy, origin.source, origin.staleKm);
-    showNavigateNearest(status.nearest);
+    publishNavigate(status, false);
     setStatus(status.key, status.vars);
   }
 }
@@ -470,9 +470,17 @@ function applyLocatedOrigin(fix) {
   pickedId = status.nearest.id;
   renderNetwork();
   renderPoints();
-  showNavigateNearest(status.nearest);
+  publishNavigate(status, true);
   setStatus(status.key, status.vars);
-  document.getElementById("navigate-nearest")?.focus();
+}
+
+function publishNavigate(status, focus) {
+  if (!G.fixMayNavigate(origin)) {
+    hideNavigateNearest();
+    return;
+  }
+  showNavigateNearest(status.nearest);
+  if (focus) document.getElementById("navigate-nearest")?.focus();
 }
 
 function restoreNavigate() {
@@ -481,7 +489,7 @@ function restoreNavigate() {
     return;
   }
   const status = locatedStatus(origin.lat, origin.lng, origin.accuracy, origin.source, origin.staleKm);
-  showNavigateNearest(status.nearest);
+  publishNavigate(status, false);
 }
 
 async function locate() {

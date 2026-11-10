@@ -140,6 +140,18 @@
     return null;
   }
 
+  /**
+   * A lone network address must not start navigation. Maps fills the start
+   * from the real place, so a bad IP near Opava would route Prague there.
+   * Navigation stays when the browser reading chose the point, or when the
+   * IP only replaced a pin a few kilometres away.
+   */
+  function fixMayNavigate(fix) {
+    if (!fix || !Number.isFinite(Number(fix.lat)) || !Number.isFinite(Number(fix.lng))) return false;
+    if (fix.source !== "ip") return true;
+    return Number(fix.staleKm) > 0;
+  }
+
   function describeFix(points, fix) {
     const ranked = rank(points, fix.lat, fix.lng);
     const nearestPoint = ranked[0].point;
@@ -550,6 +562,7 @@
     browserFix,
     networkFix,
     chooseFix,
+    fixMayNavigate,
     describeFix,
     mapsDirUrl,
     acquireFix,

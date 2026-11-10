@@ -132,6 +132,7 @@ test("starý pin u Hamerského rybníka neporazí aktuální IP na Zličíně", 
   const info = geo.describeFix(POINTS, chosen);
   assert.equal(info.key, "points.foundStale");
   assert.equal(info.nearest.id, "kabrt");
+  assert.equal(geo.fixMayNavigate(chosen), true);
 });
 
 test("z Hevlínské vede cíl do Kladna, i když IP sedí u Opavy", () => {
@@ -150,7 +151,12 @@ test("z Hevlínské vede cíl do Kladna, i když IP sedí u Opavy", () => {
     assert.match(url, /destination=50\.1466053%2C14\.1026398/);
     assert.equal(url.includes("17.9036825"), false);
     assert.equal(/[?&]origin=/.test(url), false);
+    assert.equal(geo.fixMayNavigate(chosen), true);
   }
+  const ipOnly = geo.chooseFix(null, nearOpava);
+  assert.equal(ipOnly.source, "ip");
+  assert.equal(geo.describeFix(POINTS, ipOnly).nearest.id, "minorit");
+  assert.equal(geo.fixMayNavigate(ipOnly), false);
 });
 
 test("odchylka o kilometr v Záběhlicích zůstane, když je IP blízko", () => {
@@ -278,6 +284,7 @@ test("notebook s vypnutou polohou vezme IP na Zličíně", async () => {
   assert.equal(result.fix.source, "ip");
   assert.equal(result.mobile, false);
   assert.equal(geo.describeFix(POINTS, result.fix).nearest.id, "kabrt");
+  assert.equal(geo.fixMayNavigate(result.fix), false);
   assert.equal(geo.failureStatusKey(result), null);
 });
 
