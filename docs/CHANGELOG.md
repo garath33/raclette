@@ -2,7 +2,7 @@
 
 ## 2026-11-10
 
-- Notebook v Praze se špatnou IP u Opavy už nejede do Opavy. Čerstvá poloha z prohlížeče zůstává a nejbližší Point je Kladno. IP přebije jen starý pin pár kilometrů vedle, pořád uvnitř přesnosti IP.
+- Z Hevlínské v Praze už navigace nemíří do Opavy. Mapy startují z té adresy samy a web do cíle dává food truck v Kladně. IP z jiného kraje cíl nepřepíše. IP pořád přebije jen starý pin pár kilometrů vedle, pořád uvnitř své přesnosti.
 - Klepnutí na Na plochu telefonu nejdřív spustí instalaci, pokud ji prohlížeč umí. Věta „Pokud jste v anonymním okně, instalace na plochu nemusí fungovat.“ se ukáže až potom, když instalace nejde, jako tichá poznámka pod postupem. Po instalaci ikony zmizí. Náhled `nahled/anonym.html` je pryč.
 
 ## 2026-11-06
