@@ -1,5 +1,9 @@
 # Změny
 
+## 2026-11-10
+
+- Předávací mapa webů, pošty a členství ve Cloudflare je v [předání](predani.md). Do ostrého webu se nepropisuje.
+
 ## 2026-11-06
 
 - Aplikace Raclette Lovers nabízí stejných devět jazyků jako web. Kratší seznam nechával v menu jen češtinu, slovenštinu, angličtinu a francouzštinu, i když ostatní překlady už byly hotové.
