@@ -102,24 +102,31 @@
     };
   }
 
+  function ipAccuracyKm(network) {
+    return Number(network.accuracy) > 0 ? Number(network.accuracy) / 1000 : 20;
+  }
+
   /**
-   * Prefer a fresh browser reading. When it is missing, stale, or more than
-   * STALE_KM from the current IP, navigation starts from the IP instead of
-   * a days-old Wi-Fi pin.
+   * The Maps link has only a destination. Maps fills the start from the real
+   * place (Hevlínská). The destination must be the Point nearest to that
+   * reading. IP may replace the reading only when it is a leftover a few
+   * kilometres away (Hamerský rybník vs Zličín): farther than STALE_KM, but
+   * still inside the IP accuracy. An IP in another region must not aim the
+   * route at Opava. Without any browser reading, the laptop falls back to IP.
    */
   function chooseFix(browser, network) {
-    const browserOk = !!(browser && browser.fresh !== false && Number.isFinite(browser.lat) && Number.isFinite(browser.lng));
+    const browserPoint = !!(browser && Number.isFinite(browser.lat) && Number.isFinite(browser.lng));
+    const browserOk = !!(browserPoint && browser.fresh !== false);
     const networkOk = !!(network && Number.isFinite(network.lat) && Number.isFinite(network.lng));
-    if (browserOk && networkOk) {
+    if (browserPoint && networkOk) {
       const gap = haversine(browser.lat, browser.lng, network.lat, network.lng);
-      if (gap > STALE_KM) {
-        return { lat: network.lat, lng: network.lng, accuracy: network.accuracy, source: "ip", staleKm: gap };
+      const ipKm = ipAccuracyKm(network);
+      if (gap > ipKm) {
+        return { lat: browser.lat, lng: browser.lng, accuracy: browser.accuracy, source: "browser" };
       }
-      return { lat: browser.lat, lng: browser.lng, accuracy: browser.accuracy, source: "browser" };
-    }
-    if (browserOk) return { lat: browser.lat, lng: browser.lng, accuracy: browser.accuracy, source: "browser" };
-    if (browser && networkOk) {
-      const gap = haversine(browser.lat, browser.lng, network.lat, network.lng);
+      if (browserOk && gap <= STALE_KM) {
+        return { lat: browser.lat, lng: browser.lng, accuracy: browser.accuracy, source: "browser" };
+      }
       return {
         lat: network.lat,
         lng: network.lng,
@@ -128,6 +135,7 @@
         staleKm: gap > STALE_KM ? gap : 0
       };
     }
+    if (browserOk) return { lat: browser.lat, lng: browser.lng, accuracy: browser.accuracy, source: "browser" };
     if (networkOk) return { lat: network.lat, lng: network.lng, accuracy: network.accuracy, source: "ip" };
     return null;
   }

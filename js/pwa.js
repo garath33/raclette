@@ -14,12 +14,11 @@
     return /iphone|ipad|ipod/i.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
   }
 
-  function showHowTo() {
+  function openGuide() {
     if (panel) {
-      const open = panel.hidden;
-      panel.hidden = !open;
-      if (installBtn) installBtn.setAttribute("aria-expanded", String(open));
-      if (open) panel.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      panel.hidden = false;
+      if (installBtn) installBtn.setAttribute("aria-expanded", "true");
+      panel.scrollIntoView({ behavior: "smooth", block: "nearest" });
       return;
     }
     if (section) {
@@ -27,6 +26,15 @@
       if (installBtn) installBtn.setAttribute("aria-expanded", "true");
       section.scrollIntoView({ behavior: "smooth", block: "start" });
     }
+  }
+
+  function toggleGuide() {
+    if (panel && !panel.hidden) {
+      panel.hidden = true;
+      if (installBtn) installBtn.setAttribute("aria-expanded", "false");
+      return;
+    }
+    openGuide();
   }
 
   function mark() {
@@ -41,15 +49,25 @@
     }
   }
 
-  async function installOrExplain() {
+  function installOrExplain() {
     if (standalone()) return;
-    if (deferred) {
-      deferred.prompt();
-      const choice = await deferred.userChoice.catch(() => ({ outcome: "dismissed" }));
-      deferred = null;
-      if (choice && choice.outcome === "accepted") return;
+    if (!deferred) {
+      toggleGuide();
+      return;
     }
-    showHowTo();
+    const promptEvent = deferred;
+    deferred = null;
+    let choice;
+    try {
+      choice = Promise.resolve(promptEvent.prompt()).then(() => promptEvent.userChoice);
+    } catch (e) {
+      openGuide();
+      return;
+    }
+    choice.then((result) => {
+      if (result && result.outcome === "accepted") return;
+      openGuide();
+    }).catch(() => openGuide());
   }
 
   window.addEventListener("beforeinstallprompt", (event) => {
@@ -80,6 +98,6 @@
 
   mark();
   if (location.hash === "#na-plochu" || location.hash === "#aplikace") {
-    showHowTo();
+    openGuide();
   }
 })();
