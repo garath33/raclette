@@ -134,6 +134,25 @@ test("starý pin u Hamerského rybníka neporazí aktuální IP na Zličíně", 
   assert.equal(info.nearest.id, "kabrt");
 });
 
+test("z Hevlínské vede cíl do Kladna, i když IP sedí u Opavy", () => {
+  const hevlinska = { lat: 50.0647499, lng: 14.2878009, accuracy: 40, fresh: true, source: "browser" };
+  const nearOpava = { lat: 49.9361636 + 0.26, lng: 17.9036825, accuracy: 20000, source: "ip" };
+  assert.equal(geo.nearest(POINTS, hevlinska.lat, hevlinska.lng).id, "kabrt");
+  assert.equal(geo.nearest(POINTS, nearOpava.lat, nearOpava.lng).id, "minorit");
+  assert.ok(geo.haversine(hevlinska.lat, hevlinska.lng, nearOpava.lat, nearOpava.lng) > 200);
+  for (const reading of [hevlinska, { ...hevlinska, fresh: false }]) {
+    const chosen = geo.chooseFix(reading, nearOpava);
+    assert.equal(chosen.source, "browser");
+    assert.equal(chosen.lat, hevlinska.lat);
+    const info = geo.describeFix(POINTS, chosen);
+    assert.equal(info.nearest.id, "kabrt");
+    const url = geo.mapsDirUrl(info.nearest);
+    assert.match(url, /destination=50\.1466053%2C14\.1026398/);
+    assert.equal(url.includes("17.9036825"), false);
+    assert.equal(/[?&]origin=/.test(url), false);
+  }
+});
+
 test("odchylka o kilometr v Záběhlicích zůstane, když je IP blízko", () => {
   const pond = { lat: 50.0518466, lng: 14.4857067, accuracy: 1500, fresh: true };
   const trencinska = { lat: 50.045505, lng: 14.4731025, accuracy: 20000 };
