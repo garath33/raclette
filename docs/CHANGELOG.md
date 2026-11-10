@@ -2,6 +2,7 @@
 
 ## 2026-11-10
 
+- Poznámka o anonymním okně už není šedá. Vedle věty je tmavý symbol klobouku a brýlí a slova „anonymním okně“ mají žluté zvýraznění. V ostatních jazycích se stejně zvýrazní odpovídající spojení.
 - Klepnutí na Na plochu telefonu nejdřív spustí instalaci, pokud ji prohlížeč umí. Věta „Pokud jste v anonymním okně, instalace na plochu nemusí fungovat.“ se ukáže až potom, když instalace nejde, jako tichá poznámka pod postupem. Po instalaci ikony zmizí. Náhled `nahled/anonym.html` je pryč.
 
 ## 2026-11-06
