@@ -1,5 +1,9 @@
 # Změny
 
+## 2026-11-10
+
+- Klepnutí na Na plochu telefonu nejdřív spustí instalaci, pokud ji prohlížeč umí. Věta „Pokud jste v anonymním okně, instalace na plochu nemusí fungovat.“ se ukáže až potom, když instalace nejde, jako tichá poznámka pod postupem. Po instalaci ikony zmizí. Náhled `nahled/anonym.html` je pryč.
+
 ## 2026-11-06
 
 - Aplikace Raclette Lovers nabízí stejných devět jazyků jako web. Kratší seznam nechával v menu jen češtinu, slovenštinu, angličtinu a francouzštinu, i když ostatní překlady už byly hotové.

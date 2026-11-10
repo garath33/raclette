@@ -66,6 +66,7 @@ test("veřejný text nezmiňuje vyřazenou osobu a IT role existuje", () => {
   assert.match(TRANSLATIONS.sk["app.open"], /Otvoriť/);
   assert.match(TRANSLATIONS.en["app.install"], /Home screen/);
   assert.match(TRANSLATIONS.cs["app.install"], /Na plochu telefonu/);
+  assert.equal(TRANSLATIONS.cs["app.how.anonymous"], "Pokud jste v anonymním okně, instalace na plochu nemusí fungovat.");
   assert.match(TRANSLATIONS.fr["app.website"], /Notre site/);
   assert.match(TRANSLATIONS.cs["aop.title"], /AOP/);
   assert.match(TRANSLATIONS.cs["aop.body"], /Appellation d’Origine Protégée/);
