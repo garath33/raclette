@@ -6,7 +6,7 @@ Web Raclette Point Original. Tahle složka je mapa projektu, ne marketingová st
 | --- | --- |
 | [Architektura](architektura.md) | Z čeho se web skládá a jak se stránka chová |
 | [Pipeline](pipeline.md) | Větve, testy, testovací adresa a ostré nasazení |
-| [Testování](testovani.md) | Smoke, regrese, responsivita, výkon |
+| [Testování](testovani.md) | Smoke, regrese, responsivita, validace, jazyky, snímky, odkazy |
 | [SEO](seo.md) | Titulky, jazyky, sitemap, hlavičky, písma a Search Console |
 | [Domény](domeny.md) | Budoucí adresy a přesměrování |
 | [E-mail](email.md) | Schránka info@raclettelovers.com: DNS, Cloudflare, Brevo, Gmail |

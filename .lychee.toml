@@ -1,0 +1,5 @@
+verbose = true
+no_progress = true
+max_retries = 2
+timeout = 20
+exclude_path = ["node_modules", "docs", "tests", "navrhy.html"]

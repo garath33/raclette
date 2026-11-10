@@ -10,10 +10,13 @@
     "test:e2e": "playwright test",
     "test:smoke": "playwright test tests/e2e/smoke.spec.js tests/e2e/geo-denied.spec.js",
     "test:responsive": "playwright test tests/e2e/responsive.spec.js",
-    "test:performance": "playwright test tests/e2e/performance.spec.js"
+    "test:performance": "playwright test tests/e2e/performance.spec.js",
+    "test:languages": "RELEASE_LANGS=1 playwright test tests/e2e/languages.spec.js"
   },
   "devDependencies": {
     "@playwright/test": "1.55.0",
+    "css-tree": "^3.2.1",
+    "html-validate": "^11.17.0",
     "wrangler": "^4.148.0"
   }
 }

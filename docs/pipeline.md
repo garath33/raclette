@@ -21,7 +21,7 @@ větev cursor/…  →  náhled na *.workers.dev (hned po pushi, ještě před s
 
 ## Co se stane po sloučení do `main`
 
-1. **CI** — unit + e2e testy.
+1. **CI** — unit a e2e v češtině, snímky vzhledu jako artefakt a Lychee na nefunkční odkazy. Všech devět jazyků se v prohlížeči pouští až před vydáním (`npm run test:languages`).
 2. **Deploy test environment** — GitHub Pages. `github.io` se přesměruje na `https://www.raclettelovers.com/`. Obsah na `www` se indexuje. Pruh a `noindex` zůstávají jen když se HTML otevře přímo na `github.io` nebo na localhostu.
 3. **Deploy production** — `npx wrangler deploy` Workeru `raclette` na ostré domény Cloudflare (`.cz`, `.sk`, `.ch` a aliasy). Vyžaduje secret `CLOUDFLARE_API_TOKEN`.
 
