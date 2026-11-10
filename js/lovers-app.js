@@ -162,9 +162,17 @@ function applyLocatedOrigin(fix) {
   };
   const status = locatedStatus(origin.lat, origin.lng, origin.accuracy, origin.source, origin.staleKm);
   renderPoints();
-  showNavigateNearest(status.nearest);
+  publishNavigate(status, true);
   setStatus(status.key, status.vars);
-  document.getElementById("navigate-nearest")?.focus();
+}
+
+function publishNavigate(status, focus) {
+  if (!RacletteGeo.fixMayNavigate(origin)) {
+    hideNavigateNearest();
+    return;
+  }
+  showNavigateNearest(status.nearest);
+  if (focus) document.getElementById("navigate-nearest")?.focus();
 }
 
 function restoreNavigate() {
@@ -173,7 +181,7 @@ function restoreNavigate() {
     return;
   }
   const status = locatedStatus(origin.lat, origin.lng, origin.accuracy, origin.source, origin.staleKm);
-  showNavigateNearest(status.nearest);
+  publishNavigate(status, false);
 }
 
 async function locate() {
@@ -229,7 +237,7 @@ function setLang(next) {
     setStatus("app.idle");
   } else {
     const status = locatedStatus(origin.lat, origin.lng, origin.accuracy, origin.source, origin.staleKm);
-    showNavigateNearest(status.nearest);
+    publishNavigate(status, false);
     setStatus(status.key, status.vars);
   }
 }
