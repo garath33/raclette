@@ -2,7 +2,7 @@
 
 ## 2026-11-10
 
-- Věta „Instalace v anonymním okně nefunguje. Otevřete stránku v běžném okně.“ je schovaná, dokud host neklepne na Na plochu telefonu. Pak se ukáže přímo pod tlačítkem, i když prohlížeč zároveň otevře vlastní okno instalace. Na stránce aplikace je první řádek téhož panelu. Po instalaci ikony zmizí. Náhled `nahled/anonym.html` je pryč.
+- Klepnutí na Na plochu telefonu nejdřív spustí instalaci, pokud ji prohlížeč umí. Věta „Pokud jste v anonymním okně, instalace na plochu nemusí fungovat.“ se ukáže až potom, když instalace nejde, jako tichá poznámka pod postupem. Po instalaci ikony zmizí. Náhled `nahled/anonym.html` je pryč.
 
 ## 2026-11-06
 

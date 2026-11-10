@@ -14,13 +14,8 @@
     return /iphone|ipad|ipod/i.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
   }
 
-  function showHowTo() {
+  function openGuide() {
     if (panel) {
-      if (!panel.hidden && !deferred) {
-        panel.hidden = true;
-        if (installBtn) installBtn.setAttribute("aria-expanded", "false");
-        return;
-      }
       panel.hidden = false;
       if (installBtn) installBtn.setAttribute("aria-expanded", "true");
       panel.scrollIntoView({ behavior: "smooth", block: "nearest" });
@@ -31,6 +26,15 @@
       if (installBtn) installBtn.setAttribute("aria-expanded", "true");
       section.scrollIntoView({ behavior: "smooth", block: "start" });
     }
+  }
+
+  function toggleGuide() {
+    if (panel && !panel.hidden) {
+      panel.hidden = true;
+      if (installBtn) installBtn.setAttribute("aria-expanded", "false");
+      return;
+    }
+    openGuide();
   }
 
   function mark() {
@@ -45,18 +49,25 @@
     }
   }
 
-  async function installOrExplain() {
+  function installOrExplain() {
     if (standalone()) return;
-    showHowTo();
-    if (!deferred) return;
+    if (!deferred) {
+      toggleGuide();
+      return;
+    }
     const promptEvent = deferred;
     deferred = null;
+    let choice;
     try {
-      promptEvent.prompt();
-      await promptEvent.userChoice;
+      choice = Promise.resolve(promptEvent.prompt()).then(() => promptEvent.userChoice);
     } catch (e) {
-      /* prohlížeč instalaci nenabídl, věta v panelu zůstává */
+      openGuide();
+      return;
     }
+    choice.then((result) => {
+      if (result && result.outcome === "accepted") return;
+      openGuide();
+    }).catch(() => openGuide());
   }
 
   window.addEventListener("beforeinstallprompt", (event) => {
@@ -87,6 +98,6 @@
 
   mark();
   if (location.hash === "#na-plochu" || location.hash === "#aplikace") {
-    showHowTo();
+    openGuide();
   }
 })();

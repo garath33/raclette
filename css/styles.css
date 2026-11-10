@@ -1784,16 +1784,7 @@ p { margin: 0; }
 .pwa-panel[hidden] { display: none !important; }
 .pwa-panel .pwa-howto { margin-top: 0.75rem; }
 .pwa-panel-lead { color: var(--muted); }
-.pwa-anonymous {
-  margin: 1rem 0 0;
-  padding: 0.7rem 0.85rem;
-  background: #fff8e4;
-  border-radius: 12px;
-  color: var(--ink);
-  font-weight: 700;
-  line-height: 1.35;
-}
-.pwa-panel .pwa-anonymous { margin: 0 0 0.85rem; }
+.pwa-anonymous { margin: 0.85rem 0 0; color: var(--muted); line-height: 1.4; }
 html[data-pwa="installed"] .pwa-anonymous { display: none; }
 html[data-pwa="ios"] .pwa-step-ios,
 html[data-pwa="android"] .pwa-step-android {
