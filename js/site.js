@@ -240,6 +240,28 @@
     doc.head.appendChild(script);
   }
 
+  function markIncognito(root, translate) {
+    if (!root || !root.querySelectorAll || typeof translate !== "function") return;
+    const nodes = root.querySelectorAll('[data-i18n="app.how.anonymous"]');
+    if (!nodes.length) return;
+    const full = translate("app.how.anonymous");
+    const mark = translate("app.how.anonymousMark");
+    const at = mark ? full.indexOf(mark) : -1;
+    nodes.forEach((el) => {
+      if (at < 0) {
+        el.textContent = full;
+        return;
+      }
+      const strong = document.createElement("strong");
+      strong.textContent = mark;
+      el.replaceChildren(
+        document.createTextNode(full.slice(0, at)),
+        strong,
+        document.createTextNode(full.slice(at + mark.length))
+      );
+    });
+  }
+
   function apply(lang, translate, loc) {
     loc = loc || (typeof location !== "undefined" ? location : { hostname: "", origin: "", pathname: "/", hash: "" });
     const title = translate("meta.title");
@@ -295,6 +317,7 @@
     ANALYTICS_TOKEN,
     analyticsToken,
     installAnalytics,
+    markIncognito,
     apply
   };
 });
