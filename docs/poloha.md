@@ -14,7 +14,7 @@ Síť je rychlá a uvnitř domu často jediná dostupná. GPS je venku přesněj
 
 ## Co se nepoužívá
 
-Telefon a tablet neberou polohu z IP (`/api/where`). IP operátora často sedí v jiném městě. Notebook smí IP použít, když prohlížeč polohu nedá, nebo je prohlížečový bod od IP dál než 8 km.
+Telefon a tablet neberou polohu z IP (`/api/where`). IP operátora často sedí v jiném městě. Notebook smí IP použít, když prohlížeč polohu nedá, nebo je čerstvý bod od IP dál než 8 km a pořád uvnitř přesnosti IP (u Cloudflare 20 km). To zahodí starý pin u Hamerského rybníka proti IP na Zličíně. Čerstvá poloha v jiném kraji zůstává: Praha proti IP u Opavy vede na Kladno, ne do Opavy.
 
 Odkaz do Google Maps má jen cíl. Start je „Vaše poloha“ v Mapách, ne jednorázový pin z webu.
 

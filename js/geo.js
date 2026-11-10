@@ -103,16 +103,19 @@
   }
 
   /**
-   * Prefer a fresh browser reading. When it is missing, stale, or more than
-   * STALE_KM from the current IP, navigation starts from the IP instead of
-   * a days-old Wi-Fi pin.
+   * A fresh browser reading is the device. IP replaces it only for a leftover
+   * pin a few kilometres away (Hamerský rybník vs Zličín): farther than
+   * STALE_KM, but still inside the IP accuracy. A fresh reading in another
+   * region stays, so Prague is not sent to Opava by a wrong IP. A stale or
+   * missing browser reading falls back to IP.
    */
   function chooseFix(browser, network) {
     const browserOk = !!(browser && browser.fresh !== false && Number.isFinite(browser.lat) && Number.isFinite(browser.lng));
     const networkOk = !!(network && Number.isFinite(network.lat) && Number.isFinite(network.lng));
     if (browserOk && networkOk) {
       const gap = haversine(browser.lat, browser.lng, network.lat, network.lng);
-      if (gap > STALE_KM) {
+      const ipKm = Number(network.accuracy) > 0 ? Number(network.accuracy) / 1000 : 20;
+      if (gap > STALE_KM && gap <= ipKm) {
         return { lat: network.lat, lng: network.lng, accuracy: network.accuracy, source: "ip", staleKm: gap };
       }
       return { lat: browser.lat, lng: browser.lng, accuracy: browser.accuracy, source: "browser" };

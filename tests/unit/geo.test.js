@@ -134,6 +134,16 @@ test("starý pin u Hamerského rybníka neporazí aktuální IP na Zličíně", 
   assert.equal(info.nearest.id, "kabrt");
 });
 
+test("čerstvá poloha v Praze nepustí špatnou IP u Opavy", () => {
+  const prague = { lat: 50.0755, lng: 14.4378, accuracy: 40, fresh: true, source: "browser" };
+  const nearOpava = { lat: 49.9361636 + 0.26, lng: 17.9036825, accuracy: 20000, source: "ip" };
+  const chosen = geo.chooseFix(prague, nearOpava);
+  assert.equal(chosen.source, "browser");
+  assert.equal(chosen.lat, prague.lat);
+  assert.equal(geo.describeFix(POINTS, chosen).nearest.id, "kabrt");
+  assert.equal(geo.nearest(POINTS, nearOpava.lat, nearOpava.lng).id, "minorit");
+});
+
 test("odchylka o kilometr v Záběhlicích zůstane, když je IP blízko", () => {
   const pond = { lat: 50.0518466, lng: 14.4857067, accuracy: 1500, fresh: true };
   const trencinska = { lat: 50.045505, lng: 14.4731025, accuracy: 20000 };
