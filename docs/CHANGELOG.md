@@ -2,7 +2,7 @@
 
 ## 2026-11-10
 
-- Návod k instalaci začíná větou „Instalace v anonymním okně nefunguje. Otevřete stránku v běžném okně.“ Je první řádek v panelu na stránce aplikace a hned pod úvodem v sekci Uložit na plochu na hlavní stránce. Uvidí ji každý, kdo návod otevře, v anonymním i v běžném okně. Po instalaci ikony zmizí. Náhled `nahled/anonym.html` je pryč.
+- Věta „Instalace v anonymním okně nefunguje. Otevřete stránku v běžném okně.“ je schovaná, dokud host neklepne na Na plochu telefonu. Pak se ukáže přímo pod tlačítkem, i když prohlížeč zároveň otevře vlastní okno instalace. Na stránce aplikace je první řádek téhož panelu. Po instalaci ikony zmizí. Náhled `nahled/anonym.html` je pryč.
 
 ## 2026-11-06
 

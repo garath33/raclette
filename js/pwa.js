@@ -16,10 +16,14 @@
 
   function showHowTo() {
     if (panel) {
-      const open = panel.hidden;
-      panel.hidden = !open;
-      if (installBtn) installBtn.setAttribute("aria-expanded", String(open));
-      if (open) panel.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      if (!panel.hidden && !deferred) {
+        panel.hidden = true;
+        if (installBtn) installBtn.setAttribute("aria-expanded", "false");
+        return;
+      }
+      panel.hidden = false;
+      if (installBtn) installBtn.setAttribute("aria-expanded", "true");
+      panel.scrollIntoView({ behavior: "smooth", block: "nearest" });
       return;
     }
     if (section) {
@@ -43,13 +47,16 @@
 
   async function installOrExplain() {
     if (standalone()) return;
-    if (deferred) {
-      deferred.prompt();
-      const choice = await deferred.userChoice.catch(() => ({ outcome: "dismissed" }));
-      deferred = null;
-      if (choice && choice.outcome === "accepted") return;
-    }
     showHowTo();
+    if (!deferred) return;
+    const promptEvent = deferred;
+    deferred = null;
+    try {
+      promptEvent.prompt();
+      await promptEvent.userChoice;
+    } catch (e) {
+      /* prohlížeč instalaci nenabídl, věta v panelu zůstává */
+    }
   }
 
   window.addEventListener("beforeinstallprompt", (event) => {

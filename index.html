@@ -295,10 +295,18 @@
           <p class="lead" data-i18n="hero.lead">A Raclette Point Original network. We serve authentic, original Swiss raclette to original Swiss recipes. We distribute cheeses of the highest original quality from the Laiterie d’Orsières dairy in the canton of Valais. We use your location to guide you to the nearest Point in Google Maps. Your own venue can add the same experience.</p>
           <div class="hero-actions">
             <a class="btn btn-solid" href="#pointy" id="hero-locate" data-i18n="hero.primary">Find the nearest Point</a>
-            <button class="btn btn-gold" id="pwa-install" type="button" aria-expanded="false" aria-controls="aplikace">
+            <button class="btn btn-gold" id="pwa-install" type="button" aria-expanded="false" aria-controls="pwa-panel">
               <span data-i18n="app.install">Add to Home screen</span>
             </button>
             <a class="btn btn-line" href="pro-partnery.html?lang=en" data-i18n="hero.secondary">I want to become a raclette point</a>
+            <div id="pwa-panel" class="pwa-panel" hidden>
+              <p id="pwa-installed" class="pwa-installed" hidden data-i18n="app.installed">The app is on your home screen. Open it with the Raclette Lovers icon.</p>
+              <p class="pwa-anonymous" data-i18n="app.how.anonymous">Installation does not work in a private window. Open the page in a regular window.</p>
+              <ol class="pwa-howto">
+                <li class="pwa-step-ios" data-i18n="app.how.ios">iPhone: open the app in Safari, tap Share, then Add to Home Screen. The icon is the Raclette Lovers logo.</li>
+                <li class="pwa-step-android" data-i18n="app.how.android">Android: in Chrome tap Install app, or use the menu and choose Add to Home screen.</li>
+              </ol>
+            </div>
           </div>
         </div>
         <div class="hero-visual">
@@ -441,12 +449,10 @@
           <p class="kicker" data-i18n="app.kicker">Raclette Lovers</p>
           <h2 data-i18n="app.how.title">Save it to your home screen</h2>
           <p class="lead" data-i18n="app.how.lead">The Raclette Lovers shortcut opens the nearest-Point finder. We only ask for location after you tap.</p>
-          <p class="pwa-anonymous" data-i18n="app.how.anonymous">Installation does not work in a private window. Open the page in a regular window.</p>
         </div>
         <div class="hero-actions">
           <a class="btn btn-solid" href="app.html?lang=en#na-plochu" data-i18n="app.open">Open the app</a>
         </div>
-        <p id="pwa-installed" class="pwa-installed" hidden data-i18n="app.installed">The app is on your home screen. Open it with the Raclette Lovers icon.</p>
         <ol class="pwa-howto">
           <li class="pwa-step-ios" data-i18n="app.how.ios">iPhone: open the app in Safari, tap Share, then Add to Home Screen. The icon is the Raclette Lovers logo.</li>
           <li class="pwa-step-android" data-i18n="app.how.android">Android: in Chrome tap Install app, or use the menu and choose Add to Home screen.</li>
