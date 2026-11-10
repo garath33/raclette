@@ -253,6 +253,9 @@ test("web nabízí aplikaci Raclette Lovers a návod na plochu", async ({ page }
   await expect(page.locator("#aplikace")).toBeInViewport();
   await expect(page.locator("#aplikace")).toContainText("Safari");
   await expect(page.locator("#aplikace")).toContainText("Chrome");
+  await expect(page.locator("#aplikace .pwa-anonymous")).toHaveText("Instalace v anonymním okně nefunguje. Otevřete stránku v běžném okně.");
+  await page.evaluate(() => { document.documentElement.dataset.pwa = "installed"; });
+  await expect(page.locator("#aplikace .pwa-anonymous")).toBeHidden();
   await expect(page.locator('#aplikace a[href="app.html?lang=cs#na-plochu"]')).toBeVisible();
   await expect(page.locator('link[rel="manifest"]')).toHaveAttribute("href", "manifest.webmanifest");
 });
@@ -295,6 +298,7 @@ test("aplikace Raclette Lovers hledá Point až po klepnutí a má všech devět
   await page.locator("#pwa-install").click();
   await expect(page.locator("#pwa-panel")).toBeVisible();
   await expect(page.locator("#pwa-panel")).toContainText("Safari");
+  await expect(page.locator("#pwa-panel .pwa-anonymous")).toHaveText("Instalace v anonymním okně nefunguje. Otevřete stránku v běžném okně.");
   await expect(page.locator("#locator-status")).toContainText("Klepněte");
   await expect(page.locator("#point-cards .card")).toHaveCount(8);
   await expect(page.locator("#point-cards .card-flag")).toHaveCount(8);

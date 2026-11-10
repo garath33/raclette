@@ -1,5 +1,9 @@
 # Změny
 
+## 2026-11-10
+
+- Návod k instalaci začíná větou „Instalace v anonymním okně nefunguje. Otevřete stránku v běžném okně.“ Je první řádek v panelu na stránce aplikace a hned pod úvodem v sekci Uložit na plochu na hlavní stránce. Uvidí ji každý, kdo návod otevře, v anonymním i v běžném okně. Po instalaci ikony zmizí. Náhled `nahled/anonym.html` je pryč.
+
 ## 2026-11-06
 
 - Aplikace Raclette Lovers nabízí stejných devět jazyků jako web. Kratší seznam nechával v menu jen češtinu, slovenštinu, angličtinu a francouzštinu, i když ostatní překlady už byly hotové.
