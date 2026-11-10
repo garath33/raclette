@@ -16,7 +16,7 @@ Síť je rychlá a uvnitř domu často jediná dostupná. GPS je venku přesněj
 
 Telefon a tablet neberou polohu z IP (`/api/where`). IP operátora často sedí v jiném městě. Notebook smí IP použít, když prohlížeč polohu nedá, nebo je bod od IP dál než 8 km a pořád uvnitř přesnosti IP (u Cloudflare 20 km). To zahodí starý pin u Hamerského rybníka proti IP na Zličíně. Odkaz do Map má jen cíl a Mapy startují z skutečné adresy. Když je odečet na Hevlínské v Praze a IP v jiném kraji, cíl zůstává food truck v Kladně. IP u Opavy se do odkazu nedostane.
 
-Odkaz do Google Maps má jen cíl. Start je „Vaše poloha“ v Mapách, ne jednorázový pin z webu.
+Odkaz do Google Maps má jen cíl. Start je „Vaše poloha“ v Mapách, ne jednorázový pin z webu. Tlačítko Navigovat se ukáže až z odečtu prohlížeče. Samotná síťová adresa smí Point jen pojmenovat. Jinak by Mapy vyjely ze skutečné adresy v Praze a cíl by byl z cizí IP, třeba v Opavě.
 
 ## Hlášky
 
