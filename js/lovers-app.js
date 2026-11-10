@@ -109,6 +109,7 @@ function applyStatic() {
   document.querySelectorAll("[data-i18n]").forEach((el) => {
     el.textContent = t(el.dataset.i18n);
   });
+  RacletteSite.markIncognito(document, t);
   document.querySelectorAll("[data-i18n-alt]").forEach((el) => {
     el.alt = t(el.dataset.i18nAlt);
   });

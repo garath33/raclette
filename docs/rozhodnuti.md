@@ -134,6 +134,10 @@ Při přepínání vlajek v mapě poboček (`#pointy`) musí být aktivní stát
 
 Sekce Eventy vypisuje, na co raclette umíme. Kdo si chce objednat oslavu, svatbu nebo párty, nemá vyplňovat další formulář. Hned pod výčtem je výzva „Zavolejte nám“ na +420 777 600 223, stejné číslo jako rychlý kontakt, a vedle něj e-mail info@raclettelovers.com. Výzva mluví za tým. Eliška Reine zůstává v kontaktech jako manažerka eventů pro Prahu a Čechy. Nad fotografiemi z akcí je věta „Kde se už na švýcarský raklet stála fronta“ a doplněk „A kde jste nás mohli ochutnat.“ Texty jsou v devíti jazycích, proto strop `css/styles.css` posouvá ze 47 kB na 48 kB, `js/i18n.js` z 91 kB na 92 kB a `js/i18n-extra.js` ze 194 kB na 196 kB.
 
+## Poznámka o anonymním okně má symbol inkognito
+
+Věta pod návodem na plochu byla šedá a zanikala v postupu. Teď je tmavá, slova o anonymním okně mají žluté zvýraznění a vedle nich je klobouk s brýlemi, symbol anonymního režimu. Strop `css/styles.css` se proto posouvá z 50 kB na 51 kB.
+
 ## Ikona aplikace Raclette Lovers – kulaté pro Android, čtvercové pro iPhone
 
 Na Androidu (Chrome PWA) vypadala čtvercová ikona se zlatým rámečkem po maskování na kruh špatně. Proto `manifest.webmanifest` teď pro `any` i `maskable` používá původní kulaté černé logo `assets/logo-point.png` (Raclette LOVERS s horami a Point original), které je na webu. Na iPhonu zůstává `apple-touch-icon.png` – stávající čtvercová verze se zaoblenými rohy a zlatým rámečkem. Po aktualizaci aplikace na telefonu (nebo reinstalaci zástupce) se na Androidu zobrazí kulaté logo.

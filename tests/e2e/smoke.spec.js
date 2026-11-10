@@ -255,6 +255,12 @@ test("web nabízí aplikaci Raclette Lovers a návod na plochu", async ({ page }
   await expect(page.locator("#uvod")).toBeInViewport();
   await expect(page.locator("#uvod #pwa-panel")).toBeVisible();
   await expect(page.locator("#uvod #pwa-panel .pwa-anonymous")).toHaveText("Pokud jste v anonymním okně, instalace na plochu nemusí fungovat.");
+  await expect(page.locator("#uvod #pwa-panel .pwa-anonymous strong")).toHaveText("anonymním okně");
+  await expect(page.locator("#uvod #pwa-panel .pwa-incognito")).toBeVisible();
+  await expect(page.locator("#uvod #pwa-panel .pwa-anonymous")).toHaveCSS("color", "rgb(26, 28, 29)");
+  await page.locator("#lang").selectOption("en");
+  await expect(page.locator("#uvod #pwa-panel .pwa-anonymous strong")).toHaveText("private window");
+  await page.locator("#lang").selectOption("cs");
   await expect(page.locator("#uvod #pwa-panel")).toContainText("Safari");
   await expect(page.locator("#uvod #pwa-panel")).toContainText("Chrome");
   await page.evaluate(() => { document.documentElement.dataset.pwa = "installed"; });
@@ -314,6 +320,7 @@ test("aplikace Raclette Lovers hledá Point až po klepnutí a má všech devět
   await expect(page.locator("#pwa-panel")).toBeVisible();
   await expect(page.locator("#pwa-panel")).toContainText("Safari");
   await expect(page.locator("#pwa-panel .pwa-anonymous")).toHaveText("Pokud jste v anonymním okně, instalace na plochu nemusí fungovat.");
+  await expect(page.locator("#pwa-panel .pwa-anonymous strong")).toHaveText("anonymním okně");
   await expect(page.locator("#locator-status")).toContainText("Klepněte");
   await expect(page.locator("#point-cards .card")).toHaveCount(8);
   await expect(page.locator("#point-cards .card-flag")).toHaveCount(8);

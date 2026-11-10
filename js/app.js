@@ -241,6 +241,7 @@ function applyStatic() {
   document.querySelectorAll("[data-i18n]").forEach((el) => {
     el.textContent = t(el.dataset.i18n);
   });
+  RacletteSite.markIncognito(document, t);
   paintHeroKicker();
   paintPhoneFlags();
   document.querySelectorAll("[data-i18n-alt]").forEach((el) => {

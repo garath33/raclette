@@ -3,6 +3,7 @@
 ## 2026-11-10
 
 - Z Hevlínské v Praze už navigace nemíří do Opavy. Mapy startují z té adresy samy a web do cíle dává food truck v Kladně, když má odečet z prohlížeče. Samotná síťová adresa tlačítko Navigovat nespustí, takže cizí IP u Opavy trasu neotevře. IP pořád přebije jen starý pin pár kilometrů vedle, pořád uvnitř své přesnosti.
+- Poznámka o anonymním okně už není šedá. Vedle věty je tmavý symbol klobouku a brýlí a slova „anonymním okně“ mají žluté zvýraznění. V ostatních jazycích se stejně zvýrazní odpovídající spojení.
 - Klepnutí na Na plochu telefonu nejdřív spustí instalaci, pokud ji prohlížeč umí. Věta „Pokud jste v anonymním okně, instalace na plochu nemusí fungovat.“ se ukáže až potom, když instalace nejde, jako tichá poznámka pod postupem. Po instalaci ikony zmizí. Náhled `nahled/anonym.html` je pryč.
 
 ## 2026-11-06
